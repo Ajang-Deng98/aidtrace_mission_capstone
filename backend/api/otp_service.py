@@ -19,7 +19,7 @@ class OTPService:
         # Send SMS via Twilio
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
         client.messages.create(
-            body=f"Your AidTrace verification code is: {code}",
+            body=f"Hey here is your confirmation pin: {code}",
             from_=settings.TWILIO_PHONE_NUMBER,
             to=phone_number
         )
