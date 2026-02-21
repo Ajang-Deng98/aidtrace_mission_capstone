@@ -1,0 +1,19 @@
+{
+  "name": "aidtrace-blockchain",
+  "version": "1.0.0",
+  "description": "AidTrace Smart Contracts",
+  "main": "truffle-config.js",
+  "scripts": {
+    "test": "truffle test",
+    "compile": "truffle compile",
+    "migrate": "truffle migrate"
+  },
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "web3": "^1.10.0",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "truffle": "^5.11.5"
+  }
+}
