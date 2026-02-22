@@ -126,7 +126,7 @@ else:
 # GET MNEMONIC: 12-word seed phrase from your wallet (for deployment)
 MNEMONIC = os.getenv('MNEMONIC')
 
-# =============================================================================
+
 # WHAT TO PUT IN YOUR .env FILE:
 # =============================================================================
 # 
