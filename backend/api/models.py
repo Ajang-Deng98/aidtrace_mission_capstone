@@ -29,8 +29,13 @@ class User(models.Model):
     def check_password(self, raw_password):
         return check_password(raw_password, self.password)
     
+    def __str__(self):
+        return f"{self.name} ({self.role})"
+    
     class Meta:
         db_table = 'users'
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
 class Project(models.Model):
     STATUS_CHOICES = [
@@ -57,12 +62,18 @@ class Project(models.Model):
     is_approved = models.BooleanField(default=False)
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='PENDING_FUNDING')
     ngo = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_projects')
+    desired_donors = models.JSONField(default=list, blank=True)
     project_hash = models.CharField(max_length=255, blank=True)
     blockchain_tx = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return self.title
+    
     class Meta:
         db_table = 'projects'
+        verbose_name = 'Project'
+        verbose_name_plural = 'Projects'
 
 class Funding(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='fundings')
@@ -73,8 +84,13 @@ class Funding(models.Model):
     blockchain_tx = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{self.donor.name} funded {self.project.title} - ${self.amount}"
+    
     class Meta:
         db_table = 'fundings'
+        verbose_name = 'Funding'
+        verbose_name_plural = 'Fundings'
 
 class SupplierAssignment(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='supplier_assignments')
@@ -89,8 +105,13 @@ class SupplierAssignment(models.Model):
     blockchain_tx = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{self.supplier.name} - {self.project.title}"
+    
     class Meta:
         db_table = 'supplier_assignments'
+        verbose_name = 'Supplier Assignment'
+        verbose_name_plural = 'Supplier Assignments'
 
 class FieldOfficerAssignment(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='field_officer_assignments')
@@ -100,8 +121,13 @@ class FieldOfficerAssignment(models.Model):
     blockchain_tx = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{self.field_officer.name} - {self.project.title}"
+    
     class Meta:
         db_table = 'field_officer_assignments'
+        verbose_name = 'Field Officer Assignment'
+        verbose_name_plural = 'Field Officer Assignments'
 
 class Beneficiary(models.Model):
     name = models.CharField(max_length=255)
@@ -112,8 +138,13 @@ class Beneficiary(models.Model):
     confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{self.name} - {self.phone_number}"
+    
     class Meta:
         db_table = 'beneficiaries'
+        verbose_name = 'Beneficiary'
+        verbose_name_plural = 'Beneficiaries'
 
 class Distribution(models.Model):
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name='distributions')
@@ -125,8 +156,13 @@ class Distribution(models.Model):
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{self.beneficiary.name} - {self.project.title}"
+    
     class Meta:
         db_table = 'distributions'
+        verbose_name = 'Distribution'
+        verbose_name_plural = 'Distributions'
 
 class OTP(models.Model):
     phone_number = models.CharField(max_length=50)
@@ -135,8 +171,13 @@ class OTP(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
     
+    def __str__(self):
+        return f"{self.phone_number} - {self.code}"
+    
     class Meta:
         db_table = 'otps'
+        verbose_name = 'OTP'
+        verbose_name_plural = 'OTPs'
 
 class PublicReport(models.Model):
     project_name = models.CharField(max_length=255)
@@ -145,5 +186,10 @@ class PublicReport(models.Model):
     contact_info = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{self.project_name} - {self.location}"
+    
     class Meta:
         db_table = 'public_reports'
+        verbose_name = 'Public Report'
+        verbose_name_plural = 'Public Reports'

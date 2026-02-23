@@ -109,6 +109,7 @@ def create_project(request):
         start_date=data.get('start_date'),
         end_date=data.get('end_date'),
         category=data.get('category', 'General Aid'),
+        desired_donors=data.get('desired_donors', []),
         ngo=ngo,
         is_approved=True,
         status='PENDING_FUNDING'
@@ -209,6 +210,12 @@ def get_suppliers(request):
     suppliers = User.objects.filter(role='SUPPLIER')
     return JsonResponse(UserSerializer(suppliers, many=True).data, safe=False)
 
+@require_http_methods(["GET"])
+@require_auth(['NGO'])
+def get_donors(request):
+    donors = User.objects.filter(role='DONOR', is_approved=True)
+    return JsonResponse(UserSerializer(donors, many=True).data, safe=False)
+
 @csrf_exempt
 @require_http_methods(["POST"])
 @require_auth(['NGO'])
@@ -276,9 +283,20 @@ def confirm_funding(request):
 @require_http_methods(["GET"])
 @require_auth(['DONOR'])
 def get_all_projects(request):
-    # Only show projects that are PENDING_FUNDING (not yet funded)
-    projects = Project.objects.filter(is_approved=True, status='PENDING_FUNDING').order_by('-created_at')
-    return JsonResponse(ProjectSerializer(projects, many=True).data, safe=False)
+    donor = User.objects.get(id=request.user_data['user_id'])
+    # Show projects that are PENDING_FUNDING and either have no desired donors or include this donor
+    projects = Project.objects.filter(
+        is_approved=True, 
+        status='PENDING_FUNDING'
+    ).order_by('-created_at')
+    
+    # Filter to show only projects where donor is in desired_donors list or desired_donors is empty
+    filtered_projects = []
+    for project in projects:
+        if not project.desired_donors or donor.id in project.desired_donors:
+            filtered_projects.append(project)
+    
+    return JsonResponse(ProjectSerializer(filtered_projects, many=True).data, safe=False)
 
 @require_http_methods(["GET"])
 @require_auth(['DONOR'])

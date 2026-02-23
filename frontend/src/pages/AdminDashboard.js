@@ -3,9 +3,10 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { adminAPI, publicAPI } from '../services/api';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-function AdminDashboard() {
+function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
+  const [showLangMenu, setShowLangMenu] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -14,10 +15,22 @@ function AdminDashboard() {
 
   return (
     <div>
-      <div className="navbar">
+      <div className="navbar" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <h1>AidTrace - Admin Dashboard</h1>
-        <div>
-          <span style={{marginRight: '20px'}}>Welcome, {user.name}</span>
+        <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+          <span style={{marginRight: '10px', color: '#ffffff'}}>Welcome, {user.name}</span>
+          <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+          <div style={{position: 'relative'}}>
+            <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+            {showLangMenu && (
+              <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
+                <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
+                <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>
+                <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Dinka</button>
+                <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Nuer</button>
+              </div>
+            )}
+          </div>
           <button onClick={handleLogout} className="btn btn-danger">Logout</button>
         </div>
       </div>
@@ -522,13 +535,7 @@ function ProfileSettings() {
     projectUpdates: true,
     monthlyReports: false
   });
-  const [activities] = useState([
-    { date: '2024-01-15', action: 'Approved 5 new projects' },
-    { date: '2024-01-14', action: 'Approved 3 new users' },
-    { date: '2024-01-13', action: 'Reviewed public reports' },
-    { date: '2024-01-12', action: 'Updated system settings' },
-    { date: '2024-01-11', action: 'Generated monthly report' }
-  ]);
+  const [activities] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -623,14 +630,7 @@ function ProfileSettings() {
       {activeTab === 'activity' && (
         <div className="card">
           <h3>Recent Activity</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-            {activities.map((activity, idx) => (
-              <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', borderLeft: '3px solid #1CABE2'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '14px', color: '#000'}}>{activity.action}</p>
-                <p style={{margin: 0, fontSize: '12px', color: '#999'}}>{activity.date}</p>
-              </div>
-            ))}
-          </div>
+          <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
         </div>
       )}
     </div>

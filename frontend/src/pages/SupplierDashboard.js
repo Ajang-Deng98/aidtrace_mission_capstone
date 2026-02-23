@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { supplierAPI } from '../services/api';
+import { translations } from '../translations';
 
-function SupplierDashboard() {
+function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
+  const t = translations[language] || translations['en'];
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showLangMenu, setShowLangMenu] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -40,14 +43,14 @@ function SupplierDashboard() {
             textDecoration: 'none', background: activeTab === 'overview' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'overview' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'overview' ? '600' : '400', fontSize: '14px'
-          }}>Dashboard</Link>
+          }}>{t.dashboard}</Link>
 
           <Link to="/supplier/assignments" onClick={() => setActiveTab('assignments')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'assignments' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'assignments' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'assignments' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'assignments' ? '600' : '400', fontSize: '14px'
-          }}>My Assignments</Link>
+          }}>{t.myAssignments}</Link>
 
           <Link to="/supplier/history" onClick={() => setActiveTab('history')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'history' ? '#1CABE2' : '#666',
@@ -68,7 +71,14 @@ function SupplierDashboard() {
             textDecoration: 'none', background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'profile' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
-          }}>Profile & Settings</Link>
+          }}>{t.profileSettings}</Link>
+
+          <Link to="/supplier/reports" onClick={() => setActiveTab('reports')} style={{
+            display: 'block', padding: '10px 16px', color: activeTab === 'reports' ? '#1CABE2' : '#666',
+            textDecoration: 'none', background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
+            borderLeft: activeTab === 'reports' ? '3px solid #1CABE2' : '3px solid transparent',
+            fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
+          }}>{t.viewReports}</Link>
         </nav>
 
         <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
@@ -84,9 +94,25 @@ function SupplierDashboard() {
       </div>
 
       <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
-        <div style={{background: '#1CABE2', padding: '12px 20px', borderBottom: '1px solid #0d8bbf'}}>
-          <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>Supplier Dashboard</h1>
-          <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>Manage item assignments and confirmations</p>
+        <div style={{background: '#1CABE2', padding: '12px 20px', borderBottom: '1px solid #0d8bbf', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>{t.supplier} {t.dashboard}</h1>
+            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageAssignments}</p>
+          </div>
+          <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+            <div style={{position: 'relative'}}>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              {showLangMenu && (
+                <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
+                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>
+                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Dinka</button>
+                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Nuer</button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         <div style={{flex: 1, padding: '20px', overflowY: 'auto', background: '#ffffff'}}>
@@ -97,6 +123,7 @@ function SupplierDashboard() {
             <Route path="/history" element={<DeliveryHistory />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/profile" element={<ProfileSettings />} />
+            <Route path="/reports" element={<PublicReports />} />
           </Routes>
         </div>
       </div>
@@ -625,13 +652,7 @@ function ProfileSettings() {
     projectUpdates: true,
     monthlyReports: false
   });
-  const [activities] = useState([
-    { date: '2024-01-15', action: 'Confirmed assignment for project' },
-    { date: '2024-01-14', action: 'Received new item assignment' },
-    { date: '2024-01-13', action: 'Completed delivery confirmation' },
-    { date: '2024-01-12', action: 'Updated contact information' },
-    { date: '2024-01-11', action: 'Signed blockchain transaction' }
-  ]);
+  const [activities] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -726,14 +747,7 @@ function ProfileSettings() {
       {activeTab === 'activity' && (
         <div className="card">
           <h3>Recent Activity</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-            {activities.map((activity, idx) => (
-              <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', borderLeft: '3px solid #1CABE2'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '14px', color: '#000'}}>{activity.action}</p>
-                <p style={{margin: 0, fontSize: '12px', color: '#999'}}>{activity.date}</p>
-              </div>
-            ))}
-          </div>
+          <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
         </div>
       )}
     </div>
@@ -741,3 +755,62 @@ function ProfileSettings() {
 }
 
 export default SupplierDashboard;
+
+function PublicReports() {
+  const [reports, setReports] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    loadReports();
+  }, []);
+
+  const loadReports = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/public-reports/list/');
+      const data = await response.json();
+      setReports(data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error loading reports:', err);
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <div><h2>Public Reports</h2><div className="card"><p>Loading...</p></div></div>;
+
+  return (
+    <div>
+      <h2>Public Reports</h2>
+      <p style={{color: '#666', marginBottom: '20px'}}>View all submitted public reports</p>
+      
+      {reports.length === 0 ? (
+        <div className="card"><p>No reports submitted yet.</p></div>
+      ) : (
+        <div className="card">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reports.map(report => (
+                <tr key={report.id}>
+                  <td><span className="badge badge-info">{report.report_type}</span></td>
+                  <td>{report.description.substring(0, 100)}...</td>
+                  <td>{report.location || 'N/A'}</td>
+                  <td>{new Date(report.created_at).toLocaleDateString()}</td>
+                  <td><span className="badge badge-warning">Under Review</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}

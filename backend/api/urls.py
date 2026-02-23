@@ -22,6 +22,7 @@ urlpatterns = [
     path('ngo/field-officers/', views.create_field_officer),
     path('ngo/field-officers/list/', views.get_field_officers),
     path('ngo/suppliers/', views.get_suppliers),
+    path('ngo/donors/', views.get_donors),
     path('ngo/assign-supplier/', views.assign_supplier),
     path('ngo/assign-field-officer/', views.assign_field_officer),
     path('ngo/confirm-funding/', views.confirm_funding),

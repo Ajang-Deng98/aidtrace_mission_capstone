@@ -31,6 +31,7 @@ export const ngoAPI = {
   createFieldOfficer: (data) => api.post('/ngo/field-officers/', data),
   getFieldOfficers: () => api.get('/ngo/field-officers/list/'),
   getSuppliers: () => api.get('/ngo/suppliers/'),
+  getDonors: () => api.get('/ngo/donors/'),
   assignSupplier: (data) => api.post('/ngo/assign-supplier/', data),
   assignFieldOfficer: (data) => api.post('/ngo/assign-field-officer/', data),
   confirmFunding: (data) => api.post('/ngo/confirm-funding/', data),

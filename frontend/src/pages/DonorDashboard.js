@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { donorAPI } from '../services/api';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { translations } from '../translations';
 
-function DonorDashboard() {
+function DonorDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
+  const t = translations[language] || translations['en'];
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [activeTab, setActiveTab] = useState('analytics');
+  const [showLangMenu, setShowLangMenu] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -54,7 +57,7 @@ function DonorDashboard() {
               fontSize: '14px'
             }}
           >
-            Analytics
+            {t.analytics}
           </Link>
 
           <Link 
@@ -71,7 +74,7 @@ function DonorDashboard() {
               fontSize: '14px'
             }}
           >
-            Pending Projects
+            {t.pendingProjects}
           </Link>
 
           <Link 
@@ -88,7 +91,24 @@ function DonorDashboard() {
               fontSize: '14px'
             }}
           >
-            Funded Projects
+            {t.fundedProjects}
+          </Link>
+
+          <Link 
+            to="/donor/reports" 
+            onClick={() => setActiveTab('reports')}
+            style={{
+              display: 'block',
+              padding: '10px 16px',
+              color: activeTab === 'reports' ? '#1CABE2' : '#666',
+              textDecoration: 'none',
+              background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
+              borderLeft: activeTab === 'reports' ? '3px solid #1CABE2' : '3px solid transparent',
+              fontWeight: activeTab === 'reports' ? '600' : '400',
+              fontSize: '14px'
+            }}
+          >
+            {t.viewReports}
           </Link>
 
           <Link 
@@ -105,7 +125,7 @@ function DonorDashboard() {
               fontSize: '14px'
             }}
           >
-            Profile & Settings
+            {t.profileSettings}
           </Link>
         </nav>
 
@@ -127,7 +147,7 @@ function DonorDashboard() {
             onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1CABE2';}}
             onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0';}}
           >
-            Logout
+            {t.logout}
           </button>
         </div>
       </div>
@@ -138,10 +158,29 @@ function DonorDashboard() {
         <div style={{
           background: '#1CABE2',
           padding: '12px 20px',
-          borderBottom: '1px solid #0d8bbf'
+          borderBottom: '1px solid #0d8bbf',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
         }}>
-          <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>Donor Dashboard</h1>
-          <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>Fund and track humanitarian aid projects</p>
+          <div>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>Donor {t.dashboard}</h1>
+            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>Fund and track humanitarian aid {t.projects}</p>
+          </div>
+          <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+            <div style={{position: 'relative'}}>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              {showLangMenu && (
+                <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
+                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>
+                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Dinka</button>
+                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Nuer</button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Content Area */}
@@ -152,6 +191,7 @@ function DonorDashboard() {
             <Route path="/funded" element={<FundedProjects />} />
             <Route path="/project/:id" element={<ProjectDetails />} />
             <Route path="/profile" element={<ProfileSettings />} />
+            <Route path="/reports" element={<PublicReports />} />
           </Routes>
         </div>
       </div>
@@ -353,12 +393,19 @@ function AllProjects() {
       return;
     }
     try {
-      await donorAPI.fundProject({
+      const response = await donorAPI.fundProject({
         project_id: selectedProject.id,
         amount: amount,
         signature: signature
       });
-      alert('Project funded successfully! Transaction recorded on blockchain.');
+      
+      const txHash = response.data.blockchain_tx;
+      if (txHash) {
+        alert(`Project funded successfully!\n\nBlockchain Transaction Hash:\n${txHash}\n\nTransaction recorded on Ethereum blockchain.`);
+      } else {
+        alert('Project funded successfully! Transaction recorded.');
+      }
+      
       setSelectedProject(null);
       setAmount('');
       setSignature('');
@@ -976,14 +1023,66 @@ function ProfileSettings() {
       {activeSection === 'activity' && (
         <div className="card" style={{border: '1px solid #e0e0e0'}}>
           <h3 style={{fontSize: '16px', marginBottom: '15px'}}>Recent Activity</h3>
-          <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px'}}>
-            <p style={{margin: '0 0 10px 0', fontSize: '14px', color: '#666'}}>Your recent actions and interactions</p>
-            <div style={{borderTop: '1px solid #e0e0e0', paddingTop: '10px'}}>
-              <p style={{margin: '8px 0', fontSize: '13px'}}><strong>Today:</strong> Viewed project details</p>
-              <p style={{margin: '8px 0', fontSize: '13px'}}><strong>Yesterday:</strong> Funded a project</p>
-              <p style={{margin: '8px 0', fontSize: '13px'}}><strong>2 days ago:</strong> Updated profile information</p>
-            </div>
-          </div>
+          <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PublicReports() {
+  const [reports, setReports] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    loadReports();
+  }, []);
+
+  const loadReports = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/public-reports/list/');
+      const data = await response.json();
+      setReports(data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error loading reports:', err);
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <div><h2>Public Reports</h2><div className="card"><p>Loading...</p></div></div>;
+
+  return (
+    <div>
+      <h2>Public Reports</h2>
+      <p style={{color: '#666', marginBottom: '20px'}}>View all submitted public reports</p>
+      
+      {reports.length === 0 ? (
+        <div className="card"><p>No reports submitted yet.</p></div>
+      ) : (
+        <div className="card">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reports.map(report => (
+                <tr key={report.id}>
+                  <td><span className="badge badge-info">{report.report_type}</span></td>
+                  <td>{report.description.substring(0, 100)}...</td>
+                  <td>{report.location || 'N/A'}</td>
+                  <td>{new Date(report.created_at).toLocaleDateString()}</td>
+                  <td><span className="badge badge-warning">Under Review</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

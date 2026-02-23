@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { ngoAPI, donorAPI } from '../services/api';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { translations } from '../translations';
 
-function NGODashboard() {
+function NGODashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
+  const t = translations[language] || translations['en'];
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showLangMenu, setShowLangMenu] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -41,49 +44,56 @@ function NGODashboard() {
             textDecoration: 'none', background: activeTab === 'dashboard' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'dashboard' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'dashboard' ? '600' : '400', fontSize: '14px'
-          }}>Dashboard</Link>
+          }}>{t.dashboard}</Link>
 
           <Link to="/ngo/create-project" onClick={() => setActiveTab('create')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'create' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'create' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'create' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'create' ? '600' : '400', fontSize: '14px'
-          }}>Create Project</Link>
+          }}>{t.createProject}</Link>
 
           <Link to="/ngo/projects" onClick={() => setActiveTab('projects')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'projects' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'projects' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'projects' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'projects' ? '600' : '400', fontSize: '14px'
-          }}>My Projects</Link>
+          }}>{t.myProjects}</Link>
 
           <Link to="/ngo/suppliers" onClick={() => setActiveTab('suppliers')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'suppliers' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'suppliers' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'suppliers' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'suppliers' ? '600' : '400', fontSize: '14px'
-          }}>Suppliers</Link>
+          }}>{t.supplier}s</Link>
 
           <Link to="/ngo/field-officers" onClick={() => setActiveTab('officers')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'officers' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'officers' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'officers' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'officers' ? '600' : '400', fontSize: '14px'
-          }}>Field Officers</Link>
+          }}>{t.fieldOfficer}s</Link>
 
           <Link to="/ngo/beneficiaries" onClick={() => setActiveTab('beneficiaries')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'beneficiaries' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'beneficiaries' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px'
-          }}>Beneficiaries</Link>
+          }}>{t.beneficiaries}</Link>
+
+          <Link to="/ngo/reports" onClick={() => setActiveTab('reports')} style={{
+            display: 'block', padding: '10px 16px', color: activeTab === 'reports' ? '#1CABE2' : '#666',
+            textDecoration: 'none', background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
+            borderLeft: activeTab === 'reports' ? '3px solid #1CABE2' : '3px solid transparent',
+            fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
+          }}>{t.viewReports}</Link>
 
           <Link to="/ngo/profile" onClick={() => setActiveTab('profile')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'profile' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'profile' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
-          }}>Profile & Settings</Link>
+          }}>{t.profileSettings}</Link>
         </nav>
 
         <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
@@ -93,15 +103,31 @@ function NGODashboard() {
           }}
           onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1CABE2';}}
           onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0';}}>
-            Logout
+            {t.logout}
           </button>
         </div>
       </div>
 
       <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
-        <div style={{background: '#1CABE2', padding: '12px 20px', borderBottom: '1px solid #0d8bbf'}}>
-          <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>NGO Dashboard</h1>
-          <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>Manage projects and field operations</p>
+        <div style={{background: '#1CABE2', padding: '12px 20px', borderBottom: '1px solid #0d8bbf', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>NGO {t.dashboard}</h1>
+            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageProjects}</p>
+          </div>
+          <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+            <div style={{position: 'relative'}}>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              {showLangMenu && (
+                <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
+                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>
+                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Dinka</button>
+                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Nuer</button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         <div style={{flex: 1, padding: '20px', overflowY: 'auto', background: '#ffffff'}}>
@@ -114,6 +140,7 @@ function NGODashboard() {
             <Route path="/field-officers" element={<FieldOfficers />} />
             <Route path="/beneficiaries" element={<Beneficiaries />} />
             <Route path="/profile" element={<ProfileSettings />} />
+            <Route path="/reports" element={<PublicReports />} />
           </Routes>
         </div>
       </div>
@@ -244,13 +271,32 @@ function CreateProject() {
     title: '', description: '', location: '', required_items: '', budget_amount: '',
     duration_months: '', target_beneficiaries: '', start_date: '', end_date: '', category: 'General Aid'
   });
+  const [donors, setDonors] = useState([]);
+  const [selectedDonors, setSelectedDonors] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    loadDonors();
+  }, []);
+
+  const loadDonors = async () => {
+    try {
+      const response = await ngoAPI.getDonors();
+      setDonors(response.data.filter(d => d.is_approved));
+    } catch (err) {
+      console.error('Error loading donors:', err);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (selectedDonors.length !== 2) {
+      alert('Please select exactly 2 desired donors');
+      return;
+    }
     try {
       const items = formData.required_items.split(',').map(item => item.trim());
-      const response = await ngoAPI.createProject({...formData, required_items: items});
+      const response = await ngoAPI.createProject({...formData, required_items: items, desired_donors: selectedDonors});
       alert(response.data.message || 'Project created successfully. Waiting for admin approval.');
       navigate('/ngo/projects');
     } catch (err) {
@@ -288,6 +334,40 @@ function CreateProject() {
               <option value="Education">Education</option>
               <option value="Shelter">Shelter</option>
               <option value="Emergency Relief">Emergency Relief</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>First Desired Donor</label>
+            <select value={selectedDonors[0] || ''}
+              onChange={(e) => {
+                const newDonors = [...selectedDonors];
+                newDonors[0] = parseInt(e.target.value);
+                setSelectedDonors(newDonors.filter(d => d));
+              }} required>
+              <option value="">Select first donor</option>
+              {donors.map(donor => (
+                <option key={donor.id} value={donor.id} disabled={selectedDonors[1] === donor.id}>
+                  {donor.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <div className="form-group">
+            <label>Second Desired Donor</label>
+            <select value={selectedDonors[1] || ''}
+              onChange={(e) => {
+                const newDonors = [...selectedDonors];
+                newDonors[1] = parseInt(e.target.value);
+                setSelectedDonors(newDonors.filter(d => d));
+              }} required>
+              <option value="">Select second donor</option>
+              {donors.map(donor => (
+                <option key={donor.id} value={donor.id} disabled={selectedDonors[0] === donor.id}>
+                  {donor.name}
+                </option>
+              ))}
             </select>
           </div>
           
@@ -416,13 +496,7 @@ function ProfileSettings() {
     projectUpdates: true,
     monthlyReports: false
   });
-  const [activities] = useState([
-    { date: '2024-01-15', action: 'Created project "Food Distribution Program"' },
-    { date: '2024-01-14', action: 'Assigned field officer to project' },
-    { date: '2024-01-13', action: 'Confirmed funding from donor' },
-    { date: '2024-01-12', action: 'Updated project details' },
-    { date: '2024-01-11', action: 'Registered 50 new beneficiaries' }
-  ]);
+  const [activities] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -517,14 +591,7 @@ function ProfileSettings() {
       {activeTab === 'activity' && (
         <div className="card">
           <h3>Recent Activity</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-            {activities.map((activity, idx) => (
-              <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', borderLeft: '3px solid #1CABE2'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '14px', color: '#000'}}>{activity.action}</p>
-                <p style={{margin: 0, fontSize: '12px', color: '#999'}}>{activity.date}</p>
-              </div>
-            ))}
-          </div>
+          <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
         </div>
       )}
     </div>
@@ -1419,6 +1486,65 @@ function Suppliers() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function PublicReports() {
+  const [reports, setReports] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    loadReports();
+  }, []);
+
+  const loadReports = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/public-reports/list/');
+      const data = await response.json();
+      setReports(data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error loading reports:', err);
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <div><h2>Public Reports</h2><div className="card"><p>Loading...</p></div></div>;
+
+  return (
+    <div>
+      <h2>Public Reports</h2>
+      <p style={{color: '#666', marginBottom: '20px'}}>View all submitted public reports</p>
+      
+      {reports.length === 0 ? (
+        <div className="card"><p>No reports submitted yet.</p></div>
+      ) : (
+        <div className="card">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reports.map(report => (
+                <tr key={report.id}>
+                  <td><span className="badge badge-info">{report.report_type}</span></td>
+                  <td>{report.description.substring(0, 100)}...</td>
+                  <td>{report.location || 'N/A'}</td>
+                  <td>{new Date(report.created_at).toLocaleDateString()}</td>
+                  <td><span className="badge badge-warning">Under Review</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

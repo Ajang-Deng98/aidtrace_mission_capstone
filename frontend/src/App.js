@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -12,6 +12,31 @@ import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
 
 function App() {
+  const [theme, setTheme] = React.useState(localStorage.getItem('theme') || 'light');
+  const [language, setLanguage] = React.useState(localStorage.getItem('language') || 'en');
+
+  useEffect(() => {
+    document.body.className = `${theme}-mode`;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('language', language);
+    if (language === 'ar') {
+      document.body.dir = 'rtl';
+    } else {
+      document.body.dir = 'ltr';
+    }
+  }, [language]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  const changeLanguage = (lang) => {
+    setLanguage(lang);
+  };
+
   const getUser = () => {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
@@ -35,38 +60,38 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/public-report" element={<PublicReport />} />
+        <Route path="/" element={<Home language={language} changeLanguage={changeLanguage} theme={theme} toggleTheme={toggleTheme} />} />
+        <Route path="/login" element={<Login language={language} changeLanguage={changeLanguage} />} />
+        <Route path="/register" element={<Register language={language} changeLanguage={changeLanguage} />} />
+        <Route path="/public-report" element={<PublicReport language={language} changeLanguage={changeLanguage} />} />
         
         <Route path="/donor/*" element={
           <ProtectedRoute allowedRoles={['DONOR']}>
-            <DonorDashboard />
+            <DonorDashboard language={language} changeLanguage={changeLanguage} theme={theme} toggleTheme={toggleTheme} />
           </ProtectedRoute>
         } />
         
         <Route path="/ngo/*" element={
           <ProtectedRoute allowedRoles={['NGO']}>
-            <NGODashboard />
+            <NGODashboard language={language} changeLanguage={changeLanguage} theme={theme} toggleTheme={toggleTheme} />
           </ProtectedRoute>
         } />
         
         <Route path="/supplier/*" element={
           <ProtectedRoute allowedRoles={['SUPPLIER']}>
-            <SupplierDashboard />
+            <SupplierDashboard language={language} changeLanguage={changeLanguage} theme={theme} toggleTheme={toggleTheme} />
           </ProtectedRoute>
         } />
         
         <Route path="/field-officer/*" element={
           <ProtectedRoute allowedRoles={['FIELD_OFFICER']}>
-            <FieldOfficerDashboard />
+            <FieldOfficerDashboard language={language} changeLanguage={changeLanguage} theme={theme} toggleTheme={toggleTheme} />
           </ProtectedRoute>
         } />
         
         <Route path="/admin/*" element={
           <ProtectedRoute allowedRoles={['ADMIN']}>
-            <AdminDashboard />
+            <AdminDashboard language={language} changeLanguage={changeLanguage} theme={theme} toggleTheme={toggleTheme} />
           </ProtectedRoute>
         } />
       </Routes>

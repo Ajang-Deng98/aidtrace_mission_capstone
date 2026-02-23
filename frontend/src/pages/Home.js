@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { translations } from '../translations';
 
-function Home() {
+function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
+  const t = translations[language] || translations['en'];
   const [scrolled, setScrolled] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -18,31 +21,45 @@ function Home() {
         borderBottom: '1px solid #e5e7eb',
         transition: 'all 0.3s ease'
       }}>
-        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '24px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '28px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px'}}>
             <div style={{width: '40px', height: '40px', background: '#1CABE2', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
               <span style={{color: '#ffffff', fontSize: '20px', fontWeight: '700'}}>A</span>
             </div>
-            <h1 style={{margin: 0, fontSize: '20px', fontWeight: '600', color: '#111827'}}>AidTrace</h1>
+            <h1 style={{margin: 0, fontSize: '20px', fontWeight: '600', color: '#111827'}}>{t.appName}</h1>
           </div>
           <div style={{display: 'flex', gap: '40px', alignItems: 'center'}}>
-            <a href="#features" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>Features</a>
-            <a href="#how-it-works" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>How It Works</a>
-            <Link to="/public-report" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>Report</Link>
-            <Link to="/login"><button style={{padding: '10px 24px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '14px', fontWeight: '500', cursor: 'pointer'}}>Login</button></Link>
-            <Link to="/register"><button style={{padding: '10px 24px', background: '#1CABE2', border: 'none', borderRadius: '6px', color: '#ffffff', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Get Started</button></Link>
+            <a href="#features" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>{t.features}</a>
+            <a href="#how-it-works" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>{t.howItWorks}</a>
+            <Link to="/public-report" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>{t.submitReport}</Link>
+            <Link to="/login"><button style={{padding: '10px 24px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '14px', fontWeight: '500', cursor: 'pointer'}}>{t.login}</button></Link>
+            <Link to="/register"><button style={{padding: '10px 24px', background: '#1CABE2', border: 'none', borderRadius: '6px', color: '#ffffff', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>{t.getStarted}</button></Link>
+            <button onClick={toggleTheme} style={{padding: '10px 16px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '14px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+            <div style={{position: 'relative'}}>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '10px 16px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '14px', fontWeight: '500', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'}}>
+                {language.toUpperCase()} ▼
+              </button>
+              {showLangMenu && (
+                <div style={{position: 'absolute', top: '45px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '120px', zIndex: 1000}}>
+                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 16px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '14px', fontWeight: '500'}}>English</button>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 16px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '14px', fontWeight: '500'}}>العربية</button>
+                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 16px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '14px', fontWeight: '500'}}>Dinka</button>
+                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 16px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '14px', fontWeight: '500'}}>Nuer</button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>
 
-      <section style={{marginTop: '80px', padding: '120px 40px', background: '#ffffff'}}>
+      <section style={{marginTop: '80px', padding: '120px 40px', background: 'var(--bg-primary)'}}>
         <div style={{maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center'}}>
           <div>
-            <h1 style={{fontSize: '48px', color: '#111827', marginBottom: '32px', fontWeight: '600', lineHeight: '1.2', letterSpacing: '-0.02em'}}>Transparent Aid Distribution</h1>
-            <p style={{fontSize: '18px', color: '#6b7280', marginBottom: '48px', lineHeight: '1.8'}}>Track every dollar from donor to beneficiary with complete transparency. Powered by Ethereum blockchain for immutable, verifiable aid delivery.</p>
+            <h1 style={{fontSize: '48px', color: 'var(--text-primary)', marginBottom: '32px', fontWeight: '600', lineHeight: '1.2', letterSpacing: '-0.02em'}}>{t.heroTitle}</h1>
+            <p style={{fontSize: '18px', color: 'var(--text-secondary)', marginBottom: '48px', lineHeight: '1.8'}}>{t.heroDesc}</p>
             <div style={{display: 'flex', gap: '16px'}}>
-              <Link to="/register"><button style={{padding: '14px 32px', background: '#1CABE2', border: 'none', borderRadius: '6px', color: '#ffffff', fontSize: '15px', fontWeight: '600', cursor: 'pointer'}}>Get Started</button></Link>
-              <Link to="/public-report"><button style={{padding: '14px 32px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '15px', fontWeight: '500', cursor: 'pointer'}}>Submit Report</button></Link>
+              <Link to="/register"><button style={{padding: '14px 32px', background: '#1CABE2', border: 'none', borderRadius: '6px', color: '#ffffff', fontSize: '15px', fontWeight: '600', cursor: 'pointer'}}>{t.getStarted}</button></Link>
+              <Link to="/public-report"><button style={{padding: '14px 32px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '15px', fontWeight: '500', cursor: 'pointer'}}>{t.submitReport}</button></Link>
             </div>
           </div>
           <div>
@@ -51,33 +68,33 @@ function Home() {
         </div>
       </section>
 
-      <section id="how-it-works" style={{padding: '120px 40px', background: '#f9fafb'}}>
+      <section id="how-it-works" style={{padding: '120px 40px', background: 'var(--bg-secondary)'}}>
         <div style={{maxWidth: '1200px', margin: '0 auto'}}>
           <div style={{textAlign: 'center', marginBottom: '80px'}}>
-            <h2 style={{fontSize: '36px', fontWeight: '600', marginBottom: '16px', color: '#111827', letterSpacing: '-0.02em'}}>How It Works</h2>
-            <p style={{fontSize: '16px', color: '#6b7280'}}>Simple steps from funding to delivery</p>
+            <h2 style={{fontSize: '36px', fontWeight: '600', marginBottom: '16px', color: 'var(--text-primary)', letterSpacing: '-0.02em'}}>{t.howItWorks}</h2>
+            <p style={{fontSize: '16px', color: 'var(--text-secondary)'}}>{t.simpleSteps}</p>
           </div>
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '48px'}}>
             <div>
               <div style={{width: '48px', height: '48px', background: '#1CABE2', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px'}}>
                 <span style={{color: '#ffffff', fontSize: '20px', fontWeight: '600'}}>1</span>
               </div>
-              <h3 style={{fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#111827'}}>Donors Fund Projects</h3>
-              <p style={{color: '#6b7280', lineHeight: '1.7', fontSize: '15px'}}>Browse verified projects and fund with confidence. Every transaction recorded on blockchain.</p>
+              <h3 style={{fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: 'var(--text-primary)'}}>{t.step1Title}</h3>
+              <p style={{color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '15px'}}>{t.step1Desc}</p>
             </div>
             <div>
               <div style={{width: '48px', height: '48px', background: '#1CABE2', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px'}}>
                 <span style={{color: '#ffffff', fontSize: '20px', fontWeight: '600'}}>2</span>
               </div>
-              <h3 style={{fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#111827'}}>NGOs Coordinate</h3>
-              <p style={{color: '#6b7280', lineHeight: '1.7', fontSize: '15px'}}>Create projects, assign suppliers and field officers with complete transparency.</p>
+              <h3 style={{fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: 'var(--text-primary)'}}>{t.step2Title}</h3>
+              <p style={{color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '15px'}}>{t.step2Desc}</p>
             </div>
             <div>
               <div style={{width: '48px', height: '48px', background: '#1CABE2', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px'}}>
                 <span style={{color: '#ffffff', fontSize: '20px', fontWeight: '600'}}>3</span>
               </div>
-              <h3 style={{fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#111827'}}>Verified Delivery</h3>
-              <p style={{color: '#6b7280', lineHeight: '1.7', fontSize: '15px'}}>Beneficiaries verified through facial recognition and OTP confirmation.</p>
+              <h3 style={{fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: 'var(--text-primary)'}}>{t.step3Title}</h3>
+              <p style={{color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '15px'}}>{t.step3Desc}</p>
             </div>
           </div>
         </div>
@@ -89,30 +106,30 @@ function Home() {
             <img src="/images2.jpg" alt="Blockchain Technology" style={{width: '100%', height: '400px', objectFit: 'cover', borderRadius: '8px'}} />
           </div>
           <div>
-            <h2 style={{fontSize: '36px', fontWeight: '600', marginBottom: '24px', color: '#ffffff', letterSpacing: '-0.02em'}}>Blockchain-Powered Transparency</h2>
-            <p style={{fontSize: '16px', lineHeight: '1.8', color: '#ffffff', opacity: 0.95}}>Every transaction is permanently recorded on Ethereum blockchain, ensuring immutability and accountability from project creation to final delivery.</p>
+            <h2 style={{fontSize: '36px', fontWeight: '600', marginBottom: '24px', color: '#ffffff', letterSpacing: '-0.02em'}}>{t.blockchainTitle}</h2>
+            <p style={{fontSize: '16px', lineHeight: '1.8', color: '#ffffff', opacity: 0.95}}>{t.blockchainDesc}</p>
           </div>
         </div>
       </section>
 
-      <section id="features" style={{padding: '120px 40px', background: '#ffffff'}}>
+      <section id="features" style={{padding: '120px 40px', background: 'var(--bg-primary)'}}>
         <div style={{maxWidth: '1200px', margin: '0 auto'}}>
           <div style={{textAlign: 'center', marginBottom: '80px'}}>
-            <h2 style={{fontSize: '36px', fontWeight: '600', marginBottom: '16px', color: '#111827', letterSpacing: '-0.02em'}}>Key Features</h2>
-            <p style={{fontSize: '16px', color: '#6b7280'}}>Everything you need for transparent aid distribution</p>
+            <h2 style={{fontSize: '36px', fontWeight: '600', marginBottom: '16px', color: 'var(--text-primary)', letterSpacing: '-0.02em'}}>{t.keyFeatures}</h2>
+            <p style={{fontSize: '16px', color: 'var(--text-secondary)'}}>{t.everythingYouNeed}</p>
           </div>
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '48px'}}>
             {[
-              {title: 'Digital Signatures', desc: 'Dual-signature verification for funding transactions ensures agreement before fund release.'},
-              {title: 'Real-Time Tracking', desc: 'Monitor project progress from creation through final distribution with live updates.'},
-              {title: 'Beneficiary Verification', desc: 'Multi-step verification including facial recognition and OTP confirmation.'},
-              {title: 'Public Reporting', desc: 'Anonymous reporting system allows anyone to flag misconduct or issues.'},
-              {title: 'Role-Based Access', desc: 'Secure authentication with distinct permissions for all stakeholders.'},
-              {title: 'Immutable Records', desc: 'Blockchain storage ensures permanent, tamper-proof, verifiable transactions.'}
+              {title: t.feature1Title, desc: t.feature1Desc},
+              {title: t.feature2Title, desc: t.feature2Desc},
+              {title: t.feature3Title, desc: t.feature3Desc},
+              {title: t.feature4Title, desc: t.feature4Desc},
+              {title: t.feature5Title, desc: t.feature5Desc},
+              {title: t.feature6Title, desc: t.feature6Desc}
             ].map((feature, idx) => (
               <div key={idx}>
-                <h4 style={{fontSize: '18px', fontWeight: '600', marginBottom: '12px', color: '#111827'}}>{feature.title}</h4>
-                <p style={{color: '#6b7280', lineHeight: '1.7', fontSize: '15px', margin: 0}}>{feature.desc}</p>
+                <h4 style={{fontSize: '18px', fontWeight: '600', marginBottom: '12px', color: 'var(--text-primary)'}}>{feature.title}</h4>
+                <p style={{color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '15px', margin: 0}}>{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -123,31 +140,31 @@ function Home() {
         <div style={{maxWidth: '1200px', margin: '0 auto'}}>
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px', marginBottom: '40px'}}>
             <div>
-              <h3 style={{fontSize: '18px', fontWeight: '700', marginBottom: '15px'}}>About AidTrace</h3>
-              <p style={{color: '#999', fontSize: '14px', lineHeight: '1.7'}}>Blockchain-powered platform ensuring transparency in humanitarian aid distribution across South Sudan.</p>
+              <h3 style={{fontSize: '18px', fontWeight: '700', marginBottom: '15px'}}>{t.aboutAidTrace}</h3>
+              <p style={{color: '#999', fontSize: '14px', lineHeight: '1.7'}}>{t.aboutDesc}</p>
             </div>
             <div>
-              <h3 style={{fontSize: '18px', fontWeight: '700', marginBottom: '15px'}}>Quick Links</h3>
+              <h3 style={{fontSize: '18px', fontWeight: '700', marginBottom: '15px'}}>{t.quickLinks}</h3>
               <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
-                <Link to="/" style={{color: '#999', fontSize: '14px', textDecoration: 'none'}}>Home</Link>
-                <Link to="/login" style={{color: '#999', fontSize: '14px', textDecoration: 'none'}}>Login</Link>
-                <Link to="/register" style={{color: '#999', fontSize: '14px', textDecoration: 'none'}}>Register</Link>
-                <Link to="/public-report" style={{color: '#999', fontSize: '14px', textDecoration: 'none'}}>Submit Report</Link>
+                <Link to="/" style={{color: '#999', fontSize: '14px', textDecoration: 'none'}}>{t.home}</Link>
+                <Link to="/login" style={{color: '#999', fontSize: '14px', textDecoration: 'none'}}>{t.login}</Link>
+                <Link to="/register" style={{color: '#999', fontSize: '14px', textDecoration: 'none'}}>{t.register}</Link>
+                <Link to="/public-report" style={{color: '#999', fontSize: '14px', textDecoration: 'none'}}>{t.submitReport}</Link>
               </div>
             </div>
             <div>
-              <h3 style={{fontSize: '18px', fontWeight: '700', marginBottom: '15px'}}>Contact</h3>
+              <h3 style={{fontSize: '18px', fontWeight: '700', marginBottom: '15px'}}>{t.contact}</h3>
               <p style={{color: '#999', fontSize: '14px', margin: '0 0 8px 0'}}>info@aidtrace.org</p>
               <p style={{color: '#999', fontSize: '14px', margin: '0 0 8px 0'}}>+211925851806</p>
               <p style={{color: '#999', fontSize: '14px', margin: 0}}>Juba, South Sudan</p>
             </div>
             <div>
-              <h3 style={{fontSize: '18px', fontWeight: '700', marginBottom: '15px'}}>Technology</h3>
-              <p style={{color: '#999', fontSize: '14px', lineHeight: '1.7'}}>Built with React, Django, PostgreSQL, and Ethereum blockchain.</p>
+              <h3 style={{fontSize: '18px', fontWeight: '700', marginBottom: '15px'}}>{t.technology}</h3>
+              <p style={{color: '#999', fontSize: '14px', lineHeight: '1.7'}}>{t.techDesc}</p>
             </div>
           </div>
           <div style={{borderTop: '1px solid #333', paddingTop: '20px', textAlign: 'center'}}>
-            <p style={{color: '#666', fontSize: '14px', margin: 0}}>&copy; 2026 AidTrace. All rights reserved.</p>
+            <p style={{color: '#666', fontSize: '14px', margin: 0}}>&copy; 2026 AidTrace. {t.allRightsReserved}</p>
           </div>
         </div>
       </footer>
