@@ -140,4 +140,4 @@ MNEMONIC = os.getenv('MNEMONIC')
 # SEPOLIA_CONTRACT_ADDRESS=0x... (get this after running 'truffle migrate --network sepolia')
 # MNEMONIC=your twelve word seed phrase here
 # BLOCKCHAIN_PRIVATE_KEY=0x... (your wallet private key for transactions)
-# =============================================================================
+
