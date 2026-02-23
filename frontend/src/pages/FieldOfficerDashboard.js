@@ -44,42 +44,42 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
             textDecoration: 'none', background: activeTab === 'beneficiaries' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'beneficiaries' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px'
-          }}>Beneficiaries</Link>
+          }}>{t.beneficiaries}</Link>
 
           <Link to="/field-officer/distribute" onClick={() => setActiveTab('distribute')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'distribute' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'distribute' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'distribute' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'distribute' ? '600' : '400', fontSize: '14px'
-          }}>Distribute Aid</Link>
+          }}>{t.distributeAid}</Link>
 
           <Link to="/field-officer/confirmed" onClick={() => setActiveTab('confirmed')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'confirmed' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'confirmed' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'confirmed' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'confirmed' ? '600' : '400', fontSize: '14px'
-          }}>Confirmed Beneficiaries</Link>
+          }}>{t.confirmedBeneficiaries}</Link>
 
           <Link to="/field-officer/ready" onClick={() => setActiveTab('ready')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'ready' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'ready' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'ready' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'ready' ? '600' : '400', fontSize: '14px'
-          }}>Ready to Receive</Link>
+          }}>{t.readyToReceive}</Link>
 
           <Link to="/field-officer/profile" onClick={() => setActiveTab('profile')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'profile' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'profile' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
-          }}>Profile & Settings</Link>
+          }}>{t.profileSettings}</Link>
 
           <Link to="/field-officer/reports" onClick={() => setActiveTab('reports')} style={{
             display: 'block', padding: '10px 16px', color: activeTab === 'reports' ? '#1CABE2' : '#666',
             textDecoration: 'none', background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
             borderLeft: activeTab === 'reports' ? '3px solid #1CABE2' : '3px solid transparent',
             fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
-          }}>View Reports</Link>
+          }}>{t.viewReports}</Link>
         </nav>
 
         <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
@@ -89,7 +89,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
           }}
           onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1CABE2';}}
           onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0';}}>
-            Logout
+            {t.logout}
           </button>
         </div>
       </div>
@@ -97,8 +97,8 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
       <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
         <div style={{background: '#1CABE2', padding: '12px 20px', borderBottom: '1px solid #0d8bbf', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>Field Officer Dashboard</h1>
-            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>Manage aid distribution and beneficiaries</p>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>{t.fieldOfficerDashboard}</h1>
+            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageDistribution}</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
             <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
@@ -118,13 +118,13 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
 
         <div style={{flex: 1, padding: '20px', overflowY: 'auto', background: '#ffffff'}}>
           <Routes>
-            <Route path="/" element={<Assignments />} />
-            <Route path="/beneficiaries" element={<Beneficiaries />} />
-            <Route path="/distribute" element={<Distribution />} />
-            <Route path="/confirmed" element={<ConfirmedBeneficiaries />} />
-            <Route path="/ready" element={<ReadyToReceive />} />
-            <Route path="/profile" element={<ProfileSettings />} />
-            <Route path="/reports" element={<PublicReports />} />
+            <Route path="/" element={<Assignments language={language} />} />
+            <Route path="/beneficiaries" element={<Beneficiaries language={language} />} />
+            <Route path="/distribute" element={<Distribution language={language} />} />
+            <Route path="/confirmed" element={<ConfirmedBeneficiaries language={language} />} />
+            <Route path="/ready" element={<ReadyToReceive language={language} />} />
+            <Route path="/profile" element={<ProfileSettings language={language} />} />
+            <Route path="/reports" element={<PublicReports language={language} />} />
           </Routes>
         </div>
       </div>
@@ -132,12 +132,13 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
   );
 }
 
-function Assignments() {
+function Assignments({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [viewDetails, setViewDetails] = useState(null);
   const [signature, setSignature] = useState('');
   const [loading, setLoading] = useState(true);
+  const t = translations[language];
 
   useEffect(() => {
     loadAssignments();
@@ -358,7 +359,7 @@ function Assignments() {
   );
 }
 
-function Beneficiaries() {
+function Beneficiaries({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
@@ -366,6 +367,7 @@ function Beneficiaries() {
   const [formData, setFormData] = useState({ name: '', phone_number: '' });
   const [faceImage, setFaceImage] = useState(null);
   const [facePreview, setFacePreview] = useState(null);
+  const t = translations[language];
 
   useEffect(() => {
     loadAssignments();
@@ -545,7 +547,7 @@ function Beneficiaries() {
   );
 }
 
-function Distribution() {
+function Distribution({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
   const [step, setStep] = useState(1);
@@ -556,6 +558,7 @@ function Distribution() {
   const [faceScanPreview, setFaceScanPreview] = useState(null);
   const [otpCode, setOtpCode] = useState('');
   const [sentOtp, setSentOtp] = useState('');
+  const t = translations[language];
 
   useEffect(() => {
     loadAssignments();
@@ -745,10 +748,11 @@ function Distribution() {
   );
 }
 
-function ConfirmedBeneficiaries() {
+function ConfirmedBeneficiaries({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [confirmedBeneficiaries, setConfirmedBeneficiaries] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
+  const t = translations[language];
 
   useEffect(() => {
     loadAssignments();
@@ -829,10 +833,11 @@ function ConfirmedBeneficiaries() {
   );
 }
 
-function ReadyToReceive() {
+function ReadyToReceive({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [readyBeneficiaries, setReadyBeneficiaries] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
+  const t = translations[language];
 
   useEffect(() => {
     loadAssignments();
@@ -922,7 +927,7 @@ function ReadyToReceive() {
   );
 }
 
-function ProfileSettings() {
+function ProfileSettings({ language }) {
   const user = JSON.parse(localStorage.getItem('user'));
   const [activeTab, setActiveTab] = useState('profile');
   const [formData, setFormData] = useState({
@@ -936,6 +941,7 @@ function ProfileSettings() {
     monthlyReports: false
   });
   const [activities] = useState([]);
+  const t = translations[language];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -1039,9 +1045,10 @@ function ProfileSettings() {
 
 export default FieldOfficerDashboard;
 
-function PublicReports() {
+function PublicReports({ language }) {
   const [reports, setReports] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const t = translations[language];
 
   React.useEffect(() => {
     loadReports();

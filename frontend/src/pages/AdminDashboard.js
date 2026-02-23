@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { adminAPI, publicAPI } from '../services/api';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { translations } from '../translations';
 
 function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const t = translations[language];
 
   const handleLogout = () => {
     localStorage.clear();
@@ -16,9 +18,9 @@ function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme })
   return (
     <div>
       <div className="navbar" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        <h1>AidTrace - Admin Dashboard</h1>
+        <h1>{t.appName} - {t.adminDashboard}</h1>
         <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
-          <span style={{marginRight: '10px', color: '#ffffff'}}>Welcome, {user.name}</span>
+          <span style={{marginRight: '10px', color: '#ffffff'}}>{t.welcome}, {user.name}</span>
           <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
           <div style={{position: 'relative'}}>
             <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
@@ -31,39 +33,40 @@ function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme })
               </div>
             )}
           </div>
-          <button onClick={handleLogout} className="btn btn-danger">Logout</button>
+          <button onClick={handleLogout} className="btn btn-danger">{t.logout}</button>
         </div>
       </div>
       
       <div className="container">
         <div style={{marginBottom: '20px'}}>
-          <Link to="/admin"><button className="btn">Dashboard</button></Link>
-          <Link to="/admin/pending"><button className="btn" style={{marginLeft: '10px'}}>Pending Users</button></Link>
-          <Link to="/admin/pending-projects"><button className="btn" style={{marginLeft: '10px'}}>Pending Projects</button></Link>
-          <Link to="/admin/users"><button className="btn" style={{marginLeft: '10px'}}>Manage Users</button></Link>
-          <Link to="/admin/projects"><button className="btn" style={{marginLeft: '10px'}}>Projects</button></Link>
-          <Link to="/admin/reports"><button className="btn" style={{marginLeft: '10px'}}>Public Reports</button></Link>
-          <Link to="/admin/profile"><button className="btn" style={{marginLeft: '10px'}}>Profile & Settings</button></Link>
+          <Link to="/admin"><button className="btn">{t.dashboard}</button></Link>
+          <Link to="/admin/pending"><button className="btn" style={{marginLeft: '10px'}}>{t.pendingUsers}</button></Link>
+          <Link to="/admin/pending-projects"><button className="btn" style={{marginLeft: '10px'}}>{t.pendingProjects}</button></Link>
+          <Link to="/admin/users"><button className="btn" style={{marginLeft: '10px'}}>{t.manageUsers}</button></Link>
+          <Link to="/admin/projects"><button className="btn" style={{marginLeft: '10px'}}>{t.projects}</button></Link>
+          <Link to="/admin/reports"><button className="btn" style={{marginLeft: '10px'}}>{t.publicReports}</button></Link>
+          <Link to="/admin/profile"><button className="btn" style={{marginLeft: '10px'}}>{t.profileSettings}</button></Link>
         </div>
         
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/pending" element={<PendingUsers />} />
-          <Route path="/pending-projects" element={<PendingProjects />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/profile" element={<ProfileSettings />} />
+          <Route path="/" element={<Dashboard language={language} />} />
+          <Route path="/pending" element={<PendingUsers language={language} />} />
+          <Route path="/pending-projects" element={<PendingProjects language={language} />} />
+          <Route path="/users" element={<Users language={language} />} />
+          <Route path="/projects" element={<Projects language={language} />} />
+          <Route path="/reports" element={<Reports language={language} />} />
+          <Route path="/profile" element={<ProfileSettings language={language} />} />
         </Routes>
       </div>
     </div>
   );
 }
 
-function Dashboard() {
+function Dashboard({ language }) {
   const [stats, setStats] = useState(null);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
+  const t = translations[language];
 
   useEffect(() => {
     loadData();
@@ -78,15 +81,15 @@ function Dashboard() {
     setUsers(usersRes.data);
   };
 
-  if (!stats) return <div>Loading...</div>;
+  if (!stats) return <div>{t.loading}</div>;
 
   const COLORS = ['#1CABE2', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
 
   const userRoleData = [
-    { name: 'Donors', value: stats.donors },
-    { name: 'NGOs', value: stats.ngos },
-    { name: 'Suppliers', value: stats.suppliers },
-    { name: 'Field Officers', value: stats.field_officers }
+    { name: t.donors, value: stats.donors },
+    { name: t.ngos, value: stats.ngos },
+    { name: t.suppliers, value: stats.suppliers },
+    { name: t.fieldOfficers, value: stats.field_officers }
   ];
 
   const projectStatusData = projects.reduce((acc, project) => {
@@ -104,33 +107,33 @@ function Dashboard() {
 
   return (
     <div>
-      <h2>Admin Dashboard Overview</h2>
+      <h2>{t.adminDashboard} {t.analytics}</h2>
       
       {/* Stats Cards */}
       <div className="stats">
         <div className="stat-card" style={{background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white'}}>
           <h3>{stats.donors + stats.ngos + stats.suppliers + stats.field_officers}</h3>
-          <p>Total Users</p>
+          <p>{t.totalUsers}</p>
         </div>
         <div className="stat-card" style={{background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', color: 'white'}}>
           <h3>{stats.projects}</h3>
-          <p>Total Projects</p>
+          <p>{t.totalProjects}</p>
         </div>
         <div className="stat-card" style={{background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', color: 'white'}}>
           <h3>{stats.donors}</h3>
-          <p>Donors</p>
+          <p>{t.donors}</p>
         </div>
         <div className="stat-card" style={{background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', color: 'white'}}>
           <h3>{stats.ngos}</h3>
-          <p>NGOs</p>
+          <p>{t.ngos}</p>
         </div>
         <div className="stat-card" style={{background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', color: 'white'}}>
           <h3>{stats.suppliers}</h3>
-          <p>Suppliers</p>
+          <p>{t.suppliers}</p>
         </div>
         <div className="stat-card" style={{background: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)', color: 'white'}}>
           <h3>{stats.field_officers}</h3>
-          <p>Field Officers</p>
+          <p>{t.fieldOfficers}</p>
         </div>
       </div>
 
@@ -138,7 +141,7 @@ function Dashboard() {
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '30px'}}>
         {/* User Distribution Pie Chart */}
         <div className="card">
-          <h3>User Distribution by Role</h3>
+          <h3>{t.userDistribution}</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -162,7 +165,7 @@ function Dashboard() {
 
         {/* Project Status Bar Chart */}
         <div className="card">
-          <h3>Projects by Status</h3>
+          <h3>{t.projectsByStatus}</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={projectStatusData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -179,13 +182,13 @@ function Dashboard() {
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '30px'}}>
         {/* Recent Projects */}
         <div className="card">
-          <h3>Recent Projects</h3>
+          <h3>{t.recentProjects}</h3>
           <table className="table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>NGO</th>
-                <th>Status</th>
+                <th>{t.title}</th>
+                <th>{t.ngo}</th>
+                <th>{t.status}</th>
               </tr>
             </thead>
             <tbody>
@@ -202,13 +205,13 @@ function Dashboard() {
 
         {/* Recent Users */}
         <div className="card">
-          <h3>Recent User Registrations</h3>
+          <h3>{t.recentUserRegistrations}</h3>
           <table className="table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Status</th>
+                <th>{t.name}</th>
+                <th>{t.role}</th>
+                <th>{t.status}</th>
               </tr>
             </thead>
             <tbody>
@@ -218,8 +221,8 @@ function Dashboard() {
                   <td><span className="badge badge-info">{user.role}</span></td>
                   <td>
                     {user.is_approved ? 
-                      <span className="badge badge-success">Approved</span> : 
-                      <span className="badge badge-warning">Pending</span>
+                      <span className="badge badge-success">{t.approved}</span> : 
+                      <span className="badge badge-warning">{t.pending}</span>
                     }
                   </td>
                 </tr>
@@ -231,21 +234,22 @@ function Dashboard() {
 
       {/* Quick Actions */}
       <div className="card" style={{marginTop: '30px'}}>
-        <h3>Quick Actions</h3>
+        <h3>{t.quickActions}</h3>
         <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-          <Link to="/admin/pending"><button className="btn">Review Pending Users</button></Link>
-          <Link to="/admin/pending-projects"><button className="btn">Review Pending Projects</button></Link>
-          <Link to="/admin/users"><button className="btn">Manage All Users</button></Link>
-          <Link to="/admin/projects"><button className="btn">View All Projects</button></Link>
-          <Link to="/admin/reports"><button className="btn">View Public Reports</button></Link>
+          <Link to="/admin/pending"><button className="btn">{t.reviewPendingUsers}</button></Link>
+          <Link to="/admin/pending-projects"><button className="btn">{t.reviewPendingProjects}</button></Link>
+          <Link to="/admin/users"><button className="btn">{t.manageAllUsers}</button></Link>
+          <Link to="/admin/projects"><button className="btn">{t.viewAllProjects}</button></Link>
+          <Link to="/admin/reports"><button className="btn">{t.viewPublicReports}</button></Link>
         </div>
       </div>
     </div>
   );
 }
 
-function PendingUsers() {
+function PendingUsers({ language }) {
   const [pendingUsers, setPendingUsers] = useState([]);
+  const t = translations[language];
 
   useEffect(() => {
     loadPendingUsers();
@@ -280,23 +284,23 @@ function PendingUsers() {
 
   return (
     <div>
-      <h2>Pending User Approvals</h2>
+      <h2>{t.pendingUserApprovals}</h2>
       
       {pendingUsers.length === 0 ? (
         <div className="card">
-          <p>No pending approvals</p>
+          <p>{t.noPendingApprovals}</p>
         </div>
       ) : (
         <div className="card">
           <table className="table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Contact</th>
-                <th>Registered</th>
-                <th>Actions</th>
+                <th>{t.name}</th>
+                <th>{t.email}</th>
+                <th>{t.role}</th>
+                <th>{t.contact}</th>
+                <th>{t.registered}</th>
+                <th>{t.actions}</th>
               </tr>
             </thead>
             <tbody>
@@ -308,8 +312,8 @@ function PendingUsers() {
                   <td>{user.contact}</td>
                   <td>{new Date(user.created_at).toLocaleDateString()}</td>
                   <td>
-                    <button onClick={() => handleApprove(user.id)} className="btn" style={{marginRight: '5px'}}>Approve</button>
-                    <button onClick={() => handleReject(user.id)} className="btn btn-danger">Reject</button>
+                    <button onClick={() => handleApprove(user.id)} className="btn" style={{marginRight: '5px'}}>{t.approve}</button>
+                    <button onClick={() => handleReject(user.id)} className="btn btn-danger">{t.reject}</button>
                   </td>
                 </tr>
               ))}
@@ -321,8 +325,9 @@ function PendingUsers() {
   );
 }
 
-function PendingProjects() {
+function PendingProjects({ language }) {
   const [pendingProjects, setPendingProjects] = useState([]);
+  const t = translations[language];
 
   useEffect(() => {
     loadPendingProjects();
@@ -357,28 +362,28 @@ function PendingProjects() {
 
   return (
     <div>
-      <h2>Pending Project Approvals</h2>
+      <h2>{t.pendingProjectApprovals}</h2>
       
       {pendingProjects.length === 0 ? (
         <div className="card">
-          <p>No pending projects</p>
+          <p>{t.noPendingProjects}</p>
         </div>
       ) : (
         <div className="grid">
           {pendingProjects.map(project => (
             <div key={project.id} className="card">
               <h3>{project.title}</h3>
-              <p><strong>NGO:</strong> {project.ngo_name}</p>
-              <p><strong>Category:</strong> {project.category}</p>
-              <p><strong>Location:</strong> {project.location}</p>
-              <p><strong>Budget:</strong> ${parseFloat(project.budget_amount || 0).toLocaleString()}</p>
-              <p><strong>Duration:</strong> {project.duration_months} months</p>
-              <p><strong>Target Beneficiaries:</strong> {project.target_beneficiaries?.toLocaleString()}</p>
-              <p><strong>Description:</strong> {project.description.substring(0, 150)}...</p>
-              <p><strong>Created:</strong> {new Date(project.created_at).toLocaleDateString()}</p>
+              <p><strong>{t.ngo}:</strong> {project.ngo_name}</p>
+              <p><strong>{t.category}:</strong> {project.category}</p>
+              <p><strong>{t.location}:</strong> {project.location}</p>
+              <p><strong>{t.budget}:</strong> ${parseFloat(project.budget_amount || 0).toLocaleString()}</p>
+              <p><strong>{t.duration}:</strong> {project.duration_months} {t.months}</p>
+              <p><strong>{t.targetBeneficiaries}:</strong> {project.target_beneficiaries?.toLocaleString()}</p>
+              <p><strong>{t.description}:</strong> {project.description.substring(0, 150)}...</p>
+              <p><strong>{t.created}:</strong> {new Date(project.created_at).toLocaleDateString()}</p>
               <div style={{marginTop: '10px'}}>
-                <button onClick={() => handleApprove(project.id)} className="btn" style={{marginRight: '5px'}}>Approve</button>
-                <button onClick={() => handleReject(project.id)} className="btn btn-danger">Reject</button>
+                <button onClick={() => handleApprove(project.id)} className="btn" style={{marginRight: '5px'}}>{t.approve}</button>
+                <button onClick={() => handleReject(project.id)} className="btn btn-danger">{t.reject}</button>
               </div>
             </div>
           ))}
@@ -388,9 +393,10 @@ function PendingProjects() {
   );
 }
 
-function Users() {
+function Users({ language }) {
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState('');
+  const t = translations[language];
 
   useEffect(() => {
     loadUsers();
@@ -404,17 +410,17 @@ function Users() {
 
   return (
     <div>
-      <h2>Manage Users</h2>
+      <h2>{t.manageUsers}</h2>
       
       <div className="card">
         <div className="form-group">
-          <label>Filter by Role</label>
+          <label>{t.filterByRole}</label>
           <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="">All Users</option>
-            <option value="DONOR">Donors</option>
-            <option value="NGO">NGOs</option>
-            <option value="SUPPLIER">Suppliers</option>
-            <option value="FIELD_OFFICER">Field Officers</option>
+            <option value="">{t.allUsers}</option>
+            <option value="DONOR">{t.donors}</option>
+            <option value="NGO">{t.ngos}</option>
+            <option value="SUPPLIER">{t.suppliers}</option>
+            <option value="FIELD_OFFICER">{t.fieldOfficers}</option>
           </select>
         </div>
       </div>
@@ -424,10 +430,10 @@ function Users() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Contact</th>
+              <th>{t.name}</th>
+              <th>{t.email}</th>
+              <th>{t.role}</th>
+              <th>{t.contact}</th>
             </tr>
           </thead>
           <tbody>
@@ -447,8 +453,9 @@ function Users() {
   );
 }
 
-function Projects() {
+function Projects({ language }) {
   const [projects, setProjects] = useState([]);
+  const t = translations[language];
 
   useEffect(() => {
     loadProjects();
@@ -461,17 +468,17 @@ function Projects() {
 
   return (
     <div>
-      <h2>All Projects</h2>
+      <h2>{t.allProjects}</h2>
       
       <div className="card">
         <table className="table">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Title</th>
-              <th>Location</th>
-              <th>NGO</th>
-              <th>Status</th>
+              <th>{t.title}</th>
+              <th>{t.location}</th>
+              <th>{t.ngo}</th>
+              <th>{t.status}</th>
             </tr>
           </thead>
           <tbody>
@@ -491,8 +498,9 @@ function Projects() {
   );
 }
 
-function Reports() {
+function Reports({ language }) {
   const [reports, setReports] = useState([]);
+  const t = translations[language];
 
   useEffect(() => {
     loadReports();
@@ -505,15 +513,15 @@ function Reports() {
 
   return (
     <div>
-      <h2>Public Reports</h2>
+      <h2>{t.publicReports}</h2>
       
       <div className="grid">
         {reports.map(report => (
           <div key={report.id} className="card">
             <h3>{report.project_name}</h3>
-            <p><strong>Location:</strong> {report.location}</p>
-            <p><strong>Description:</strong> {report.description}</p>
-            <p><strong>Contact:</strong> {report.contact_info}</p>
+            <p><strong>{t.location}:</strong> {report.location}</p>
+            <p><strong>{t.description}:</strong> {report.description}</p>
+            <p><strong>{t.contact}:</strong> {report.contact_info}</p>
             <p><strong>Submitted:</strong> {new Date(report.created_at).toLocaleDateString()}</p>
           </div>
         ))}
@@ -522,7 +530,7 @@ function Reports() {
   );
 }
 
-function ProfileSettings() {
+function ProfileSettings({ language }) {
   const user = JSON.parse(localStorage.getItem('user'));
   const [activeTab, setActiveTab] = useState('profile');
   const [formData, setFormData] = useState({
@@ -536,6 +544,7 @@ function ProfileSettings() {
     monthlyReports: false
   });
   const [activities] = useState([]);
+  const t = translations[language];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -550,8 +559,8 @@ function ProfileSettings() {
 
   return (
     <div>
-      <h2>Profile & Settings</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>Manage your account settings and preferences</p>
+      <h2>{t.profileSettings}</h2>
+      <p style={{color: '#666', marginBottom: '20px'}}>{t.manageAccountSettings}</p>
 
       <div style={{borderBottom: '1px solid #e0e0e0', marginBottom: '20px'}}>
         <div style={{display: 'flex', gap: '30px'}}>
@@ -559,69 +568,69 @@ function ProfileSettings() {
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
             color: activeTab === 'profile' ? '#1CABE2' : '#666', cursor: 'pointer',
             borderBottom: activeTab === 'profile' ? '2px solid #1CABE2' : '2px solid transparent'
-          }}>Profile Information</button>
+          }}>{t.profileInformation}</button>
           <button onClick={() => setActiveTab('preferences')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
             color: activeTab === 'preferences' ? '#1CABE2' : '#666', cursor: 'pointer',
             borderBottom: activeTab === 'preferences' ? '2px solid #1CABE2' : '2px solid transparent'
-          }}>Preferences</button>
+          }}>{t.preferences}</button>
           <button onClick={() => setActiveTab('activity')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
             color: activeTab === 'activity' ? '#1CABE2' : '#666', cursor: 'pointer',
             borderBottom: activeTab === 'activity' ? '2px solid #1CABE2' : '2px solid transparent'
-          }}>Activity Log</button>
+          }}>{t.activityLog}</button>
         </div>
       </div>
 
       {activeTab === 'profile' && (
         <div className="card">
-          <h3>Profile Information</h3>
+          <h3>{t.profileInformation}</h3>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Name</label>
+              <label>{t.fullName}</label>
               <input type="text" value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})} required />
             </div>
             <div className="form-group">
-              <label>Email</label>
+              <label>{t.emailAddress}</label>
               <input type="email" value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})} required />
             </div>
             <div className="form-group">
-              <label>Contact</label>
+              <label>{t.contactNumber}</label>
               <input type="text" value={formData.contact}
                 onChange={(e) => setFormData({...formData, contact: e.target.value})} />
             </div>
             <div className="form-group">
-              <label>Role</label>
+              <label>{t.role}</label>
               <input type="text" value={user.role} disabled style={{background: '#f5f5f5', color: '#666'}} />
             </div>
-            <button type="submit" className="btn">Save Changes</button>
+            <button type="submit" className="btn">{t.saveChanges}</button>
           </form>
         </div>
       )}
 
       {activeTab === 'preferences' && (
         <div className="card">
-          <h3>Notification Preferences</h3>
+          <h3>{t.notificationPreferences}</h3>
           <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
             <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
               <input type="checkbox" checked={notifications.emailNotifications}
                 onChange={() => handleNotificationChange('emailNotifications')}
                 style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Email Notifications</span>
+              <span style={{fontSize: '14px'}}>{t.emailNotifications}</span>
             </label>
             <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
               <input type="checkbox" checked={notifications.projectUpdates}
                 onChange={() => handleNotificationChange('projectUpdates')}
                 style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Project Updates</span>
+              <span style={{fontSize: '14px'}}>{t.projectUpdates}</span>
             </label>
             <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
               <input type="checkbox" checked={notifications.monthlyReports}
                 onChange={() => handleNotificationChange('monthlyReports')}
                 style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Monthly Reports</span>
+              <span style={{fontSize: '14px'}}>{t.monthlyReports}</span>
             </label>
           </div>
         </div>
@@ -629,8 +638,8 @@ function ProfileSettings() {
 
       {activeTab === 'activity' && (
         <div className="card">
-          <h3>Recent Activity</h3>
-          <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+          <h3>{t.recentActivitySection}</h3>
+          <p style={{color: '#666', fontSize: '14px'}}>{t.noActivityData}</p>
         </div>
       )}
     </div>

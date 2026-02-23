@@ -17,34 +17,226 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
     <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#ffffff'}}>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        background: '#ffffff',
-        borderBottom: '1px solid #e5e7eb',
+        background: scrolled ? 'rgba(255, 255, 255, 0.95)' : '#ffffff',
+        backdropFilter: scrolled ? 'blur(10px)' : 'none',
+        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.08)' : 'none',
+        borderBottom: scrolled ? 'none' : '1px solid #e5e7eb',
         transition: 'all 0.3s ease'
       }}>
-        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '28px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px'}}>
-            <div style={{width: '40px', height: '40px', background: '#1CABE2', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <span style={{color: '#ffffff', fontSize: '20px', fontWeight: '700'}}>A</span>
+        <div style={{maxWidth: '1280px', margin: '0 auto', padding: '16px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+            <div style={{
+              width: '44px', height: '44px', 
+              background: 'linear-gradient(135deg, #1CABE2 0%, #0d8bbf 100%)', 
+              borderRadius: '10px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(28, 171, 226, 0.3)'
+            }}>
+              <span style={{color: '#ffffff', fontSize: '22px', fontWeight: '700'}}>A</span>
             </div>
-            <h1 style={{margin: 0, fontSize: '20px', fontWeight: '600', color: '#111827'}}>{t.appName}</h1>
+            <h1 style={{margin: 0, fontSize: '22px', fontWeight: '700', color: '#111827', letterSpacing: '-0.02em'}}>{t.appName}</h1>
           </div>
-          <div style={{display: 'flex', gap: '40px', alignItems: 'center'}}>
-            <a href="#features" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>{t.features}</a>
-            <a href="#how-it-works" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>{t.howItWorks}</a>
-            <Link to="/public-report" style={{textDecoration: 'none', color: '#6b7280', fontSize: '14px', fontWeight: '500'}}>{t.submitReport}</Link>
-            <Link to="/login"><button style={{padding: '10px 24px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '14px', fontWeight: '500', cursor: 'pointer'}}>{t.login}</button></Link>
-            <Link to="/register"><button style={{padding: '10px 24px', background: '#1CABE2', border: 'none', borderRadius: '6px', color: '#ffffff', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>{t.getStarted}</button></Link>
-            <button onClick={toggleTheme} style={{padding: '10px 16px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '14px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+          
+          <div style={{display: 'flex', gap: '32px', alignItems: 'center'}}>
+            <a href="#features" style={{
+              textDecoration: 'none', 
+              color: '#6b7280', 
+              fontSize: '15px', 
+              fontWeight: '500',
+              transition: 'color 0.2s',
+              cursor: 'pointer'
+            }}
+            onMouseOver={(e) => e.target.style.color = '#1CABE2'}
+            onMouseOut={(e) => e.target.style.color = '#6b7280'}>
+              {t.features}
+            </a>
+            <a href="#how-it-works" style={{
+              textDecoration: 'none', 
+              color: '#6b7280', 
+              fontSize: '15px', 
+              fontWeight: '500',
+              transition: 'color 0.2s',
+              cursor: 'pointer'
+            }}
+            onMouseOver={(e) => e.target.style.color = '#1CABE2'}
+            onMouseOut={(e) => e.target.style.color = '#6b7280'}>
+              {t.howItWorks}
+            </a>
+            <Link to="/public-report" style={{
+              textDecoration: 'none', 
+              color: '#6b7280', 
+              fontSize: '15px', 
+              fontWeight: '500',
+              transition: 'color 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.color = '#1CABE2'}
+            onMouseOut={(e) => e.target.style.color = '#6b7280'}>
+              {t.submitReport}
+            </Link>
+          </div>
+          
+          <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
+            <Link to="/login">
+              <button style={{
+                padding: '10px 20px', 
+                background: '#ffffff', 
+                border: '1px solid #d1d5db', 
+                borderRadius: '8px', 
+                color: '#374151', 
+                fontSize: '14px', 
+                fontWeight: '600', 
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = '#f9fafb';
+                e.target.style.borderColor = '#1CABE2';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = '#ffffff';
+                e.target.style.borderColor = '#d1d5db';
+              }}>
+                {t.login}
+              </button>
+            </Link>
+            <Link to="/register">
+              <button style={{
+                padding: '10px 24px', 
+                background: 'linear-gradient(135deg, #1CABE2 0%, #0d8bbf 100%)', 
+                border: 'none', 
+                borderRadius: '8px', 
+                color: '#ffffff', 
+                fontSize: '14px', 
+                fontWeight: '600', 
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(28, 171, 226, 0.3)',
+                transition: 'all 0.2s'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.transform = 'translateY(-1px)';
+                e.target.style.boxShadow = '0 4px 12px rgba(28, 171, 226, 0.4)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 2px 8px rgba(28, 171, 226, 0.3)';
+              }}>
+                {t.getStarted}
+              </button>
+            </Link>
+            <button onClick={toggleTheme} style={{
+              padding: '10px 14px', 
+              background: '#ffffff', 
+              border: '1px solid #d1d5db', 
+              borderRadius: '8px', 
+              color: '#374151', 
+              fontSize: '18px', 
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+            onMouseOver={(e) => e.target.style.background = '#f9fafb'}
+            onMouseOut={(e) => e.target.style.background = '#ffffff'}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             <div style={{position: 'relative'}}>
-              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '10px 16px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', color: '#374151', fontSize: '14px', fontWeight: '500', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'}}>
-                {language.toUpperCase()} ▼
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{
+                padding: '10px 16px', 
+                background: '#ffffff', 
+                border: '1px solid #d1d5db', 
+                borderRadius: '8px', 
+                color: '#374151', 
+                fontSize: '14px', 
+                fontWeight: '600', 
+                cursor: 'pointer', 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '6px',
+                transition: 'all 0.2s'
+              }}
+              onMouseOver={(e) => e.target.style.background = '#f9fafb'}
+              onMouseOut={(e) => e.target.style.background = '#ffffff'}>
+                🌐 {language.toUpperCase()}
               </button>
               {showLangMenu && (
-                <div style={{position: 'absolute', top: '45px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '6px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '120px', zIndex: 1000}}>
-                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 16px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '14px', fontWeight: '500'}}>English</button>
-                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 16px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '14px', fontWeight: '500'}}>العربية</button>
-                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 16px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '14px', fontWeight: '500'}}>Dinka</button>
-                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 16px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '14px', fontWeight: '500'}}>Nuer</button>
+                <div style={{
+                  position: 'absolute', 
+                  top: '50px', 
+                  right: '0', 
+                  background: '#ffffff', 
+                  border: '1px solid #e5e7eb', 
+                  borderRadius: '8px', 
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)', 
+                  minWidth: '140px', 
+                  zIndex: 1000,
+                  overflow: 'hidden'
+                }}>
+                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{
+                    width: '100%', 
+                    padding: '12px 16px', 
+                    background: language === 'en' ? '#f0f9ff' : '#ffffff', 
+                    border: 'none', 
+                    textAlign: 'left', 
+                    cursor: 'pointer', 
+                    fontSize: '14px', 
+                    fontWeight: '500',
+                    color: language === 'en' ? '#1CABE2' : '#374151',
+                    transition: 'background 0.2s'
+                  }}
+                  onMouseOver={(e) => e.target.style.background = '#f9fafb'}
+                  onMouseOut={(e) => e.target.style.background = language === 'en' ? '#f0f9ff' : '#ffffff'}>
+                    English
+                  </button>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{
+                    width: '100%', 
+                    padding: '12px 16px', 
+                    background: language === 'ar' ? '#f0f9ff' : '#ffffff', 
+                    border: 'none', 
+                    textAlign: 'left', 
+                    cursor: 'pointer', 
+                    fontSize: '14px', 
+                    fontWeight: '500',
+                    color: language === 'ar' ? '#1CABE2' : '#374151',
+                    transition: 'background 0.2s'
+                  }}
+                  onMouseOver={(e) => e.target.style.background = '#f9fafb'}
+                  onMouseOut={(e) => e.target.style.background = language === 'ar' ? '#f0f9ff' : '#ffffff'}>
+                    العربية
+                  </button>
+                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{
+                    width: '100%', 
+                    padding: '12px 16px', 
+                    background: language === 'din' ? '#f0f9ff' : '#ffffff', 
+                    border: 'none', 
+                    textAlign: 'left', 
+                    cursor: 'pointer', 
+                    fontSize: '14px', 
+                    fontWeight: '500',
+                    color: language === 'din' ? '#1CABE2' : '#374151',
+                    transition: 'background 0.2s'
+                  }}
+                  onMouseOver={(e) => e.target.style.background = '#f9fafb'}
+                  onMouseOut={(e) => e.target.style.background = language === 'din' ? '#f0f9ff' : '#ffffff'}>
+                    Dinka
+                  </button>
+                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{
+                    width: '100%', 
+                    padding: '12px 16px', 
+                    background: language === 'nuer' ? '#f0f9ff' : '#ffffff', 
+                    border: 'none', 
+                    textAlign: 'left', 
+                    cursor: 'pointer', 
+                    fontSize: '14px', 
+                    fontWeight: '500',
+                    color: language === 'nuer' ? '#1CABE2' : '#374151',
+                    transition: 'background 0.2s'
+                  }}
+                  onMouseOver={(e) => e.target.style.background = '#f9fafb'}
+                  onMouseOut={(e) => e.target.style.background = language === 'nuer' ? '#f0f9ff' : '#ffffff'}>
+                    Nuer
+                  </button>
                 </div>
               )}
             </div>

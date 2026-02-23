@@ -111,8 +111,8 @@ def create_project(request):
         category=data.get('category', 'General Aid'),
         desired_donors=data.get('desired_donors', []),
         ngo=ngo,
-        is_approved=True,
-        status='PENDING_FUNDING'
+        is_approved=False,
+        status='CREATED'
     )
     
     # Generate project hash and record on blockchain
@@ -136,7 +136,7 @@ def create_project(request):
     project.save()
     
     return JsonResponse({
-        'message': 'Project created successfully and recorded on blockchain.',
+        'message': 'Project created successfully. Waiting for admin approval before it appears to donors.',
         'project': ProjectSerializer(project).data
     })
 
@@ -783,6 +783,7 @@ def approve_project(request):
     
     project = Project.objects.get(id=project_id)
     project.is_approved = True
+    project.status = 'PENDING_FUNDING'
     project.save()
     
     return JsonResponse({'message': 'Project approved successfully', 'project': ProjectSerializer(project).data})

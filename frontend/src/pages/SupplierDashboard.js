@@ -756,9 +756,10 @@ function ProfileSettings() {
 
 export default SupplierDashboard;
 
-function PublicReports() {
+function PublicReports({ language }) {
   const [reports, setReports] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const t = translations[language];
 
   React.useEffect(() => {
     loadReports();
@@ -776,25 +777,25 @@ function PublicReports() {
     }
   };
 
-  if (loading) return <div><h2>Public Reports</h2><div className="card"><p>Loading...</p></div></div>;
+  if (loading) return <div><h2>{t.publicReports}</h2><div className="card"><p>{t.loading}</p></div></div>;
 
   return (
     <div>
-      <h2>Public Reports</h2>
+      <h2>{t.publicReports}</h2>
       <p style={{color: '#666', marginBottom: '20px'}}>View all submitted public reports</p>
       
       {reports.length === 0 ? (
-        <div className="card"><p>No reports submitted yet.</p></div>
+        <div className="card"><p>{t.noReports}</p></div>
       ) : (
         <div className="card">
           <table className="table">
             <thead>
               <tr>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Location</th>
-                <th>Date</th>
-                <th>Status</th>
+                <th>{t.reportType}</th>
+                <th>{t.description}</th>
+                <th>{t.location}</th>
+                <th>{t.reportDate}</th>
+                <th>{t.status}</th>
               </tr>
             </thead>
             <tbody>
