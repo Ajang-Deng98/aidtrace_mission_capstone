@@ -199,22 +199,17 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
         </div>
       </nav>
 
-      <section style={{marginTop: '80px', padding: '100px 40px 120px', background: 'linear-gradient(180deg, #ffffff 0%, #f9fafb 100%)'}}>
-        <div style={{maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center'}}>
-          <div>
-            <h1 style={{fontSize: '56px', color: '#111827', marginBottom: '24px', fontWeight: '800', lineHeight: '1.1', letterSpacing: '-0.03em'}}>{t.heroTitle}</h1>
-            <p style={{fontSize: '19px', color: '#6b7280', marginBottom: '40px', lineHeight: '1.7'}}>{t.heroDesc}</p>
-            <div style={{display: 'flex', gap: '14px'}}>
-              <Link to="/register"><button style={{padding: '14px 32px', background: 'linear-gradient(135deg, #1CABE2 0%, #0891b2 100%)', border: 'none', borderRadius: '8px', color: '#ffffff', fontSize: '16px', fontWeight: '600', cursor: 'pointer', boxShadow: '0 4px 14px rgba(28, 171, 226, 0.3)', transition: 'all 0.2s'}}
-              onMouseOver={(e) => {e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 6px 20px rgba(28, 171, 226, 0.4)';}}
-              onMouseOut={(e) => {e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 14px rgba(28, 171, 226, 0.3)';}}>{t.getStarted}</button></Link>
-              <Link to="/public-report"><button style={{padding: '14px 32px', background: '#ffffff', border: '2px solid #e5e7eb', borderRadius: '8px', color: '#374151', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s'}}
-              onMouseOver={(e) => {e.target.style.borderColor = '#1CABE2'; e.target.style.color = '#1CABE2';}}
-              onMouseOut={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.color = '#374151';}}>{t.submitReport}</button></Link>
-            </div>
-          </div>
-          <div>
-            <img src="/images1.jpg" alt="Aid Distribution" style={{width: '100%', height: '480px', objectFit: 'cover', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.12)'}} />
+      <section style={{marginTop: '80px', padding: '140px 40px 160px', background: `linear-gradient(rgba(28, 171, 226, 0.45), rgba(28, 171, 226, 0.45)), url('/images1.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative'}}>
+        <div style={{maxWidth: '900px', margin: '0 auto', textAlign: 'center'}}>
+          <h1 style={{fontSize: '56px', color: '#ffffff', marginBottom: '24px', fontWeight: '800', lineHeight: '1.1', letterSpacing: '-0.03em'}}>{t.heroTitle}</h1>
+          <p style={{fontSize: '20px', color: '#ffffff', marginBottom: '40px', lineHeight: '1.7', maxWidth: '700px', margin: '0 auto 40px'}}>{t.heroDesc}</p>
+          <div style={{display: 'flex', gap: '14px', justifyContent: 'center'}}>
+            <Link to="/register"><button style={{padding: '14px 32px', background: '#ffffff', border: 'none', borderRadius: '8px', color: '#1CABE2', fontSize: '16px', fontWeight: '600', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.15)', transition: 'all 0.2s'}}
+            onMouseOver={(e) => {e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)';}}
+            onMouseOut={(e) => {e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 14px rgba(0,0,0,0.15)';}}>{t.getStarted}</button></Link>
+            <Link to="/public-report"><button style={{padding: '14px 32px', background: 'transparent', border: '2px solid #ffffff', borderRadius: '8px', color: '#ffffff', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s'}}
+            onMouseOver={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1CABE2';}}
+            onMouseOut={(e) => {e.target.style.background = 'transparent'; e.target.style.color = '#ffffff';}}>{t.submitReport}</button></Link>
           </div>
         </div>
       </section>
@@ -228,8 +223,8 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px'}}>
             {[
               {num: '1', title: t.step1Title, desc: t.step1Desc, color: '#1CABE2'},
-              {num: '2', title: t.step2Title, desc: t.step2Desc, color: '#0891b2'},
-              {num: '3', title: t.step3Title, desc: t.step3Desc, color: '#0e7490'}
+              {num: '2', title: t.step2Title, desc: t.step2Desc, color: '#1CABE2'},
+              {num: '3', title: t.step3Title, desc: t.step3Desc, color: '#1CABE2'}
             ].map((step, idx) => (
               <div key={idx} style={{padding: '32px', background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '12px', transition: 'all 0.3s'}}
               onMouseOver={(e) => {e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-4px)';}}
@@ -245,19 +240,19 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
         </div>
       </section>
 
-      <section style={{padding: '100px 40px', background: 'linear-gradient(135deg, #1CABE2 0%, #0891b2 100%)'}}>
+      <section style={{padding: '100px 40px', background: '#ffffff'}}>
         <div style={{maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center'}}>
           <div>
-            <img src="/images2.jpg" alt="Blockchain Technology" style={{width: '100%', height: '420px', objectFit: 'cover', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)'}} />
+            <img src="/images2.jpg" alt="Blockchain Technology" style={{width: '100%', height: '420px', objectFit: 'cover', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.12)'}} />
           </div>
           <div>
-            <h2 style={{fontSize: '42px', fontWeight: '800', marginBottom: '20px', color: '#ffffff', letterSpacing: '-0.03em'}}>{t.blockchainTitle}</h2>
-            <p style={{fontSize: '18px', lineHeight: '1.8', color: '#ffffff', opacity: 0.95}}>{t.blockchainDesc}</p>
+            <h2 style={{fontSize: '42px', fontWeight: '800', marginBottom: '20px', color: '#111827', letterSpacing: '-0.03em'}}>{t.blockchainTitle}</h2>
+            <p style={{fontSize: '18px', lineHeight: '1.8', color: '#6b7280'}}>{t.blockchainDesc}</p>
           </div>
         </div>
       </section>
 
-      <section id="features" style={{padding: '100px 40px', background: '#f9fafb'}}>
+      <section id="features" style={{padding: '100px 40px', background: '#ffffff'}}>
         <div style={{maxWidth: '1200px', margin: '0 auto'}}>
           <div style={{textAlign: 'center', marginBottom: '70px'}}>
             <h2 style={{fontSize: '42px', fontWeight: '800', marginBottom: '16px', color: '#111827', letterSpacing: '-0.03em'}}>{t.keyFeatures}</h2>

@@ -2,6 +2,10 @@ require('dotenv').config();
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 module.exports = {
+  plugins: ['truffle-plugin-verify'],
+  api_keys: {
+    etherscan: process.env.ETHERSCAN_API_KEY
+  },
   networks: {
     development: {
       host: "127.0.0.1",
@@ -11,15 +15,25 @@ module.exports = {
       gasPrice: 20000000000
     },
     sepolia: {
-      provider: () => new HDWalletProvider(
-        process.env.MNEMONIC,
-        `https://sepolia.infura.io/v3/${process.env.INFURA_PROJECT_ID}`
-      ),
+      provider: function() {
+        return new HDWalletProvider({
+          mnemonic: {
+            phrase: process.env.MNEMONIC
+          },
+          providerOrUrl: `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
+          numberOfAddresses: 1,
+          shareNonce: true,
+          derivationPath: "m/44'/60'/0'/0/"
+        });
+      },
       network_id: 11155111,
       gas: 5500000,
+      gasPrice: 10000000000,
       confirmations: 2,
       timeoutBlocks: 200,
-      skipDryRun: true
+      skipDryRun: true,
+      networkCheckTimeout: 100000,
+      deploymentPollingInterval: 10000
     }
   },
   compilers: {

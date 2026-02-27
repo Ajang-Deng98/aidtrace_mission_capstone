@@ -16,6 +16,7 @@ contract AidTrace {
         string description;
         string location;
         string items;
+        uint256 fundingGoal;
         address ngoWallet;
         uint256 timestamp;
     }
@@ -30,6 +31,8 @@ contract AidTrace {
     
     struct SupplierConfirmation {
         uint256 projectId;
+        string projectTitle;
+        string deliveryLocation;
         address supplierAddress;
         string signature;
         uint256 timestamp;
@@ -37,6 +40,8 @@ contract AidTrace {
     
     struct FieldOfficerConfirmation {
         uint256 projectId;
+        string projectTitle;
+        string projectLocation;
         address officerAddress;
         string signature;
         uint256 timestamp;
@@ -76,7 +81,8 @@ contract AidTrace {
         string memory _title,
         string memory _description,
         string memory _location,
-        string memory _items
+        string memory _items,
+        uint256 _fundingGoal
     ) public {
         projects[_projectId] = Project({
             id: _projectId,
@@ -84,6 +90,7 @@ contract AidTrace {
             description: _description,
             location: _location,
             items: _items,
+            fundingGoal: _fundingGoal,
             ngoWallet: msg.sender,
             timestamp: block.timestamp
         });
@@ -112,6 +119,8 @@ contract AidTrace {
     
     function recordSupplierConfirmation(
         uint256 _projectId,
+        string memory _projectTitle,
+        string memory _deliveryLocation,
         address _supplierAddress,
         string memory _signature
     ) public {
@@ -119,6 +128,8 @@ contract AidTrace {
         
         supplierConfirmations[confirmationHash] = SupplierConfirmation({
             projectId: _projectId,
+            projectTitle: _projectTitle,
+            deliveryLocation: _deliveryLocation,
             supplierAddress: _supplierAddress,
             signature: _signature,
             timestamp: block.timestamp
@@ -129,6 +140,8 @@ contract AidTrace {
     
     function recordFieldOfficerConfirmation(
         uint256 _projectId,
+        string memory _projectTitle,
+        string memory _projectLocation,
         address _officerAddress,
         string memory _signature
     ) public {
@@ -136,6 +149,8 @@ contract AidTrace {
         
         fieldOfficerConfirmations[confirmationHash] = FieldOfficerConfirmation({
             projectId: _projectId,
+            projectTitle: _projectTitle,
+            projectLocation: _projectLocation,
             officerAddress: _officerAddress,
             signature: _signature,
             timestamp: block.timestamp

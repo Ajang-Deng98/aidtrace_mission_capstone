@@ -111,7 +111,7 @@ class BlockchainService:
         receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
         return receipt.transactionHash.hex()
     
-    def create_project(self, project_id, title, description, location, items):
+    def create_project(self, project_id, title, description, location, items, funding_goal=0):
         if not self.contract or not self.is_connected:
             raise Exception("Blockchain not available")
         
@@ -124,7 +124,8 @@ class BlockchainService:
                 title,
                 description,
                 location,
-                json.dumps(items)
+                json.dumps(items),
+                int(float(funding_goal))
             ).build_transaction({})
             tx_hash = self.send_transaction(transaction)
         else:
@@ -134,7 +135,8 @@ class BlockchainService:
                 title,
                 description,
                 location,
-                json.dumps(items)
+                json.dumps(items),
+                int(float(funding_goal))
             ).transact({'from': account})
         
         receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
@@ -180,15 +182,13 @@ class BlockchainService:
         receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
         return receipt.transactionHash.hex()
     
-    def record_supplier_confirmation(self, project_id, supplier_address, signature):
+    def record_supplier_confirmation(self, project_id, project_title, delivery_location, supplier_address, signature):
         if not self.contract or not self.is_connected:
             raise Exception("Blockchain not available")
         
-        # Handle empty or invalid supplier address
         if not supplier_address or supplier_address == '' or len(supplier_address) < 42:
             supplier_address = self.get_account()
         
-        # Ensure address is valid
         try:
             supplier_address = Web3.to_checksum_address(supplier_address.lower())
         except Exception as e:
@@ -197,17 +197,19 @@ class BlockchainService:
         account = self.get_account()
         
         if hasattr(settings, 'BLOCKCHAIN_PRIVATE_KEY') and settings.BLOCKCHAIN_PRIVATE_KEY:
-            # Sepolia - use signed transaction
             transaction = self.contract.functions.recordSupplierConfirmation(
                 int(project_id),
+                project_title,
+                delivery_location,
                 supplier_address,
                 signature
             ).build_transaction({})
             tx_hash = self.send_transaction(transaction)
         else:
-            # Local Ganache - use transact
             tx_hash = self.contract.functions.recordSupplierConfirmation(
                 int(project_id),
+                project_title,
+                delivery_location,
                 supplier_address,
                 signature
             ).transact({'from': account})
@@ -215,15 +217,13 @@ class BlockchainService:
         receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
         return receipt.transactionHash.hex()
     
-    def record_field_officer_confirmation(self, project_id, officer_address, signature):
+    def record_field_officer_confirmation(self, project_id, project_title, project_location, officer_address, signature):
         if not self.contract or not self.is_connected:
             raise Exception("Blockchain not available")
         
-        # Handle empty or invalid officer address
         if not officer_address or officer_address == '' or len(officer_address) < 42:
             officer_address = self.get_account()
         
-        # Ensure address is valid
         try:
             officer_address = Web3.to_checksum_address(officer_address.lower())
         except Exception as e:
@@ -232,17 +232,19 @@ class BlockchainService:
         account = self.get_account()
         
         if hasattr(settings, 'BLOCKCHAIN_PRIVATE_KEY') and settings.BLOCKCHAIN_PRIVATE_KEY:
-            # Sepolia - use signed transaction
             transaction = self.contract.functions.recordFieldOfficerConfirmation(
                 int(project_id),
+                project_title,
+                project_location,
                 officer_address,
                 signature
             ).build_transaction({})
             tx_hash = self.send_transaction(transaction)
         else:
-            # Local Ganache - use transact
             tx_hash = self.contract.functions.recordFieldOfficerConfirmation(
                 int(project_id),
+                project_title,
+                project_location,
                 officer_address,
                 signature
             ).transact({'from': account})

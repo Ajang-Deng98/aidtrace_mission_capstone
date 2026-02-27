@@ -126,7 +126,8 @@ def create_project(request):
             project.title,
             project.description,
             project.location,
-            project.required_items
+            project.required_items,
+            project.budget_amount
         )
         project.blockchain_tx = tx_hash
     except Exception as e:
@@ -473,10 +474,11 @@ def confirm_supplier_assignment(request):
     
     # Record on blockchain
     try:
-        # Use supplier wallet address if available, otherwise use a default address
         supplier_address = supplier.wallet_address if supplier.wallet_address else blockchain_service.get_account()
         tx_hash = blockchain_service.record_supplier_confirmation(
             assignment.project.id,
+            assignment.project.title,
+            assignment.delivery_location,
             supplier_address,
             assignment.signature
         )
@@ -546,10 +548,11 @@ def confirm_field_officer_assignment(request):
     
     # Record on blockchain
     try:
-        # Use field officer wallet address if available, otherwise use a default address
         officer_address = officer.wallet_address if officer.wallet_address else blockchain_service.get_account()
         tx_hash = blockchain_service.record_field_officer_confirmation(
             assignment.project.id,
+            assignment.project.title,
+            assignment.project.location,
             officer_address,
             assignment.signature
         )

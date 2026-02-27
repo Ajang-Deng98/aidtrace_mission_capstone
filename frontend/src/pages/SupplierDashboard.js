@@ -759,7 +759,7 @@ export default SupplierDashboard;
 function PublicReports({ language }) {
   const [reports, setReports] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-  const t = translations[language];
+  const t = translations[language] || translations['en'];
 
   React.useEffect(() => {
     loadReports();
