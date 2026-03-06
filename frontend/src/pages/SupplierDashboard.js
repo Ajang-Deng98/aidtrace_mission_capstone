@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { supplierAPI } from '../services/api';
 import { translations } from '../translations';
+import { useNotification } from '../components/NotificationProvider';
+import SearchBar from '../components/SearchBar';
+import LoadingButton from '../components/LoadingButton';
 
 function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
   const t = translations[language] || translations['en'];
@@ -9,6 +12,38 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
   const user = JSON.parse(localStorage.getItem('user'));
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const [allSearchData, setAllSearchData] = useState([]);
+
+  useEffect(() => {
+    loadSearchData();
+  }, []);
+
+  const loadSearchData = async () => {
+    try {
+      const searchData = [];
+      
+      // Load quote requests
+      try {
+        const quotesRes = await supplierAPI.getQuoteRequests();
+        quotesRes.data.forEach(request => {
+          searchData.push({
+            type: 'Quote Request',
+            title: request.project_title,
+            description: `NGO: ${request.ngo_name}`,
+            location: request.project_location,
+            status: request.status,
+            onClick: () => navigate(`/supplier/quotes/${request.id}`)
+          });
+        });
+      } catch (err) {
+        console.error('Error loading quote requests for search:', err);
+      }
+      
+      setAllSearchData(searchData);
+    } catch (err) {
+      console.error('Error loading search data:', err);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -27,9 +62,8 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
         height: '100vh',
         zIndex: 1000
       }}>
-        <div style={{padding: '12px 20px', borderBottom: '1px solid #0d8bbf', background: '#1CABE2'}}>
-          <h1 style={{margin: 0, fontSize: '22px', fontWeight: '600', color: '#ffffff'}}>AidTrace</h1>
-          <p style={{margin: '2px 0 0 0', fontSize: '13px', color: '#ffffff', opacity: 0.9}}>Supplier Portal</p>
+        <div style={{padding: '16px 20px', borderBottom: '1px solid #1E3A8A', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '50px', width: 'auto'}} />
         </div>
 
         <div style={{padding: '12px 16px', borderBottom: '1px solid #e0e0e0'}}>
@@ -39,46 +73,76 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
 
         <nav style={{flex: 1, padding: '8px 0'}}>
           <Link to="/supplier" onClick={() => setActiveTab('overview')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'overview' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'overview' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'overview' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'overview' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'overview' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'overview' ? '600' : '400', fontSize: '14px'
-          }}>{t.dashboard}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+            </svg>
+            {t.dashboard}
+          </Link>
 
-          <Link to="/supplier/assignments" onClick={() => setActiveTab('assignments')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'assignments' ? '#1CABE2' : '#666',
-            textDecoration: 'none', background: activeTab === 'assignments' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'assignments' ? '3px solid #1CABE2' : '3px solid transparent',
-            fontWeight: activeTab === 'assignments' ? '600' : '400', fontSize: '14px'
-          }}>{t.myAssignments}</Link>
+          <Link to="/supplier/quotes" onClick={() => setActiveTab('quotes')} style={{
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'quotes' ? '#1E3A8A' : '#666',
+            textDecoration: 'none', background: activeTab === 'quotes' ? '#f5f5f5' : 'transparent',
+            borderLeft: activeTab === 'quotes' ? '3px solid #1E3A8A' : '3px solid transparent',
+            fontWeight: activeTab === 'quotes' ? '600' : '400', fontSize: '14px'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zM5 4v3H3v12h18V7h-2V4H5zm12 1v2H7V5h10z"/>
+            </svg>
+            Quote Opportunities
+          </Link>
 
           <Link to="/supplier/history" onClick={() => setActiveTab('history')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'history' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'history' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'history' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'history' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'history' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'history' ? '600' : '400', fontSize: '14px'
-          }}>Delivery History</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+            </svg>
+            Delivery History
+          </Link>
 
           <Link to="/supplier/analytics" onClick={() => setActiveTab('analytics')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'analytics' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'analytics' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'analytics' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'analytics' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'analytics' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'analytics' ? '600' : '400', fontSize: '14px'
-          }}>Analytics</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+            </svg>
+            Analytics
+          </Link>
 
           <Link to="/supplier/profile" onClick={() => setActiveTab('profile')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'profile' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'profile' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'profile' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
-          }}>{t.profileSettings}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            {t.profileSettings}
+          </Link>
 
           <Link to="/supplier/reports" onClick={() => setActiveTab('reports')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'reports' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'reports' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'reports' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
-          }}>{t.viewReports}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+            </svg>
+            {t.viewReports}
+          </Link>
         </nav>
 
         <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
@@ -86,7 +150,7 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
             width: '100%', padding: '10px', background: '#ffffff', border: '1px solid #e0e0e0',
             borderRadius: '4px', color: '#666', fontSize: '14px', fontWeight: '500', cursor: 'pointer'
           }}
-          onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1CABE2';}}
+          onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1E3A8A';}}
           onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0';}}>
             Logout
           </button>
@@ -94,15 +158,15 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
       </div>
 
       <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
-        <div style={{background: '#1CABE2', padding: '12px 20px', borderBottom: '1px solid #0d8bbf', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <div style={{background: '#1E3A8A', padding: '12px 20px', borderBottom: '1px solid #1E3A8A', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div>
             <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>{t.supplier} {t.dashboard}</h1>
-            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageAssignments}</p>
+            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>Submit competitive quotes for NGO projects</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
-            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
             <div style={{position: 'relative'}}>
-              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
                 <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                   <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
@@ -116,10 +180,15 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
         </div>
 
         <div style={{flex: 1, padding: '20px', overflowY: 'auto', background: '#ffffff'}}>
+          <SearchBar 
+            searchData={allSearchData}
+            placeholder="Search quote requests, opportunities..."
+          />
+          
           <Routes>
             <Route path="/" element={<Overview />} />
-            <Route path="/assignments" element={<Assignments />} />
-            <Route path="/assignment/:id" element={<AssignmentDetails />} />
+            <Route path="/quotes" element={<SupplierQuoteManagement />} />
+            <Route path="/quotes/:id" element={<SupplierQuoteDetails />} />
             <Route path="/history" element={<DeliveryHistory />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/profile" element={<ProfileSettings />} />
@@ -132,359 +201,116 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
 }
 
 function Overview() {
-  const [assignments, setAssignments] = useState([]);
+  const [quotes, setQuotes] = useState([]);
+  const [quoteRequests, setQuoteRequests] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadAssignments();
+    loadData();
   }, []);
 
-  const loadAssignments = async () => {
+  const loadData = async () => {
     try {
-      const response = await supplierAPI.getAssignments();
-      setAssignments(response.data);
+      const [quotesRes, requestsRes] = await Promise.all([
+        supplierAPI.getMyQuotes(),
+        supplierAPI.getQuoteRequests()
+      ]);
+      setQuotes(quotesRes.data || []);
+      setQuoteRequests(requestsRes.data || []);
       setLoading(false);
     } catch (err) {
       setLoading(false);
     }
   };
 
-  if (loading) return <div><h2>Dashboard</h2><div className="card"><p>Loading...</p></div></div>;
+  if (loading) return <div style={{padding: '20px'}}><p style={{color: '#666'}}>Loading...</p></div>;
 
-  const totalAssignments = assignments.length;
-  const pendingCount = assignments.filter(a => !a.confirmed).length;
-  const confirmedCount = assignments.filter(a => a.confirmed).length;
-  const onTimeRate = confirmedCount > 0 ? Math.round((confirmedCount / totalAssignments) * 100) : 0;
+  const totalQuotes = quotes.length;
+  const selectedQuotes = quotes.filter(q => q.is_selected).length;
+  const pendingQuotes = quotes.filter(q => !q.is_selected).length;
+  const successRate = totalQuotes > 0 ? Math.round((selectedQuotes / totalQuotes) * 100) : 0;
 
   return (
     <div>
-      <h2>Dashboard Overview</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>Quick insights into your delivery performance</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Dashboard Overview</h2>
+        <p style={{fontSize: '14px', color: '#666', margin: 0}}>Quick insights into your quote performance</p>
+      </div>
 
-      <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '15px', marginBottom: '30px'}}>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>TOTAL ASSIGNMENTS</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{totalAssignments}</h3>
+      <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Available Opportunities</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{quoteRequests.length}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>PENDING</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{pendingCount}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Quotes Submitted</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{totalQuotes}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>CONFIRMED</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{confirmedCount}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Quotes Selected</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{selectedQuotes}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>SUCCESS RATE</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#1CABE2', fontWeight: '700'}}>{onTimeRate}%</h3>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{successRate}%</h3>
         </div>
       </div>
 
-      <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '15px'}}>
-        <div className="card">
-          <h3 style={{margin: '0 0 15px 0', fontSize: '18px'}}>Recent Activity</h3>
-          {assignments.slice(0, 5).map((a, idx) => (
-            <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', marginBottom: '10px', borderLeft: '3px solid #1CABE2'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>{a.project_title}</p>
-              <p style={{margin: 0, fontSize: '12px', color: '#666'}}>{a.confirmed ? 'Confirmed' : 'Pending'} • {new Date(a.created_at).toLocaleDateString()}</p>
+      <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px'}}>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Recent Quote Activity</h3>
+          {quotes.slice(0, 5).map((q, idx) => (
+            <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', marginBottom: '10px', borderLeft: '3px solid #1E3A8A'}}>
+              <p style={{margin: '0 0 4px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>{q.project_title}</p>
+              <p style={{margin: 0, fontSize: '12px', color: '#666'}}>${parseFloat(q.quoted_amount).toLocaleString()} • {q.is_selected ? 'Selected' : 'Pending'} • {new Date(q.created_at).toLocaleDateString()}</p>
             </div>
           ))}
+          {quotes.length === 0 && (
+            <p style={{color: '#666', textAlign: 'center', padding: '20px'}}>No quotes submitted yet. Browse opportunities to get started!</p>
+          )}
         </div>
-        <div className="card">
-          <h3 style={{margin: '0 0 15px 0', fontSize: '18px'}}>Quick Stats</h3>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Quick Stats</h3>
           <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
             <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Avg Response Time</p>
-              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>2.5 days</p>
-            </div>
-            <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Total Items Delivered</p>
-              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>{confirmedCount * 3}</p>
+              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Avg Quote Amount</p>
+              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>
+                ${totalQuotes > 0 ? Math.round(quotes.reduce((sum, q) => sum + parseFloat(q.quoted_amount), 0) / totalQuotes).toLocaleString() : '0'}
+              </p>
             </div>
             <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
               <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Active NGOs</p>
-              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>{new Set(assignments.map(a => a.ngo_name)).size}</p>
+              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>{new Set(quotes.map(q => q.ngo_name)).size}</p>
+            </div>
+            <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
+              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>This Month</p>
+              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>{quotes.filter(q => new Date(q.created_at).getMonth() === new Date().getMonth()).length} quotes</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Assignments() {
-  const [assignments, setAssignments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    loadAssignments();
-  }, []);
-
-  const loadAssignments = async () => {
-    try {
-      const response = await supplierAPI.getAssignments();
-      setAssignments(response.data);
-      setLoading(false);
-    } catch (err) {
-      console.error('Error loading assignments:', err);
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return <div><h2>My Assignments</h2><div className="card"><p>Loading...</p></div></div>;
-  }
-
-  const pendingAssignments = assignments.filter(a => !a.confirmed);
-  const confirmedAssignments = assignments.filter(a => a.confirmed);
-
-  return (
-    <div>
-      <h2>My Assignments</h2>
-      <p style={{color: '#666', marginBottom: '15px'}}>Review and confirm item assignments from NGOs</p>
-
-      {pendingAssignments.length > 0 && (
-        <>
-          <h3 style={{fontSize: '16px', marginBottom: '10px', color: '#000'}}>Pending Confirmation</h3>
-          <div className="grid" style={{marginBottom: '20px'}}>
-            {pendingAssignments.map(assignment => (
-              <div key={assignment.id} className="card" style={{border: '1px solid #e0e0e0'}}>
-                <div style={{marginBottom: '10px'}}>
-                  <h3 style={{color: '#000', margin: '0 0 6px 0', fontSize: '16px'}}>{assignment.project_title}</h3>
-                  <span className="badge" style={{background: '#f5f5f5', color: '#666', border: '1px solid #e0e0e0'}}>Pending Confirmation</span>
-                </div>
-
-                <div style={{background: '#ffffff', padding: '10px', borderRadius: '3px', marginBottom: '10px', fontSize: '13px'}}>
-                  <p style={{margin: '0 0 4px 0'}}><strong>NGO:</strong> <span style={{color: '#666'}}>{assignment.ngo_name}</span></p>
-                  <p style={{margin: '0 0 4px 0'}}><strong>Location:</strong> <span style={{color: '#666'}}>{assignment.project_location}</span></p>
-                  <p style={{margin: '0 0 4px 0'}}><strong>Assigned:</strong> <span style={{color: '#666'}}>{new Date(assignment.created_at).toLocaleDateString()}</span></p>
-                  <p style={{margin: '0'}}><strong>Items:</strong> <span style={{color: '#666'}}>{assignment.items.length} items</span></p>
-                </div>
-
-                <button onClick={() => navigate(`/supplier/assignment/${assignment.id}`)} className="btn"
-                  style={{width: '100%', padding: '8px', fontSize: '14px'}}>View Assignment Details</button>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {confirmedAssignments.length > 0 && (
-        <>
-          <h3 style={{fontSize: '16px', marginBottom: '10px', color: '#000'}}>Confirmed Assignments</h3>
-          <div className="grid">
-            {confirmedAssignments.map(assignment => (
-              <div key={assignment.id} className="card" style={{border: '1px solid #e0e0e0'}}>
-                <div style={{marginBottom: '10px'}}>
-                  <h3 style={{color: '#000', margin: '0 0 6px 0', fontSize: '16px'}}>{assignment.project_title}</h3>
-                  <span className="badge badge-success">Confirmed</span>
-                </div>
-
-                <div style={{background: '#fafafa', padding: '10px', borderRadius: '3px', marginBottom: '10px', fontSize: '13px'}}>
-                  <p style={{margin: '0 0 4px 0'}}><strong>NGO:</strong> <span style={{color: '#666'}}>{assignment.ngo_name}</span></p>
-                  <p style={{margin: '0 0 4px 0'}}><strong>Location:</strong> <span style={{color: '#666'}}>{assignment.project_location}</span></p>
-                  <p style={{margin: '0 0 4px 0'}}><strong>Items:</strong> <span style={{color: '#666'}}>{assignment.items.length} items</span></p>
-                  <p style={{margin: '0'}}><strong>Confirmed:</strong> <span style={{color: '#666'}}>{new Date(assignment.updated_at).toLocaleDateString()}</span></p>
-                </div>
-
-                <button onClick={() => navigate(`/supplier/assignment/${assignment.id}`)} className="btn"
-                  style={{width: '100%', padding: '8px', fontSize: '14px', background: '#666'}}>View Details</button>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {assignments.length === 0 && (
-        <div className="card">
-          <h3>No Assignments Yet</h3>
-          <p>You don't have any item assignments yet. NGOs will assign items to you for project delivery.</p>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function AssignmentDetails() {
-  const [assignment, setAssignment] = useState(null);
-  const [signature, setSignature] = useState('');
-  const [loading, setLoading] = useState(true);
-  const assignmentId = window.location.pathname.split('/').pop();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    loadAssignment();
-  }, []);
-
-  const loadAssignment = async () => {
-    try {
-      const response = await supplierAPI.getAssignments();
-      const found = response.data.find(a => a.id === parseInt(assignmentId));
-      setAssignment(found);
-      setLoading(false);
-    } catch (err) {
-      console.error('Error loading assignment:', err);
-      setLoading(false);
-    }
-  };
-
-  const handleConfirm = async () => {
-    if (!signature) {
-      alert('Please enter your digital signature');
-      return;
-    }
-    try {
-      await supplierAPI.confirmAssignment({
-        assignment_id: assignment.id,
-        signature: signature
-      });
-      alert('Assignment confirmed successfully and recorded on blockchain');
-      navigate('/supplier');
-    } catch (err) {
-      alert('Failed to confirm assignment: ' + (err.response?.data?.error || err.message));
-    }
-  };
-
-  if (loading) {
-    return <div><h2>Assignment Details</h2><div className="card"><p>Loading...</p></div></div>;
-  }
-
-  if (!assignment) {
-    return <div><h2>Assignment Details</h2><div className="card"><p>Assignment not found.</p></div></div>;
-  }
-
-  const southSudanStates = [
-    'Central Equatoria', 'Eastern Equatoria', 'Western Equatoria',
-    'Jonglei', 'Unity', 'Upper Nile', 'Warrap', 'Northern Bahr el Ghazal',
-    'Western Bahr el Ghazal', 'Lakes'
-  ];
-
-  return (
-    <div>
-      <h2>Assignment Details</h2>
-      <p style={{color: '#666', marginBottom: '15px'}}>Review assignment details and confirm receipt</p>
-
-      <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '15px', marginBottom: '15px'}}>
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{color: '#000', margin: '0 0 10px 0', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0', fontSize: '18px'}}>
-            {assignment.project_title}
-          </h3>
-
-          <div style={{marginBottom: '15px'}}>
-            <p style={{margin: '0 0 3px 0', fontSize: '12px', color: '#999', fontWeight: '600'}}>PROJECT DESCRIPTION</p>
-            <p style={{margin: '0 0 15px 0', color: '#333', lineHeight: '1.5', fontSize: '14px'}}>{assignment.project_description}</p>
-          </div>
-
-          <div style={{background: '#fafafa', padding: '12px', borderRadius: '3px', fontSize: '13px', marginBottom: '15px'}}>
-            <p style={{margin: '0 0 6px 0'}}><strong>NGO:</strong> <span style={{color: '#666'}}>{assignment.ngo_name}</span></p>
-            <p style={{margin: '0 0 6px 0'}}><strong>Location:</strong> <span style={{color: '#666'}}>{assignment.project_location}</span></p>
-            <p style={{margin: '0'}}><strong>Assigned Date:</strong> <span style={{color: '#666'}}>{new Date(assignment.created_at).toLocaleDateString()}</span></p>
-          </div>
-
-          <div style={{marginBottom: '15px'}}>
-            <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#999', fontWeight: '600'}}>REQUIRED ITEMS</p>
-            <div style={{background: '#fafafa', padding: '12px', borderRadius: '3px'}}>
-              <table style={{width: '100%', fontSize: '13px'}}>
-                <thead>
-                  <tr style={{borderBottom: '1px solid #e0e0e0'}}>
-                    <th style={{textAlign: 'left', padding: '6px 0', fontWeight: '600'}}>Item Name</th>
-                    <th style={{textAlign: 'left', padding: '6px 0', fontWeight: '600'}}>Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {assignment.items.map((item, idx) => (
-                    <tr key={idx} style={{borderBottom: idx < assignment.items.length - 1 ? '1px solid #f0f0f0' : 'none'}}>
-                      <td style={{padding: '6px 0', color: '#333'}}>{item}</td>
-                      <td style={{padding: '6px 0', color: '#666'}}>As required</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {assignment.confirmed ? (
-            <div style={{background: '#f0fdf4', padding: '12px', borderRadius: '3px', border: '1px solid #d4edda'}}>
-              <p style={{margin: '0 0 8px 0', fontSize: '14px', fontWeight: '600', color: '#28a745'}}>Assignment Confirmed</p>
-              <div style={{fontSize: '13px'}}>
-                <p style={{margin: '0 0 6px 0'}}><strong>Your Signature:</strong></p>
-                <code style={{background: '#ffffff', padding: '6px 10px', borderRadius: '3px', display: 'block', marginBottom: '8px', fontSize: '13px'}}>{assignment.signature}</code>
-                <p style={{margin: '0 0 3px 0'}}><strong>Blockchain Transaction:</strong></p>
-                <code style={{background: '#ffffff', padding: '6px 10px', borderRadius: '3px', display: 'block', fontSize: '11px', wordBreak: 'break-all'}}>{assignment.blockchain_tx}</code>
-                <p style={{margin: '8px 0 0 0', fontSize: '12px', color: '#666'}}>This confirmation is permanently recorded on the blockchain.</p>
-              </div>
-            </div>
-          ) : (
-            <div style={{background: '#fafafa', padding: '12px', borderRadius: '3px', border: '1px solid #e0e0e0'}}>
-              <p style={{margin: '0 0 12px 0', fontSize: '14px', color: '#333', lineHeight: '1.5'}}>
-                I confirm that I have received and accepted responsibility for the listed items for this project.
-              </p>
-              <div className="form-group" style={{marginBottom: '12px'}}>
-                <label style={{fontSize: '13px', fontWeight: '600'}}>Your Digital Signature</label>
-                <input type="text" value={signature}
-                  onChange={(e) => setSignature(e.target.value)}
-                  placeholder="Enter your signature"
-                  style={{fontSize: '13px'}} />
-                <small style={{color: '#999', fontSize: '11px'}}>This signature will be recorded on the blockchain</small>
-              </div>
-              <button onClick={handleConfirm} className="btn" style={{padding: '8px 16px', fontSize: '14px'}}>Confirm Receipt</button>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <div className="card" style={{border: '1px solid #e0e0e0', marginBottom: '15px'}}>
-            <h3 style={{color: '#000', margin: '0 0 10px 0', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0', fontSize: '16px'}}>Delivery Location</h3>
-            <div style={{background: '#fafafa', padding: '12px', borderRadius: '3px', marginBottom: '10px'}}>
-              <p style={{margin: '0 0 6px 0', fontSize: '13px'}}><strong>State:</strong> <span style={{color: '#666'}}>{assignment.project_location}</span></p>
-              <p style={{margin: '0', fontSize: '13px'}}><strong>Country:</strong> <span style={{color: '#666'}}>South Sudan</span></p>
-            </div>
-            <div style={{background: '#f0f9ff', padding: '10px', borderRadius: '3px', border: '1px solid #1CABE2'}}>
-              <p style={{margin: '0', fontSize: '12px', color: '#666', lineHeight: '1.5'}}>Ensure items are delivered to the specified location for field officer handover.</p>
-            </div>
-          </div>
-
-          <div className="card" style={{border: '1px solid #e0e0e0'}}>
-            <h3 style={{color: '#000', margin: '0 0 10px 0', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0', fontSize: '16px'}}>South Sudan Map</h3>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4064726.8668937!2d28.36328!3d7.8626845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1708d79c5e1c1c1d%3A0x3e1c1c1c1c1c1c1c!2sSouth%20Sudan!5e0!3m2!1sen!2s!4v1234567890"
-              width="100%"
-              height="250"
-              style={{border: '1px solid #e0e0e0', borderRadius: '4px'}}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="South Sudan Map"
-            />
-            <div style={{marginTop: '10px', background: '#fafafa', padding: '8px', borderRadius: '3px'}}>
-              <p style={{margin: 0, fontSize: '11px', color: '#666', textAlign: 'center'}}>Delivery Location: <strong>{assignment.project_location}</strong></p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <button onClick={() => navigate('/supplier')} className="btn" 
-        style={{background: '#666', padding: '8px 16px', fontSize: '14px'}}>Back to Assignments</button>
     </div>
   );
 }
 
 function DeliveryHistory() {
-  const [assignments, setAssignments] = useState([]);
+  const [deliveries, setDeliveries] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadAssignments();
+    loadDeliveries();
   }, []);
 
-  const loadAssignments = async () => {
+  const loadDeliveries = async () => {
     try {
-      const response = await supplierAPI.getAssignments();
-      setAssignments(response.data.filter(a => a.confirmed));
+      // Get all my quotes that were selected
+      const quotesResponse = await supplierAPI.getMyQuotes();
+      const selectedQuotes = quotesResponse.data.filter(q => q.is_selected && q.delivery_confirmed);
+      setDeliveries(selectedQuotes);
       setLoading(false);
     } catch (err) {
+      console.error('Error loading deliveries:', err);
       setLoading(false);
     }
   };
@@ -493,35 +319,51 @@ function DeliveryHistory() {
 
   return (
     <div>
-      <h2>Delivery History</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>Complete record of all confirmed deliveries</p>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Delivery History</h2>
+      <p style={{color: '#666', marginBottom: '20px', fontSize: '14px'}}>Complete record of all confirmed deliveries</p>
 
-      {assignments.length === 0 ? (
-        <div className="card"><p>No delivery history yet.</p></div>
+      {deliveries.length === 0 ? (
+        <div className="card" style={{textAlign: 'center', padding: '48px 20px', border: '1px solid #e0e0e0'}}>
+          <div style={{fontSize: '48px', marginBottom: '16px'}}>📦</div>
+          <h3 style={{fontSize: '18px', color: '#000', margin: '0 0 8px 0'}}>No delivery history yet</h3>
+          <p style={{fontSize: '14px', color: '#666', margin: 0}}>Your confirmed deliveries will appear here</p>
+        </div>
       ) : (
-        <div className="card">
-          <table className="table">
+        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
+          <table className="table" style={{border: 'none'}}>
             <thead>
               <tr>
-                <th>Project</th>
-                <th>NGO</th>
-                <th>Location</th>
-                <th>Items</th>
-                <th>Confirmed Date</th>
-                <th>Blockchain TX</th>
-                <th>Action</th>
+                <th style={{padding: '12px 16px', fontSize: '13px'}}>Project</th>
+                <th style={{padding: '12px 16px', fontSize: '13px'}}>NGO</th>
+                <th style={{padding: '12px 16px', fontSize: '13px'}}>Amount</th>
+                <th style={{padding: '12px 16px', fontSize: '13px'}}>Delivered Date</th>
+                <th style={{padding: '12px 16px', fontSize: '13px'}}>Status</th>
+                <th style={{padding: '12px 16px', fontSize: '13px'}}>Blockchain</th>
               </tr>
             </thead>
             <tbody>
-              {assignments.map(a => (
-                <tr key={a.id}>
-                  <td style={{fontWeight: '600'}}>{a.project_title}</td>
-                  <td>{a.ngo_name}</td>
-                  <td>{a.project_location}</td>
-                  <td>{a.items.length} items</td>
-                  <td>{new Date(a.updated_at).toLocaleDateString()}</td>
-                  <td><code style={{fontSize: '11px'}}>{a.blockchain_tx ? a.blockchain_tx.substring(0, 10) + '...' : 'N/A'}</code></td>
-                  <td><button onClick={() => navigate(`/supplier/assignment/${a.id}`)} className="btn" style={{padding: '6px 12px', fontSize: '13px', background: '#666'}}>View</button></td>
+              {deliveries.map(delivery => (
+                <tr key={delivery.id} style={{cursor: 'pointer', transition: 'background 0.2s ease'}} 
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'} 
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+                  <td style={{padding: '12px 16px', fontWeight: '600', fontSize: '14px', color: '#000'}}>{delivery.project_title}</td>
+                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#666'}}>{delivery.ngo_name}</td>
+                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(delivery.quoted_amount).toLocaleString()}</td>
+                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#666'}}>{new Date(delivery.created_at).toLocaleDateString()}</td>
+                  <td style={{padding: '12px 16px'}}>
+                    <span style={{padding: '4px 10px', background: '#22C55E', color: '#fff', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>
+                      ✓ Delivered
+                    </span>
+                  </td>
+                  <td style={{padding: '12px 16px'}}>
+                    {delivery.delivery_blockchain_tx ? (
+                      <code style={{fontSize: '11px', background: '#f0f0f0', padding: '4px 6px', borderRadius: '3px', color: '#666'}}>
+                        {delivery.delivery_blockchain_tx.substring(0, 10)}...
+                      </code>
+                    ) : (
+                      <span style={{fontSize: '11px', color: '#999'}}>N/A</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -533,105 +375,137 @@ function DeliveryHistory() {
 }
 
 function Analytics() {
-  const [assignments, setAssignments] = useState([]);
+  const [quotes, setQuotes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadAssignments();
+    loadAnalytics();
   }, []);
 
-  const loadAssignments = async () => {
+  const loadAnalytics = async () => {
     try {
-      const response = await supplierAPI.getAssignments();
-      setAssignments(response.data);
+      const quotesResponse = await supplierAPI.getMyQuotes();
+      setQuotes(quotesResponse.data || []);
       setLoading(false);
     } catch (err) {
+      console.error('Error loading analytics:', err);
       setLoading(false);
     }
   };
 
   if (loading) return <div><h2>Analytics</h2><div className="card"><p>Loading...</p></div></div>;
 
-  const totalAssignments = assignments.length;
-  const confirmedCount = assignments.filter(a => a.confirmed).length;
-  const pendingCount = assignments.filter(a => !a.confirmed).length;
-  const successRate = totalAssignments > 0 ? Math.round((confirmedCount / totalAssignments) * 100) : 0;
+  const totalQuotes = quotes.length;
+  const selectedQuotes = quotes.filter(q => q.is_selected).length;
+  const deliveredQuotes = quotes.filter(q => q.is_selected && q.delivery_confirmed).length;
+  const pendingQuotes = selectedQuotes - deliveredQuotes;
+  const successRate = totalQuotes > 0 ? Math.round((selectedQuotes / totalQuotes) * 100) : 0;
 
-  const locationData = assignments.reduce((acc, a) => {
-    const loc = a.project_location;
+  // Group by location
+  const locationData = quotes.reduce((acc, q) => {
+    const loc = q.project_location || 'Unknown';
     acc[loc] = (acc[loc] || 0) + 1;
     return acc;
   }, {});
 
-  const ngoData = assignments.reduce((acc, a) => {
-    const ngo = a.ngo_name;
+  // Group by NGO
+  const ngoData = quotes.reduce((acc, q) => {
+    const ngo = q.ngo_name || 'Unknown';
     acc[ngo] = (acc[ngo] || 0) + 1;
     return acc;
   }, {});
 
+  // Calculate average response time (days between quote request and quote submission)
+  const avgResponseTime = quotes.length > 0 
+    ? Math.round(quotes.reduce((sum, q) => {
+        const requestDate = new Date(q.quote_request_created_at || q.created_at);
+        const quoteDate = new Date(q.created_at);
+        const diffDays = Math.abs((quoteDate - requestDate) / (1000 * 60 * 60 * 24));
+        return sum + diffDays;
+      }, 0) / quotes.length)
+    : 0;
+
+  // Calculate total items from all quotes
+  const totalItems = quotes.reduce((sum, q) => {
+    if (q.items && Array.isArray(q.items)) {
+      return sum + q.items.reduce((itemSum, item) => itemSum + (item.quantity || 1), 0);
+    }
+    return sum;
+  }, 0);
+
   return (
     <div>
-      <h2>Analytics & Reports</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>Performance insights and delivery statistics</p>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Analytics & Reports</h2>
+      <p style={{color: '#666', marginBottom: '20px', fontSize: '14px'}}>Performance insights and delivery statistics</p>
 
-      <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '15px', marginBottom: '30px'}}>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px', textAlign: 'center'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Total Deliveries</p>
-          <h3 style={{margin: 0, fontSize: '36px', color: '#000', fontWeight: '700'}}>{totalAssignments}</h3>
+      <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Total Quotes</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{totalQuotes}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px', textAlign: 'center'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Completed</p>
-          <h3 style={{margin: 0, fontSize: '36px', color: '#000', fontWeight: '700'}}>{confirmedCount}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Selected</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{selectedQuotes}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px', textAlign: 'center'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Pending</p>
-          <h3 style={{margin: 0, fontSize: '36px', color: '#000', fontWeight: '700'}}>{pendingCount}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Delivered</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{deliveredQuotes}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px', textAlign: 'center'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Success Rate</p>
-          <h3 style={{margin: 0, fontSize: '36px', color: '#1CABE2', fontWeight: '700'}}>{successRate}%</h3>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{successRate}%</h3>
         </div>
       </div>
 
-      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '30px'}}>
-        <div className="card">
-          <h3 style={{margin: '0 0 15px 0', fontSize: '18px'}}>Deliveries by Location</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-            {Object.entries(locationData).map(([loc, count], idx) => (
-              <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#fafafa', borderRadius: '4px'}}>
-                <span style={{fontSize: '14px', color: '#000'}}>{loc}</span>
-                <span style={{fontSize: '14px', fontWeight: '700', color: '#1CABE2'}}>{count}</span>
-              </div>
-            ))}
-          </div>
+      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Quotes by Location</h3>
+          {Object.keys(locationData).length === 0 ? (
+            <p style={{color: '#666', textAlign: 'center', padding: '20px'}}>No location data available</p>
+          ) : (
+            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+              {Object.entries(locationData).map(([loc, count], idx) => (
+                <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#fafafa', borderRadius: '4px'}}>
+                  <span style={{fontSize: '14px', color: '#000'}}>{loc}</span>
+                  <span style={{fontSize: '14px', fontWeight: '700', color: '#1E3A8A'}}>{count}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        <div className="card">
-          <h3 style={{margin: '0 0 15px 0', fontSize: '18px'}}>Deliveries by NGO</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-            {Object.entries(ngoData).map(([ngo, count], idx) => (
-              <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#fafafa', borderRadius: '4px'}}>
-                <span style={{fontSize: '14px', color: '#000'}}>{ngo}</span>
-                <span style={{fontSize: '14px', fontWeight: '700', color: '#1CABE2'}}>{count}</span>
-              </div>
-            ))}
-          </div>
+        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Quotes by NGO</h3>
+          {Object.keys(ngoData).length === 0 ? (
+            <p style={{color: '#666', textAlign: 'center', padding: '20px'}}>No NGO data available</p>
+          ) : (
+            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+              {Object.entries(ngoData).map(([ngo, count], idx) => (
+                <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#fafafa', borderRadius: '4px'}}>
+                  <span style={{fontSize: '14px', color: '#000'}}>{ngo}</span>
+                  <span style={{fontSize: '14px', fontWeight: '700', color: '#1E3A8A'}}>{count}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="card">
-        <h3 style={{margin: '0 0 15px 0', fontSize: '18px'}}>Performance Metrics</h3>
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px'}}>
-          <div style={{padding: '15px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
+      <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+        <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Performance Metrics</h3>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px'}}>
+          <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
             <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Avg Response Time</p>
-            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>2.5 days</p>
+            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>{avgResponseTime} {avgResponseTime === 1 ? 'day' : 'days'}</p>
           </div>
-          <div style={{padding: '15px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
-            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>On-Time Delivery</p>
-            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>{successRate}%</p>
+          <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Delivery Rate</p>
+            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>
+              {selectedQuotes > 0 ? Math.round((deliveredQuotes / selectedQuotes) * 100) : 0}%
+            </p>
           </div>
-          <div style={{padding: '15px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
-            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Total Items</p>
-            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>{confirmedCount * 3}</p>
+          <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Total Items Quoted</p>
+            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>{totalItems}</p>
           </div>
         </div>
       </div>
@@ -653,12 +527,13 @@ function ProfileSettings() {
     monthlyReports: false
   });
   const [activities] = useState([]);
+  const { showSuccess } = useNotification();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedUser = { ...user, ...formData };
     localStorage.setItem('user', JSON.stringify(updatedUser));
-    alert('Profile updated successfully');
+    showSuccess('Profile updated successfully');
   };
 
   const handleNotificationChange = (key) => {
@@ -674,18 +549,18 @@ function ProfileSettings() {
         <div style={{display: 'flex', gap: '30px'}}>
           <button onClick={() => setActiveTab('profile')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'profile' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'profile' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'profile' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'profile' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>Profile Information</button>
           <button onClick={() => setActiveTab('preferences')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'preferences' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'preferences' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'preferences' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'preferences' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>Preferences</button>
           <button onClick={() => setActiveTab('activity')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'activity' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'activity' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'activity' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'activity' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>Activity Log</button>
         </div>
       </div>
@@ -756,9 +631,594 @@ function ProfileSettings() {
 
 export default SupplierDashboard;
 
+function SupplierQuoteManagement() {
+  const [quoteRequests, setQuoteRequests] = useState([]);
+  const [myQuotes, setMyQuotes] = useState([]);
+  const [activeTab, setActiveTab] = useState('available');
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadQuoteRequests();
+    loadMyQuotes();
+  }, []);
+
+  const loadQuoteRequests = async () => {
+    try {
+      const response = await supplierAPI.getQuoteRequests();
+      setQuoteRequests(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error loading quote requests:', err);
+      setLoading(false);
+    }
+  };
+
+  const loadMyQuotes = async () => {
+    try {
+      const response = await supplierAPI.getMyQuotes();
+      setMyQuotes(response.data || []);
+    } catch (err) {
+      console.error('Error loading my quotes:', err);
+    }
+  };
+
+  if (loading) return <div><h2>Quote Opportunities</h2><div className="card"><p>Loading...</p></div></div>;
+
+  return (
+    <div>
+      <h2>Quote Opportunities</h2>
+      <p style={{color: '#666', marginBottom: '20px'}}>Browse and submit quotes for NGO projects</p>
+
+      <div style={{borderBottom: '1px solid #e0e0e0', marginBottom: '20px'}}>
+        <div style={{display: 'flex', gap: '30px'}}>
+          <button onClick={() => setActiveTab('available')} style={{
+            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'available' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'available' ? '2px solid #1E3A8A' : '2px solid transparent'
+          }}>Available Requests ({quoteRequests.length})</button>
+          <button onClick={() => setActiveTab('submitted')} style={{
+            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'submitted' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'submitted' ? '2px solid #1E3A8A' : '2px solid transparent'
+          }}>My Quotes ({myQuotes.length})</button>
+        </div>
+      </div>
+
+      {activeTab === 'available' && (
+        <div>
+          {quoteRequests.length === 0 ? (
+            <div className="card" style={{textAlign: 'center', padding: '40px'}}>
+              <h3>No Quote Requests Available</h3>
+              <p style={{color: '#666'}}>Check back later for new opportunities from NGOs</p>
+            </div>
+          ) : (
+            <div className="grid">
+              {quoteRequests.map(request => (
+                <div key={request.id} className="card" style={{border: '1px solid #e0e0e0'}}>
+                  <div style={{marginBottom: '15px'}}>
+                    <h3 style={{color: '#1E3A8A', margin: '0 0 8px 0', fontSize: '18px'}}>{request.project_title}</h3>
+                    <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
+                      <span className={`badge ${request.status === 'OPEN' ? 'badge-success' : 'badge-warning'}`}>
+                        {request.status}
+                      </span>
+                      <span className="badge" style={{background: '#f0f0f0', color: '#666'}}>
+                        {request.ngo_name}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div style={{background: '#fafafa', padding: '12px', borderRadius: '4px', marginBottom: '15px', fontSize: '14px'}}>
+                    <p style={{margin: '4px 0', color: '#666'}}><strong>Location:</strong> {request.project_location}</p>
+                    <p style={{margin: '4px 0', color: '#666'}}><strong>Budget:</strong> ${parseFloat(request.proposed_budget || 0).toLocaleString()}</p>
+                    <p style={{margin: '4px 0', color: '#666'}}><strong>Delivery Date:</strong> {request.delivery_date}</p>
+                    <p style={{margin: '4px 0', color: '#666'}}><strong>Quotes:</strong> {request.quotes_count || 0} submitted</p>
+                    {request.blockchain_tx && (
+                      <p style={{margin: '4px 0', color: '#666'}}><strong>Blockchain TX:</strong> 
+                        <code style={{fontSize: '11px', marginLeft: '5px', background: '#f0f0f0', padding: '2px 4px', borderRadius: '2px'}}>
+                          {request.blockchain_tx}
+                        </code>
+                      </p>
+                    )}
+                  </div>
+                  
+                  <button onClick={() => navigate(`/supplier/quotes/${request.id}`)} className="btn" 
+                    style={{width: '100%', padding: '10px', fontSize: '14px'}}>
+                    {request.has_submitted_quote ? 'View My Quote' : 'Submit Quote'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === 'submitted' && (
+        <div>
+          {myQuotes.length === 0 ? (
+            <div className="card" style={{textAlign: 'center', padding: '40px'}}>
+              <h3>No Quotes Submitted</h3>
+              <p style={{color: '#666'}}>Submit your first quote to start bidding on projects</p>
+              <button onClick={() => setActiveTab('available')} className="btn">Browse Opportunities</button>
+            </div>
+          ) : (
+            <div className="grid">
+              {myQuotes.map(quote => (
+                <div key={quote.id} className="card" style={{border: '1px solid #e0e0e0'}}>
+                  <div style={{marginBottom: '15px'}}>
+                    <h3 style={{color: '#1E3A8A', margin: '0 0 8px 0', fontSize: '18px'}}>{quote.project_title}</h3>
+                    <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
+                      <span className="badge badge-info">${parseFloat(quote.quoted_amount).toLocaleString()}</span>
+                      <span className={`badge ${quote.is_selected ? 'badge-success' : 'badge-warning'}`}>
+                        {quote.is_selected ? 'Selected' : 'Pending'}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div style={{background: '#fafafa', padding: '12px', borderRadius: '4px', marginBottom: '15px', fontSize: '14px'}}>
+                    <p style={{margin: '4px 0', color: '#666'}}><strong>NGO:</strong> {quote.ngo_name}</p>
+                    <p style={{margin: '4px 0', color: '#666'}}><strong>Submitted:</strong> {new Date(quote.created_at).toLocaleDateString()}</p>
+                    <p style={{margin: '4px 0', color: '#666'}}><strong>Terms:</strong> {quote.delivery_terms.substring(0, 50)}...</p>
+                    {quote.blockchain_tx && (
+                      <div style={{marginTop: '8px', padding: '8px', background: '#f0f9ff', borderRadius: '3px', border: '1px solid #1E3A8A'}}>
+                        <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Hash:</p>
+                        <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#ffffff', padding: '4px 6px', borderRadius: '2px', border: '1px solid #e0e0e0', display: 'block'}}>
+                          {quote.blockchain_tx}
+                        </code>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <button onClick={() => navigate(`/supplier/quotes/${quote.quote_request_id}`)} className="btn" 
+                    style={{width: '100%', padding: '10px', fontSize: '14px'}}>View Details</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DeliveryConfirmationForm({ selectionId, onDeliveryConfirmed }) {
+  const [formData, setFormData] = useState({
+    delivery_signature: '',
+    delivery_notes: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
+  const { showSuccess, showError } = useNotification();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await supplierAPI.confirmDeliveryToFieldOfficer({
+        selection_id: selectionId,
+        ...formData
+      });
+      showSuccess('Delivery confirmed successfully - Awaiting field officer final confirmation');
+      setConfirmed(true);
+      if (onDeliveryConfirmed) onDeliveryConfirmed();
+    } catch (err) {
+      showError('Failed to confirm delivery');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (confirmed) {
+    return (
+      <div style={{background: '#f0f9ff', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+        <h4 style={{color: '#1E3A8A', marginBottom: '10px'}}>✓ Delivery Confirmed</h4>
+        <p style={{margin: 0, color: '#1E3A8A'}}>Items delivered to field officer. Awaiting field officer final confirmation for project completion.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #000000'}}>
+      <h4 style={{color: '#000000', marginBottom: '15px'}}>Confirm Delivery to Field Officer</h4>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Delivery Signature</label>
+          <input type="text" value={formData.delivery_signature}
+            onChange={(e) => setFormData({...formData, delivery_signature: e.target.value})}
+            placeholder="Enter your delivery confirmation signature" required />
+          <small style={{color: '#666'}}>This confirms you have delivered items to the field officer</small>
+        </div>
+        
+        <div className="form-group">
+          <label>Delivery Notes (Optional)</label>
+          <textarea value={formData.delivery_notes}
+            onChange={(e) => setFormData({...formData, delivery_notes: e.target.value})}
+            placeholder="Any additional notes about the delivery"
+            rows="3" />
+        </div>
+        
+        <LoadingButton type="submit" loading={loading} className="btn" 
+          style={{background: '#1E3A8A', padding: '10px 20px'}}>
+          Confirm Delivery
+        </LoadingButton>
+      </form>
+    </div>
+  );
+}
+
+function SupplierQuoteDetails() {
+  const [request, setRequest] = useState(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [myQuote, setMyQuote] = useState(null);
+  const [showQuoteForm, setShowQuoteForm] = useState(false);
+  const [deliveryConfirmed, setDeliveryConfirmed] = useState(false);
+  const [quoteData, setQuoteData] = useState({
+    quoted_amount: '',
+    delivery_terms: '',
+    supplier_signature: '',
+    delivery_timeline: '',
+    quality_certifications: '',
+    payment_terms: '',
+    warranty_period: '',
+    technical_specifications: '',
+    supplier_experience: '',
+    references: ''
+  });
+  const [loading, setLoading] = useState(true);
+  const [submitQuoteLoading, setSubmitQuoteLoading] = useState(false);
+  const { showSuccess, showError } = useNotification();
+  const { id: requestId } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadQuoteDetails();
+  }, []);
+
+  const loadQuoteDetails = async () => {
+    try {
+      const response = await supplierAPI.getQuoteRequestDetails(requestId);
+      setRequest(response.data);
+      setHasSubmitted(response.data?.has_submitted_quote || false);
+      
+      if (response.data?.has_submitted_quote) {
+        // Load my quote details
+        const quotesResponse = await supplierAPI.getMyQuotes();
+        const myQuoteData = quotesResponse.data.find(q => q.quote_request_id === parseInt(requestId));
+        setMyQuote(myQuoteData);
+        
+        // Check if delivery is already confirmed by checking if there's a delivery confirmation
+        if (myQuoteData?.is_selected && myQuoteData?.selection_id) {
+          setDeliveryConfirmed(myQuoteData?.delivery_confirmed || false);
+        }
+      }
+      
+      setLoading(false);
+    } catch (err) {
+      console.error('Error loading quote details:', err);
+      setLoading(false);
+    }
+  };
+
+  const handleDeliveryConfirmed = () => {
+    setDeliveryConfirmed(true);
+    loadQuoteDetails();
+  };
+
+  const handleSubmitQuote = async (e) => {
+    e.preventDefault();
+    setSubmitQuoteLoading(true);
+    try {
+      const response = await supplierAPI.submitQuote({
+        quote_request_id: request.id,
+        ...quoteData
+      });
+      showSuccess('Quote submitted successfully and recorded on blockchain');
+      setShowQuoteForm(false);
+      setHasSubmitted(true);
+      
+      // Set the quote data immediately from response
+      if (response.data && response.data.quote) {
+        setMyQuote({
+          ...response.data.quote,
+          project_title: request.project_title,
+          ngo_name: request.ngo_name,
+          delivery_terms: quoteData.delivery_terms,
+          signature: quoteData.supplier_signature,
+          is_selected: false,
+          delivery_confirmed: false
+        });
+      }
+      
+      // Also reload to ensure we have latest data
+      setTimeout(() => loadQuoteDetails(), 1000);
+    } catch (err) {
+      showError('Failed to submit quote');
+    } finally {
+      setSubmitQuoteLoading(false);
+    }
+  };
+
+  if (loading) return <div><h2>Quote Details</h2><div className="card"><p>Loading...</p></div></div>;
+  if (!request) return <div><h2>Quote Details</h2><div className="card"><p>Quote request not found.</p></div></div>;
+
+  return (
+    <div>
+      <div style={{marginBottom: '20px'}}>
+        <button onClick={() => navigate('/supplier/quotes')} className="btn" 
+          style={{background: '#666', marginBottom: '10px'}}>← Back to Quotes</button>
+        <h2>Quote Opportunity</h2>
+        <p style={{color: '#666', margin: 0}}>Review project details and submit your competitive quote</p>
+      </div>
+
+      <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', marginBottom: '20px'}}>
+        <div className="card">
+          <h3>{request.project_title}</h3>
+          
+          <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', marginBottom: '15px'}}>
+            <h4>Project Details</h4>
+            <p><strong>NGO:</strong> {request.ngo_name}</p>
+            <p><strong>Location:</strong> {request.project_location}</p>
+            <p><strong>Proposed Budget:</strong> ${parseFloat(request.proposed_budget || 0).toLocaleString()}</p>
+            <p><strong>Delivery Date:</strong> {request.delivery_date}</p>
+            {request.additional_requirements && (
+              <p><strong>Requirements:</strong> {request.additional_requirements}</p>
+            )}
+          </div>
+          
+          <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px'}}>
+            <h4>Required Items</h4>
+            {Array.isArray(request.items) ? (
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px'}}>
+                {request.items.map((item, idx) => (
+                  <div key={idx} style={{background: 'white', padding: '10px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
+                    <p style={{margin: '0 0 5px 0', fontWeight: '600'}}>{item.name}</p>
+                    <p style={{margin: 0, color: '#666', fontSize: '14px'}}>Qty: {item.quantity}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>{typeof request.items === 'string' ? request.items : JSON.stringify(request.items)}</p>
+            )}
+          </div>
+        </div>
+        
+        <div>
+          <div className="card" style={{marginBottom: '15px'}}>
+            <h4>Competition</h4>
+            <div style={{textAlign: 'center', padding: '20px'}}>
+              <div style={{fontSize: '32px', fontWeight: '700', color: '#1E3A8A', marginBottom: '5px'}}>
+                {request.quotes_count || 0}
+              </div>
+              <p style={{margin: 0, color: '#666', fontSize: '14px'}}>Quotes Submitted</p>
+            </div>
+          </div>
+          
+          <div className="card">
+            <h4>Status</h4>
+            <span className={`badge ${request.status === 'OPEN' ? 'badge-success' : 'badge-warning'}`} 
+              style={{fontSize: '14px', padding: '8px 12px'}}>{request.status}</span>
+            <p style={{margin: '10px 0 0 0', fontSize: '14px', color: '#666'}}>Posted: {new Date(request.created_at).toLocaleDateString()}</p>
+            {request.blockchain_tx && (
+              <div style={{marginTop: '10px'}}>
+                <p style={{margin: '0 0 5px 0', fontSize: '12px', color: '#666'}}>Blockchain TX:</p>
+                <code style={{fontSize: '11px', wordBreak: 'break-all', background: '#f0f0f0', padding: '4px 6px', borderRadius: '2px', display: 'block'}}>
+                  {request.blockchain_tx}
+                </code>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {hasSubmitted && myQuote && myQuote.is_selected && !deliveryConfirmed ? (
+        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
+          <h3 style={{color: '#1E3A8A'}}>🎉 Your Quote Was Selected!</h3>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Selected Quote</p>
+              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
+                ${parseFloat(myQuote.quoted_amount).toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Status</p>
+              <span className="badge badge-success">Selected</span>
+            </div>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Next Step</p>
+              <p style={{margin: 0, fontSize: '14px', color: '#666'}}>Deliver to Field Officer</p>
+            </div>
+          </div>
+          
+          <DeliveryConfirmationForm selectionId={myQuote.selection_id} onDeliveryConfirmed={handleDeliveryConfirmed} />
+        </div>
+      ) : hasSubmitted && myQuote && myQuote.is_selected && deliveryConfirmed ? (
+        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
+          <h3 style={{color: '#1E3A8A'}}>✓ Delivery Confirmed - Awaiting Final Confirmation</h3>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Delivered Amount</p>
+              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
+                ${parseFloat(myQuote.quoted_amount).toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Status</p>
+              <span className="badge badge-warning">Delivered</span>
+            </div>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Next Step</p>
+              <p style={{margin: 0, fontSize: '14px', color: '#666'}}>Field Officer Confirmation</p>
+            </div>
+          </div>
+          
+          <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>✓ Items delivered to field officer</p>
+            <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#666'}}>Waiting for field officer final confirmation to complete the project.</p>
+            {myQuote?.delivery_blockchain_tx && (
+              <div style={{marginTop: '10px', padding: '8px', background: '#f5f5f5', borderRadius: '4px'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Delivery Blockchain TX:</p>
+                <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#1E3A8A'}}>{myQuote.delivery_blockchain_tx}</code>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : hasSubmitted && myQuote ? (
+        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
+          <h3 style={{color: '#1E3A8A'}}>Your Quote Submitted</h3>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Your Quote</p>
+              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
+                ${parseFloat(myQuote.quoted_amount).toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Status</p>
+              <span className={`badge ${myQuote.is_selected ? 'badge-success' : 'badge-warning'}`}>
+                {myQuote.is_selected ? 'Selected' : 'Under Review'}
+              </span>
+            </div>
+            <div>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Submitted</p>
+              <p style={{margin: 0, fontSize: '14px', color: '#666'}}>{new Date(myQuote.created_at).toLocaleDateString()}</p>
+            </div>
+          </div>
+          
+          <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+            <p><strong>Delivery Terms:</strong> {myQuote.delivery_terms}</p>
+            <p><strong>Your Signature:</strong> {myQuote.signature}</p>
+            {myQuote.blockchain_tx && (
+              <div style={{marginTop: '12px', padding: '10px', background: '#f0f9ff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                <p style={{margin: '0 0 6px 0', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
+                <code style={{fontSize: '12px', wordBreak: 'break-all', color: '#000', background: '#ffffff', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>
+                  {myQuote.blockchain_tx}
+                </code>
+                <p style={{margin: '6px 0 0 0', fontSize: '12px', color: '#666'}}>Your quote is permanently recorded on the Sepolia blockchain</p>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : request.status === 'OPEN' ? (
+        <div className="card">
+          {!showQuoteForm ? (
+            <div style={{textAlign: 'center', padding: '30px'}}>
+              <h3>Submit Your Competitive Quote</h3>
+              <p style={{color: '#666', marginBottom: '20px'}}>Provide your best quote for this project opportunity</p>
+              <button onClick={() => setShowQuoteForm(true)} className="btn" 
+                style={{padding: '12px 30px', fontSize: '16px'}}>Submit Quote</button>
+            </div>
+          ) : (
+            <div>
+              <h3>Submit Your Quote</h3>
+              <form onSubmit={handleSubmitQuote}>
+                <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
+                  <div className="form-group">
+                    <label>Your Quote Amount (USD) *</label>
+                    <input type="number" step="0.01" value={quoteData.quoted_amount}
+                      onChange={(e) => setQuoteData({...quoteData, quoted_amount: e.target.value})}
+                      placeholder="Enter your competitive quote" required />
+                    <small style={{color: '#666'}}>Proposed budget: ${parseFloat(request.proposed_budget || 0).toLocaleString()}</small>
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>Delivery Timeline *</label>
+                    <input type="text" value={quoteData.delivery_timeline}
+                      onChange={(e) => setQuoteData({...quoteData, delivery_timeline: e.target.value})}
+                      placeholder="e.g., 7-10 business days" required />
+                    <small style={{color: '#666'}}>Required by: {request.delivery_date}</small>
+                  </div>
+                </div>
+                
+                <div className="form-group">
+                  <label>Delivery Terms & Conditions *</label>
+                  <textarea value={quoteData.delivery_terms}
+                    onChange={(e) => setQuoteData({...quoteData, delivery_terms: e.target.value})}
+                    placeholder="Describe your delivery method, logistics, and any special conditions"
+                    rows="3" required />
+                </div>
+                
+                <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
+                  <div className="form-group">
+                    <label>Payment Terms</label>
+                    <input type="text" value={quoteData.payment_terms}
+                      onChange={(e) => setQuoteData({...quoteData, payment_terms: e.target.value})}
+                      placeholder="e.g., 30% advance, 70% on delivery" />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>Warranty Period</label>
+                    <input type="text" value={quoteData.warranty_period}
+                      onChange={(e) => setQuoteData({...quoteData, warranty_period: e.target.value})}
+                      placeholder="e.g., 12 months warranty" />
+                  </div>
+                </div>
+                
+                <div className="form-group">
+                  <label>Quality Certifications</label>
+                  <input type="text" value={quoteData.quality_certifications}
+                    onChange={(e) => setQuoteData({...quoteData, quality_certifications: e.target.value})}
+                    placeholder="e.g., ISO 9001, FDA approved, CE certified" />
+                  <small style={{color: '#666'}}>List any relevant quality certifications or standards</small>
+                </div>
+                
+                <div className="form-group">
+                  <label>Technical Specifications</label>
+                  <textarea value={quoteData.technical_specifications}
+                    onChange={(e) => setQuoteData({...quoteData, technical_specifications: e.target.value})}
+                    placeholder="Detailed specifications of items you will supply"
+                    rows="3" />
+                </div>
+                
+                <div className="form-group">
+                  <label>Company Experience</label>
+                  <textarea value={quoteData.supplier_experience}
+                    onChange={(e) => setQuoteData({...quoteData, supplier_experience: e.target.value})}
+                    placeholder="Brief description of your company's experience in similar projects"
+                    rows="2" />
+                </div>
+                
+                <div className="form-group">
+                  <label>References</label>
+                  <textarea value={quoteData.references}
+                    onChange={(e) => setQuoteData({...quoteData, references: e.target.value})}
+                    placeholder="Previous clients or projects (optional)"
+                    rows="2" />
+                </div>
+                
+                <div className="form-group">
+                  <label>Your Digital Signature *</label>
+                  <input type="text" value={quoteData.supplier_signature}
+                    onChange={(e) => setQuoteData({...quoteData, supplier_signature: e.target.value})}
+                    placeholder="Enter your digital signature" required />
+                  <small style={{color: '#666'}}>This signature will be permanently recorded on the blockchain</small>
+                </div>
+                
+                <div style={{display: 'flex', gap: '10px'}}>
+                  <LoadingButton type="submit" loading={submitQuoteLoading} className="btn" style={{flex: 1, padding: '12px', fontSize: '15px'}}>
+                    Submit Quote
+                  </LoadingButton>
+                  <button type="button" onClick={() => setShowQuoteForm(false)} className="btn" 
+                    style={{background: '#666', padding: '12px 20px', fontSize: '15px'}}>Cancel</button>
+                </div>
+              </form>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="card" style={{background: '#f5f5f5', border: '1px solid #000000'}}>
+          <h3 style={{color: '#000000'}}>Quote Request Closed</h3>
+          <p style={{margin: 0, color: '#000000'}}>This quote request is no longer accepting submissions.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function PublicReports({ language }) {
   const [reports, setReports] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [selectedReport, setSelectedReport] = React.useState(null);
   const t = translations[language] || translations['en'];
 
   React.useEffect(() => {
@@ -796,20 +1256,70 @@ function PublicReports({ language }) {
                 <th>{t.location}</th>
                 <th>{t.reportDate}</th>
                 <th>{t.status}</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {reports.map(report => (
                 <tr key={report.id}>
                   <td><span className="badge badge-info">{report.report_type}</span></td>
-                  <td>{report.description.substring(0, 100)}...</td>
+                  <td>{report.description.substring(0, 50)}...</td>
                   <td>{report.location || 'N/A'}</td>
                   <td>{new Date(report.created_at).toLocaleDateString()}</td>
-                  <td><span className="badge badge-warning">Under Review</span></td>
+                  <td><span className="badge badge-success">Published</span></td>
+                  <td><button onClick={() => setSelectedReport(report)} className="btn" style={{padding: '6px 12px', fontSize: '13px'}}>View Report</button></td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+      
+      {selectedReport && (
+        <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{background: '#fff', padding: '30px', borderRadius: '8px', maxWidth: '600px', width: '90%', maxHeight: '80vh', overflowY: 'auto'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #e0e0e0', paddingBottom: '15px'}}>
+              <h3 style={{margin: 0, color: '#000'}}>Report Details</h3>
+              <button onClick={() => setSelectedReport(null)} style={{background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#666'}}>&times;</button>
+            </div>
+            
+            <div style={{marginBottom: '15px'}}>
+              <p style={{margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>PROJECT NAME</p>
+              <p style={{margin: '0 0 15px 0', fontSize: '16px', color: '#000', fontWeight: '600'}}>{selectedReport.project_name}</p>
+            </div>
+            
+            <div style={{marginBottom: '15px'}}>
+              <p style={{margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>LOCATION</p>
+              <p style={{margin: '0 0 15px 0', fontSize: '14px', color: '#000'}}>{selectedReport.location}</p>
+            </div>
+            
+            <div style={{marginBottom: '15px'}}>
+              <p style={{margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>REPORT DESCRIPTION</p>
+              <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
+                <p style={{margin: 0, fontSize: '14px', color: '#000', lineHeight: '1.6'}}>{selectedReport.description}</p>
+              </div>
+            </div>
+            
+            <div style={{marginBottom: '15px'}}>
+              <p style={{margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>CONTACT INFORMATION</p>
+              <p style={{margin: '0 0 15px 0', fontSize: '14px', color: '#000'}}>{selectedReport.contact_info}</p>
+            </div>
+            
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px', background: '#f0fdf4', borderRadius: '4px', border: '1px solid #d4edda'}}>
+              <div>
+                <p style={{margin: '0 0 3px 0', fontSize: '13px', color: '#666'}}>Report Status</p>
+                <span className="badge badge-success">Published</span>
+              </div>
+              <div style={{textAlign: 'right'}}>
+                <p style={{margin: '0 0 3px 0', fontSize: '13px', color: '#666'}}>Submitted Date</p>
+                <p style={{margin: 0, fontSize: '14px', color: '#000', fontWeight: '600'}}>{new Date(selectedReport.created_at).toLocaleDateString()}</p>
+              </div>
+            </div>
+            
+            <div style={{marginTop: '20px', textAlign: 'right'}}>
+              <button onClick={() => setSelectedReport(null)} className="btn" style={{padding: '10px 20px'}}>Close</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

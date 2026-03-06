@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
+import uuid
+from django.utils import timezone
+from datetime import timedelta
 
 class User(models.Model):
     ROLE_CHOICES = [
@@ -39,12 +42,15 @@ class User(models.Model):
 
 class Project(models.Model):
     STATUS_CHOICES = [
+        ('CREATED', 'Created'),
         ('PENDING_FUNDING', 'Pending Funding'),
         ('FUNDED', 'Funded'),
-        ('SUPPLIER_ASSIGNED', 'Supplier Assigned'),
-        ('SUPPLIER_CONFIRMED', 'Supplier Confirmed'),
-        ('FIELD_OFFICER_ASSIGNED', 'Field Officer Assigned'),
+        ('QUOTE_REQUESTED', 'Quote Requested'),
+        ('QUOTES_RECEIVED', 'Quotes Received'),
+        ('QUOTE_SELECTED', 'Quote Selected'),
+        ('SUPPLIER_DELIVERED', 'Supplier Delivered'),
         ('FIELD_OFFICER_CONFIRMED', 'Field Officer Confirmed'),
+        ('READY_FOR_DISTRIBUTION', 'Ready for Distribution'),
         ('IN_DISTRIBUTION', 'In Distribution'),
         ('COMPLETED', 'Completed'),
     ]
@@ -65,6 +71,12 @@ class Project(models.Model):
     desired_donors = models.JSONField(default=list, blank=True)
     project_hash = models.CharField(max_length=255, blank=True)
     blockchain_tx = models.CharField(max_length=255, blank=True)
+    document1 = models.TextField(blank=True)  # Base64 encoded document
+    document1_name = models.CharField(max_length=255, blank=True)
+    document2 = models.TextField(blank=True)
+    document2_name = models.CharField(max_length=255, blank=True)
+    document3 = models.TextField(blank=True)
+    document3_name = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -82,6 +94,7 @@ class Funding(models.Model):
     donor_signature = models.CharField(max_length=255, blank=True)
     ngo_signature = models.CharField(max_length=255, blank=True)
     blockchain_tx = models.CharField(max_length=255, blank=True)
+    ngo_confirmation_tx = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -91,6 +104,89 @@ class Funding(models.Model):
         db_table = 'fundings'
         verbose_name = 'Funding'
         verbose_name_plural = 'Fundings'
+
+class SupplyQuoteRequest(models.Model):
+    STATUS_CHOICES = [
+        ('OPEN', 'Open'),
+        ('SELECTED', 'Selected'),
+        ('CLOSED', 'Closed'),
+    ]
+    
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='quote_requests')
+    ngo = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quote_requests')
+    items = models.JSONField()
+    delivery_location = models.CharField(max_length=255)
+    delivery_date = models.DateField()
+    proposed_budget = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    additional_requirements = models.TextField(blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='OPEN')
+    blockchain_tx = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Quote Request - {self.project.title}"
+    
+    class Meta:
+        db_table = 'supply_quote_requests'
+        verbose_name = 'Supply Quote Request'
+        verbose_name_plural = 'Supply Quote Requests'
+
+class SupplierQuote(models.Model):
+    quote_request = models.ForeignKey(SupplyQuoteRequest, on_delete=models.CASCADE, related_name='supplier_quotes')
+    supplier = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submitted_quotes')
+    quoted_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    delivery_terms = models.TextField()
+    delivery_timeline = models.CharField(max_length=255, blank=True)
+    quality_certifications = models.TextField(blank=True)
+    payment_terms = models.CharField(max_length=255, blank=True)
+    warranty_period = models.CharField(max_length=255, blank=True)
+    technical_specifications = models.TextField(blank=True)
+    supplier_experience = models.TextField(blank=True)
+    references = models.TextField(blank=True)
+    signature = models.CharField(max_length=255)
+    blockchain_tx = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.supplier.name} - ${self.quoted_amount}"
+    
+    class Meta:
+        db_table = 'supplier_quotes'
+        verbose_name = 'Supplier Quote'
+        verbose_name_plural = 'Supplier Quotes'
+
+class QuoteSelection(models.Model):
+    quote_request = models.ForeignKey(SupplyQuoteRequest, on_delete=models.CASCADE, related_name='selections')
+    selected_quote = models.ForeignKey(SupplierQuote, on_delete=models.CASCADE, related_name='selections')
+    ngo = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quote_selections')
+    ngo_signature = models.CharField(max_length=255)
+    blockchain_tx = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Selected: {self.selected_quote.supplier.name} - ${self.selected_quote.quoted_amount}"
+    
+    class Meta:
+        db_table = 'quote_selections'
+        verbose_name = 'Quote Selection'
+        verbose_name_plural = 'Quote Selections'
+
+class SupplierDeliveryConfirmation(models.Model):
+    quote_selection = models.ForeignKey(QuoteSelection, on_delete=models.CASCADE, related_name='delivery_confirmations')
+    supplier = models.ForeignKey(User, on_delete=models.CASCADE, related_name='delivery_confirmations')
+    field_officer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_deliveries')
+    delivery_signature = models.CharField(max_length=255)
+    delivery_notes = models.TextField(blank=True)
+    blockchain_tx = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Delivery: {self.supplier.name} to {self.field_officer.name}"
+    
+    class Meta:
+        db_table = 'supplier_delivery_confirmations'
+        verbose_name = 'Supplier Delivery Confirmation'
+        verbose_name_plural = 'Supplier Delivery Confirmations'
 
 class SupplierAssignment(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='supplier_assignments')
@@ -193,3 +289,14 @@ class PublicReport(models.Model):
         db_table = 'public_reports'
         verbose_name = 'Public Report'
         verbose_name_plural = 'Public Reports'
+
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def is_valid(self):
+        return timezone.now() < self.created_at + timedelta(hours=24)
+    
+    class Meta:
+        db_table = 'password_reset_tokens'

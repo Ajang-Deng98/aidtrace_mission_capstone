@@ -13,7 +13,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# Increase upload size limits for base64-encoded documents
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -108,11 +113,14 @@ BLOCKCHAIN_NETWORK = os.getenv('BLOCKCHAIN_NETWORK', 'development')
 # Blockchain Provider URLs
 if BLOCKCHAIN_NETWORK == 'sepolia':
     # Sepolia Testnet Configuration
-    # GET INFURA_PROJECT_ID: Sign up at https://infura.io, create project, copy Project ID
-    WEB3_PROVIDER = f"https://sepolia.infura.io/v3/{os.getenv('INFURA_PROJECT_ID')}"
-    # GET SEPOLIA_CONTRACT_ADDRESS: Deploy contract with 'truffle migrate --network sepolia'
+    # Using Alchemy (better rate limits than Infura)
+    ALCHEMY_API_KEY = os.getenv('ALCHEMY_API_KEY')
+    if ALCHEMY_API_KEY:
+        WEB3_PROVIDER = f"https://eth-sepolia.g.alchemy.com/v2/{ALCHEMY_API_KEY}"
+    else:
+        # Fallback to Infura if Alchemy key not provided
+        WEB3_PROVIDER = f"https://sepolia.infura.io/v3/{os.getenv('INFURA_PROJECT_ID')}"
     CONTRACT_ADDRESS = os.getenv('SEPOLIA_CONTRACT_ADDRESS')
-    # GET BLOCKCHAIN_PRIVATE_KEY: Export private key from MetaMask (for transactions)
     BLOCKCHAIN_PRIVATE_KEY = os.getenv('BLOCKCHAIN_PRIVATE_KEY')
 else:
     # Local Development (Ganache) Configuration
@@ -140,4 +148,102 @@ MNEMONIC = os.getenv('MNEMONIC')
 # SEPOLIA_CONTRACT_ADDRESS=0x... (get this after running 'truffle migrate --network sepolia')
 # MNEMONIC=your twelve word seed phrase here
 # BLOCKCHAIN_PRIVATE_KEY=0x... (your wallet private key for transactions)
+
+# =============================================================================
+# JAZZMIN ADMIN THEME CONFIGURATION
+# =============================================================================
+
+JAZZMIN_SETTINGS = {
+    "site_title": "AidTrace Admin",
+    "site_header": "AidTrace",
+    "site_brand": "AidTrace Administration",
+    "site_logo": None,
+    "welcome_sign": "Welcome to AidTrace Admin Panel",
+    "copyright": "AidTrace 2026",
+    "search_model": ["api.User", "api.Project"],
+    "user_avatar": None,
+    
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Support", "url": "https://github.com/", "new_window": True},
+    ],
+    
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "order_with_respect_to": ["api", "auth"],
+    
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "api.User": "fas fa-user-circle",
+        "api.Project": "fas fa-project-diagram",
+        "api.Funding": "fas fa-dollar-sign",
+        "api.SupplyQuoteRequest": "fas fa-file-invoice",
+        "api.SupplierQuote": "fas fa-receipt",
+        "api.QuoteSelection": "fas fa-check-circle",
+        "api.SupplierDeliveryConfirmation": "fas fa-truck",
+        "api.FieldOfficerAssignment": "fas fa-user-tie",
+        "api.Beneficiary": "fas fa-hands-helping",
+        "api.Distribution": "fas fa-hand-holding-heart",
+        "api.PublicReport": "fas fa-flag",
+    },
+    
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    
+    "related_modal_active": False,
+    "custom_css": None,
+    "custom_js": None,
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+    
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+    "language_chooser": False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": False,
+    "accent": "accent-lightblue",
+    "navbar": "navbar-white navbar-light",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-light-lightblue",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": True,
+    "theme": "flatly",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-outline-info",
+        "warning": "btn-outline-warning",
+        "danger": "btn-outline-danger",
+        "success": "btn-outline-success"
+    }
+}
+
+# =============================================================================
+# EMAIL CONFIGURATION (Gmail SMTP - FREE)
+# =============================================================================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Your Gmail address
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Your Gmail App Password
 

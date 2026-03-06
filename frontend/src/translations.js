@@ -26,6 +26,140 @@ export const translations = {
     keyFeatures: 'Key Features',
     simpleSteps: 'Simple steps from funding to delivery',
     everythingYouNeed: 'Everything you need for transparent aid distribution',
+    about: 'About',
+    
+    // Hero Section
+    heroSubtitle: 'Revolutionizing humanitarian aid through blockchain transparency',
+    
+    // Mission Section
+    ourMission: 'Our Mission',
+    missionDesc1: 'AidTrace is dedicated to bringing transparency and accountability to humanitarian aid distribution. We leverage blockchain technology to ensure every donation reaches its intended beneficiaries.',
+    missionDesc2: 'Founded in South Sudan, we understand the challenges of aid distribution in conflict-affected regions and work to build trust between donors, NGOs, and communities.',
+    
+    // Why Choose Section
+    whyChoose: 'Why Choose AidTrace?',
+    transparencyTitle: 'Transparency',
+    transparencyDesc: 'Every transaction is recorded on the blockchain, providing complete visibility into aid distribution.',
+    accountabilityTitle: 'Accountability',
+    accountabilityDesc: 'Smart contracts ensure funds are used as intended with automated verification processes.',
+    efficiencyTitle: 'Efficiency',
+    efficiencyDesc: 'Streamlined processes reduce administrative overhead and get aid to beneficiaries faster.',
+    trustTitle: 'Trust',
+    trustDesc: 'Build confidence between all stakeholders through verifiable and immutable records.',
+    
+    // Impact Section
+    ourImpact: 'Our Impact',
+    beneficiariesServed: 'Beneficiaries Served',
+    activeProjects: 'Active Projects',
+    partnerNGOs: 'Partner NGOs',
+    transparencyRate: 'Transparency Rate',
+    
+    // Contact Section
+    getInTouch: 'Get In Touch',
+    contactDesc: 'Ready to make aid distribution more transparent? Contact us today.',
+    emailLabel: 'Email',
+    phoneLabel: 'Phone',
+    locationLabel: 'Location',
+    startYourProject: 'Start Your Project',
+    viewPublicReports: 'View Public Reports',
+    
+    // Donor Dashboard Specific
+    donorPortal: 'Donor Portal',
+    donorDashboard: 'Donor Dashboard',
+    fundAndTrack: 'Fund and track humanitarian aid',
+    overviewFundingImpact: 'Overview of your funding impact',
+    analyticsDashboard: 'Analytics Dashboard',
+    loadingAnalytics: 'Loading analytics...',
+    projectsByCategory: 'Projects by Category',
+    projectStatusDistribution: 'Project Status Distribution',
+    recentFundedProjects: 'Recent Funded Projects',
+    noFundedYet: "You haven't funded any projects yet.",
+    
+    // Available Projects
+    availableProjects: 'Available Projects',
+    projectsWaitingFunding: 'Projects waiting for funding',
+    loadingProjects: 'Loading projects...',
+    budgetNeeded: 'Budget Needed',
+    fundingAmount: 'Funding Amount (USD)',
+    enterAmount: 'Enter amount to fund',
+    enterSignature: 'Enter your digital signature',
+    signatureRecordedBlockchain: 'This signature will be recorded on blockchain',
+    noPendingProjects: 'No Pending Projects',
+    allProjectsFunded: 'All projects have been funded.',
+    enterAmountAndSignature: 'Please enter both amount and signature',
+    projectFundedSuccess: 'Project funded successfully!',
+    transactionRecorded: 'Transaction recorded.',
+    failedToFund: 'Failed to fund project:',
+    
+    // Funded Projects
+    myFundedProjects: 'My Funded Projects',
+    trackFullLifecycle: 'Track the full lifecycle of projects you\'ve funded',
+    loadingFundedProjects: 'Loading your funded projects...',
+    noFundedProjectsYet: 'No Funded Projects Yet',
+    noFundedProjectsDesc: "You haven't funded any projects yet.",
+    goToBrowseProjects: 'Go to "Browse Projects" to fund humanitarian aid projects.',
+    browseAvailableProjects: 'Browse Available Projects',
+    
+    // Project Details
+    projectFullLifecycle: 'Project Full Lifecycle',
+    completeTransparency: 'Complete transparency from funding to distribution',
+    loadingProjectDetails: 'Loading project details...',
+    projectNotFound: 'Project not found.',
+    currentStatus: 'Current Status',
+    
+    // Funding Steps
+    step1FundingReceipt: 'Step 1: Funding Receipt',
+    amountFunded: 'Amount Funded',
+    donorDigitalSignature: 'Donor Digital Signature',
+    ngoConfirmationSignature: 'NGO Confirmation Signature',
+    blockchainTransactionHash: 'Blockchain Transaction Hash',
+    verifiedOnBlockchain: '✓ Verified on blockchain',
+    fundingComplete: '✓ Funding Complete',
+    downloadReport: 'Download Report',
+    waitingNGOConfirm: 'Waiting for NGO to confirm funding receipt',
+    
+    step2SupplierConfirmation: 'Step 2: Supplier Confirmation',
+    itemsAssigned: 'Items Assigned',
+    digitalSignature: 'Digital Signature',
+    blockchainVerified: 'Blockchain Verified',
+    waitingSupplierConfirm: 'Waiting for supplier to confirm receipt of items',
+    
+    step3FieldOfficerHandover: 'Step 3: Field Officer Handover',
+    waitingFieldOfficerConfirm: 'Waiting for field officer to confirm handover from supplier',
+    
+    step4DistributionBeneficiaries: 'Step 4: Distribution to Beneficiaries',
+    totalDistributions: 'Total Distributions',
+    aidDistributedSuccessfully: 'Aid has been successfully distributed to beneficiaries',
+    beneficiaryName: 'Beneficiary Name',
+    distributionDate: 'Distribution Date',
+    
+    noActivityYet: 'No Activity Yet',
+    projectNoFunding: 'This project has not received any funding yet.',
+    
+    // Profile Settings
+    manageAccountSettings: 'Manage your account information and preferences',
+    profileUpdatedSuccess: 'Profile updated successfully',
+    preferencesSavedSuccess: 'Preferences saved successfully',
+    
+    // Public Reports
+    viewAllSubmittedReports: 'View all submitted public reports',
+    noReportsSubmitted: 'No reports submitted yet.',
+    type: 'Type',
+    reportDetails: 'Report Details',
+    projectName: 'Project Name',
+    contactInformation: 'Contact Information',
+    reportStatus: 'Report Status',
+    submittedDate: 'Submitted Date',
+    
+    // Language Options
+    english: 'English',
+    arabic: 'العربية',
+    dinka: 'Dinka',
+    nuer: 'Nuer',
+    
+    // Theme
+    dark: 'Dark',
+    light: 'Light',
     
     // How It Works Section
     step1Title: 'Donors Fund Projects',
@@ -336,6 +470,140 @@ export const translations = {
     keyFeatures: 'المميزات الرئيسية',
     simpleSteps: 'خطوات بسيطة من التمويل إلى التسليم',
     everythingYouNeed: 'كل ما تحتاجه لتوزيع المساعدات الشفاف',
+    about: 'حول',
+    
+    // Hero Section
+    heroSubtitle: 'ثورة في المساعدات الإنسانية من خلال شفافية البلوكشين',
+    
+    // Mission Section
+    ourMission: 'مهمتنا',
+    missionDesc1: 'AidTrace مكرس لجلب الشفافية والمساءلة إلى توزيع المساعدات الإنسانية. نحن نستفيد من تقنية البلوكشين لضمان وصول كل تبرع إلى المستفيدين المقصودين.',
+    missionDesc2: 'تأسست في جنوب السودان، نحن نفهم تحديات توزيع المساعدات في المناطق المتأثرة بالصراع ونعمل على بناء الثقة بين المانحين والمنظمات غير الحكومية والمجتمعات.',
+    
+    // Why Choose Section
+    whyChoose: 'لماذا تختار AidTrace؟',
+    transparencyTitle: 'الشفافية',
+    transparencyDesc: 'يتم تسجيل كل معاملة على البلوكشين، مما يوفر رؤية كاملة لتوزيع المساعدات.',
+    accountabilityTitle: 'المساءلة',
+    accountabilityDesc: 'العقود الذكية تضمن استخدام الأموال كما هو مقصود مع عمليات التحقق الآلية.',
+    efficiencyTitle: 'الكفاءة',
+    efficiencyDesc: 'العمليات المبسطة تقلل من النفقات الإدارية وتوصل المساعدات إلى المستفيدين بشكل أسرع.',
+    trustTitle: 'الثقة',
+    trustDesc: 'بناء الثقة بين جميع أصحاب المصلحة من خلال السجلات القابلة للتحقق والثابتة.',
+    
+    // Impact Section
+    ourImpact: 'تأثيرنا',
+    beneficiariesServed: 'المستفيدون المخدومون',
+    activeProjects: 'المشاريع النشطة',
+    partnerNGOs: 'المنظمات الشريكة',
+    transparencyRate: 'معدل الشفافية',
+    
+    // Contact Section
+    getInTouch: 'تواصل معنا',
+    contactDesc: 'مستعد لجعل توزيع المساعدات أكثر شفافية؟ اتصل بنا اليوم.',
+    emailLabel: 'البريد الإلكتروني',
+    phoneLabel: 'الهاتف',
+    locationLabel: 'الموقع',
+    startYourProject: 'ابدأ مشروعك',
+    viewPublicReports: 'عرض التقارير العامة',
+    
+    // Donor Dashboard Specific
+    donorPortal: 'بوابة المانح',
+    donorDashboard: 'لوحة تحكم المانح',
+    fundAndTrack: 'تمويل وتتبع المساعدات الإنسانية',
+    overviewFundingImpact: 'نظرة عامة على تأثير التمويل الخاص بك',
+    analyticsDashboard: 'لوحة التحليلات',
+    loadingAnalytics: 'جاري تحميل التحليلات...',
+    projectsByCategory: 'المشاريع حسب الفئة',
+    projectStatusDistribution: 'توزيع حالة المشروع',
+    recentFundedProjects: 'المشاريع الممولة مؤخراً',
+    noFundedYet: 'لم تقم بتمويل أي مشاريع بعد.',
+    
+    // Available Projects
+    availableProjects: 'المشاريع المتاحة',
+    projectsWaitingFunding: 'المشاريع في انتظار التمويل',
+    loadingProjects: 'جاري تحميل المشاريع...',
+    budgetNeeded: 'الميزانية المطلوبة',
+    fundingAmount: 'مبلغ التمويل (دولار أمريكي)',
+    enterAmount: 'أدخل المبلغ للتمويل',
+    enterSignature: 'أدخل توقيعك الرقمي',
+    signatureRecordedBlockchain: 'سيتم تسجيل هذا التوقيع على البلوكشين',
+    noPendingProjects: 'لا توجد مشاريع معلقة',
+    allProjectsFunded: 'تم تمويل جميع المشاريع.',
+    enterAmountAndSignature: 'يرجى إدخال المبلغ والتوقيع',
+    projectFundedSuccess: 'تم تمويل المشروع بنجاح!',
+    transactionRecorded: 'تم تسجيل المعاملة.',
+    failedToFund: 'فشل في تمويل المشروع:',
+    
+    // Funded Projects
+    myFundedProjects: 'مشاريعي الممولة',
+    trackFullLifecycle: 'تتبع دورة الحياة الكاملة للمشاريع التي مولتها',
+    loadingFundedProjects: 'جاري تحميل مشاريعك الممولة...',
+    noFundedProjectsYet: 'لا توجد مشاريع ممولة بعد',
+    noFundedProjectsDesc: 'لم تقم بتمويل أي مشاريع بعد.',
+    goToBrowseProjects: 'اذهب إلى "تصفح المشاريع" لتمويل مشاريع المساعدات الإنسانية.',
+    browseAvailableProjects: 'تصفح المشاريع المتاحة',
+    
+    // Project Details
+    projectFullLifecycle: 'دورة حياة المشروع الكاملة',
+    completeTransparency: 'شفافية كاملة من التمويل إلى التوزيع',
+    loadingProjectDetails: 'جاري تحميل تفاصيل المشروع...',
+    projectNotFound: 'المشروع غير موجود.',
+    currentStatus: 'الحالة الحالية',
+    
+    // Funding Steps
+    step1FundingReceipt: 'الخطوة 1: إيصال التمويل',
+    amountFunded: 'المبلغ الممول',
+    donorDigitalSignature: 'التوقيع الرقمي للمانح',
+    ngoConfirmationSignature: 'توقيع تأكيد المنظمة',
+    blockchainTransactionHash: 'رمز معاملة البلوكشين',
+    verifiedOnBlockchain: '✓ تم التحقق على البلوكشين',
+    fundingComplete: '✓ اكتمل التمويل',
+    downloadReport: 'تحميل التقرير',
+    waitingNGOConfirm: 'في انتظار تأكيد المنظمة لاستلام التمويل',
+    
+    step2SupplierConfirmation: 'الخطوة 2: تأكيد المورد',
+    itemsAssigned: 'العناصر المخصصة',
+    digitalSignature: 'التوقيع الرقمي',
+    blockchainVerified: 'تم التحقق من البلوكشين',
+    waitingSupplierConfirm: 'في انتظار تأكيد المورد لاستلام العناصر',
+    
+    step3FieldOfficerHandover: 'الخطوة 3: تسليم الموظف الميداني',
+    waitingFieldOfficerConfirm: 'في انتظار تأكيد الموظف الميداني للتسليم من المورد',
+    
+    step4DistributionBeneficiaries: 'الخطوة 4: التوزيع على المستفيدين',
+    totalDistributions: 'إجمالي التوزيعات',
+    aidDistributedSuccessfully: 'تم توزيع المساعدات بنجاح على المستفيدين',
+    beneficiaryName: 'اسم المستفيد',
+    distributionDate: 'تاريخ التوزيع',
+    
+    noActivityYet: 'لا يوجد نشاط بعد',
+    projectNoFunding: 'لم يحصل هذا المشروع على أي تمويل بعد.',
+    
+    // Profile Settings
+    manageAccountSettings: 'إدارة معلومات حسابك وتفضيلاتك',
+    profileUpdatedSuccess: 'تم تحديث الملف الشخصي بنجاح',
+    preferencesSavedSuccess: 'تم حفظ التفضيلات بنجاح',
+    
+    // Public Reports
+    viewAllSubmittedReports: 'عرض جميع التقارير المقدمة',
+    noReportsSubmitted: 'لم يتم تقديم تقارير بعد.',
+    type: 'النوع',
+    reportDetails: 'تفاصيل التقرير',
+    projectName: 'اسم المشروع',
+    contactInformation: 'معلومات الاتصال',
+    reportStatus: 'حالة التقرير',
+    submittedDate: 'تاريخ التقديم',
+    
+    // Language Options
+    english: 'English',
+    arabic: 'العربية',
+    dinka: 'Dinka',
+    nuer: 'Nuer',
+    
+    // Theme
+    dark: 'مظلم',
+    light: 'فاتح',
     
     // How It Works Section
     step1Title: 'المانحون يمولون المشاريع',

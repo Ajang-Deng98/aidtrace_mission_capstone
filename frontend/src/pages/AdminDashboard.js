@@ -3,12 +3,68 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { adminAPI, publicAPI } from '../services/api';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { translations } from '../translations';
+import SearchBar from '../components/SearchBar';
+import LoadingButton from '../components/LoadingButton';
 
 function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const [allSearchData, setAllSearchData] = useState([]);
   const t = translations[language];
+
+  useEffect(() => {
+    loadSearchData();
+  }, []);
+
+  const loadSearchData = async () => {
+    try {
+      const searchData = [];
+      
+      // Load users
+      const usersRes = await adminAPI.getUsers({});
+      usersRes.data.forEach(user => {
+        searchData.push({
+          type: 'User',
+          title: user.name,
+          description: `${user.role} - ${user.email}`,
+          location: user.contact,
+          status: user.is_approved ? 'Approved' : 'Pending',
+          onClick: () => navigate('/admin/users')
+        });
+      });
+      
+      // Load projects
+      const projectsRes = await adminAPI.getProjects();
+      projectsRes.data.forEach(project => {
+        searchData.push({
+          type: 'Project',
+          title: project.title,
+          description: project.description,
+          location: project.location,
+          category: project.category,
+          status: project.status,
+          onClick: () => navigate('/admin/projects')
+        });
+      });
+      
+      // Load reports
+      const reportsRes = await publicAPI.getReports();
+      reportsRes.data.forEach(report => {
+        searchData.push({
+          type: 'Report',
+          title: report.project_name,
+          description: report.description,
+          location: report.location,
+          onClick: () => navigate('/admin/reports')
+        });
+      });
+      
+      setAllSearchData(searchData);
+    } catch (err) {
+      console.error('Error loading search data:', err);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -18,12 +74,14 @@ function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme })
   return (
     <div>
       <div className="navbar" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        <h1>{t.appName} - {t.adminDashboard}</h1>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '50px', width: 'auto'}} />
+        </div>
         <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
           <span style={{marginRight: '10px', color: '#ffffff'}}>{t.welcome}, {user.name}</span>
-          <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+          <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
           <div style={{position: 'relative'}}>
-            <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+            <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
             {showLangMenu && (
               <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                 <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
@@ -38,14 +96,54 @@ function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme })
       </div>
       
       <div className="container">
+        <SearchBar 
+          searchData={allSearchData}
+          placeholder="Search users, projects, reports..."
+        />
+        
         <div style={{marginBottom: '20px'}}>
-          <Link to="/admin"><button className="btn">{t.dashboard}</button></Link>
-          <Link to="/admin/pending"><button className="btn" style={{marginLeft: '10px'}}>{t.pendingUsers}</button></Link>
-          <Link to="/admin/pending-projects"><button className="btn" style={{marginLeft: '10px'}}>{t.pendingProjects}</button></Link>
-          <Link to="/admin/users"><button className="btn" style={{marginLeft: '10px'}}>{t.manageUsers}</button></Link>
-          <Link to="/admin/projects"><button className="btn" style={{marginLeft: '10px'}}>{t.projects}</button></Link>
-          <Link to="/admin/reports"><button className="btn" style={{marginLeft: '10px'}}>{t.publicReports}</button></Link>
-          <Link to="/admin/profile"><button className="btn" style={{marginLeft: '10px'}}>{t.profileSettings}</button></Link>
+          <Link to="/admin"><button className="btn" style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+            </svg>
+            {t.dashboard}
+          </button></Link>
+          <Link to="/admin/pending"><button className="btn" style={{marginLeft: '10px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            {t.pendingUsers}
+          </button></Link>
+          <Link to="/admin/pending-projects"><button className="btn" style={{marginLeft: '10px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
+            {t.pendingProjects}
+          </button></Link>
+          <Link to="/admin/users"><button className="btn" style={{marginLeft: '10px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A3.01 3.01 0 0 0 16.5 6.5c-.83 0-1.58.34-2.12.89L12 10.5 9.62 7.39C9.08 6.84 8.33 6.5 7.5 6.5c-1.66 0-3 1.34-3 3 0 .35.07.69.18 1.01L7.5 18H10v2H4v-2h2.5l-2.54-7.63A3.01 3.01 0 0 1 1.5 9.5c0-1.66 1.34-3 3-3 .83 0 1.58.34 2.12.89L9 10.5l2.38-3.11c.54-.55 1.29-.89 2.12-.89 1.66 0 3 1.34 3 3 0 .35-.07.69-.18 1.01L14.5 18H17v2h-6v-2h2.5z"/>
+            </svg>
+            {t.manageUsers}
+          </button></Link>
+          <Link to="/admin/projects"><button className="btn" style={{marginLeft: '10px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            {t.projects}
+          </button></Link>
+          <Link to="/admin/reports"><button className="btn" style={{marginLeft: '10px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+            </svg>
+            {t.publicReports}
+          </button></Link>
+          <Link to="/admin/profile"><button className="btn" style={{marginLeft: '10px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            {t.profileSettings}
+          </button></Link>
         </div>
         
         <Routes>
@@ -83,7 +181,7 @@ function Dashboard({ language }) {
 
   if (!stats) return <div>{t.loading}</div>;
 
-  const COLORS = ['#1CABE2', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+  const COLORS = ['#1E3A8A', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
 
   const userRoleData = [
     { name: t.donors, value: stats.donors },
@@ -172,7 +270,7 @@ function Dashboard({ language }) {
               <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="value" fill="#1CABE2" />
+              <Bar dataKey="value" fill="#1E3A8A" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -249,6 +347,8 @@ function Dashboard({ language }) {
 
 function PendingUsers({ language }) {
   const [pendingUsers, setPendingUsers] = useState([]);
+  const [approveLoading, setApproveLoading] = useState(false);
+  const [rejectLoading, setRejectLoading] = useState(false);
   const t = translations[language];
 
   useEffect(() => {
@@ -261,23 +361,29 @@ function PendingUsers({ language }) {
   };
 
   const handleApprove = async (userId) => {
+    setApproveLoading(true);
     try {
       await adminAPI.approveUser({ user_id: userId });
       alert('User approved successfully');
       loadPendingUsers();
     } catch (err) {
       alert('Failed to approve user');
+    } finally {
+      setApproveLoading(false);
     }
   };
 
   const handleReject = async (userId) => {
     if (window.confirm('Are you sure you want to reject this user? This will delete their account.')) {
+      setRejectLoading(true);
       try {
         await adminAPI.rejectUser({ user_id: userId });
         alert('User rejected successfully');
         loadPendingUsers();
       } catch (err) {
         alert('Failed to reject user');
+      } finally {
+        setRejectLoading(false);
       }
     }
   };
@@ -312,8 +418,8 @@ function PendingUsers({ language }) {
                   <td>{user.contact}</td>
                   <td>{new Date(user.created_at).toLocaleDateString()}</td>
                   <td>
-                    <button onClick={() => handleApprove(user.id)} className="btn" style={{marginRight: '5px'}}>{t.approve}</button>
-                    <button onClick={() => handleReject(user.id)} className="btn btn-danger">{t.reject}</button>
+                    <LoadingButton onClick={() => handleApprove(user.id)} loading={approveLoading} className="btn" style={{marginRight: '5px'}}>{t.approve}</LoadingButton>
+                    <LoadingButton onClick={() => handleReject(user.id)} loading={rejectLoading} className="btn btn-danger">{t.reject}</LoadingButton>
                   </td>
                 </tr>
               ))}
@@ -327,6 +433,8 @@ function PendingUsers({ language }) {
 
 function PendingProjects({ language }) {
   const [pendingProjects, setPendingProjects] = useState([]);
+  const [approveLoading, setApproveLoading] = useState(false);
+  const [rejectLoading, setRejectLoading] = useState(false);
   const t = translations[language];
 
   useEffect(() => {
@@ -339,23 +447,29 @@ function PendingProjects({ language }) {
   };
 
   const handleApprove = async (projectId) => {
+    setApproveLoading(true);
     try {
       await adminAPI.approveProject({ project_id: projectId });
       alert('Project approved successfully');
       loadPendingProjects();
     } catch (err) {
       alert('Failed to approve project');
+    } finally {
+      setApproveLoading(false);
     }
   };
 
   const handleReject = async (projectId) => {
     if (window.confirm('Are you sure you want to reject this project? This will delete it permanently.')) {
+      setRejectLoading(true);
       try {
         await adminAPI.rejectProject({ project_id: projectId });
         alert('Project rejected successfully');
         loadPendingProjects();
       } catch (err) {
         alert('Failed to reject project');
+      } finally {
+        setRejectLoading(false);
       }
     }
   };
@@ -382,8 +496,8 @@ function PendingProjects({ language }) {
               <p><strong>{t.description}:</strong> {project.description.substring(0, 150)}...</p>
               <p><strong>{t.created}:</strong> {new Date(project.created_at).toLocaleDateString()}</p>
               <div style={{marginTop: '10px'}}>
-                <button onClick={() => handleApprove(project.id)} className="btn" style={{marginRight: '5px'}}>{t.approve}</button>
-                <button onClick={() => handleReject(project.id)} className="btn btn-danger">{t.reject}</button>
+                <LoadingButton onClick={() => handleApprove(project.id)} loading={approveLoading} className="btn" style={{marginRight: '5px'}}>{t.approve}</LoadingButton>
+                <LoadingButton onClick={() => handleReject(project.id)} loading={rejectLoading} className="btn btn-danger">{t.reject}</LoadingButton>
               </div>
             </div>
           ))}
@@ -455,6 +569,7 @@ function Users({ language }) {
 
 function Projects({ language }) {
   const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
   const t = translations[language];
 
   useEffect(() => {
@@ -470,6 +585,89 @@ function Projects({ language }) {
     <div>
       <h2>{t.allProjects}</h2>
       
+      {selectedProject && (
+        <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'}}>
+          <div style={{background: '#fff', padding: '32px', borderRadius: '8px', maxWidth: '700px', width: '100%', maxHeight: '85vh', overflowY: 'auto'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #1E3A8A'}}>
+              <h3 style={{margin: 0, color: '#000', fontSize: '24px', fontWeight: '700'}}>{selectedProject.title}</h3>
+              <button onClick={() => setSelectedProject(null)} style={{background: 'none', border: 'none', fontSize: '28px', cursor: 'pointer', color: '#999', lineHeight: 1, padding: 0, width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '4px', transition: 'all 0.2s'}} onMouseEnter={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.color = '#000';}} onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#999';}}>&times;</button>
+            </div>
+            
+            {(selectedProject.document1 || selectedProject.document2 || selectedProject.document3) && (
+              <div style={{marginBottom: '24px', padding: '20px', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #e0e0e0'}}>
+                <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#000'}}>📄 Project Documents</h4>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                  {selectedProject.document1 && (
+                    <a 
+                      href={`data:application/octet-stream;base64,${selectedProject.document1}`}
+                      download={selectedProject.document1_name || 'document1.pdf'}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', textDecoration: 'none', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                      </svg>
+                      {selectedProject.document1_name || 'Document 1'}
+                    </a>
+                  )}
+                  {selectedProject.document2 && (
+                    <a 
+                      href={`data:application/octet-stream;base64,${selectedProject.document2}`}
+                      download={selectedProject.document2_name || 'document2.pdf'}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', textDecoration: 'none', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                      </svg>
+                      {selectedProject.document2_name || 'Document 2'}
+                    </a>
+                  )}
+                  {selectedProject.document3 && (
+                    <a 
+                      href={`data:application/octet-stream;base64,${selectedProject.document3}`}
+                      download={selectedProject.document3_name || 'document3.pdf'}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', textDecoration: 'none', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                      </svg>
+                      {selectedProject.document3_name || 'Document 3'}
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            <div style={{marginBottom: '16px'}}>
+              <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>Description</p>
+              <p style={{margin: 0, fontSize: '15px', color: '#333', lineHeight: '1.6'}}>{selectedProject.description}</p>
+            </div>
+            
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
+              <div>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Location</p>
+                <p style={{margin: 0, fontSize: '15px', color: '#000', fontWeight: '600'}}>{selectedProject.location}</p>
+              </div>
+              <div>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>NGO</p>
+                <p style={{margin: 0, fontSize: '15px', color: '#000', fontWeight: '600'}}>{selectedProject.ngo_name}</p>
+              </div>
+              <div>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Status</p>
+                <span className="badge badge-info">{selectedProject.status}</span>
+              </div>
+            </div>
+            
+            <button onClick={() => setSelectedProject(null)} className="btn" style={{width: '100%', marginTop: '24px', padding: '12px'}}>Close</button>
+          </div>
+        </div>
+      )}
+      
       <div className="card">
         <table className="table">
           <thead>
@@ -479,6 +677,7 @@ function Projects({ language }) {
               <th>{t.location}</th>
               <th>{t.ngo}</th>
               <th>{t.status}</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -489,6 +688,9 @@ function Projects({ language }) {
                 <td>{project.location}</td>
                 <td>{project.ngo_name}</td>
                 <td><span className="badge badge-info">{project.status}</span></td>
+                <td>
+                  <button onClick={() => setSelectedProject(project)} className="btn" style={{padding: '6px 12px', fontSize: '12px'}}>View Details</button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -566,18 +768,18 @@ function ProfileSettings({ language }) {
         <div style={{display: 'flex', gap: '30px'}}>
           <button onClick={() => setActiveTab('profile')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'profile' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'profile' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'profile' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'profile' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>{t.profileInformation}</button>
           <button onClick={() => setActiveTab('preferences')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'preferences' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'preferences' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'preferences' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'preferences' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>{t.preferences}</button>
           <button onClick={() => setActiveTab('activity')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'activity' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'activity' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'activity' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'activity' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>{t.activityLog}</button>
         </div>
       </div>

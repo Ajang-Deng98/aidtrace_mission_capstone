@@ -81,3 +81,23 @@ class PublicReportAdmin(admin.ModelAdmin):
     verbose_name = 'Public Report'
     verbose_name_plural = 'Public Reports'
 
+@admin.register(SupplyQuoteRequest)
+class SupplyQuoteRequestAdmin(admin.ModelAdmin):
+    list_display = ('project', 'ngo', 'delivery_date', 'created_at')
+    list_filter = ('delivery_date', 'created_at')
+    search_fields = ('project__title', 'ngo__name', 'delivery_location')
+    ordering = ('-created_at',)
+
+@admin.register(SupplierQuote)
+class SupplierQuoteAdmin(admin.ModelAdmin):
+    list_display = ('quote_request', 'supplier', 'quoted_amount', 'created_at')
+    list_filter = ('created_at',)
+    search_fields = ('quote_request__project__title', 'supplier__name')
+    ordering = ('-created_at',)
+
+@admin.register(QuoteSelection)
+class QuoteSelectionAdmin(admin.ModelAdmin):
+    list_display = ('quote_request', 'selected_quote', 'ngo', 'created_at')
+    search_fields = ('quote_request__project__title', 'ngo__name', 'selected_quote__supplier__name')
+    ordering = ('-created_at',)
+

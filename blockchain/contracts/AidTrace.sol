@@ -29,6 +29,36 @@ contract AidTrace {
         uint256 timestamp;
     }
     
+    struct SupplyQuoteRequest {
+        uint256 projectId;
+        string projectTitle;
+        string location;
+        string items;
+        string deliveryDate;
+        address ngoWallet;
+        uint256 timestamp;
+    }
+    
+    struct SupplierQuote {
+        uint256 quoteRequestId;
+        uint256 projectId;
+        address supplierAddress;
+        uint256 quotedAmount;
+        string deliveryTerms;
+        string signature;
+        uint256 timestamp;
+    }
+    
+    struct QuoteSelection {
+        uint256 quoteId;
+        uint256 projectId;
+        address ngoWallet;
+        address selectedSupplier;
+        uint256 selectedAmount;
+        string ngoSignature;
+        uint256 timestamp;
+    }
+    
     struct SupplierConfirmation {
         uint256 projectId;
         string projectTitle;
@@ -47,15 +77,35 @@ contract AidTrace {
         uint256 timestamp;
     }
     
+    struct FundingConfirmation {
+        uint256 projectId;
+        uint256 fundingId;
+        string ngoSignature;
+        string donorSignature;
+        uint256 timestamp;
+    }
+    
     mapping(uint256 => NGO) public ngos;
+    mapping(bytes32 => FundingConfirmation) public fundingConfirmations;
     mapping(uint256 => Project) public projects;
     mapping(bytes32 => Funding) public fundings;
+    mapping(uint256 => SupplyQuoteRequest) public quoteRequests;
+    mapping(uint256 => SupplierQuote) public supplierQuotes;
+    mapping(uint256 => QuoteSelection) public quoteSelections;
     mapping(bytes32 => SupplierConfirmation) public supplierConfirmations;
     mapping(bytes32 => FieldOfficerConfirmation) public fieldOfficerConfirmations;
+    
+    uint256 public quoteRequestCounter;
+    uint256 public supplierQuoteCounter;
+    uint256 public quoteSelectionCounter;
     
     event NGOLinked(uint256 indexed ngoId, address wallet, string name);
     event ProjectCreated(uint256 indexed projectId, string title, address ngoWallet);
     event FundingRecorded(uint256 indexed projectId, address donor, address ngo, uint256 amount);
+    event FundingConfirmed(uint256 indexed projectId, uint256 fundingId, string ngoSignature);
+    event QuoteRequestCreated(uint256 indexed requestId, uint256 projectId, address ngo);
+    event SupplierQuoteSubmitted(uint256 indexed quoteId, uint256 requestId, address supplier, uint256 amount);
+    event QuoteSelected(uint256 indexed selectionId, uint256 quoteId, address ngo, address supplier);
     event SupplierConfirmed(uint256 indexed projectId, address supplier);
     event FieldOfficerConfirmed(uint256 indexed projectId, address officer);
     
@@ -115,6 +165,91 @@ contract AidTrace {
         });
         
         emit FundingRecorded(_projectId, _donorWallet, _ngoWallet, _amount);
+    }
+    
+    function confirmFunding(
+        uint256 _projectId,
+        uint256 _fundingId,
+        string memory _ngoSignature,
+        string memory _donorSignature
+    ) public {
+        bytes32 confirmationHash = keccak256(abi.encodePacked(_projectId, _fundingId, block.timestamp));
+        
+        fundingConfirmations[confirmationHash] = FundingConfirmation({
+            projectId: _projectId,
+            fundingId: _fundingId,
+            ngoSignature: _ngoSignature,
+            donorSignature: _donorSignature,
+            timestamp: block.timestamp
+        });
+        
+        emit FundingConfirmed(_projectId, _fundingId, _ngoSignature);
+    }
+    
+    function createQuoteRequest(
+        uint256 _projectId,
+        string memory _projectTitle,
+        string memory _location,
+        string memory _items,
+        string memory _deliveryDate
+    ) public {
+        quoteRequestCounter++;
+        
+        quoteRequests[quoteRequestCounter] = SupplyQuoteRequest({
+            projectId: _projectId,
+            projectTitle: _projectTitle,
+            location: _location,
+            items: _items,
+            deliveryDate: _deliveryDate,
+            ngoWallet: msg.sender,
+            timestamp: block.timestamp
+        });
+        
+        emit QuoteRequestCreated(quoteRequestCounter, _projectId, msg.sender);
+    }
+    
+    function submitSupplierQuote(
+        uint256 _quoteRequestId,
+        uint256 _projectId,
+        uint256 _quotedAmount,
+        string memory _deliveryTerms,
+        string memory _signature
+    ) public {
+        supplierQuoteCounter++;
+        
+        supplierQuotes[supplierQuoteCounter] = SupplierQuote({
+            quoteRequestId: _quoteRequestId,
+            projectId: _projectId,
+            supplierAddress: msg.sender,
+            quotedAmount: _quotedAmount,
+            deliveryTerms: _deliveryTerms,
+            signature: _signature,
+            timestamp: block.timestamp
+        });
+        
+        emit SupplierQuoteSubmitted(supplierQuoteCounter, _quoteRequestId, msg.sender, _quotedAmount);
+    }
+    
+    function selectQuote(
+        uint256 _quoteId,
+        uint256 _projectId,
+        address _selectedSupplier,
+        uint256 _selectedAmount,
+        string memory _ngoSignature
+    ) public {
+        quoteSelectionCounter++;
+        
+        quoteSelections[quoteSelectionCounter] = QuoteSelection({
+            quoteId: _quoteId,
+            projectId: _projectId,
+            ngoWallet: msg.sender,
+            selectedSupplier: _selectedSupplier,
+            selectedAmount: _selectedAmount,
+            ngoSignature: _ngoSignature,
+            timestamp: block.timestamp
+        });
+        
+        emit QuoteSelected(quoteSelectionCounter, _quoteId, msg.sender, _selectedSupplier);
     }
     
     function recordSupplierConfirmation(

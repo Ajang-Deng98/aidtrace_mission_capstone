@@ -146,18 +146,21 @@ class BlockchainService:
         if not self.contract or not self.is_connected:
             raise Exception("Blockchain not available")
         
-        # Handle empty or None wallet addresses
-        if not donor_wallet or donor_wallet == '':
-            donor_wallet = self.get_account()
-        if not ngo_wallet or ngo_wallet == '':
-            ngo_wallet = self.get_account()
+        # Handle empty or invalid wallet addresses - use default account
+        account = self.get_account()
+        if not donor_wallet or len(donor_wallet) < 42:
+            donor_wallet = account
+        if not ngo_wallet or len(ngo_wallet) < 42:
+            ngo_wallet = account
         
-        # Ensure addresses are valid and properly formatted
+        # Ensure addresses are valid Ethereum addresses
         try:
-            donor_wallet = Web3.to_checksum_address(donor_wallet.lower())
-            ngo_wallet = Web3.to_checksum_address(ngo_wallet.lower())
+            donor_wallet = Web3.to_checksum_address(donor_wallet)
+            ngo_wallet = Web3.to_checksum_address(ngo_wallet)
         except Exception as e:
-            raise Exception(f"Invalid wallet address format: {e}")
+            # If invalid, use default account
+            donor_wallet = account
+            ngo_wallet = account
         
         account = self.get_account()
         
@@ -182,6 +185,131 @@ class BlockchainService:
         receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
         return receipt.transactionHash.hex()
     
+    def confirm_funding(self, project_id, funding_id, ngo_signature, donor_signature):
+        """Record NGO funding confirmation on blockchain"""
+        print(f"[BLOCKCHAIN] confirm_funding called: project={project_id}, funding={funding_id}")
+        if not self.contract or not self.is_connected:
+            print("[BLOCKCHAIN] ERROR: Not connected or no contract")
+            raise Exception("Blockchain not available")
+        
+        account = self.get_account()
+        print(f"[BLOCKCHAIN] Using account: {account}")
+        
+        if hasattr(settings, 'BLOCKCHAIN_PRIVATE_KEY') and settings.BLOCKCHAIN_PRIVATE_KEY:
+            print("[BLOCKCHAIN] Building transaction for Sepolia...")
+            transaction = self.contract.functions.confirmFunding(
+                int(project_id),
+                int(funding_id),
+                ngo_signature,
+                donor_signature
+            ).build_transaction({})
+            print("[BLOCKCHAIN] Sending transaction...")
+            tx_hash = self.send_transaction(transaction)
+            print(f"[BLOCKCHAIN] Transaction sent: {tx_hash.hex()}")
+        else:
+            print("[BLOCKCHAIN] Using local Ganache...")
+            tx_hash = self.contract.functions.confirmFunding(
+                int(project_id),
+                int(funding_id),
+                ngo_signature,
+                donor_signature
+            ).transact({'from': account})
+        
+        print("[BLOCKCHAIN] Waiting for receipt...")
+        receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+        result = receipt.transactionHash.hex()
+        print(f"[BLOCKCHAIN] SUCCESS! Hash: {result}")
+        return result
+    
+    def create_quote_request(self, project_id, project_title, location, items, delivery_date):
+        if not self.contract or not self.is_connected:
+            raise Exception("Blockchain not available")
+        
+        account = self.get_account()
+        
+        if hasattr(settings, 'BLOCKCHAIN_PRIVATE_KEY') and settings.BLOCKCHAIN_PRIVATE_KEY:
+            transaction = self.contract.functions.createQuoteRequest(
+                int(project_id),
+                project_title,
+                location,
+                json.dumps(items),
+                delivery_date
+            ).build_transaction({})
+            tx_hash = self.send_transaction(transaction)
+        else:
+            tx_hash = self.contract.functions.createQuoteRequest(
+                int(project_id),
+                project_title,
+                location,
+                json.dumps(items),
+                delivery_date
+            ).transact({'from': account})
+        
+        receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+        return receipt.transactionHash.hex()
+    
+    def submit_supplier_quote(self, quote_request_id, project_id, quoted_amount, delivery_terms, signature):
+        if not self.contract or not self.is_connected:
+            raise Exception("Blockchain not available")
+        
+        account = self.get_account()
+        
+        if hasattr(settings, 'BLOCKCHAIN_PRIVATE_KEY') and settings.BLOCKCHAIN_PRIVATE_KEY:
+            transaction = self.contract.functions.submitSupplierQuote(
+                int(quote_request_id),
+                int(project_id),
+                int(float(quoted_amount)),
+                delivery_terms,
+                signature
+            ).build_transaction({})
+            tx_hash = self.send_transaction(transaction)
+        else:
+            tx_hash = self.contract.functions.submitSupplierQuote(
+                int(quote_request_id),
+                int(project_id),
+                int(float(quoted_amount)),
+                delivery_terms,
+                signature
+            ).transact({'from': account})
+        
+        receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+        return receipt.transactionHash.hex()
+    
+    def select_quote(self, quote_id, project_id, selected_supplier, selected_amount, ngo_signature):
+        if not self.contract or not self.is_connected:
+            raise Exception("Blockchain not available")
+        
+        if not selected_supplier or len(selected_supplier) < 42:
+            selected_supplier = self.get_account()
+        
+        try:
+            selected_supplier = Web3.to_checksum_address(selected_supplier.lower())
+        except Exception as e:
+            raise Exception(f"Invalid supplier address format: {e}")
+        
+        account = self.get_account()
+        
+        if hasattr(settings, 'BLOCKCHAIN_PRIVATE_KEY') and settings.BLOCKCHAIN_PRIVATE_KEY:
+            transaction = self.contract.functions.selectQuote(
+                int(quote_id),
+                int(project_id),
+                selected_supplier,
+                int(float(selected_amount)),
+                ngo_signature
+            ).build_transaction({})
+            tx_hash = self.send_transaction(transaction)
+        else:
+            tx_hash = self.contract.functions.selectQuote(
+                int(quote_id),
+                int(project_id),
+                selected_supplier,
+                int(float(selected_amount)),
+                ngo_signature
+            ).transact({'from': account})
+        
+        receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+        return receipt.transactionHash.hex()
+
     def record_supplier_confirmation(self, project_id, project_title, delivery_location, supplier_address, signature):
         if not self.contract or not self.is_connected:
             raise Exception("Blockchain not available")

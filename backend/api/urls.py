@@ -1,15 +1,33 @@
 from django.urls import path
 from . import views
 from .blockchain_verify import verify_transaction, get_contract_info
+from .quote_views import create_quote_request, get_ngo_quote_requests, get_quote_request_quotes, select_quote, close_quote_request
+from .supplier_quote_views import get_available_quote_requests, submit_quote, get_supplier_quotes, confirm_delivery_to_field_officer, get_quote_request_details
 
 urlpatterns = [
     # Auth
     path('register/', views.register),
     path('login/', views.login),
+    path('forgot-password/', views.forgot_password),
+    path('reset-password/', views.reset_password),
     
     # Blockchain Verification
     path('blockchain/verify/<str:tx_hash>/', verify_transaction),
     path('blockchain/contract/', get_contract_info),
+    
+    # NGO Quote System
+    path('ngo/quote-requests/', create_quote_request),
+    path('ngo/quote-requests/list/', get_ngo_quote_requests),
+    path('ngo/quote-requests/<int:quote_request_id>/', get_quote_request_quotes),
+    path('ngo/select-quote/', select_quote),
+    path('ngo/close-quote/', close_quote_request),
+    
+    # Supplier Quote System
+    path('supplier/quote-requests/', get_available_quote_requests),
+    path('supplier/quote-requests/<int:request_id>/', get_quote_request_details),
+    path('supplier/submit-quote/', submit_quote),
+    path('supplier/quotes/', get_supplier_quotes),
+    path('supplier/confirm-selection/', confirm_delivery_to_field_officer),
     
     # Public
     path('public-reports/', views.submit_public_report),
@@ -34,10 +52,14 @@ urlpatterns = [
     path('donor/fund-project/', views.fund_project),
     path('donor/funding-report/<int:funding_id>/', views.get_funding_report),
     path('donor/project/<int:project_id>/', views.get_project_details),
+    path('project/<int:project_id>/workflow/', views.get_project_workflow_status),
+    
+    # NGO - Download supplier quote
+    path('ngo/download-quote/<int:quote_id>/', views.download_supplier_quote),
     
     # Supplier
     path('supplier/assignments/', views.get_supplier_assignments),
-    path('supplier/confirm/', views.confirm_supplier_assignment),
+    path('supplier/confirm/', views.confirm_assignment),
     
     # Field Officer
     path('field-officer/assignments/', views.get_field_officer_assignments),

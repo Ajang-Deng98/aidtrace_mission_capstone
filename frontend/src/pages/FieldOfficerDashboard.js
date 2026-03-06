@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { fieldOfficerAPI } from '../services/api';
 import { translations } from '../translations';
+import { useNotification } from '../components/NotificationProvider';
+import SearchBar from '../components/SearchBar';
+import SupplierReceipt from '../components/SupplierReceipt';
+import LoadingButton from '../components/LoadingButton';
 
 function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
   const t = translations[language] || translations['en'];
@@ -21,9 +25,8 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
         width: '220px', background: '#ffffff', borderRight: '1px solid #e0e0e0',
         display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', zIndex: 1000
       }}>
-        <div style={{padding: '12px 20px', borderBottom: '1px solid #0d8bbf', background: '#1CABE2'}}>
-          <h1 style={{margin: 0, fontSize: '22px', fontWeight: '600', color: '#ffffff'}}>AidTrace</h1>
-          <p style={{margin: '2px 0 0 0', fontSize: '13px', color: '#ffffff', opacity: 0.9}}>Field Officer Portal</p>
+        <div style={{padding: '16px 20px', borderBottom: '1px solid #1E3A8A', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '50px', width: 'auto'}} />
         </div>
 
         <div style={{padding: '12px 16px', borderBottom: '1px solid #e0e0e0'}}>
@@ -32,54 +35,101 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
         </div>
 
         <nav style={{flex: 1, padding: '8px 0'}}>
-          <Link to="/field-officer" onClick={() => setActiveTab('assignments')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'assignments' ? '#1CABE2' : '#666',
-            textDecoration: 'none', background: activeTab === 'assignments' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'assignments' ? '3px solid #1CABE2' : '3px solid transparent',
-            fontWeight: activeTab === 'assignments' ? '600' : '400', fontSize: '14px'
-          }}>My Assignments</Link>
+          <Link to="/field-officer/receipts" onClick={() => setActiveTab('receipts')} style={{
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'receipts' ? '#1E3A8A' : '#666',
+            textDecoration: 'none', background: activeTab === 'receipts' ? '#f5f5f5' : 'transparent',
+            borderLeft: activeTab === 'receipts' ? '3px solid #1E3A8A' : '3px solid transparent',
+            fontWeight: activeTab === 'receipts' ? '600' : '400', fontSize: '14px'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/>
+            </svg>
+            Supplier Deliveries
+          </Link>
+
+          <Link to="/field-officer" onClick={() => setActiveTab('projects')} style={{
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'projects' ? '#1E3A8A' : '#666',
+            textDecoration: 'none', background: activeTab === 'projects' ? '#f5f5f5' : 'transparent',
+            borderLeft: activeTab === 'projects' ? '3px solid #1E3A8A' : '3px solid transparent',
+            fontWeight: activeTab === 'projects' ? '600' : '400', fontSize: '14px'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
+            My Projects
+          </Link>
 
           <Link to="/field-officer/beneficiaries" onClick={() => setActiveTab('beneficiaries')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'beneficiaries' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'beneficiaries' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'beneficiaries' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px'
-          }}>{t.beneficiaries}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63c-.37-.89-1.27-1.37-2.17-1.37-.83 0-1.58.34-2.12.89L12 12.5l-3.62-4.61C7.84 7.34 7.09 7 6.26 7c-.9 0-1.8.48-2.17 1.37L1.55 16H4v6h2v-6h2.5l2.5-3.2 2.5 3.2H16v6h4z"/>
+            </svg>
+            {t.beneficiaries}
+          </Link>
 
           <Link to="/field-officer/distribute" onClick={() => setActiveTab('distribute')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'distribute' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'distribute' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'distribute' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'distribute' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'distribute' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'distribute' ? '600' : '400', fontSize: '14px'
-          }}>{t.distributeAid}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            {t.distributeAid}
+          </Link>
 
           <Link to="/field-officer/confirmed" onClick={() => setActiveTab('confirmed')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'confirmed' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'confirmed' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'confirmed' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'confirmed' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'confirmed' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'confirmed' ? '600' : '400', fontSize: '14px'
-          }}>{t.confirmedBeneficiaries}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            {t.confirmedBeneficiaries}
+          </Link>
 
           <Link to="/field-officer/ready" onClick={() => setActiveTab('ready')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'ready' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'ready' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'ready' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'ready' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'ready' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'ready' ? '600' : '400', fontSize: '14px'
-          }}>{t.readyToReceive}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+            </svg>
+            {t.readyToReceive}
+          </Link>
 
           <Link to="/field-officer/profile" onClick={() => setActiveTab('profile')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'profile' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'profile' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'profile' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
-          }}>{t.profileSettings}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            {t.profileSettings}
+          </Link>
 
           <Link to="/field-officer/reports" onClick={() => setActiveTab('reports')} style={{
-            display: 'block', padding: '10px 16px', color: activeTab === 'reports' ? '#1CABE2' : '#666',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#1E3A8A' : '#666',
             textDecoration: 'none', background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'reports' ? '3px solid #1CABE2' : '3px solid transparent',
+            borderLeft: activeTab === 'reports' ? '3px solid #1E3A8A' : '3px solid transparent',
             fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
-          }}>{t.viewReports}</Link>
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+            </svg>
+            {t.viewReports}
+          </Link>
         </nav>
 
         <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
@@ -87,7 +137,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
             width: '100%', padding: '10px', background: '#ffffff', border: '1px solid #e0e0e0',
             borderRadius: '4px', color: '#666', fontSize: '14px', fontWeight: '500', cursor: 'pointer'
           }}
-          onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1CABE2';}}
+          onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1E3A8A';}}
           onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0';}}>
             {t.logout}
           </button>
@@ -95,15 +145,15 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
       </div>
 
       <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
-        <div style={{background: '#1CABE2', padding: '12px 20px', borderBottom: '1px solid #0d8bbf', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <div style={{background: '#1E3A8A', padding: '12px 20px', borderBottom: '1px solid #1E3A8A', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div>
             <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>{t.fieldOfficerDashboard}</h1>
             <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageDistribution}</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
-            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
             <div style={{position: 'relative'}}>
-              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1CABE2', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
                 <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                   <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
@@ -118,7 +168,8 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
 
         <div style={{flex: 1, padding: '20px', overflowY: 'auto', background: '#ffffff'}}>
           <Routes>
-            <Route path="/" element={<Assignments language={language} />} />
+            <Route path="/receipts" element={<SupplierReceipt />} />
+            <Route path="/" element={<Projects language={language} />} />
             <Route path="/beneficiaries" element={<Beneficiaries language={language} />} />
             <Route path="/distribute" element={<Distribution language={language} />} />
             <Route path="/confirmed" element={<ConfirmedBeneficiaries language={language} />} />
@@ -132,12 +183,11 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage, theme, toggleT
   );
 }
 
-function Assignments({ language }) {
+function Projects({ language }) {
   const [assignments, setAssignments] = useState([]);
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
-  const [viewDetails, setViewDetails] = useState(null);
-  const [signature, setSignature] = useState('');
   const [loading, setLoading] = useState(true);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const { showSuccess, showError } = useNotification();
   const t = translations[language];
 
   useEffect(() => {
@@ -155,205 +205,107 @@ function Assignments({ language }) {
     }
   };
 
-  const handleConfirm = async () => {
-    if (!signature) {
-      alert('Please enter your signature');
-      return;
-    }
+  const handleConfirmAssignment = async (assignmentId) => {
+    setConfirmLoading(true);
     try {
+      const signature = `field_officer_confirmation_${assignmentId}_${Date.now()}`;
       await fieldOfficerAPI.confirmAssignment({
-        assignment_id: selectedAssignment.id,
+        assignment_id: assignmentId,
         signature: signature
       });
-      alert('Assignment confirmed successfully');
-      setSelectedAssignment(null);
-      setSignature('');
-      loadAssignments();
+      showSuccess('Assignment confirmed successfully! Project is now ready for distribution.');
+      setTimeout(() => {
+        loadAssignments();
+      }, 1000);
     } catch (err) {
-      alert('Failed to confirm assignment');
+      showError('Failed to confirm assignment');
+      console.error('Error confirming assignment:', err);
+    } finally {
+      setConfirmLoading(false);
     }
   };
 
-  if (loading) return <div><h2>My Assignments</h2><div className="card"><p>Loading...</p></div></div>;
-
-  const pending = assignments.filter(a => !a.confirmed);
-  const confirmed = assignments.filter(a => a.confirmed);
-
-  if (viewDetails) {
-    return (
-      <div>
-        <button onClick={() => setViewDetails(null)} className="btn" style={{marginBottom: '15px', background: '#666'}}>← Back to Assignments</button>
-        <div className="card">
-          <h2 style={{fontSize: '18px', marginBottom: '10px'}}>{viewDetails.project_title}</h2>
-          <span className={`badge ${viewDetails.confirmed ? 'badge-success' : 'badge-warning'}`}>
-            {viewDetails.confirmed ? 'Confirmed' : 'Pending'}
-          </span>
-
-          <div style={{marginTop: '15px', borderTop: '1px solid #e0e0e0', paddingTop: '15px'}}>
-            <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Project Information</h3>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '14px'}}>
-              <div>
-                <p style={{margin: '4px 0', color: '#666'}}>NGO</p>
-                <p style={{margin: '0', fontWeight: '600'}}>{viewDetails.ngo_name}</p>
-              </div>
-              <div>
-                <p style={{margin: '4px 0', color: '#666'}}>Category</p>
-                <p style={{margin: '0', fontWeight: '600'}}>{viewDetails.project_category}</p>
-              </div>
-              <div>
-                <p style={{margin: '4px 0', color: '#666'}}>Location</p>
-                <p style={{margin: '0', fontWeight: '600'}}>{viewDetails.project_location}</p>
-              </div>
-              <div>
-                <p style={{margin: '4px 0', color: '#666'}}>Budget</p>
-                <p style={{margin: '0', fontWeight: '600'}}>${parseFloat(viewDetails.budget_amount).toLocaleString()}</p>
-              </div>
-              <div>
-                <p style={{margin: '4px 0', color: '#666'}}>Duration</p>
-                <p style={{margin: '0', fontWeight: '600'}}>{viewDetails.duration_months} months</p>
-              </div>
-              <div>
-                <p style={{margin: '4px 0', color: '#666'}}>Target Beneficiaries</p>
-                <p style={{margin: '0', fontWeight: '600'}}>{viewDetails.target_beneficiaries}</p>
-              </div>
-              <div>
-                <p style={{margin: '4px 0', color: '#666'}}>Start Date</p>
-                <p style={{margin: '0', fontWeight: '600'}}>{viewDetails.start_date || 'N/A'}</p>
-              </div>
-              <div>
-                <p style={{margin: '4px 0', color: '#666'}}>End Date</p>
-                <p style={{margin: '0', fontWeight: '600'}}>{viewDetails.end_date || 'N/A'}</p>
-              </div>
-            </div>
-
-            <div style={{marginTop: '15px'}}>
-              <p style={{margin: '4px 0', color: '#666'}}>Description</p>
-              <p style={{margin: '0', fontSize: '14px', lineHeight: '1.6'}}>{viewDetails.project_description}</p>
-            </div>
-          </div>
-
-          <div style={{marginTop: '15px', borderTop: '1px solid #e0e0e0', paddingTop: '15px'}}>
-            <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Required Items</h3>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {viewDetails.required_items.map((item, idx) => (
-                  <tr key={idx}>
-                    <td>{item.name}</td>
-                    <td>{item.quantity}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {viewDetails.supplier_name && (
-            <div style={{marginTop: '15px', borderTop: '1px solid #e0e0e0', paddingTop: '15px'}}>
-              <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Supplier Information</h3>
-              <p style={{margin: '4px 0', fontSize: '14px'}}><strong>Supplier:</strong> {viewDetails.supplier_name}</p>
-              {viewDetails.supplier_items.length > 0 && (
-                <div style={{marginTop: '10px'}}>
-                  <p style={{margin: '4px 0', color: '#666', fontSize: '14px'}}>Assigned Items:</p>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {viewDetails.supplier_items.map((item, idx) => (
-                        <tr key={idx}>
-                          <td>{item.name}</td>
-                          <td>{item.quantity}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-          )}
-
-          {viewDetails.confirmed && (
-            <div style={{marginTop: '15px', borderTop: '1px solid #e0e0e0', paddingTop: '15px'}}>
-              <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Confirmation Details</h3>
-              <p style={{margin: '4px 0', fontSize: '14px'}}><strong>Signature:</strong> {viewDetails.signature}</p>
-              <p style={{margin: '4px 0', fontSize: '12px'}}><strong>Blockchain TX:</strong> <code>{viewDetails.blockchain_tx}</code></p>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <div style={{padding: '20px'}}><p style={{color: '#6b7280'}}>Loading...</p></div>;
 
   return (
     <div>
-      <h2>My Assignments</h2>
-      <p style={{color: '#666', marginBottom: '15px'}}>Confirm handover from suppliers</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>My Projects</h2>
+        <p style={{fontSize: '14px', color: '#666', margin: 0}}>Projects assigned to you through the quote system</p>
+      </div>
 
-      {selectedAssignment && (
-        <div className="card" style={{border: '1px solid #9c27b0', background: '#faf5ff', marginBottom: '15px'}}>
-          <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Confirm Handover: {selectedAssignment.project_title}</h3>
-          <div className="form-group" style={{marginBottom: '12px'}}>
-            <label>Your Digital Signature</label>
-            <input type="text" value={signature} onChange={(e) => setSignature(e.target.value)}
-              placeholder="Enter your signature" style={{fontSize: '13px'}} />
-            <small style={{color: '#999', fontSize: '11px'}}>This signature will be recorded on the blockchain</small>
-          </div>
-          <div style={{display: 'flex', gap: '10px'}}>
-            <button onClick={handleConfirm} className="btn" style={{padding: '8px 16px', fontSize: '14px'}}>Confirm Receipt</button>
-            <button onClick={() => {setSelectedAssignment(null); setSignature('');}} className="btn" 
-              style={{padding: '8px 16px', fontSize: '14px', background: '#666'}}>Cancel</button>
-          </div>
+      {assignments.length === 0 ? (
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '4px', border: '1px solid #e0e0e0', textAlign: 'center'}}>
+          <div style={{fontSize: '48px', marginBottom: '16px'}}>📋</div>
+          <h3 style={{fontSize: '16px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>No Projects Assigned</h3>
+          <p style={{fontSize: '14px', color: '#666', margin: 0}}>You don't have any project assignments yet. Projects are assigned through the NGO quote system.</p>
         </div>
-      )}
-
-      {pending.length > 0 && (
-        <>
-          <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Pending Confirmation</h3>
-          <div className="grid" style={{marginBottom: '20px'}}>
-            {pending.map(a => (
-              <div key={a.id} className="card" style={{border: '1px solid #9c27b0', background: '#faf5ff'}}>
-                <h3 style={{fontSize: '16px', margin: '0 0 6px 0'}}>{a.project_title}</h3>
-                <p style={{margin: '4px 0', fontSize: '13px', color: '#666'}}>{a.project_location}</p>
-                <span className="badge badge-warning">Pending</span>
-                <div style={{display: 'flex', gap: '8px', marginTop: '10px'}}>
-                  <button onClick={() => setViewDetails(a)} className="btn" 
-                    style={{flex: 1, padding: '8px', fontSize: '14px', background: '#666'}}>View Details</button>
-                  <button onClick={() => setSelectedAssignment(a)} className="btn" 
-                    style={{flex: 1, padding: '8px', fontSize: '14px'}}>Confirm</button>
+      ) : (
+        <div style={{display: 'grid', gap: '16px'}}>
+          {assignments.map(assignment => (
+            <div key={assignment.id} style={{background: '#ffffff', padding: '20px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
+              <div style={{marginBottom: '16px'}}>
+                <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>{assignment.project_title}</h3>
+                <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
+                  <span style={{padding: '4px 10px', background: '#e0e0e0', color: '#666', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>{assignment.project_category}</span>
+                  <span style={{padding: '4px 10px', background: assignment.confirmed ? '#d4edda' : '#fff3cd', color: assignment.confirmed ? '#155724' : '#856404', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>
+                    {assignment.confirmed ? '✓ Confirmed' : 'Pending'}
+                  </span>
+                  <span style={{padding: '4px 10px', background: '#e0e0e0', color: '#666', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>{assignment.status}</span>
                 </div>
               </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {confirmed.length > 0 && (
-        <>
-          <h3 style={{fontSize: '16px', marginBottom: '10px'}}>Confirmed Assignments</h3>
-          <div className="grid">
-            {confirmed.map(a => (
-              <div key={a.id} className="card" style={{border: '1px solid #e0e0e0'}}>
-                <h3 style={{fontSize: '16px', margin: '0 0 6px 0'}}>{a.project_title}</h3>
-                <p style={{margin: '4px 0', fontSize: '13px', color: '#666'}}>{a.project_location}</p>
-                <span className="badge badge-success">Confirmed</span>
-                <button onClick={() => setViewDetails(a)} className="btn" 
-                  style={{width: '100%', marginTop: '10px', padding: '8px', fontSize: '14px', background: '#666'}}>View Details</button>
+              
+              <div style={{background: '#fafafa', padding: '14px', borderRadius: '4px', marginBottom: '16px'}}>
+                <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '13px'}}>
+                  <div><span style={{color: '#666'}}>NGO:</span> <span style={{color: '#000', fontWeight: '500'}}>{assignment.ngo_name}</span></div>
+                  <div><span style={{color: '#666'}}>Location:</span> <span style={{color: '#000', fontWeight: '500'}}>{assignment.project_location}</span></div>
+                  <div><span style={{color: '#666'}}>Budget:</span> <span style={{color: '#000', fontWeight: '500'}}>${parseFloat(assignment.budget_amount).toLocaleString()}</span></div>
+                  <div><span style={{color: '#666'}}>Beneficiaries:</span> <span style={{color: '#000', fontWeight: '500'}}>{assignment.target_beneficiaries}</span></div>
+                </div>
+                {assignment.supplier_info && (
+                  <div style={{marginTop: '12px', padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600', color: '#000'}}>Selected Supplier</p>
+                    <div style={{display: 'grid', gap: '4px', fontSize: '13px'}}>
+                      <div><span style={{color: '#666'}}>Name:</span> <span style={{color: '#000'}}>{assignment.supplier_info.name}</span></div>
+                      <div><span style={{color: '#666'}}>Contact:</span> <span style={{color: '#000'}}>{assignment.supplier_info.contact}</span></div>
+                      <div><span style={{color: '#666'}}>Amount:</span> <span style={{color: '#000', fontWeight: '500'}}>${parseFloat(assignment.supplier_info.quoted_amount).toLocaleString()}</span></div>
+                    </div>
+                    {assignment.delivery_info && (
+                      <div style={{marginTop: '8px', padding: '10px', background: '#ffffff', borderRadius: '3px', border: '1px solid #e0e0e0'}}>
+                        <p style={{margin: '0 0 4px 0', fontSize: '12px', fontWeight: '600', color: '#000'}}>✓ Delivered</p>
+                        <p style={{margin: '0', fontSize: '12px', color: '#666'}}>Date: {new Date(assignment.delivery_info.delivered_at).toLocaleDateString()}</p>
+                        {assignment.delivery_info.delivery_notes && (
+                          <p style={{margin: '4px 0 0 0', fontSize: '12px', color: '#666'}}>Notes: {assignment.delivery_info.delivery_notes}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {assignments.length === 0 && (
-        <div className="card"><h3>No Assignments Yet</h3><p>You don't have any assignments yet.</p></div>
+              
+              {!assignment.confirmed && assignment.status === 'SUPPLIER_DELIVERED' && (
+                <div style={{padding: '16px', background: '#ffffff', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
+                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>Final Confirmation Required</h4>
+                  <p style={{margin: '0 0 12px 0', fontSize: '13px', color: '#666'}}>The supplier has delivered items to you. Please provide final confirmation to make this project ready for distribution.</p>
+                  <LoadingButton 
+                    onClick={() => handleConfirmAssignment(assignment.id)}
+                    loading={confirmLoading}
+                    style={{padding: '8px 16px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}
+                  >
+                    Confirm Final Receipt
+                  </LoadingButton>
+                </div>
+              )}
+              
+              {assignment.confirmed && (
+                <div style={{padding: '16px', background: '#ffffff', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
+                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#000', margin: '0 0 8px 0'}}>✓ Assignment Confirmed</h4>
+                  <p style={{margin: '0', fontSize: '13px', color: '#666'}}>This project is ready for distribution. You can now register beneficiaries and distribute aid.</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
@@ -362,12 +314,15 @@ function Assignments({ language }) {
 function Beneficiaries({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [beneficiaries, setBeneficiaries] = useState([]);
+  const [filteredBeneficiaries, setFilteredBeneficiaries] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone_number: '' });
   const [faceImage, setFaceImage] = useState(null);
   const [facePreview, setFacePreview] = useState(null);
+  const [registerLoading, setRegisterLoading] = useState(false);
   const t = translations[language];
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     loadAssignments();
@@ -376,6 +331,10 @@ function Beneficiaries({ language }) {
   useEffect(() => {
     if (selectedProject) loadBeneficiaries();
   }, [selectedProject]);
+
+  useEffect(() => {
+    setFilteredBeneficiaries(beneficiaries);
+  }, [beneficiaries]);
 
   const loadAssignments = async () => {
     const response = await fieldOfficerAPI.getAssignments();
@@ -390,6 +349,18 @@ function Beneficiaries({ language }) {
       console.error('Error loading beneficiaries:', err);
     }
   };
+
+  const handleSearch = (results) => {
+    setFilteredBeneficiaries(results.length > 0 ? results : beneficiaries);
+  };
+
+  const searchData = beneficiaries.map(b => ({
+    ...b,
+    title: b.name,
+    description: `Phone: ${b.phone_number}`,
+    status: b.face_verified ? 'Verified' : 'Not Verified',
+    type: 'Beneficiary'
+  }));
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -406,9 +377,10 @@ function Beneficiaries({ language }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!faceImage) {
-      alert('Please upload a face photo');
+      showError('Please upload a face photo');
       return;
     }
+    setRegisterLoading(true);
     try {
       const beneficiaryData = {
         ...formData,
@@ -416,14 +388,18 @@ function Beneficiaries({ language }) {
         face_photo: facePreview
       };
       await fieldOfficerAPI.addBeneficiary(beneficiaryData);
-      alert('Beneficiary registered successfully!');
-      setFormData({ name: '', phone_number: '' });
-      setFaceImage(null);
-      setFacePreview(null);
-      setShowForm(false);
-      loadBeneficiaries();
+      showSuccess('Beneficiary registered successfully!');
+      setTimeout(() => {
+        setFormData({ name: '', phone_number: '' });
+        setFaceImage(null);
+        setFacePreview(null);
+        setShowForm(false);
+        loadBeneficiaries();
+      }, 50);
     } catch (err) {
-      alert('Failed to register beneficiary');
+      showError('Failed to register beneficiary');
+    } finally {
+      setRegisterLoading(false);
     }
   };
 
@@ -451,7 +427,7 @@ function Beneficiaries({ language }) {
           </button>
 
           {showForm && (
-            <div className="card" style={{marginBottom: '15px', border: '1px solid #1CABE2'}}>
+            <div className="card" style={{marginBottom: '15px', border: '1px solid #1E3A8A'}}>
               <h3 style={{fontSize: '16px', marginBottom: '15px'}}>Register Beneficiary</h3>
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -467,15 +443,15 @@ function Beneficiaries({ language }) {
                 </div>
                 <div className="form-group">
                   <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '14px'}}>Face Photo (Required)</label>
-                  <div style={{border: '2px dashed #1CABE2', borderRadius: '8px', padding: '20px', textAlign: 'center', background: '#f8f9fa'}}>
+                  <div style={{border: '2px dashed #1E3A8A', borderRadius: '8px', padding: '20px', textAlign: 'center', background: '#f8f9fa'}}>
                     {facePreview ? (
                       <div>
                         <img src={facePreview} alt="Face preview" style={{maxWidth: '200px', maxHeight: '200px', borderRadius: '8px', marginBottom: '10px'}} />
-                        <p style={{margin: '10px 0 0 0', fontSize: '13px', color: '#28a745', fontWeight: '600'}}>✓ Face photo uploaded</p>
+                        <p style={{margin: '10px 0 0 0', fontSize: '13px', color: '#22C55E', fontWeight: '600'}}>✓ Face photo uploaded</p>
                       </div>
                     ) : (
                       <div>
-                        <div style={{fontSize: '48px', color: '#1CABE2', marginBottom: '10px'}}>📷</div>
+                        <div style={{fontSize: '48px', color: '#1E3A8A', marginBottom: '10px'}}>📷</div>
                         <p style={{margin: '0 0 10px 0', fontSize: '14px', color: '#666'}}>Upload beneficiary face photo</p>
                       </div>
                     )}
@@ -490,7 +466,7 @@ function Beneficiaries({ language }) {
                     <label htmlFor="faceUpload" style={{
                       display: 'inline-block',
                       padding: '10px 20px',
-                      background: '#1CABE2',
+                      background: '#1E3A8A',
                       color: '#fff',
                       borderRadius: '4px',
                       cursor: 'pointer',
@@ -503,14 +479,30 @@ function Beneficiaries({ language }) {
                   </div>
                   <small style={{color: '#666', fontSize: '12px', display: 'block', marginTop: '8px'}}>This photo will be used for facial recognition during aid distribution</small>
                 </div>
-                <button type="submit" className="btn" style={{width: '100%', padding: '12px', fontSize: '15px'}}>Register Beneficiary</button>
+                <LoadingButton type="submit" loading={registerLoading} className="btn" style={{width: '100%', padding: '12px', fontSize: '15px'}}>Register Beneficiary</LoadingButton>
               </form>
             </div>
           )}
 
           <div className="card">
-            <h3>Registered Beneficiaries</h3>
-            {beneficiaries.length === 0 ? (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <h3>Registered Beneficiaries</h3>
+              <div style={{ fontSize: '14px', color: '#666' }}>
+                Total: {beneficiaries.length} | Showing: {filteredBeneficiaries.length}
+              </div>
+            </div>
+            
+            {beneficiaries.length > 0 && (
+              <SearchBar 
+                searchData={searchData}
+                onSearch={handleSearch}
+                placeholder="Search beneficiaries by name, phone, or status..."
+              />
+            )}
+            
+            {filteredBeneficiaries.length === 0 && beneficiaries.length > 0 ? (
+              <p style={{color: '#666'}}>No beneficiaries match your search.</p>
+            ) : filteredBeneficiaries.length === 0 ? (
               <p style={{color: '#666'}}>No beneficiaries registered yet.</p>
             ) : (
               <table className="table">
@@ -523,13 +515,13 @@ function Beneficiaries({ language }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {beneficiaries.map((b, idx) => (
+                  {filteredBeneficiaries.map((b, idx) => (
                     <tr key={idx}>
                       <td>{b.name}</td>
                       <td>{b.phone_number}</td>
                       <td>
                         {b.face_verified ? (
-                          <span style={{color: '#28a745', fontWeight: '600', fontSize: '13px'}}>✓ Verified</span>
+                          <span style={{color: '#22C55E', fontWeight: '600', fontSize: '13px'}}>✓ Verified</span>
                         ) : (
                           <span style={{color: '#dc3545', fontSize: '13px'}}>✗ Not Verified</span>
                         )}
@@ -553,30 +545,55 @@ function Distribution({ language }) {
   const [step, setStep] = useState(1);
   const [searchName, setSearchName] = useState('');
   const [beneficiaries, setBeneficiaries] = useState([]);
+  const [allBeneficiaries, setAllBeneficiaries] = useState([]);
   const [selectedBeneficiary, setSelectedBeneficiary] = useState(null);
   const [faceScanImage, setFaceScanImage] = useState(null);
   const [faceScanPreview, setFaceScanPreview] = useState(null);
   const [otpCode, setOtpCode] = useState('');
   const [sentOtp, setSentOtp] = useState('');
+  const [sendOtpLoading, setSendOtpLoading] = useState(false);
+  const [verifyOtpLoading, setVerifyOtpLoading] = useState(false);
   const t = translations[language];
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     loadAssignments();
   }, []);
+
+  useEffect(() => {
+    if (selectedProject) {
+      loadAllBeneficiaries();
+    }
+  }, [selectedProject]);
 
   const loadAssignments = async () => {
     const response = await fieldOfficerAPI.getAssignments();
     setAssignments(response.data.filter(a => a.confirmed));
   };
 
-  const handleSearch = async () => {
+  const loadAllBeneficiaries = async () => {
     try {
-      const response = await fieldOfficerAPI.searchBeneficiary({ name: searchName, project_id: selectedProject });
-      setBeneficiaries(response.data);
+      const response = await fieldOfficerAPI.getAllBeneficiaries({ project_id: selectedProject });
+      const readyBeneficiaries = response.data.filter(b => !b.confirmed);
+      setAllBeneficiaries(readyBeneficiaries);
+      setBeneficiaries(readyBeneficiaries);
     } catch (err) {
-      alert('Search failed');
+      console.error('Error loading beneficiaries:', err);
     }
   };
+
+  const handleSearch = (results) => {
+    setBeneficiaries(results.length > 0 ? results : allBeneficiaries);
+  };
+
+  const searchData = allBeneficiaries.map(b => ({
+    ...b,
+    title: b.name,
+    description: `Phone: ${b.phone_number}`,
+    status: b.face_verified ? 'Face Verified' : 'Not Verified',
+    type: 'Ready to Receive',
+    onClick: () => handleSelectBeneficiary(b)
+  }));
 
   const handleSelectBeneficiary = (beneficiary) => {
     setSelectedBeneficiary(beneficiary);
@@ -597,23 +614,29 @@ function Distribution({ language }) {
 
   const handleFaceScanConfirm = () => {
     if (!faceScanPreview) {
-      alert('Please upload face scan photo');
+      showError('Please upload face scan photo');
       return;
     }
     setStep(3);
   };
 
   const handleSendOTP = async () => {
+    setSendOtpLoading(true);
     try {
       await fieldOfficerAPI.sendOTP({ phone_number: selectedBeneficiary.phone_number });
-      setSentOtp('sent');
-      alert('OTP sent to beneficiary phone');
+      showSuccess('OTP sent to beneficiary phone');
+      setTimeout(() => {
+        setSentOtp('sent');
+      }, 50);
     } catch (err) {
-      alert('Failed to send OTP');
+      showError('Failed to send OTP');
+    } finally {
+      setSendOtpLoading(false);
     }
   };
 
   const handleVerifyOTP = async () => {
+    setVerifyOtpLoading(true);
     try {
       await fieldOfficerAPI.verifyOTP({
         phone_number: selectedBeneficiary.phone_number,
@@ -622,17 +645,23 @@ function Distribution({ language }) {
         project_id: selectedProject,
         face_scan_photo: faceScanPreview
       });
-      alert('Distribution completed successfully! Beneficiary received aid.');
-      setStep(1);
-      setSelectedBeneficiary(null);
-      setSearchName('');
-      setBeneficiaries([]);
-      setOtpCode('');
-      setSentOtp('');
-      setFaceScanImage(null);
-      setFaceScanPreview(null);
+      showSuccess('Distribution completed successfully! Beneficiary received aid.');
+      setTimeout(() => {
+        setStep(1);
+        setSelectedBeneficiary(null);
+        setSearchName('');
+        setBeneficiaries([]);
+        setAllBeneficiaries([]);
+        setOtpCode('');
+        setSentOtp('');
+        setFaceScanImage(null);
+        setFaceScanPreview(null);
+        loadAllBeneficiaries(); // Reload beneficiaries
+      }, 50);
     } catch (err) {
-      alert('OTP verification failed');
+      showError('OTP verification failed');
+    } finally {
+      setVerifyOtpLoading(false);
     }
   };
 
@@ -655,26 +684,38 @@ function Distribution({ language }) {
 
       {selectedProject && step === 1 && (
         <div className="card">
-          <h3>Step 1: Search Beneficiary</h3>
-          <div className="form-group">
-            <label>Beneficiary Name</label>
-            <input type="text" value={searchName} onChange={(e) => setSearchName(e.target.value)} placeholder="Enter name" />
-          </div>
-          <button onClick={handleSearch} className="btn">Search</button>
-
-          {beneficiaries.length > 0 && (
-            <div style={{marginTop: '15px'}}>
-              <h4 style={{fontSize: '14px', marginBottom: '10px'}}>Search Results:</h4>
-              {beneficiaries.map(b => (
-                <div key={b.id} style={{padding: '10px', borderBottom: '1px solid #e0e0e0', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                  <div>
-                    <p style={{margin: 0, fontWeight: '600'}}>{b.name}</p>
-                    <p style={{margin: 0, fontSize: '13px', color: '#666'}}>{b.phone_number}</p>
-                  </div>
-                  <button onClick={() => handleSelectBeneficiary(b)} className="btn" style={{padding: '6px 12px', fontSize: '13px'}}>Select</button>
+          <h3>Step 1: Search & Select Beneficiary</h3>
+          <p style={{color: '#666', marginBottom: '15px'}}>Search for beneficiaries ready to receive aid</p>
+          
+          {allBeneficiaries.length > 0 ? (
+            <>
+              <SearchBar 
+                searchData={searchData}
+                onSearch={handleSearch}
+                placeholder="Search beneficiaries by name, phone, or verification status..."
+              />
+              
+              <div style={{marginTop: '15px'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
+                  <h4 style={{fontSize: '14px', margin: 0}}>Available Beneficiaries:</h4>
+                  <span style={{fontSize: '13px', color: '#666'}}>Showing {beneficiaries.length} of {allBeneficiaries.length}</span>
                 </div>
-              ))}
-            </div>
+                {beneficiaries.map(b => (
+                  <div key={b.id} style={{padding: '12px', borderBottom: '1px solid #e0e0e0', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <div>
+                      <p style={{margin: 0, fontWeight: '600'}}>{b.name}</p>
+                      <p style={{margin: '2px 0 0 0', fontSize: '13px', color: '#666'}}>{b.phone_number}</p>
+                      <span style={{fontSize: '12px', color: b.face_verified ? '#22C55E' : '#dc3545'}}>
+                        {b.face_verified ? '✓ Face Verified' : '✗ Not Verified'}
+                      </span>
+                    </div>
+                    <button onClick={() => handleSelectBeneficiary(b)} className="btn" style={{padding: '6px 12px', fontSize: '13px'}}>Select</button>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p style={{color: '#666'}}>No beneficiaries available for distribution in this project.</p>
           )}
         </div>
       )}
@@ -685,15 +726,15 @@ function Distribution({ language }) {
           <p><strong>Beneficiary:</strong> {selectedBeneficiary.name}</p>
           <p style={{color: '#666', fontSize: '13px', marginBottom: '15px'}}>Upload beneficiary's face photo for verification</p>
           
-          <div style={{border: '2px dashed #1CABE2', borderRadius: '8px', padding: '20px', textAlign: 'center', background: '#f8f9fa', marginBottom: '15px'}}>
+          <div style={{border: '2px dashed #1E3A8A', borderRadius: '8px', padding: '20px', textAlign: 'center', background: '#f8f9fa', marginBottom: '15px'}}>
             {faceScanPreview ? (
               <div>
                 <img src={faceScanPreview} alt="Face scan" style={{maxWidth: '200px', maxHeight: '200px', borderRadius: '8px', marginBottom: '10px'}} />
-                <p style={{margin: '10px 0 0 0', fontSize: '13px', color: '#28a745', fontWeight: '600'}}>✓ Face scan uploaded</p>
+                <p style={{margin: '10px 0 0 0', fontSize: '13px', color: '#22C55E', fontWeight: '600'}}>✓ Face scan uploaded</p>
               </div>
             ) : (
               <div>
-                <div style={{fontSize: '48px', color: '#1CABE2', marginBottom: '10px'}}>📷</div>
+                <div style={{fontSize: '48px', color: '#1E3A8A', marginBottom: '10px'}}>📷</div>
                 <p style={{margin: '0 0 10px 0', fontSize: '14px', color: '#666'}}>Upload face scan for verification</p>
               </div>
             )}
@@ -707,7 +748,7 @@ function Distribution({ language }) {
             <label htmlFor="faceScanUpload" style={{
               display: 'inline-block',
               padding: '10px 20px',
-              background: '#1CABE2',
+              background: '#1E3A8A',
               color: '#fff',
               borderRadius: '4px',
               cursor: 'pointer',
@@ -728,7 +769,7 @@ function Distribution({ language }) {
           <h3>Step 3: OTP Verification</h3>
           <p><strong>Beneficiary:</strong> {selectedBeneficiary.name}</p>
           <p><strong>Phone:</strong> {selectedBeneficiary.phone_number}</p>
-          <button onClick={handleSendOTP} className="btn">Send OTP</button>
+          <LoadingButton onClick={handleSendOTP} loading={sendOtpLoading} className="btn">Send OTP</LoadingButton>
 
           {sentOtp && (
             <div style={{marginTop: '15px'}}>
@@ -739,7 +780,7 @@ function Distribution({ language }) {
                 <label>Enter OTP Code</label>
                 <input type="text" value={otpCode} onChange={(e) => setOtpCode(e.target.value)} placeholder="Enter 6-digit code" />
               </div>
-              <button onClick={handleVerifyOTP} className="btn">Verify OTP & Complete Distribution</button>
+              <LoadingButton onClick={handleVerifyOTP} loading={verifyOtpLoading} className="btn">Verify OTP & Complete Distribution</LoadingButton>
             </div>
           )}
         </div>
@@ -751,6 +792,7 @@ function Distribution({ language }) {
 function ConfirmedBeneficiaries({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [confirmedBeneficiaries, setConfirmedBeneficiaries] = useState([]);
+  const [filteredConfirmed, setFilteredConfirmed] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
   const t = translations[language];
 
@@ -761,6 +803,10 @@ function ConfirmedBeneficiaries({ language }) {
   useEffect(() => {
     if (selectedProject) loadConfirmedBeneficiaries();
   }, [selectedProject]);
+
+  useEffect(() => {
+    setFilteredConfirmed(confirmedBeneficiaries);
+  }, [confirmedBeneficiaries]);
 
   const loadAssignments = async () => {
     const response = await fieldOfficerAPI.getAssignments();
@@ -775,6 +821,18 @@ function ConfirmedBeneficiaries({ language }) {
       console.error('Error loading confirmed beneficiaries:', err);
     }
   };
+
+  const handleSearch = (results) => {
+    setFilteredConfirmed(results.length > 0 ? results : confirmedBeneficiaries);
+  };
+
+  const searchData = confirmedBeneficiaries.map(b => ({
+    ...b,
+    title: b.name,
+    description: `Phone: ${b.phone_number}`,
+    status: 'Received & Confirmed',
+    type: 'Confirmed'
+  }));
 
   return (
     <div>
@@ -795,14 +853,38 @@ function ConfirmedBeneficiaries({ language }) {
 
       {selectedProject && (
         <div className="card">
-          <h3>Confirmed Beneficiaries</h3>
-          {confirmedBeneficiaries.length === 0 ? (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+            <h3>Confirmed Beneficiaries</h3>
+            <div style={{ fontSize: '14px', color: '#666' }}>
+              Total: {confirmedBeneficiaries.length} | Showing: {filteredConfirmed.length}
+            </div>
+          </div>
+          
+          {filteredConfirmed.length === 0 && confirmedBeneficiaries.length > 0 ? (
+            <>
+              <SearchBar 
+                searchData={searchData}
+                onSearch={handleSearch}
+                placeholder="Search confirmed beneficiaries by name or phone..."
+              />
+              <p style={{color: '#666'}}>No confirmed beneficiaries match your search.</p>
+            </>
+          ) : filteredConfirmed.length === 0 ? (
             <p style={{color: '#666'}}>No confirmed beneficiaries yet.</p>
           ) : (
             <>
-              <div style={{marginBottom: '15px', padding: '10px', background: '#e8f5e9', borderRadius: '4px', border: '1px solid #4caf50'}}>
-                <p style={{margin: 0, fontSize: '14px', color: '#2e7d32', fontWeight: '600'}}>✓ Total Confirmed: {confirmedBeneficiaries.length}</p>
+              <div style={{marginBottom: '15px', padding: '10px', background: '#f0f9ff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                <p style={{margin: 0, fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>✓ Total Confirmed: {confirmedBeneficiaries.length}</p>
               </div>
+              
+              {confirmedBeneficiaries.length > 0 && (
+                <SearchBar 
+                  searchData={searchData}
+                  onSearch={handleSearch}
+                  placeholder="Search confirmed beneficiaries by name or phone..."
+                />
+              )}
+              
               <table className="table">
                 <thead>
                   <tr>
@@ -813,13 +895,13 @@ function ConfirmedBeneficiaries({ language }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {confirmedBeneficiaries.map((b, idx) => (
+                  {filteredConfirmed.map((b, idx) => (
                     <tr key={idx}>
                       <td>{b.name}</td>
                       <td>{b.phone_number}</td>
                       <td>{new Date(b.created_at).toLocaleDateString()}</td>
                       <td>
-                        <span style={{color: '#28a745', fontWeight: '600', fontSize: '13px', background: '#e8f5e9', padding: '4px 8px', borderRadius: '4px'}}>✓ Received & Confirmed</span>
+                        <span style={{color: '#1E3A8A', fontWeight: '600', fontSize: '13px', background: '#f0f9ff', padding: '4px 8px', borderRadius: '4px'}}>✓ Received & Confirmed</span>
                       </td>
                     </tr>
                   ))}
@@ -836,6 +918,7 @@ function ConfirmedBeneficiaries({ language }) {
 function ReadyToReceive({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [readyBeneficiaries, setReadyBeneficiaries] = useState([]);
+  const [filteredReady, setFilteredReady] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
   const t = translations[language];
 
@@ -847,6 +930,10 @@ function ReadyToReceive({ language }) {
     if (selectedProject) loadReadyBeneficiaries();
   }, [selectedProject]);
 
+  useEffect(() => {
+    setFilteredReady(readyBeneficiaries);
+  }, [readyBeneficiaries]);
+
   const loadAssignments = async () => {
     const response = await fieldOfficerAPI.getAssignments();
     setAssignments(response.data.filter(a => a.confirmed));
@@ -856,11 +943,24 @@ function ReadyToReceive({ language }) {
     try {
       const response = await fieldOfficerAPI.getAllBeneficiaries({ project_id: selectedProject });
       // Filter only unconfirmed beneficiaries (ready to receive)
-      setReadyBeneficiaries(response.data.filter(b => !b.confirmed));
+      const ready = response.data.filter(b => !b.confirmed);
+      setReadyBeneficiaries(ready);
     } catch (err) {
       console.error('Error loading ready beneficiaries:', err);
     }
   };
+
+  const handleSearch = (results) => {
+    setFilteredReady(results.length > 0 ? results : readyBeneficiaries);
+  };
+
+  const searchData = readyBeneficiaries.map(b => ({
+    ...b,
+    title: b.name,
+    description: `Phone: ${b.phone_number}`,
+    status: b.face_verified ? 'Face Verified' : 'Not Verified',
+    type: 'Ready to Receive'
+  }));
 
   return (
     <div>
@@ -881,14 +981,38 @@ function ReadyToReceive({ language }) {
 
       {selectedProject && (
         <div className="card">
-          <h3>Beneficiaries Ready to Receive</h3>
-          {readyBeneficiaries.length === 0 ? (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+            <h3>Beneficiaries Ready to Receive</h3>
+            <div style={{ fontSize: '14px', color: '#666' }}>
+              Total: {readyBeneficiaries.length} | Showing: {filteredReady.length}
+            </div>
+          </div>
+          
+          {filteredReady.length === 0 && readyBeneficiaries.length > 0 ? (
+            <>
+              <SearchBar 
+                searchData={searchData}
+                onSearch={handleSearch}
+                placeholder="Search ready beneficiaries by name, phone, or verification status..."
+              />
+              <p style={{color: '#666'}}>No beneficiaries match your search.</p>
+            </>
+          ) : filteredReady.length === 0 ? (
             <p style={{color: '#666'}}>No beneficiaries ready to receive aid.</p>
           ) : (
             <>
-              <div style={{marginBottom: '15px', padding: '10px', background: '#fff3cd', borderRadius: '4px', border: '1px solid #ffc107'}}>
-                <p style={{margin: 0, fontSize: '14px', color: '#856404', fontWeight: '600'}}>Total Ready: {readyBeneficiaries.length}</p>
+              <div style={{marginBottom: '15px', padding: '10px', background: '#f5f5f5', borderRadius: '4px', border: '1px solid #000000'}}>
+                <p style={{margin: 0, fontSize: '14px', color: '#000000', fontWeight: '600'}}>Total Ready: {readyBeneficiaries.length}</p>
               </div>
+              
+              {readyBeneficiaries.length > 0 && (
+                <SearchBar 
+                  searchData={searchData}
+                  onSearch={handleSearch}
+                  placeholder="Search ready beneficiaries by name, phone, or verification status..."
+                />
+              )}
+              
               <table className="table">
                 <thead>
                   <tr>
@@ -900,20 +1024,20 @@ function ReadyToReceive({ language }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {readyBeneficiaries.map((b, idx) => (
+                  {filteredReady.map((b, idx) => (
                     <tr key={idx}>
                       <td>{b.name}</td>
                       <td>{b.phone_number}</td>
                       <td>
                         {b.face_verified ? (
-                          <span style={{color: '#28a745', fontWeight: '600', fontSize: '13px'}}>Verified</span>
+                          <span style={{color: '#22C55E', fontWeight: '600', fontSize: '13px'}}>Verified</span>
                         ) : (
                           <span style={{color: '#dc3545', fontSize: '13px'}}>Not Verified</span>
                         )}
                       </td>
                       <td>{new Date(b.created_at).toLocaleDateString()}</td>
                       <td>
-                        <span style={{color: '#ff9800', fontWeight: '600', fontSize: '13px', background: '#fff3cd', padding: '4px 8px', borderRadius: '4px'}}>Ready to Receive</span>
+                        <span style={{color: '#000000', fontWeight: '600', fontSize: '13px', background: '#f5f5f5', padding: '4px 8px', borderRadius: '4px'}}>Ready to Receive</span>
                       </td>
                     </tr>
                   ))}
@@ -942,12 +1066,13 @@ function ProfileSettings({ language }) {
   });
   const [activities] = useState([]);
   const t = translations[language];
+  const { showSuccess } = useNotification();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedUser = { ...user, ...formData };
     localStorage.setItem('user', JSON.stringify(updatedUser));
-    alert('Profile updated successfully');
+    showSuccess('Profile updated successfully');
   };
 
   const handleNotificationChange = (key) => {
@@ -963,18 +1088,18 @@ function ProfileSettings({ language }) {
         <div style={{display: 'flex', gap: '30px'}}>
           <button onClick={() => setActiveTab('profile')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'profile' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'profile' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'profile' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'profile' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>Profile Information</button>
           <button onClick={() => setActiveTab('preferences')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'preferences' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'preferences' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'preferences' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'preferences' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>Preferences</button>
           <button onClick={() => setActiveTab('activity')} style={{
             background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'activity' ? '#1CABE2' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'activity' ? '2px solid #1CABE2' : '2px solid transparent'
+            color: activeTab === 'activity' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            borderBottom: activeTab === 'activity' ? '2px solid #1E3A8A' : '2px solid transparent'
           }}>Activity Log</button>
         </div>
       </div>
@@ -1094,7 +1219,7 @@ function PublicReports({ language }) {
                   <td>{report.description.substring(0, 100)}...</td>
                   <td>{report.location || 'N/A'}</td>
                   <td>{new Date(report.created_at).toLocaleDateString()}</td>
-                  <td><span className="badge badge-warning">Under Review</span></td>
+                  <td><span className="badge badge-success">Published</span></td>
                 </tr>
               ))}
             </tbody>

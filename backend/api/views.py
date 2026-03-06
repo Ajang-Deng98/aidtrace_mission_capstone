@@ -7,6 +7,55 @@ from .serializers import *
 from .auth import create_token, require_auth
 from .blockchain import blockchain_service
 from .otp_service import otp_service
+from django.core.mail import send_mail
+from django.conf import settings
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def forgot_password(request):
+    data = json.loads(request.body)
+    email = data.get('email')
+    
+    try:
+        user = User.objects.get(email=email)
+        token = PasswordResetToken.objects.create(user=user)
+        
+        reset_link = f"http://localhost:3000/reset-password/{token.token}"
+        send_mail(
+            'AidTrace - Password Reset',
+            f'Click this link to reset your password: {reset_link}\n\nThis link expires in 24 hours.',
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False,
+        )
+        return JsonResponse({'message': 'Password reset link sent to your email'})
+    except User.DoesNotExist:
+        return JsonResponse({'message': 'Password reset link sent to your email'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def reset_password(request):
+    data = json.loads(request.body)
+    token = data.get('token')
+    new_password = data.get('password')
+    
+    try:
+        reset_token = PasswordResetToken.objects.get(token=token)
+        if not reset_token.is_valid():
+            return JsonResponse({'error': 'Reset link has expired'}, status=400)
+        
+        user = reset_token.user
+        user.set_password(new_password)
+        user.save()
+        reset_token.delete()
+        
+        return JsonResponse({'message': 'Password reset successful'})
+    except PasswordResetToken.DoesNotExist:
+        return JsonResponse({'error': 'Invalid reset link'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -110,6 +159,12 @@ def create_project(request):
         end_date=data.get('end_date'),
         category=data.get('category', 'General Aid'),
         desired_donors=data.get('desired_donors', []),
+        document1=data.get('document1', ''),
+        document1_name=data.get('document1_name', ''),
+        document2=data.get('document2', ''),
+        document2_name=data.get('document2_name', ''),
+        document3=data.get('document3', ''),
+        document3_name=data.get('document3_name', ''),
         ngo=ngo,
         is_approved=False,
         status='CREATED'
@@ -267,11 +322,41 @@ def assign_field_officer(request):
 @require_http_methods(["POST"])
 @require_auth(['NGO'])
 def confirm_funding(request):
+    import sys
+    sys.stderr.write("\n\n*** CONFIRM FUNDING CALLED ***\n\n")
+    sys.stderr.flush()
+    
     data = json.loads(request.body)
     
     funding = Funding.objects.get(id=data.get('funding_id'))
     funding.ngo_signature = data.get('signature')
+    
+    sys.stderr.write(f"Funding ID: {funding.id}, Signature: {funding.ngo_signature}\n")
+    sys.stderr.flush()
+    
+    # Record NGO funding confirmation on blockchain
+    try:
+        sys.stderr.write("Calling blockchain...\n")
+        sys.stderr.flush()
+        tx_hash = blockchain_service.confirm_funding(
+            funding.project.id,
+            funding.id,
+            funding.ngo_signature,
+            funding.donor_signature
+        )
+        sys.stderr.write(f"Blockchain returned: {tx_hash}\n")
+        sys.stderr.flush()
+        if tx_hash:
+            funding.ngo_confirmation_tx = tx_hash
+    except Exception as e:
+        sys.stderr.write(f"ERROR: {e}\n")
+        sys.stderr.flush()
+        import traceback
+        traceback.print_exc(file=sys.stderr)
+    
     funding.save()
+    sys.stderr.write(f"Saved. ngo_confirmation_tx = {funding.ngo_confirmation_tx}\n\n")
+    sys.stderr.flush()
     
     # Update project status to FUNDED
     funding.project.status = 'FUNDED'
@@ -285,10 +370,10 @@ def confirm_funding(request):
 @require_auth(['DONOR'])
 def get_all_projects(request):
     donor = User.objects.get(id=request.user_data['user_id'])
-    # Show projects that are PENDING_FUNDING and either have no desired donors or include this donor
+    # Show projects that are approved and available for funding
     projects = Project.objects.filter(
         is_approved=True, 
-        status='PENDING_FUNDING'
+        status__in=['PENDING_FUNDING', 'CREATED']
     ).order_by('-created_at')
     
     # Filter to show only projects where donor is in desired_donors list or desired_donors is empty
@@ -318,19 +403,22 @@ def fund_project(request):
         project = Project.objects.get(id=data.get('project_id'))
         
         # Record on blockchain first
-        tx_hash = None
+        tx_hash = ''
         try:
-            # Only attempt blockchain if both wallets exist and are valid
-            if donor.wallet_address and project.ngo.wallet_address:
-                tx_hash = blockchain_service.record_funding(
-                    project.id,
-                    donor.wallet_address,
-                    project.ngo.wallet_address,
-                    data.get('amount')
-                )
+            donor_wallet = donor.wallet_address if donor.wallet_address else blockchain_service.get_account()
+            ngo_wallet = project.ngo.wallet_address if project.ngo.wallet_address else blockchain_service.get_account()
+            
+            tx_hash = blockchain_service.record_funding(
+                project.id,
+                donor_wallet,
+                ngo_wallet,
+                data.get('amount')
+            )
+            print(f"Donor funding blockchain hash: {tx_hash}")
         except Exception as e:
             print(f"Blockchain funding record failed: {e}")
-            # Continue without blockchain
+            import traceback
+            print(traceback.format_exc())
         
         funding = Funding.objects.create(
             project=project,
@@ -338,7 +426,7 @@ def fund_project(request):
             amount=data.get('amount'),
             donor_signature=data.get('signature', ''),
             ngo_signature='',
-            blockchain_tx=tx_hash or ''
+            blockchain_tx=tx_hash
         )
         
         project.status = 'FUNDED'
@@ -429,6 +517,99 @@ def get_funding_report(request, funding_id):
         return JsonResponse({'error': str(e)}, status=500)
 
 @require_http_methods(["GET"])
+@require_auth(['NGO'])
+def download_supplier_quote(request, quote_id):
+    from django.http import HttpResponse
+    try:
+        quote = SupplierQuote.objects.get(id=quote_id)
+        quote_request = quote.quote_request
+        project = quote_request.project
+        
+        html_content = f'''<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Quote - {quote.supplier.name}</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }}
+        .container {{ max-width: 800px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
+        .header {{ text-align: center; border-bottom: 3px solid #1CABE2; padding-bottom: 20px; margin-bottom: 30px; }}
+        .logo {{ font-size: 32px; font-weight: bold; color: #1CABE2; margin-bottom: 10px; }}
+        .section {{ margin-bottom: 30px; }}
+        .section-title {{ font-size: 18px; font-weight: bold; color: #333; margin-bottom: 15px; border-bottom: 2px solid #e0e0e0; padding-bottom: 5px; }}
+        .info-row {{ display: flex; margin-bottom: 10px; }}
+        .info-label {{ font-weight: bold; width: 200px; color: #666; }}
+        .info-value {{ color: #333; }}
+        .signature-box {{ background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #e0e0e0; margin-top: 10px; word-break: break-all; }}
+        .footer {{ text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #e0e0e0; color: #999; font-size: 12px; }}
+        .amount {{ font-size: 24px; color: #1CABE2; font-weight: bold; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">AidTrace</div>
+            <h1 style="margin: 10px 0; color: #333;">Supplier Quote</h1>
+            <p style="color: #666; margin: 5px 0;">Blockchain-Verified Supply Quote</p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Project Information</div>
+            <div class="info-row"><div class="info-label">Project:</div><div class="info-value">{project.title}</div></div>
+            <div class="info-row"><div class="info-label">Location:</div><div class="info-value">{project.location}</div></div>
+            <div class="info-row"><div class="info-label">NGO:</div><div class="info-value">{project.ngo.name}</div></div>
+            <div class="info-row"><div class="info-label">Delivery Location:</div><div class="info-value">{quote_request.delivery_location}</div></div>
+            <div class="info-row"><div class="info-label">Required Delivery Date:</div><div class="info-value">{quote_request.delivery_date}</div></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Supplier Information</div>
+            <div class="info-row"><div class="info-label">Supplier Name:</div><div class="info-value">{quote.supplier.name}</div></div>
+            <div class="info-row"><div class="info-label">Contact:</div><div class="info-value">{quote.supplier.contact}</div></div>
+            <div class="info-row"><div class="info-label">Email:</div><div class="info-value">{quote.supplier.email}</div></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Quote Details</div>
+            <div class="info-row"><div class="info-label">Quoted Amount:</div><div class="info-value"><span class="amount">${quote.quoted_amount}</span></div></div>
+            <div class="info-row"><div class="info-label">Delivery Timeline:</div><div class="info-value">{quote.delivery_timeline if quote.delivery_timeline else 'As per terms'}</div></div>
+            <div class="info-row"><div class="info-label">Payment Terms:</div><div class="info-value">{quote.payment_terms if quote.payment_terms else 'Standard'}</div></div>
+            <div class="info-row"><div class="info-label">Warranty Period:</div><div class="info-value">{quote.warranty_period if quote.warranty_period else 'N/A'}</div></div>
+            <div class="info-row"><div class="info-label">Quote Date:</div><div class="info-value">{quote.created_at.strftime('%B %d, %Y at %I:%M %p')}</div></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Delivery Terms</div>
+            <p style="color: #333; line-height: 1.6;">{quote.delivery_terms}</p>
+        </div>
+
+        {f'<div class="section"><div class="section-title">Quality Certifications</div><p style="color: #333; line-height: 1.6;">{quote.quality_certifications}</p></div>' if quote.quality_certifications else ''}
+        {f'<div class="section"><div class="section-title">Technical Specifications</div><p style="color: #333; line-height: 1.6;">{quote.technical_specifications}</p></div>' if quote.technical_specifications else ''}
+
+        <div class="section">
+            <div class="section-title">Digital Signature</div>
+            <div class="signature-box">{quote.signature}</div>
+        </div>
+
+        {f'<div class="section"><div class="section-title">Blockchain Verification</div><div class="info-row"><div class="info-label">Transaction Hash:</div><div class="info-value" style="word-break: break-all; font-family: monospace; font-size: 11px;">{quote.blockchain_tx}</div></div><div style="margin-top: 10px; padding: 10px; background: #e8f5e9; border-radius: 5px; color: #2e7d32;">✓ This quote is verified and recorded on the blockchain</div></div>' if quote.blockchain_tx else ''}
+
+        <div class="footer">
+            <p>This is an official supplier quote generated by AidTrace</p>
+            <p>Quote ID: {quote.id} | Generated on {quote.created_at.strftime('%Y-%m-%d')}</p>
+        </div>
+    </div>
+</body>
+</html>'''
+        
+        response = HttpResponse(html_content, content_type='text/html')
+        response['Content-Disposition'] = f'attachment; filename="AidTrace_Supplier_Quote_{quote.supplier.name}_{quote.id}.html"'
+        return response
+    except SupplierQuote.DoesNotExist:
+        return JsonResponse({'error': 'Quote not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@require_http_methods(["GET"])
 @require_auth(['DONOR', 'NGO'])
 def get_project_details(request, project_id):
     try:
@@ -463,11 +644,15 @@ def get_supplier_assignments(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 @require_auth(['SUPPLIER'])
-def confirm_supplier_assignment(request):
+def confirm_assignment(request):
     data = json.loads(request.body)
     
     supplier = User.objects.get(id=request.user_data['user_id'])
     assignment = SupplierAssignment.objects.get(id=data.get('assignment_id'))
+    
+    # Verify this supplier owns the assignment
+    if assignment.supplier != supplier:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
     
     assignment.confirmed = True
     assignment.signature = data.get('signature')
@@ -486,13 +671,19 @@ def confirm_supplier_assignment(request):
             assignment.blockchain_tx = tx_hash
     except Exception as e:
         print(f"Blockchain supplier confirmation failed: {e}")
-        # Continue without blockchain
     
     assignment.save()
     assignment.project.status = 'SUPPLIER_CONFIRMED'
     assignment.project.save()
     
-    return JsonResponse(SupplierAssignmentSerializer(assignment).data)
+    return JsonResponse({
+        'message': 'Assignment confirmed successfully and recorded on blockchain',
+        'assignment': {
+            'id': assignment.id,
+            'project_title': assignment.project.title,
+            'blockchain_tx': assignment.blockchain_tx
+        }
+    })
 
 
 # Field Officer Views
@@ -505,7 +696,32 @@ def get_field_officer_assignments(request):
     data = []
     for assignment in assignments:
         project = assignment.project
-        supplier_assignment = SupplierAssignment.objects.filter(project=project).first()
+        
+        # Get quote selection information
+        quote_selection = QuoteSelection.objects.filter(quote_request__project=project).first()
+        supplier_info = None
+        supplier_items = []
+        delivery_info = None
+        
+        if quote_selection:
+            supplier_info = {
+                'name': quote_selection.selected_quote.supplier.name,
+                'contact': quote_selection.selected_quote.supplier.contact,
+                'quoted_amount': str(quote_selection.selected_quote.quoted_amount),
+                'delivery_terms': quote_selection.selected_quote.delivery_terms
+            }
+            supplier_items = quote_selection.quote_request.items
+            
+            # Get supplier delivery confirmation
+            delivery_confirmation = SupplierDeliveryConfirmation.objects.filter(quote_selection=quote_selection).first()
+            if delivery_confirmation:
+                delivery_info = {
+                    'delivery_signature': delivery_confirmation.delivery_signature,
+                    'delivery_notes': delivery_confirmation.delivery_notes,
+                    'blockchain_tx': delivery_confirmation.blockchain_tx,
+                    'delivered_at': delivery_confirmation.created_at
+                }
+        
         fundings = Funding.objects.filter(project=project)
         
         data.append({
@@ -527,8 +743,9 @@ def get_field_officer_assignments(request):
             'blockchain_tx': assignment.blockchain_tx,
             'created_at': assignment.created_at,
             'ngo_name': project.ngo.name,
-            'supplier_name': supplier_assignment.supplier.name if supplier_assignment else None,
-            'supplier_items': supplier_assignment.items if supplier_assignment else [],
+            'supplier_info': supplier_info,
+            'supplier_items': supplier_items,
+            'delivery_info': delivery_info,
             'total_funding': sum([float(f.amount) for f in fundings])
         })
     
@@ -543,10 +760,19 @@ def confirm_field_officer_assignment(request):
     officer = User.objects.get(id=request.user_data['user_id'])
     assignment = FieldOfficerAssignment.objects.get(id=data.get('assignment_id'))
     
-    assignment.confirmed = True
-    assignment.signature = data.get('signature')
+    # Verify field officer owns the assignment
+    if assignment.field_officer != officer:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
     
-    # Record on blockchain
+    # Require signature from field officer
+    signature = data.get('signature', '')
+    if not signature:
+        return JsonResponse({'error': 'Digital signature is required'}, status=400)
+    
+    assignment.confirmed = True
+    assignment.signature = signature
+    
+    # Record on blockchain - Final confirmation step
     try:
         officer_address = officer.wallet_address if officer.wallet_address else blockchain_service.get_account()
         tx_hash = blockchain_service.record_field_officer_confirmation(
@@ -563,10 +789,19 @@ def confirm_field_officer_assignment(request):
         # Continue without blockchain
     
     assignment.save()
-    assignment.project.status = 'FIELD_OFFICER_CONFIRMED'
+    # Final step - project is now ready for distribution
+    assignment.project.status = 'READY_FOR_DISTRIBUTION'
     assignment.project.save()
     
-    return JsonResponse(FieldOfficerAssignmentSerializer(assignment).data)
+    return JsonResponse({
+        'message': 'Final confirmation completed - Project ready for distribution',
+        'assignment': {
+            'id': assignment.id,
+            'project_title': assignment.project.title,
+            'blockchain_tx': assignment.blockchain_tx,
+            'status': assignment.project.status
+        }
+    })
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -802,3 +1037,112 @@ def reject_project(request):
     project.delete()
     
     return JsonResponse({'message': 'Project rejected and deleted'})
+
+@require_http_methods(["GET"])
+@require_auth(['DONOR', 'NGO'])
+def get_project_workflow_status(request, project_id):
+    """Get complete workflow status for a project"""
+    try:
+        project = Project.objects.get(id=project_id)
+        
+        # Get funding information
+        funding = Funding.objects.filter(project=project).first()
+        
+        # Get quote request
+        quote_request = SupplyQuoteRequest.objects.filter(project=project).first()
+        
+        # Get quote selection
+        quote_selection = QuoteSelection.objects.filter(quote_request__project=project).first()
+        
+        # Get field officer assignment
+        field_assignment = FieldOfficerAssignment.objects.filter(project=project).first()
+        
+        # Get supplier delivery confirmation
+        delivery_confirmation = None
+        if quote_selection:
+            delivery_confirmation = SupplierDeliveryConfirmation.objects.filter(quote_selection=quote_selection).first()
+        
+        workflow_data = {
+            'project_id': project.id,
+            'project_title': project.title,
+            'project_status': project.status,
+            'project_blockchain_tx': project.blockchain_tx,
+            'funding': None,
+            'quote_request': None,
+            'quote_selection': None,
+            'field_officer_assignment': None,
+            'supplier_delivery': None,
+            'field_officer_confirmation': None
+        }
+        
+        # Add funding information
+        if funding:
+            workflow_data['funding'] = {
+                'id': funding.id,
+                'donor_name': funding.donor.name,
+                'amount': str(funding.amount),
+                'donor_signature': funding.donor_signature,
+                'ngo_signature': funding.ngo_signature,
+                'blockchain_tx': funding.blockchain_tx,
+                'ngo_confirmation_tx': funding.ngo_confirmation_tx,
+                'created_at': funding.created_at
+            }
+        
+        if quote_request:
+            workflow_data['quote_request'] = {
+                'id': quote_request.id,
+                'delivery_location': quote_request.delivery_location,
+                'delivery_date': quote_request.delivery_date,
+                'proposed_budget': str(quote_request.proposed_budget),
+                'status': quote_request.status,
+                'blockchain_tx': quote_request.blockchain_tx,
+                'created_at': quote_request.created_at,
+                'quotes_count': SupplierQuote.objects.filter(quote_request=quote_request).count()
+            }
+        
+        if quote_selection:
+            workflow_data['quote_selection'] = {
+                'id': quote_selection.id,
+                'supplier_name': quote_selection.selected_quote.supplier.name,
+                'quoted_amount': str(quote_selection.selected_quote.quoted_amount),
+                'ngo_signature': quote_selection.ngo_signature,
+                'blockchain_tx': quote_selection.blockchain_tx,
+                'created_at': quote_selection.created_at
+            }
+        
+        if field_assignment:
+            workflow_data['field_officer_assignment'] = {
+                'id': field_assignment.id,
+                'field_officer_name': field_assignment.field_officer.name,
+                'confirmed': field_assignment.confirmed,
+                'signature': field_assignment.signature,
+                'blockchain_tx': field_assignment.blockchain_tx,
+                'created_at': field_assignment.created_at
+            }
+        
+        if delivery_confirmation:
+            workflow_data['supplier_delivery'] = {
+                'id': delivery_confirmation.id,
+                'supplier_name': delivery_confirmation.supplier.name,
+                'field_officer_name': delivery_confirmation.field_officer.name,
+                'delivery_signature': delivery_confirmation.delivery_signature,
+                'delivery_notes': delivery_confirmation.delivery_notes,
+                'blockchain_tx': delivery_confirmation.blockchain_tx,
+                'created_at': delivery_confirmation.created_at
+            }
+        
+        if field_assignment:
+            workflow_data['field_officer_confirmation'] = {
+                'confirmed': field_assignment.confirmed,
+                'signature': field_assignment.signature if field_assignment.confirmed else None,
+                'blockchain_tx': field_assignment.blockchain_tx if field_assignment.confirmed else None,
+                'confirmed_at': field_assignment.created_at if field_assignment.confirmed else None,
+                'field_officer_name': field_assignment.field_officer.name
+            }
+        
+        return JsonResponse(workflow_data)
+        
+    except Project.DoesNotExist:
+        return JsonResponse({'error': 'Project not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

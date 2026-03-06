@@ -37,6 +37,13 @@ export const ngoAPI = {
   confirmFunding: (data) => api.post('/ngo/confirm-funding/', data),
   addBeneficiary: (data) => api.post('/field-officer/beneficiary/', data),
   getBeneficiaries: (projectId) => api.get('/field-officer/beneficiary/all/', { params: { project_id: projectId } }),
+  // Quote system endpoints
+  createQuoteRequest: (data) => api.post('/ngo/quote-requests/', data),
+  getQuoteRequests: () => api.get('/ngo/quote-requests/list/'),
+  getQuoteRequestDetails: (id) => api.get(`/ngo/quote-requests/${id}/`),
+  selectQuote: (data) => api.post('/ngo/select-quote/', data),
+  closeQuoteRequest: (data) => api.post('/ngo/close-quote/', data),
+  getProjectWorkflowStatus: (id) => api.get(`/project/${id}/workflow/`),
 };
 
 export const donorAPI = {
@@ -44,11 +51,18 @@ export const donorAPI = {
   getFundedProjects: () => api.get('/donor/funded-projects/'),
   fundProject: (data) => api.post('/donor/fund-project/', data),
   getProjectDetails: (id) => api.get(`/donor/project/${id}/`),
+  getProjectWorkflowStatus: (id) => api.get(`/project/${id}/workflow/`),
 };
 
 export const supplierAPI = {
   getAssignments: () => api.get('/supplier/assignments/'),
   confirmAssignment: (data) => api.post('/supplier/confirm/', data),
+  // Quote system endpoints
+  getQuoteRequests: () => api.get('/supplier/quote-requests/'),
+  getQuoteRequestDetails: (id) => api.get(`/supplier/quote-requests/${id}/`),
+  submitQuote: (data) => api.post('/supplier/submit-quote/', data),
+  getMyQuotes: () => api.get('/supplier/quotes/'),
+  confirmDeliveryToFieldOfficer: (data) => api.post('/supplier/confirm-selection/', data),
 };
 
 export const fieldOfficerAPI = {
