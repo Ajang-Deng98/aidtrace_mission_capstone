@@ -133,7 +133,7 @@ def submit_public_report(request):
         project_name=data.get('project_name'),
         location=data.get('location'),
         description=data.get('description'),
-        contact_info=data.get('contact_info')
+        contact_info=data.get('contact_info', '')
     )
     
     return JsonResponse(PublicReportSerializer(report).data)

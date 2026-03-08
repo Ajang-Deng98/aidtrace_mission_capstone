@@ -282,7 +282,7 @@ class PublicReport(models.Model):
     project_name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     description = models.TextField()
-    contact_info = models.CharField(max_length=255)
+    contact_info = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

@@ -6,8 +6,7 @@ function PublicReport() {
   const [formData, setFormData] = useState({
     project_name: '',
     location: '',
-    description: '',
-    contact_info: ''
+    description: ''
   });
   const [success, setSuccess] = useState(false);
 
@@ -16,7 +15,7 @@ function PublicReport() {
     try {
       await publicAPI.submitReport(formData);
       setSuccess(true);
-      setFormData({ project_name: '', location: '', description: '', contact_info: '' });
+      setFormData({ project_name: '', location: '', description: '' });
     } catch (err) {
       alert('Failed to submit report');
     }
@@ -67,16 +66,6 @@ function PublicReport() {
                 rows="5"
                 value={formData.description}
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Contact Information</label>
-              <input
-                type="text"
-                value={formData.contact_info}
-                onChange={(e) => setFormData({...formData, contact_info: e.target.value})}
                 required
               />
             </div>
