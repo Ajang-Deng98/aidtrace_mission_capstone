@@ -6,7 +6,7 @@ import { useNotification } from '../components/NotificationProvider';
 import SearchBar from '../components/SearchBar';
 import LoadingButton from '../components/LoadingButton';
 
-function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
+function SupplierDashboard({ language = 'en', changeLanguage }) {
   const t = translations[language] || translations['en'];
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
@@ -164,7 +164,7 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
             <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>Submit competitive quotes for NGO projects</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
-            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+
             <div style={{position: 'relative'}}>
               <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
@@ -738,7 +738,6 @@ function SupplierQuoteManagement() {
                   
                   <div style={{background: '#fafafa', padding: '12px', borderRadius: '4px', marginBottom: '15px', fontSize: '14px'}}>
                     <p style={{margin: '4px 0', color: '#666'}}><strong>Location:</strong> {request.project_location}</p>
-                    <p style={{margin: '4px 0', color: '#666'}}><strong>Budget:</strong> ${parseFloat(request.proposed_budget || 0).toLocaleString()}</p>
                     <p style={{margin: '4px 0', color: '#666'}}><strong>Delivery Date:</strong> {request.delivery_date}</p>
                     <p style={{margin: '4px 0', color: '#666'}}><strong>Quotes:</strong> {request.quotes_count || 0} submitted</p>
                     {request.blockchain_tx && (
@@ -986,7 +985,6 @@ function SupplierQuoteDetails() {
             <h4>Project Details</h4>
             <p><strong>NGO:</strong> {request.ngo_name}</p>
             <p><strong>Location:</strong> {request.project_location}</p>
-            <p><strong>Proposed Budget:</strong> ${parseFloat(request.proposed_budget || 0).toLocaleString()}</p>
             <p><strong>Delivery Date:</strong> {request.delivery_date}</p>
             {request.additional_requirements && (
               <p><strong>Requirements:</strong> {request.additional_requirements}</p>
@@ -1146,7 +1144,6 @@ function SupplierQuoteDetails() {
                     <input type="number" step="0.01" value={quoteData.quoted_amount}
                       onChange={(e) => setQuoteData({...quoteData, quoted_amount: e.target.value})}
                       placeholder="Enter your competitive quote" required />
-                    <small style={{color: '#666'}}>Proposed budget: ${parseFloat(request.proposed_budget || 0).toLocaleString()}</small>
                   </div>
                   
                   <div className="form-group">

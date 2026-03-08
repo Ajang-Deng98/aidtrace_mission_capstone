@@ -6,7 +6,7 @@ import { translations } from '../translations';
 import SearchBar from '../components/SearchBar';
 import LoadingButton from '../components/LoadingButton';
 
-function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
+function AdminDashboard({ language = 'en', changeLanguage }) {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [showLangMenu, setShowLangMenu] = useState(false);
@@ -79,7 +79,7 @@ function AdminDashboard({ language = 'en', changeLanguage, theme, toggleTheme })
         </div>
         <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
           <span style={{marginRight: '10px', color: '#ffffff'}}>{t.welcome}, {user.name}</span>
-          <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+
           <div style={{position: 'relative'}}>
             <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
             {showLangMenu && (

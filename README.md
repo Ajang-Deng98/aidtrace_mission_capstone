@@ -107,6 +107,30 @@ aidtrace_project/
 └── README.md
 ```
 
+## Testing
+
+### Backend Tests (Django)
+```bash
+cd backend
+python manage.py test tests --noinput
+```
+27 tests covering authentication, projects, funding, quotes, and API endpoints.
+
+### Frontend Tests (React)
+```bash
+cd frontend
+npm test -- --watchAll=false
+```
+46 tests covering all components, dashboards, and API services.
+
+### Blockchain Tests (Solidity)
+```bash
+cd blockchain
+truffle compile
+npx mocha test/AidTrace.test.js
+```
+10 tests validating contract compilation and ABI structure (no network required).
+
 ## License
 
 MIT License

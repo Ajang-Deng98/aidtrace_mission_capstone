@@ -1,0 +1,103 @@
+/* Home Page Responsive Styles */
+@media (max-width: 1024px) {
+  nav div[style*="maxWidth: 1280px"] {
+    padding: 12px 20px !important;
+  }
+
+  section[style*="gridTemplateColumns: '1fr 1fr'"],
+  section div[style*="gridTemplateColumns: '1fr 1fr'"] {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  section div[style*="gridTemplateColumns: 'repeat(4, 1fr)'"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  section div[style*="gridTemplateColumns: 'repeat(3, 1fr)'"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  nav div[style*="display: 'flex'"][style*="gap: '32px'"] {
+    display: none !important;
+  }
+
+  nav div[style*="maxWidth: 1280px"] {
+    padding: 12px 15px !important;
+  }
+
+  section {
+    padding: 60px 20px !important;
+  }
+
+  section[style*="marginTop: '80px'"] {
+    margin-top: 70px !important;
+    padding: 80px 20px 100px !important;
+  }
+
+  h1[style*="fontSize: '52px'"] {
+    font-size: 32px !important;
+  }
+
+  h2[style*="fontSize: '42px'"] {
+    font-size: 28px !important;
+  }
+
+  p[style*="fontSize: '19px'"] {
+    font-size: 16px !important;
+  }
+
+  section div[style*="gridTemplateColumns: 'repeat(4, 1fr')"],
+  section div[style*="gridTemplateColumns: 'repeat(3, 1fr')"],
+  section div[style*="gridTemplateColumns: 'repeat(2, 1fr')"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  footer div[style*="gridTemplateColumns: 'repeat(4, 1fr')"] {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  img[style*="height: '480px'"],
+  img[style*="height: '420px'"],
+  img[style*="height: '300px'"] {
+    height: 250px !important;
+  }
+
+  div[style*="display: 'flex'"][style*="gap: '14px'"] {
+    flex-direction: column !important;
+  }
+
+  button {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1[style*="fontSize: '52px'"] {
+    font-size: 26px !important;
+  }
+
+  h2[style*="fontSize: '42px'"] {
+    font-size: 24px !important;
+  }
+
+  h3[style*="fontSize: '28px'"] {
+    font-size: 20px !important;
+  }
+
+  section {
+    padding: 40px 15px !important;
+  }
+
+  section[style*="marginTop: '80px'"] {
+    margin-top: 65px !important;
+    padding: 60px 15px 80px !important;
+  }
+
+  footer {
+    padding: 50px 20px 20px !important;
+  }
+}

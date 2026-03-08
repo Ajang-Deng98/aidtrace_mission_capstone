@@ -10,7 +10,7 @@ import ConfirmModal from '../components/ConfirmModal';
 
 import ViewablePublicReports from '../components/ViewablePublicReports';
 
-function NGODashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
+function NGODashboard({ language = 'en', changeLanguage }) {
   const t = translations[language] || translations['en'];
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
@@ -233,7 +233,7 @@ function NGODashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
             <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageProjects}</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
-            <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+
             <div style={{position: 'relative'}}>
               <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
