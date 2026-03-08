@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import *
 
 @admin.register(User)
@@ -16,8 +17,36 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ('status', 'is_approved', 'category')
     search_fields = ('title', 'location', 'ngo__name')
     ordering = ('-created_at',)
+    readonly_fields = ('document1_display', 'document2_display', 'document3_display')
     verbose_name = 'Project'
     verbose_name_plural = 'Projects'
+    
+    def document1_display(self, obj):
+        if obj.document1 and obj.document1_name:
+            return format_html(
+                '<a href="/api/project/{}/document/1/" target="_blank">{}</a>',
+                obj.id, obj.document1_name
+            )
+        return "No document"
+    document1_display.short_description = 'Document 1'
+    
+    def document2_display(self, obj):
+        if obj.document2 and obj.document2_name:
+            return format_html(
+                '<a href="/api/project/{}/document/2/" target="_blank">{}</a>',
+                obj.id, obj.document2_name
+            )
+        return "No document"
+    document2_display.short_description = 'Document 2'
+    
+    def document3_display(self, obj):
+        if obj.document3 and obj.document3_name:
+            return format_html(
+                '<a href="/api/project/{}/document/3/" target="_blank">{}</a>',
+                obj.id, obj.document3_name
+            )
+        return "No document"
+    document3_display.short_description = 'Document 3'
 
 @admin.register(Funding)
 class FundingAdmin(admin.ModelAdmin):

@@ -93,16 +93,19 @@ function NGODashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
   };
 
   return (
-    <div style={{display: 'flex', minHeight: '100vh', background: '#ffffff'}}>
+    <div style={{display: 'flex', minHeight: '100vh', background: '#ffffff', direction: language === 'ar' ? 'rtl' : 'ltr'}}>
       <div style={{
         width: '220px',
         background: '#ffffff',
-        borderRight: '1px solid #e0e0e0',
+        borderRight: language === 'ar' ? 'none' : '1px solid #e0e0e0',
+        borderLeft: language === 'ar' ? '1px solid #e0e0e0' : 'none',
         display: 'flex',
         flexDirection: 'column',
         position: 'fixed',
         height: '100vh',
-        zIndex: 1000
+        zIndex: 1000,
+        left: language === 'ar' ? 'auto' : '0',
+        right: language === 'ar' ? '0' : 'auto'
       }}>
         <div style={{padding: '16px 20px', borderBottom: '1px solid #1E3A8A', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '50px', width: 'auto'}} />
@@ -223,10 +226,10 @@ function NGODashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
         </div>
       </div>
 
-      <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#ffffff'}}>
+      <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#ffffff'}}>
         <div style={{background: '#1E3A8A', padding: '12px 20px', borderBottom: '1px solid #1E3A8A', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>NGO {t.dashboard}</h1>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>NGO {t.dashboard}</h1>
             <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageProjects}</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
@@ -234,12 +237,9 @@ function NGODashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
             <div style={{position: 'relative'}}>
               <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
-                <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
+                <div style={{position: 'absolute', top: '40px', right: language === 'ar' ? 'auto' : '0', left: language === 'ar' ? '0' : 'auto', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                   <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
-                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>
-                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Dinka</button>
-                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Nuer</button>
-                </div>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>                </div>
               )}
             </div>
           </div>
@@ -271,6 +271,7 @@ function NGODashboard({ language = 'en', changeLanguage, theme, toggleTheme }) {
 }
 
 function Dashboard() {
+  const t = translations[localStorage.getItem('language') || 'en'] || translations['en'];
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
@@ -285,8 +286,8 @@ function Dashboard() {
   if (!stats) {
     return (
       <div>
-        <h2>Dashboard Overview</h2>
-        <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>Monitor your projects and field operations</p>
+        <h2>{t.dashboardOverview}</h2>
+        <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>{t.monitorProjectsOperations}</p>
         
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
           {[1, 2, 3, 4].map(i => (
@@ -330,35 +331,35 @@ function Dashboard() {
           onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}}
           onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{stats.total_projects}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>Total Projects</p>
+          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>{t.totalProjects}</p>
         </div>
         <div className="card" style={{border: '1px solid #1E3A8A', background: '#f0f9ff', transition: 'all 0.2s ease', cursor: 'pointer'}}
           onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}}
           onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{stats.funded_projects}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>Funded Projects</p>
+          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>{t.fundedProjects}</p>
         </div>
         <div className="card" style={{border: '1px solid #e0e0e0', background: '#fafafa', transition: 'all 0.2s ease', cursor: 'pointer'}}
           onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}}
           onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#000', fontWeight: '700'}}>{stats.field_officers}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>Field Officers</p>
+          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>{t.fieldOfficers}</p>
         </div>
         <div className="card" style={{border: '1px solid #1E3A8A', background: '#f0f9ff', transition: 'all 0.2s ease', cursor: 'pointer'}}
           onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}}
           onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{stats.projects.filter(p => p.is_approved).length}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>Approved Projects</p>
+          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>{t.approvedProjects}</p>
         </div>
       </div>
 
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
         <div className="card">
-          <h3 style={{marginBottom: '16px'}}>Projects by Status</h3>
+          <h3 style={{marginBottom: '16px'}}>{t.projectsByStatus}</h3>
           {projectStatusData.length === 0 ? (
             <div style={{textAlign: 'center', padding: '48px 20px'}}>
-              <div style={{fontSize: '48px', marginBottom: '16px'}}>📊</div>
-              <p style={{fontSize: '14px', color: '#666', margin: 0}}>No project data available</p>
+              <i className="fas fa-chart-bar" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
+              <p style={{fontSize: '14px', color: '#666', margin: 0}}>{t.noProjectDataAvailable}</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
@@ -374,11 +375,11 @@ function Dashboard() {
         </div>
 
         <div className="card">
-          <h3 style={{marginBottom: '16px'}}>Project Approval Status</h3>
+          <h3 style={{marginBottom: '16px'}}>{t.projectApprovalStatus}</h3>
           {approvalData.every(d => d.value === 0) ? (
             <div style={{textAlign: 'center', padding: '48px 20px'}}>
-              <div style={{fontSize: '48px', marginBottom: '16px'}}>📋</div>
-              <p style={{fontSize: '14px', color: '#666', margin: 0}}>No approval data available</p>
+              <i className="fas fa-clipboard-list" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
+              <p style={{fontSize: '14px', color: '#666', margin: 0}}>{t.noApprovalDataAvailable}</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
@@ -395,21 +396,21 @@ function Dashboard() {
       </div>
       
       <div className="card">
-        <h3 style={{marginBottom: '16px'}}>Recent Projects</h3>
+        <h3 style={{marginBottom: '16px'}}>{t.recentProjects}</h3>
         {stats.projects.length === 0 ? (
           <div style={{textAlign: 'center', padding: '48px 20px'}}>
-            <div style={{fontSize: '48px', marginBottom: '16px'}}>💼</div>
-            <p style={{fontSize: '16px', color: '#000', fontWeight: '600', marginBottom: '8px'}}>No Projects Yet</p>
-            <p style={{fontSize: '14px', color: '#666', margin: 0}}>Create your first project to get started</p>
+            <i className="fas fa-briefcase" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
+            <p style={{fontSize: '16px', color: '#000', fontWeight: '600', marginBottom: '8px'}}>{t.noProjectsYet}</p>
+            <p style={{fontSize: '14px', color: '#666', margin: 0}}>{t.createFirstProject}</p>
           </div>
         ) : (
           <table className="table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Approval</th>
-                <th>Location</th>
+                <th>{t.title}</th>
+                <th>{t.status}</th>
+                <th>{t.approval}</th>
+                <th>{t.location}</th>
               </tr>
             </thead>
             <tbody>
@@ -419,8 +420,8 @@ function Dashboard() {
                   <td><span className="badge badge-info">{project.status.replace(/_/g, ' ')}</span></td>
                   <td>
                     {project.is_approved ? 
-                      <span className="badge badge-success">Approved</span> : 
-                      <span className="badge badge-warning">Pending</span>
+                      <span className="badge badge-success">{t.approved}</span> : 
+                      <span className="badge badge-warning">{t.pending}</span>
                     }
                   </td>
                   <td>{project.location}</td>
@@ -435,6 +436,7 @@ function Dashboard() {
 }
 
 function CreateProject() {
+  const t = translations[localStorage.getItem('language') || 'en'] || translations['en'];
   const [formData, setFormData] = useState({
     title: '', description: '', location: '', required_items: '', budget_amount: '',
     duration_months: '', target_beneficiaries: '', start_date: '', end_date: '', category: 'General Aid'
@@ -446,6 +448,8 @@ function CreateProject() {
     { file: null, name: '', preview: null },
     { file: null, name: '', preview: null }
   ]);
+  const [beneficiariesFile, setBeneficiariesFile] = useState(null);
+  const [beneficiariesPreview, setBeneficiariesPreview] = useState(null);
   const [loading, setLoading] = useState(true);
   const [createLoading, setCreateLoading] = useState(false);
   const navigate = useNavigate();
@@ -479,6 +483,14 @@ function CreateProject() {
     }
   };
 
+  const handleBeneficiariesUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setBeneficiariesFile(file);
+      setBeneficiariesPreview(file.name);
+    }
+  };
+
   const removeDocument = (index) => {
     const newDocs = [...documents];
     newDocs[index] = { file: null, name: '', preview: null };
@@ -494,19 +506,35 @@ function CreateProject() {
     setCreateLoading(true);
     try {
       const items = formData.required_items.split(',').map(item => item.trim());
-      const projectData = {
-        ...formData, 
-        required_items: items, 
-        desired_donors: selectedDonors,
-        document1: documents[0].file || '',
-        document1_name: documents[0].name || '',
-        document2: documents[1].file || '',
-        document2_name: documents[1].name || '',
-        document3: documents[2].file || '',
-        document3_name: documents[2].name || ''
-      };
-      const response = await ngoAPI.createProject(projectData);
+      
+      const formDataToSend = new FormData();
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('location', formData.location);
+      formDataToSend.append('required_items', JSON.stringify(items));
+      formDataToSend.append('budget_amount', formData.budget_amount);
+      formDataToSend.append('duration_months', formData.duration_months);
+      formDataToSend.append('target_beneficiaries', formData.target_beneficiaries);
+      formDataToSend.append('start_date', formData.start_date);
+      formDataToSend.append('end_date', formData.end_date);
+      formDataToSend.append('category', formData.category);
+      formDataToSend.append('desired_donors', JSON.stringify(selectedDonors));
+      formDataToSend.append('document1', documents[0].file || '');
+      formDataToSend.append('document1_name', documents[0].name || '');
+      formDataToSend.append('document2', documents[1].file || '');
+      formDataToSend.append('document2_name', documents[1].name || '');
+      formDataToSend.append('document3', documents[2].file || '');
+      formDataToSend.append('document3_name', documents[2].name || '');
+      
+      if (beneficiariesFile) {
+        formDataToSend.append('beneficiaries_file', beneficiariesFile);
+      }
+      
+      const response = await ngoAPI.createProject(formDataToSend);
       showSuccess(response.data.message || 'Project created successfully. Waiting for admin approval.');
+      if (response.data.beneficiaries) {
+        showSuccess(`${response.data.beneficiaries.created} beneficiaries uploaded successfully`);
+      }
       setTimeout(() => navigate('/ngo/projects'), 50);
     } catch (err) {
       showError('Failed to create project');
@@ -527,83 +555,83 @@ function CreateProject() {
 
   return (
     <div>
-      <h2>Create New Project</h2>
-      <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>Submit a new humanitarian aid project for approval</p>
+      <h2>{t.createNewProject}</h2>
+      <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>{t.submitNewProject}</p>
       
       <div className="card">
         <form onSubmit={handleSubmit}>
           <div style={{background: '#f0f9ff', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #1E3A8A'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#1E3A8A'}}>Basic Information</h3>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#1E3A8A'}}>{t.basicInformation}</h3>
             
             <div className="form-group">
-              <label>Project Title</label>
+              <label>{t.projectTitleLabel}</label>
               <input type="text" value={formData.title}
                 onChange={(e) => setFormData({...formData, title: e.target.value})} 
-                placeholder="Enter a clear, descriptive project title"
+                placeholder={t.enterProjectTitle}
                 required />
             </div>
             
             <div className="form-group">
-              <label>Description</label>
+              <label>{t.descriptionLabel}</label>
               <textarea rows="4" value={formData.description}
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
-                placeholder="Describe the project goals, activities, and expected outcomes"
+                placeholder={t.describeProject}
                 required />
-              <small style={{color: '#666', fontSize: '12px'}}>Provide detailed information about the project purpose and implementation plan</small>
+              <small style={{color: '#666', fontSize: '12px'}}>{t.provideDetailedInfo}</small>
             </div>
             
             <div className="form-group">
-              <label>Category</label>
+              <label>{t.categoryLabel}</label>
               <select value={formData.category}
                 onChange={(e) => setFormData({...formData, category: e.target.value})} required>
-                <option value="General Aid">General Aid</option>
-                <option value="Food Distribution">Food Distribution</option>
-                <option value="Medical Supplies">Medical Supplies</option>
-                <option value="Water & Sanitation">Water & Sanitation</option>
-                <option value="Education">Education</option>
-                <option value="Shelter">Shelter</option>
-                <option value="Emergency Relief">Emergency Relief</option>
+                <option value="General Aid">{t.generalAid}</option>
+                <option value="Food Distribution">{t.foodDistribution}</option>
+                <option value="Medical Supplies">{t.medicalSupplies}</option>
+                <option value="Water & Sanitation">{t.waterSanitation}</option>
+                <option value="Education">{t.education}</option>
+                <option value="Shelter">{t.shelter}</option>
+                <option value="Emergency Relief">{t.emergencyRelief}</option>
               </select>
             </div>
           </div>
 
           <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>Donor Selection</h3>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>{t.donorSelection}</h3>
             
             <div className="form-group">
-              <label>First Desired Donor</label>
+              <label>{t.firstDesiredDonor}</label>
               <select value={selectedDonors[0] || ''}
                 onChange={(e) => {
                   const newDonors = [...selectedDonors];
                   newDonors[0] = parseInt(e.target.value);
                   setSelectedDonors(newDonors.filter(d => d));
                 }} required>
-                <option value="">Select first donor</option>
+                <option value="">{t.selectFirstDonor}</option>
                 {donors.map(donor => (
                   <option key={donor.id} value={donor.id} disabled={selectedDonors[1] === donor.id}>
                     {donor.name}
                   </option>
                 ))}
               </select>
-              <small style={{color: '#666', fontSize: '12px'}}>Choose your preferred primary donor for this project</small>
+              <small style={{color: '#666', fontSize: '12px'}}>{t.choosePreferredPrimary}</small>
             </div>
             
             <div className="form-group">
-              <label>Second Desired Donor</label>
+              <label>{t.secondDesiredDonor}</label>
               <select value={selectedDonors[1] || ''}
                 onChange={(e) => {
                   const newDonors = [...selectedDonors];
                   newDonors[1] = parseInt(e.target.value);
                   setSelectedDonors(newDonors.filter(d => d));
                 }} required>
-                <option value="">Select second donor</option>
+                <option value="">{t.selectSecondDonor}</option>
                 {donors.map(donor => (
                   <option key={donor.id} value={donor.id} disabled={selectedDonors[0] === donor.id}>
                     {donor.name}
                   </option>
                 ))}
               </select>
-              <small style={{color: '#666', fontSize: '12px'}}>Choose your preferred secondary donor for this project</small>
+              <small style={{color: '#666', fontSize: '12px'}}>{t.choosePreferredSecondary}</small>
             </div>
           </div>
 
@@ -677,7 +705,7 @@ function CreateProject() {
                 <label style={{display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#000'}}>Document {index + 1}</label>
                 {!doc.preview ? (
                   <div style={{border: '2px dashed #e0e0e0', borderRadius: '6px', padding: '20px', textAlign: 'center', background: '#ffffff'}}>
-                    <div style={{fontSize: '32px', color: '#1E3A8A', marginBottom: '8px'}}>📄</div>
+                    <i className="fas fa-file-alt" style={{fontSize: '32px', color: '#1E3A8A', marginBottom: '8px'}}></i>
                     <input 
                       type="file" 
                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
@@ -702,7 +730,7 @@ function CreateProject() {
                 ) : (
                   <div style={{border: '1px solid #1E3A8A', borderRadius: '6px', padding: '12px', background: '#f0f9ff', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                      <div style={{fontSize: '24px'}}>📄</div>
+                      <i className="fas fa-file-alt" style={{fontSize: '24px', color: '#1E3A8A'}}></i>
                       <div>
                         <p style={{margin: 0, fontSize: '13px', fontWeight: '600', color: '#000'}}>{doc.name}</p>
                         <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#666'}}>Document uploaded</p>
@@ -721,6 +749,54 @@ function CreateProject() {
             ))}
           </div>
           
+          <div style={{background: '#f0f9ff', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #1E3A8A'}}>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#1E3A8A'}}>Beneficiaries (Optional)</h3>
+            <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#666'}}>Upload beneficiaries list with photos (ZIP file containing CSV + photos)</p>
+            
+            {!beneficiariesPreview ? (
+              <div style={{border: '2px dashed #1E3A8A', borderRadius: '6px', padding: '20px', textAlign: 'center', background: '#ffffff'}}>
+                <i className="fas fa-file-archive" style={{fontSize: '32px', color: '#1E3A8A', marginBottom: '8px'}}></i>
+                <input 
+                  type="file" 
+                  accept=".zip"
+                  onChange={handleBeneficiariesUpload}
+                  style={{display: 'none'}} 
+                  id="beneficiariesUpload"
+                />
+                <label htmlFor="beneficiariesUpload" style={{
+                  display: 'inline-block',
+                  padding: '8px 16px',
+                  background: '#1E3A8A',
+                  color: '#fff',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontWeight: '600'
+                }}>
+                  Choose ZIP File
+                </label>
+                <p style={{margin: '8px 0 0 0', fontSize: '11px', color: '#666'}}>ZIP file with beneficiaries.csv and photos/ folder</p>
+              </div>
+            ) : (
+              <div style={{border: '1px solid #1E3A8A', borderRadius: '6px', padding: '12px', background: '#f0f9ff', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                  <i className="fas fa-file-archive" style={{fontSize: '24px', color: '#1E3A8A'}}></i>
+                  <div>
+                    <p style={{margin: 0, fontSize: '13px', fontWeight: '600', color: '#000'}}>{beneficiariesPreview}</p>
+                    <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#666'}}>Beneficiaries file ready to upload</p>
+                  </div>
+                </div>
+                <button 
+                  type="button"
+                  onClick={() => {setBeneficiariesFile(null); setBeneficiariesPreview(null);}}
+                  style={{background: '#dc3545', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontWeight: '600'}}
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+          </div>
+          
           <div style={{display: 'flex', gap: '12px', paddingTop: '16px', borderTop: '1px solid #e0e0e0'}}>
             <LoadingButton type="submit" loading={createLoading} className="btn" style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600'}}>Create Project</LoadingButton>
             <button type="button" onClick={() => navigate('/ngo/projects')} className="btn" style={{padding: '14px 24px', fontSize: '15px', background: '#666'}}>Cancel</button>
@@ -732,6 +808,7 @@ function CreateProject() {
 }
 
 function Projects() {
+  const t = translations[localStorage.getItem('language') || 'en'] || translations['en'];
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -762,12 +839,12 @@ function Projects() {
 
   return (
     <div>
-      <h2>My Projects</h2>
-      <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>View and manage all your projects</p>
+      <h2>{t.myProjectsTitle}</h2>
+      <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>{t.viewManageProjects}</p>
       
       {projects.length === 0 ? (
         <div className="card" style={{textAlign: 'center', padding: '64px 20px'}}>
-          <div style={{fontSize: '64px', marginBottom: '16px'}}>💼</div>
+          <i className="fas fa-briefcase" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Projects Yet</h3>
           <p style={{fontSize: '14px', color: '#666', marginBottom: '24px'}}>You haven't created any projects yet. Start by creating your first project.</p>
           <Link to="/ngo/create-project">
@@ -830,7 +907,7 @@ function Projects() {
                 
                 {(project.status === 'FUNDED' || project.status === 'CREATED') && (
                   <button onClick={() => navigate(`/ngo/suppliers/create?project=${project.id}`)} className="btn" 
-                    style={{padding: '10px 16px', fontSize: '14px', background: '#1E3A8A', whiteSpace: 'nowrap'}}>Get Supplier</button>
+                    style={{padding: '10px 16px', fontSize: '14px', background: '#1E3A8A', whiteSpace: 'nowrap'}}>{t.getSupplier}</button>
                 )}
               </div>
             </div>
@@ -854,8 +931,25 @@ function ProfileSettings() {
     projectUpdates: true,
     monthlyReports: false
   });
-  const [activities] = useState([]);
+  const [activities, setActivities] = useState([]);
   const { showSuccess } = useNotification();
+
+  useEffect(() => {
+    if (activeTab === 'activity') loadActivities();
+  }, [activeTab]);
+
+  const loadActivities = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8000/api/activity-log/', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      setActivities(data);
+    } catch (err) {
+      console.error('Error loading activities:', err);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -950,7 +1044,23 @@ function ProfileSettings() {
       {activeTab === 'activity' && (
         <div className="card">
           <h3>Recent Activity</h3>
-          <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+          {activities.length === 0 ? (
+            <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+          ) : (
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+              {activities.map((activity, idx) => (
+                <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px'}}>
+                    <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#000'}}>{activity.action}</p>
+                    <span style={{fontSize: '12px', color: '#666'}}>{new Date(activity.created_at).toLocaleString()}</span>
+                  </div>
+                  {activity.details && (
+                    <p style={{margin: '4px 0 0 0', fontSize: '13px', color: '#666'}}>{activity.details}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -960,6 +1070,7 @@ function ProfileSettings() {
 export default NGODashboard;
 
 function SuppliersUnified() {
+  const t = translations[localStorage.getItem('language') || 'en'] || translations['en'];
   const [activeTab, setActiveTab] = useState('quotes');
   const [quoteRequests, setQuoteRequests] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
@@ -1002,8 +1113,8 @@ function SuppliersUnified() {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '24px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>Suppliers</h2>
-        <p style={{color: '#666', margin: 0, fontSize: '14px'}}>Manage supplier quotes and partnerships</p>
+        <h2 style={{fontSize: '24px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>{t.suppliers}</h2>
+        <p style={{color: '#666', margin: 0, fontSize: '14px'}}>{t.manageSupplierQuotes}</p>
       </div>
 
       <div style={{borderBottom: '2px solid #e0e0e0', marginBottom: '24px'}}>
@@ -1013,33 +1124,33 @@ function SuppliersUnified() {
             color: activeTab === 'quotes' ? '#1E3A8A' : '#666', cursor: 'pointer',
             borderBottom: activeTab === 'quotes' ? '3px solid #1E3A8A' : '3px solid transparent',
             transition: 'all 0.2s ease'
-          }}>Quote Requests ({quoteRequests.length})</button>
+          }}>{t.quoteRequests} ({quoteRequests.length})</button>
           <button onClick={() => setActiveTab('suppliers')} style={{
             background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', fontWeight: '600',
             color: activeTab === 'suppliers' ? '#1E3A8A' : '#666', cursor: 'pointer',
             borderBottom: activeTab === 'suppliers' ? '3px solid #1E3A8A' : '3px solid transparent',
             transition: 'all 0.2s ease'
-          }}>All Suppliers ({suppliers.length})</button>
+          }}>{t.allSuppliers} ({suppliers.length})</button>
         </div>
       </div>
 
       {activeTab === 'quotes' ? (
         <div>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
-            <p style={{color: '#666', margin: 0, fontSize: '14px'}}>Request competitive quotes from suppliers</p>
+            <p style={{color: '#666', margin: 0, fontSize: '14px'}}>{t.requestCompetitiveQuotes}</p>
             <button onClick={() => navigate('/ngo/suppliers/create')} className="btn" 
               style={{background: '#1E3A8A', padding: '10px 20px', fontSize: '14px', fontWeight: '600'}}>
-              + Get Supplier
+              + {t.getSupplier}
             </button>
           </div>
 
           {quoteRequests.length === 0 ? (
             <div className="card" style={{textAlign: 'center', padding: '64px 20px', border: '1px solid #e0e0e0'}}>
-              <div style={{fontSize: '64px', marginBottom: '16px'}}>📝</div>
-              <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Quote Requests Yet</h3>
-              <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>Create your first quote request to start receiving competitive supplier bids</p>
+              <i className="fas fa-file-invoice" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
+              <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>{t.noQuoteRequestsYet}</h3>
+              <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>{t.createFirstQuoteRequest}</p>
               <button onClick={() => navigate('/ngo/suppliers/create')} className="btn" style={{padding: '12px 24px', fontSize: '15px'}}>
-                Get Supplier
+                {t.getSupplier}
               </button>
             </div>
           ) : (
@@ -1069,28 +1180,28 @@ function SuppliersUnified() {
                         {request.status.replace(/_/g, ' ')}
                       </span>
                       <span className="badge" style={{background: '#f0f0f0', color: '#666', fontSize: '12px'}}>
-                        {request.quotes_count || 0} {request.quotes_count === 1 ? 'quote' : 'quotes'}
+                        {request.quotes_count || 0} {request.quotes_count === 1 ? t.quote : t.quotes}
                       </span>
                     </div>
                   </div>
                   
                   <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px'}}>
                     <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                      <strong style={{color: '#000'}}>Location:</strong> 
+                      <strong style={{color: '#000'}}>{t.deliveryLocation}:</strong> 
                       <span>{request.delivery_location}</span>
                     </p>
                     <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                      <strong style={{color: '#000'}}>Delivery Date:</strong> 
+                      <strong style={{color: '#000'}}>{t.deliveryDate}:</strong> 
                       <span>{request.delivery_date}</span>
                     </p>
                     <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                      <strong style={{color: '#000'}}>Budget:</strong> 
+                      <strong style={{color: '#000'}}>{t.budget}:</strong> 
                       <span>${parseFloat(request.proposed_budget || 0).toLocaleString()}</span>
                     </p>
                   </div>
                   
                   <button onClick={(e) => {e.stopPropagation(); navigate(`/ngo/suppliers/${request.id}`);}} className="btn" 
-                    style={{width: '100%', padding: '10px', fontSize: '14px'}}>View Quotes & Details</button>
+                    style={{width: '100%', padding: '10px', fontSize: '14px'}}>{t.viewQuotesDetails}</button>
                 </div>
               ))}
             </div>
@@ -1100,7 +1211,7 @@ function SuppliersUnified() {
         <div>
           {suppliers.length === 0 ? (
             <div className="card" style={{textAlign: 'center', padding: '64px 20px', border: '1px solid #e0e0e0'}}>
-              <div style={{fontSize: '64px', marginBottom: '16px'}}>🚚</div>
+              <i className="fas fa-truck" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
               <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Suppliers Available</h3>
               <p style={{fontSize: '14px', color: '#666', margin: 0}}>Suppliers will appear here once they register in the system</p>
             </div>
@@ -1221,7 +1332,7 @@ function QuoteManagement() {
 
       {quoteRequests.length === 0 ? (
         <div className="card" style={{textAlign: 'center', padding: '64px 20px'}}>
-          <div style={{fontSize: '64px', marginBottom: '16px'}}>📝</div>
+          <i className="fas fa-file-invoice" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Quote Requests Yet</h3>
           <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>Create your first quote request to start receiving competitive supplier bids</p>
           <button onClick={() => navigate('/ngo/quotes/create')} className="btn" style={{padding: '12px 24px', fontSize: '15px'}}>
@@ -1493,6 +1604,7 @@ function CreateQuoteRequest() {
 }
 
 function QuoteDetails() {
+  const t = translations[localStorage.getItem('language') || 'en'] || translations['en'];
   const [request, setRequest] = useState(null);
   const [quotes, setQuotes] = useState([]);
   const [fieldOfficers, setFieldOfficers] = useState([]);
@@ -1588,7 +1700,7 @@ function QuoteDetails() {
       <div>
         <h2>Quote Request Details</h2>
         <div className="card" style={{textAlign: 'center', padding: '64px 20px'}}>
-          <div style={{fontSize: '64px', marginBottom: '16px'}}>📝</div>
+          <i className="fas fa-file-invoice" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>Quote Request Not Found</h3>
           <p style={{fontSize: '14px', color: '#666', margin: 0}}>The quote request you're looking for doesn't exist</p>
         </div>
@@ -1600,15 +1712,15 @@ function QuoteDetails() {
     <div>
       <div style={{marginBottom: '24px'}}>
         <button onClick={() => navigate('/ngo/suppliers')} className="btn" 
-          style={{background: '#666', marginBottom: '12px', padding: '8px 16px', fontSize: '13px'}}>← Back to Suppliers</button>
+          style={{background: '#666', marginBottom: '12px', padding: '8px 16px', fontSize: '13px'}}>← {t.backToSuppliers}</button>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
           <div>
-            <h2 style={{margin: '0 0 4px 0', fontSize: '20px', fontWeight: '600'}}>Quote Request Details</h2>
-            <p style={{color: '#666', margin: 0, fontSize: '13px'}}>Review and select supplier quotes</p>
+            <h2 style={{margin: '0 0 4px 0', fontSize: '20px', fontWeight: '600'}}>{t.quoteRequestDetails}</h2>
+            <p style={{color: '#666', margin: 0, fontSize: '13px'}}>{t.reviewSelectQuotes}</p>
           </div>
           {(request.status === 'OPEN' || request.status === 'SELECTED') && (
             <button onClick={() => setShowCloseConfirm(true)} className="btn" 
-              style={{background: '#dc3545', padding: '8px 16px', fontSize: '13px'}}>Close Request</button>
+              style={{background: '#dc3545', padding: '8px 16px', fontSize: '13px'}}>{t.closeRequest}</button>
           )}
         </div>
       </div>
@@ -1684,7 +1796,7 @@ function QuoteDetails() {
         <h3 style={{margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600', color: '#000'}}>Supplier Quotes ({quotes.length})</h3>
         {quotes.length === 0 ? (
           <div style={{textAlign: 'center', padding: '48px 20px'}}>
-            <div style={{fontSize: '48px', marginBottom: '12px'}}>📝</div>
+            <i className="fas fa-file-invoice" style={{fontSize: '48px', marginBottom: '12px', color: '#1E3A8A'}}></i>
             <h3 style={{fontSize: '16px', color: '#000', margin: '0 0 8px 0'}}>No Quotes Received Yet</h3>
             <p style={{fontSize: '13px', color: '#666', margin: 0}}>Suppliers can view and submit quotes for this request</p>
           </div>
@@ -1843,42 +1955,42 @@ function QuoteDetails() {
                 <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0'}}>
                   <div style={{width: '40px', height: '40px', borderRadius: '50%', background: '#22C55E', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '20px'}}>✓</div>
                   <div>
-                    <h4 style={{margin: '0 0 4px 0', color: '#000', fontSize: '16px', fontWeight: '600'}}>Confirm Quote Selection</h4>
-                    <p style={{margin: 0, fontSize: '13px', color: '#666'}}>Selecting <strong>{selectedQuote.supplier_name}</strong> for <strong>${parseFloat(selectedQuote.quoted_amount).toLocaleString()}</strong></p>
+                    <h4 style={{margin: '0 0 4px 0', color: '#000', fontSize: '16px', fontWeight: '600'}}>{t.confirmQuoteSelection}</h4>
+                    <p style={{margin: 0, fontSize: '13px', color: '#666'}}>{t.selecting} <strong>{selectedQuote.supplier_name}</strong> {t.for} <strong>${parseFloat(selectedQuote.quoted_amount).toLocaleString()}</strong></p>
                   </div>
                 </div>
                 
                 <div style={{background: '#ffffff', padding: '16px', borderRadius: '6px', marginBottom: '16px', border: '1px solid #e0e0e0'}}>
                   <div className="form-group">
-                    <label style={{fontSize: '13px', fontWeight: '600', color: '#000'}}>Assign Field Officer</label>
+                    <label style={{fontSize: '13px', fontWeight: '600', color: '#000'}}>{t.assignFieldOfficer}</label>
                     <select value={selectedFieldOfficer}
                       onChange={(e) => setSelectedFieldOfficer(e.target.value)} 
                       style={{fontSize: '13px', padding: '10px'}}
                       required>
-                      <option value="">Select Field Officer</option>
+                      <option value="">{t.selectFieldOfficer}</option>
                       {fieldOfficers.map(officer => (
                         <option key={officer.id} value={officer.id}>{officer.name}</option>
                       ))}
                     </select>
-                    <small style={{color: '#666', fontSize: '12px'}}>Field officer will oversee the delivery</small>
+                    <small style={{color: '#666', fontSize: '12px'}}>{t.fieldOfficerWillOversee}</small>
                   </div>
                   
                   <div className="form-group">
-                    <label style={{fontSize: '13px', fontWeight: '600', color: '#000'}}>Your Digital Signature</label>
+                    <label style={{fontSize: '13px', fontWeight: '600', color: '#000'}}>{t.yourDigitalSignature}</label>
                     <input type="text" value={ngoSignature}
                       onChange={(e) => setNgoSignature(e.target.value)}
-                      placeholder="Enter your digital signature"
+                      placeholder={t.enterYourSignature}
                       style={{fontSize: '13px', padding: '10px'}}
                       required />
-                    <small style={{color: '#666', fontSize: '12px'}}>Signature will be recorded on blockchain</small>
+                    <small style={{color: '#666', fontSize: '12px'}}>{t.signatureRecordedBlockchain}</small>
                   </div>
                 </div>
                 
                 <div style={{display: 'flex', gap: '12px'}}>
                   <LoadingButton onClick={handleSelectQuote} loading={selectLoading} className="btn" 
-                    style={{flex: 1, background: '#22C55E', padding: '10px', fontSize: '14px'}}>Confirm Selection</LoadingButton>
+                    style={{flex: 1, background: '#22C55E', padding: '10px', fontSize: '14px'}}>{t.confirmSelection}</LoadingButton>
                   <button onClick={() => {setSelectedQuote(null); setSelectedFieldOfficer(''); setNgoSignature('');}} className="btn" 
-                    style={{background: '#666', padding: '10px 20px', fontSize: '14px'}}>Cancel</button>
+                    style={{background: '#666', padding: '10px 20px', fontSize: '14px'}}>{t.cancel}</button>
                 </div>
               </div>
             )}
@@ -2061,6 +2173,129 @@ function ProjectDetails() {
           )}
         </div>
       </div>
+      
+      {(details.project.document1_name || details.project.document2_name || details.project.document3_name || details.project.beneficiaries_csv_name) && (
+        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
+          <h3 style={{color: '#000', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>Project Documents</h3>
+          <div style={{display: 'grid', gap: '12px'}}>
+            {details.project.beneficiaries_csv_name && (
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#f0f9ff', borderRadius: '6px', border: '1px solid #1E3A8A'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1E3A8A">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                  </svg>
+                  <div>
+                    <span style={{fontSize: '14px', color: '#000', fontWeight: '600', display: 'block'}}>{details.project.beneficiaries_csv_name}</span>
+                    <span style={{fontSize: '12px', color: '#666'}}>Beneficiaries List</span>
+                  </div>
+                </div>
+                <button onClick={async () => {
+                  const token = localStorage.getItem('token');
+                  const response = await fetch(`http://localhost:8000/api/project/${project.id}/document/4/`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                  });
+                  if (!response.ok) throw new Error('Download failed');
+                  const blob = await response.blob();
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = details.project.beneficiaries_csv_name;
+                  document.body.appendChild(a);
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+                  document.body.removeChild(a);
+                }} className="btn" style={{padding: '8px 16px', fontSize: '13px', background: '#1E3A8A'}}>
+                  Download CSV
+                </button>
+              </div>
+            )}
+            {details.project.document1_name && (
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1E3A8A">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                  </svg>
+                  <span style={{fontSize: '14px', color: '#000', fontWeight: '500'}}>{details.project.document1_name}</span>
+                </div>
+                <button onClick={async () => {
+                  const token = localStorage.getItem('token');
+                  const response = await fetch(`http://localhost:8000/api/project/${project.id}/document/1/`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                  });
+                  if (!response.ok) throw new Error('Download failed');
+                  const blob = await response.blob();
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = details.project.document1_name;
+                  document.body.appendChild(a);
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+                  document.body.removeChild(a);
+                }} className="btn" style={{padding: '8px 16px', fontSize: '13px', background: '#1E3A8A'}}>
+                  Download
+                </button>
+              </div>
+            )}
+            {details.project.document2_name && (
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1E3A8A">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                  </svg>
+                  <span style={{fontSize: '14px', color: '#000', fontWeight: '500'}}>{details.project.document2_name}</span>
+                </div>
+                <button onClick={async () => {
+                  const token = localStorage.getItem('token');
+                  const response = await fetch(`http://localhost:8000/api/project/${project.id}/document/2/`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                  });
+                  if (!response.ok) throw new Error('Download failed');
+                  const blob = await response.blob();
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = details.project.document2_name;
+                  document.body.appendChild(a);
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+                  document.body.removeChild(a);
+                }} className="btn" style={{padding: '8px 16px', fontSize: '13px', background: '#1E3A8A'}}>
+                  Download
+                </button>
+              </div>
+            )}
+            {details.project.document3_name && (
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1E3A8A">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                  </svg>
+                  <span style={{fontSize: '14px', color: '#000', fontWeight: '500'}}>{details.project.document3_name}</span>
+                </div>
+                <button onClick={async () => {
+                  const token = localStorage.getItem('token');
+                  const response = await fetch(`http://localhost:8000/api/project/${project.id}/document/3/`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                  });
+                  if (!response.ok) throw new Error('Download failed');
+                  const blob = await response.blob();
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = details.project.document3_name;
+                  document.body.appendChild(a);
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+                  document.body.removeChild(a);
+                }} className="btn" style={{padding: '8px 16px', fontSize: '13px', background: '#1E3A8A'}}>
+                  Download
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       
       {pendingFunding && (
         <div className="card" style={{border: '1px solid #1E3A8A', padding: '20px'}}>
@@ -2603,7 +2838,7 @@ function FieldOfficers() {
       
       {officers.length === 0 ? (
         <div className="card" style={{textAlign: 'center', padding: '64px 20px'}}>
-          <div style={{fontSize: '64px', marginBottom: '16px'}}>👥</div>
+          <i className="fas fa-users" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Field Officers Yet</h3>
           <p style={{fontSize: '14px', color: '#666', margin: 0}}>Create your first field officer to manage project operations</p>
         </div>
@@ -2832,7 +3067,7 @@ function Beneficiaries() {
                   </div>
                 ) : (
                   <div>
-                    <div style={{fontSize: '48px', color: '#1E3A8A', marginBottom: '10px'}}>📷</div>
+                    <i className="fas fa-camera" style={{fontSize: '48px', color: '#1E3A8A', marginBottom: '10px'}}></i>
                     <p style={{margin: '0 0 10px 0', fontSize: '14px', color: '#666'}}>Upload beneficiary face photo</p>
                   </div>
                 )}
@@ -2940,7 +3175,7 @@ function Suppliers() {
       
       {suppliers.length === 0 ? (
         <div className="card" style={{textAlign: 'center', padding: '64px 20px'}}>
-          <div style={{fontSize: '64px', marginBottom: '16px'}}>🚚</div>
+          <i className="fas fa-truck" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Suppliers Available</h3>
           <p style={{fontSize: '14px', color: '#666', margin: 0}}>Suppliers will appear here once they register in the system</p>
         </div>

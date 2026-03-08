@@ -49,7 +49,7 @@ function SupplierReceipt() {
       
       {assignments.length === 0 ? (
         <div style={{background: '#ffffff', padding: '32px', borderRadius: '4px', border: '1px solid #e0e0e0', textAlign: 'center'}}>
-          <div style={{fontSize: '48px', marginBottom: '16px'}}>📦</div>
+          <i className="fas fa-box" style={{fontSize: '48px', marginBottom: '16px', color: '#1CABE2'}}></i>
           <h3 style={{fontSize: '16px', fontWeight: '600', color: '#1CABE2', margin: '0 0 8px 0'}}>No Deliveries</h3>
           <p style={{fontSize: '14px', color: '#666', margin: 0}}>No projects assigned to you yet.</p>
         </div>

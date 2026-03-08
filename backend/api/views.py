@@ -4,6 +4,12 @@ from django.views.decorators.http import require_http_methods
 import json
 from .models import *
 from .serializers import *
+
+def log_activity(user_id, action, details=''):
+    try:
+        ActivityLog.objects.create(user_id=user_id, action=action, details=details)
+    except:
+        pass
 from .auth import create_token, require_auth
 from .blockchain import blockchain_service
 from .otp_service import otp_service
@@ -143,58 +149,198 @@ def get_public_reports(request):
 @require_http_methods(["POST"])
 @require_auth(['NGO'])
 def create_project(request):
-    data = json.loads(request.body)
-    
-    ngo = User.objects.get(id=request.user_data['user_id'])
-    
-    project = Project.objects.create(
-        title=data.get('title'),
-        description=data.get('description'),
-        location=data.get('location'),
-        required_items=data.get('required_items'),
-        budget_amount=data.get('budget_amount', 0),
-        duration_months=data.get('duration_months', 1),
-        target_beneficiaries=data.get('target_beneficiaries', 0),
-        start_date=data.get('start_date'),
-        end_date=data.get('end_date'),
-        category=data.get('category', 'General Aid'),
-        desired_donors=data.get('desired_donors', []),
-        document1=data.get('document1', ''),
-        document1_name=data.get('document1_name', ''),
-        document2=data.get('document2', ''),
-        document2_name=data.get('document2_name', ''),
-        document3=data.get('document3', ''),
-        document3_name=data.get('document3_name', ''),
-        ngo=ngo,
-        is_approved=False,
-        status='CREATED'
-    )
-    
-    # Generate project hash and record on blockchain
-    import hashlib
-    project_data = f"{project.id}{project.title}{project.budget_amount}{project.location}"
-    project.project_hash = hashlib.sha256(project_data.encode()).hexdigest()
+    import zipfile
+    import base64
+    import io
+    import csv
+    import traceback
     
     try:
-        tx_hash = blockchain_service.create_project(
-            project.id,
-            project.title,
-            project.description,
-            project.location,
-            project.required_items,
-            project.budget_amount
+        # Handle multipart form data (for file upload)
+        ngo = User.objects.get(id=request.user_data['user_id'])
+        
+        # Get form data
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        location = request.POST.get('location')
+        required_items = json.loads(request.POST.get('required_items', '[]'))
+        budget_amount = request.POST.get('budget_amount', 0)
+        duration_months = request.POST.get('duration_months', 1)
+        target_beneficiaries = request.POST.get('target_beneficiaries', 0)
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        category = request.POST.get('category', 'General Aid')
+        desired_donors = json.loads(request.POST.get('desired_donors', '[]'))
+        
+        # Get documents
+        document1 = request.POST.get('document1', '')
+        document1_name = request.POST.get('document1_name', '')
+        document2 = request.POST.get('document2', '')
+        document2_name = request.POST.get('document2_name', '')
+        document3 = request.POST.get('document3', '')
+        document3_name = request.POST.get('document3_name', '')
+        
+        # Create project
+        project = Project.objects.create(
+            title=title,
+            description=description,
+            location=location,
+            required_items=required_items,
+            budget_amount=budget_amount,
+            duration_months=duration_months,
+            target_beneficiaries=target_beneficiaries,
+            start_date=start_date,
+            end_date=end_date,
+            category=category,
+            desired_donors=desired_donors,
+            document1=document1,
+            document1_name=document1_name,
+            document2=document2,
+            document2_name=document2_name,
+            document3=document3,
+            document3_name=document3_name,
+            ngo=ngo,
+            is_approved=False,
+            status='CREATED'
         )
-        project.blockchain_tx = tx_hash
+        
+        # Generate project hash and record on blockchain
+        import hashlib
+        project_data = f"{project.id}{project.title}{project.budget_amount}{project.location}"
+        project.project_hash = hashlib.sha256(project_data.encode()).hexdigest()
+        
+        try:
+            tx_hash = blockchain_service.create_project(
+                project.id,
+                project.title,
+                project.description,
+                project.location,
+                project.required_items,
+                project.budget_amount
+            )
+            project.blockchain_tx = tx_hash
+        except Exception as e:
+            print(f"Blockchain transaction failed: {e}")
+        
+        # Handle beneficiaries ZIP file upload
+        beneficiaries_file = request.FILES.get('beneficiaries_file')
+        beneficiaries_created = 0
+        beneficiaries_errors = []
+        csv_base64 = ''
+        csv_filename = ''
+        
+        print(f"\n=== BENEFICIARIES UPLOAD DEBUG ===")
+        print(f"FILES in request: {list(request.FILES.keys())}")
+        print(f"beneficiaries_file: {beneficiaries_file}")
+        print(f"beneficiaries_file is None: {beneficiaries_file is None}")
+        
+        if beneficiaries_file:
+            print(f"Processing beneficiaries file: {beneficiaries_file.name}, size: {beneficiaries_file.size} bytes")
+            try:
+                with zipfile.ZipFile(beneficiaries_file, 'r') as zip_ref:
+                    # List all files in ZIP for debugging
+                    file_list = zip_ref.namelist()
+                    print(f"Files in ZIP: {file_list}")
+                    
+                    # Try to find beneficiaries.csv at root or in first subfolder
+                    csv_path = None
+                    photos_prefix = ''
+                    
+                    if 'beneficiaries.csv' in file_list:
+                        csv_path = 'beneficiaries.csv'
+                        photos_prefix = 'photos/'
+                    else:
+                        # Look for CSV in subfolders
+                        for file in file_list:
+                            if file.endswith('beneficiaries.csv'):
+                                csv_path = file
+                                # Extract folder prefix
+                                folder = file.rsplit('/', 1)[0] if '/' in file else ''
+                                photos_prefix = f"{folder}/photos/" if folder else 'photos/'
+                                print(f"Found CSV at: {csv_path}, photos prefix: {photos_prefix}")
+                                break
+                    
+                    if not csv_path:
+                        raise Exception("beneficiaries.csv not found in ZIP file. Please ensure the CSV is in the ZIP.")
+                    
+                    # Read and store CSV file
+                    csv_content = zip_ref.read(csv_path)
+                    csv_base64 = base64.b64encode(csv_content).decode('utf-8')
+                    csv_filename = 'beneficiaries.csv'
+                    print(f"CSV file read successfully, base64 size: {len(csv_base64)} characters")
+                    
+                    # Process CSV for beneficiaries
+                    csv_text = csv_content.decode('utf-8')
+                    csv_reader = csv.DictReader(io.StringIO(csv_text))
+                    
+                    for row in csv_reader:
+                        try:
+                            name = row.get('name', '').strip()
+                            phone = row.get('phone_number', '').strip()
+                            photo_filename = row.get('photo_filename', '').strip()
+                            
+                            if not name or not phone:
+                                beneficiaries_errors.append(f"Missing name or phone for row: {row}")
+                                continue
+                            
+                            face_photo_base64 = ''
+                            if photo_filename:
+                                try:
+                                    # Try with detected photos prefix
+                                    photo_path = f'{photos_prefix}{photo_filename}'
+                                    photo_data = zip_ref.read(photo_path)
+                                    face_photo_base64 = base64.b64encode(photo_data).decode('utf-8')
+                                except KeyError:
+                                    beneficiaries_errors.append(f"Photo not found: {photo_filename}")
+                            
+                            Beneficiary.objects.create(
+                                name=name,
+                                phone_number=phone,
+                                project=project,
+                                face_photo=face_photo_base64,
+                                face_verified=bool(face_photo_base64)
+                            )
+                            beneficiaries_created += 1
+                            
+                        except Exception as e:
+                            beneficiaries_errors.append(f"Error processing {name}: {str(e)}")
+            except Exception as e:
+                print(f"ERROR reading ZIP file: {str(e)}")
+                beneficiaries_errors.append(f"Error reading ZIP file: {str(e)}")
+        else:
+            print("No beneficiaries file uploaded (beneficiaries_file is None)")
+        
+        # Store CSV file if uploaded
+        if csv_base64:
+            print(f"Storing CSV file: {csv_filename}, size: {len(csv_base64)} bytes")
+            project.beneficiaries_csv = csv_base64
+            project.beneficiaries_csv_name = csv_filename
+            print(f"CSV stored in project object")
+        else:
+            print("No CSV file to store")
+        
+        project.save()
+        print(f"Project saved. CSV name in DB: {project.beneficiaries_csv_name}")
+        
+        log_activity(ngo.id, 'Created Project', f'Project: {project.title}')
+        
+        response_data = {
+            'message': 'Project created successfully. Waiting for admin approval before it appears to donors.',
+            'project': ProjectSerializer(project).data
+        }
+        
+        if beneficiaries_file:
+            response_data['beneficiaries'] = {
+                'created': beneficiaries_created,
+                'errors': beneficiaries_errors
+            }
+        
+        return JsonResponse(response_data)
+        
     except Exception as e:
-        print(f"Blockchain transaction failed: {e}")
-        # Continue without blockchain - store project anyway
-    
-    project.save()
-    
-    return JsonResponse({
-        'message': 'Project created successfully. Waiting for admin approval before it appears to donors.',
-        'project': ProjectSerializer(project).data
-    })
+        print(f"Error creating project: {str(e)}")
+        traceback.print_exc()
+        return JsonResponse({'error': str(e)}, status=500)
 
 @require_http_methods(["GET"])
 @require_auth(['NGO'])
@@ -221,6 +367,17 @@ def get_ngo_dashboard(request):
         'field_officers': field_officers.count(),
         'projects': ProjectSerializer(projects, many=True).data
     })
+
+@require_http_methods(["GET"])
+@require_auth(['NGO'])
+def get_ngo_project_beneficiaries(request, project_id):
+    try:
+        ngo = User.objects.get(id=request.user_data['user_id'])
+        project = Project.objects.get(id=project_id, ngo=ngo)
+        beneficiaries = Beneficiary.objects.filter(project=project)
+        return JsonResponse(BeneficiarySerializer(beneficiaries, many=True).data, safe=False)
+    except Project.DoesNotExist:
+        return JsonResponse({'error': 'Project not found'}, status=404)
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -361,6 +518,7 @@ def confirm_funding(request):
     # Update project status to FUNDED
     funding.project.status = 'FUNDED'
     funding.project.save()
+    log_activity(request.user_data['user_id'], 'Confirmed Funding', f'Project: {funding.project.title}, Amount: ${funding.amount}')
     
     return JsonResponse(FundingSerializer(funding).data)
 
@@ -431,6 +589,7 @@ def fund_project(request):
         
         project.status = 'FUNDED'
         project.save()
+        log_activity(donor.id, 'Funded Project', f'Project: {project.title}, Amount: ${data.get("amount")}')
         
         return JsonResponse(FundingSerializer(funding).data)
     except Exception as e:
@@ -805,21 +964,170 @@ def confirm_field_officer_assignment(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+@require_auth(['NGO'])
+def upload_beneficiaries_standalone(request):
+    """Standalone beneficiary upload - NGO can upload without linking to project first"""
+    import zipfile
+    import base64
+    import io
+    import csv
+    
+    try:
+        project_id = request.POST.get('project_id')
+        if not project_id:
+            return JsonResponse({'error': 'project_id is required'}, status=400)
+            
+        project = Project.objects.get(id=project_id)
+        
+        # Verify NGO owns this project
+        ngo = User.objects.get(id=request.user_data['user_id'])
+        if project.ngo != ngo:
+            return JsonResponse({'error': 'Unauthorized'}, status=403)
+        
+        zip_file = request.FILES.get('file')
+        if not zip_file:
+            return JsonResponse({'error': 'No file uploaded'}, status=400)
+        
+        created_count = 0
+        errors = []
+        
+        with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+            csv_content = zip_ref.read('beneficiaries.csv').decode('utf-8')
+            csv_reader = csv.DictReader(io.StringIO(csv_content))
+            
+            for row in csv_reader:
+                try:
+                    name = row.get('name', '').strip()
+                    phone = row.get('phone_number', '').strip()
+                    photo_filename = row.get('photo_filename', '').strip()
+                    
+                    if not name or not phone:
+                        errors.append(f"Missing name or phone for row: {row}")
+                        continue
+                    
+                    face_photo_base64 = ''
+                    if photo_filename:
+                        try:
+                            photo_path = f'photos/{photo_filename}'
+                            photo_data = zip_ref.read(photo_path)
+                            face_photo_base64 = base64.b64encode(photo_data).decode('utf-8')
+                        except KeyError:
+                            errors.append(f"Photo not found: {photo_filename}")
+                    
+                    Beneficiary.objects.create(
+                        name=name,
+                        phone_number=phone,
+                        project=project,
+                        face_photo=face_photo_base64,
+                        face_verified=bool(face_photo_base64)
+                    )
+                    created_count += 1
+                    
+                except Exception as e:
+                    errors.append(f"Error processing {name}: {str(e)}")
+        
+        return JsonResponse({
+            'message': f'Successfully uploaded {created_count} beneficiaries',
+            'created': created_count,
+            'errors': errors
+        })
+        
+    except Project.DoesNotExist:
+        return JsonResponse({'error': 'Project not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+@require_auth(['NGO'])
+def upload_project_beneficiaries(request):
+    """Upload beneficiaries for an existing project via ZIP file"""
+    import zipfile
+    import base64
+    import io
+    import csv
+    
+    try:
+        project_id = request.POST.get('project_id')
+        project = Project.objects.get(id=project_id)
+        
+        # Verify NGO owns this project
+        ngo = User.objects.get(id=request.user_data['user_id'])
+        if project.ngo != ngo:
+            return JsonResponse({'error': 'Unauthorized'}, status=403)
+        
+        zip_file = request.FILES.get('file')
+        if not zip_file:
+            return JsonResponse({'error': 'No file uploaded'}, status=400)
+        
+        created_count = 0
+        errors = []
+        
+        with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+            csv_content = zip_ref.read('beneficiaries.csv').decode('utf-8')
+            csv_reader = csv.DictReader(io.StringIO(csv_content))
+            
+            for row in csv_reader:
+                try:
+                    name = row.get('name', '').strip()
+                    phone = row.get('phone_number', '').strip()
+                    photo_filename = row.get('photo_filename', '').strip()
+                    
+                    if not name or not phone:
+                        errors.append(f"Missing name or phone for row: {row}")
+                        continue
+                    
+                    face_photo_base64 = ''
+                    if photo_filename:
+                        try:
+                            photo_path = f'photos/{photo_filename}'
+                            photo_data = zip_ref.read(photo_path)
+                            face_photo_base64 = base64.b64encode(photo_data).decode('utf-8')
+                        except KeyError:
+                            errors.append(f"Photo not found: {photo_filename}")
+                    
+                    Beneficiary.objects.create(
+                        name=name,
+                        phone_number=phone,
+                        project=project,
+                        face_photo=face_photo_base64,
+                        face_verified=bool(face_photo_base64)
+                    )
+                    created_count += 1
+                    
+                except Exception as e:
+                    errors.append(f"Error processing {name}: {str(e)}")
+        
+        return JsonResponse({
+            'message': f'Successfully uploaded {created_count} beneficiaries',
+            'created': created_count,
+            'errors': errors
+        })
+        
+    except Project.DoesNotExist:
+        return JsonResponse({'error': 'Project not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["POST"])
 @require_auth(['FIELD_OFFICER', 'NGO'])
 def add_beneficiary(request):
     data = json.loads(request.body)
     
     project = Project.objects.get(id=data.get('project_id'))
     face_photo = data.get('face_photo', '')
+    face_descriptor = data.get('face_descriptor', '')  # JSON string of 128 numbers
     
-    # Mock face verification - always returns True
-    face_verified = bool(face_photo)
+    # Face is verified if we have both photo and descriptor
+    face_verified = bool(face_photo and face_descriptor)
     
     beneficiary = Beneficiary.objects.create(
         name=data.get('name'),
         phone_number=data.get('phone_number'),
         project=project,
         face_photo=face_photo,
+        face_descriptor=face_descriptor,
         face_verified=face_verified
     )
     
@@ -854,8 +1162,48 @@ def get_all_beneficiaries(request):
 @require_http_methods(["POST"])
 @require_auth(['FIELD_OFFICER'])
 def mock_face_scan(request):
-    # Always returns True - mock implementation
+    # Deprecated - use verify_face_match instead
     return JsonResponse({'verified': True})
+
+@csrf_exempt
+@require_http_methods(["POST"])
+@require_auth(['FIELD_OFFICER'])
+def verify_face_match(request):
+    """Verify face match between stored descriptor and scanned descriptor"""
+    data = json.loads(request.body)
+    
+    beneficiary_id = data.get('beneficiary_id')
+    scanned_descriptor = data.get('scanned_descriptor')  # Array of 128 numbers
+    
+    try:
+        beneficiary = Beneficiary.objects.get(id=beneficiary_id)
+        
+        if not beneficiary.face_descriptor:
+            return JsonResponse({'verified': False, 'error': 'No face descriptor stored for beneficiary'}, status=400)
+        
+        # Parse stored descriptor
+        import json as json_lib
+        stored_descriptor = json_lib.loads(beneficiary.face_descriptor)
+        
+        # Calculate Euclidean distance
+        import math
+        distance = math.sqrt(sum((a - b) ** 2 for a, b in zip(stored_descriptor, scanned_descriptor)))
+        
+        # Threshold of 0.6 (same as Face-API.js default)
+        threshold = 0.6
+        verified = distance < threshold
+        
+        return JsonResponse({
+            'verified': verified,
+            'distance': distance,
+            'threshold': threshold,
+            'confidence': max(0, 100 - (distance * 100))
+        })
+        
+    except Beneficiary.DoesNotExist:
+        return JsonResponse({'verified': False, 'error': 'Beneficiary not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'verified': False, 'error': str(e)}, status=500)
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -877,6 +1225,8 @@ def verify_otp(request):
     phone_number = data.get('phone_number')
     code = data.get('code')
     face_scan_photo = data.get('face_scan_photo', '')
+    face_scan_descriptor = data.get('face_scan_descriptor', '')  # Scanned face descriptor
+    face_match_verified = data.get('face_match_verified', False)  # Frontend verification result
     
     verified = otp_service.verify_otp(phone_number, code)
     
@@ -890,7 +1240,7 @@ def verify_otp(request):
             project_id=project_id,
             field_officer=officer,
             face_scan_photo=face_scan_photo,
-            face_scan_verified=True,
+            face_scan_verified=face_match_verified,
             otp_verified=True,
             completed=True
         )
@@ -1038,6 +1388,64 @@ def reject_project(request):
     
     return JsonResponse({'message': 'Project rejected and deleted'})
 
+@csrf_exempt
+@require_http_methods(["GET"])
+def download_project_document(request, project_id, doc_number):
+    from django.http import HttpResponse
+    import base64
+    try:
+        project = Project.objects.get(id=project_id)
+        
+        # Get the requested document
+        doc_data = None
+        doc_name = None
+        
+        if doc_number == 1:
+            doc_data = project.document1
+            doc_name = project.document1_name
+        elif doc_number == 2:
+            doc_data = project.document2
+            doc_name = project.document2_name
+        elif doc_number == 3:
+            doc_data = project.document3
+            doc_name = project.document3_name
+        elif doc_number == 4:
+            doc_data = project.beneficiaries_csv
+            doc_name = project.beneficiaries_csv_name
+        
+        if not doc_data or not doc_name:
+            return JsonResponse({'error': 'Document not found'}, status=404)
+        
+        # Decode base64 data
+        try:
+            # Remove data URL prefix if present
+            if ',' in doc_data:
+                doc_data = doc_data.split(',')[1]
+            
+            file_data = base64.b64decode(doc_data)
+            
+            # Determine content type from file extension
+            content_type = 'application/octet-stream'
+            if doc_name.lower().endswith('.pdf'):
+                content_type = 'application/pdf'
+            elif doc_name.lower().endswith(('.jpg', '.jpeg')):
+                content_type = 'image/jpeg'
+            elif doc_name.lower().endswith('.png'):
+                content_type = 'image/png'
+            elif doc_name.lower().endswith(('.doc', '.docx')):
+                content_type = 'application/msword'
+            
+            response = HttpResponse(file_data, content_type=content_type)
+            response['Content-Disposition'] = f'attachment; filename="{doc_name}"'
+            return response
+        except Exception as e:
+            return JsonResponse({'error': f'Failed to decode document: {str(e)}'}, status=500)
+            
+    except Project.DoesNotExist:
+        return JsonResponse({'error': 'Project not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
 @require_http_methods(["GET"])
 @require_auth(['DONOR', 'NGO'])
 def get_project_workflow_status(request, project_id):
@@ -1146,3 +1554,12 @@ def get_project_workflow_status(request, project_id):
         return JsonResponse({'error': 'Project not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+
+@require_http_methods(["GET"])
+@require_auth(['DONOR', 'NGO', 'ADMIN'])
+def get_activity_log(request):
+    user_id = request.user_data['user_id']
+    activities = ActivityLog.objects.filter(user_id=user_id)[:20]
+    data = [{'action': a.action, 'details': a.details, 'created_at': a.created_at} for a in activities]
+    return JsonResponse(data, safe=False)

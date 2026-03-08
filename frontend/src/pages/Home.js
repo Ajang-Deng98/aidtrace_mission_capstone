@@ -160,7 +160,7 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
                   zIndex: 1000,
                   overflow: 'hidden'
                 }}>
-                  {[{code: 'en', name: 'English'}, {code: 'ar', name: 'العربية'}, {code: 'din', name: 'Dinka'}, {code: 'nuer', name: 'Nuer'}].map(lang => (
+                  {[{code: 'en', name: 'English'}, {code: 'ar', name: 'العربية'}].map(lang => (
                     <button key={lang.code} onClick={() => {changeLanguage(lang.code); setShowLangMenu(false);}} style={{
                       width: '100%', 
                       padding: '10px 14px', 

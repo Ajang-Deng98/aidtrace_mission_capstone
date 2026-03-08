@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import LoadingButton from '../components/LoadingButton';
+import { translations } from '../translations';
 
-function Login() {
+function Login({ language = 'en', changeLanguage }) {
+  const t = translations[language] || translations['en'];
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -37,22 +40,45 @@ function Login() {
           <Link to="/" style={{textDecoration: 'none', display: 'flex', alignItems: 'center'}}>
             <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '50px', width: 'auto'}} />
           </Link>
-          <Link to="/"><button style={{padding: '8px 16px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', color: '#374151', fontSize: '13px', fontWeight: '500', cursor: 'pointer', transition: 'all 0.2s'}}
-          onMouseOver={(e) => e.target.style.background = '#f9fafb'}
-          onMouseOut={(e) => e.target.style.background = '#ffffff'}>Home</button></Link>
+          <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
+            <Link to="/"><button style={{padding: '8px 16px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', color: '#374151', fontSize: '13px', fontWeight: '500', cursor: 'pointer', transition: 'all 0.2s'}}
+            onMouseOver={(e) => e.target.style.background = '#f9fafb'}
+            onMouseOut={(e) => e.target.style.background = '#ffffff'}>{t.home}</button></Link>
+            <div style={{position: 'relative'}}>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 12px', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', color: '#374151', fontSize: '13px', fontWeight: '500', cursor: 'pointer', transition: 'all 0.2s'}}
+              onMouseOver={(e) => e.target.style.background = '#f9fafb'}
+              onMouseOut={(e) => e.target.style.background = '#ffffff'}>
+                {language.toUpperCase()}
+              </button>
+              {showLangMenu && (
+                <div style={{position: 'absolute', top: '42px', right: '0', background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '120px', zIndex: 1000, overflow: 'hidden'}}>
+                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 14px', background: language === 'en' ? '#f0f9ff' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px', fontWeight: '500', color: language === 'en' ? '#1E3A8A' : '#374151', transition: 'background 0.15s'}}
+                  onMouseOver={(e) => e.target.style.background = language === 'en' ? '#f0f9ff' : '#f9fafb'}
+                  onMouseOut={(e) => e.target.style.background = language === 'en' ? '#f0f9ff' : '#ffffff'}>
+                    English
+                  </button>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '10px 14px', background: language === 'ar' ? '#f0f9ff' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px', fontWeight: '500', color: language === 'ar' ? '#1E3A8A' : '#374151', transition: 'background 0.15s'}}
+                  onMouseOver={(e) => e.target.style.background = language === 'ar' ? '#f0f9ff' : '#f9fafb'}
+                  onMouseOut={(e) => e.target.style.background = language === 'ar' ? '#f0f9ff' : '#ffffff'}>
+                    العربية
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </nav>
       
       <div style={{maxWidth: '420px', margin: '80px auto', padding: '0 20px'}}>
         <div style={{background: '#ffffff', padding: '40px', borderRadius: '4px', border: '1px solid #e5e7eb', boxShadow: '0 1px 3px rgba(0,0,0,0.05)'}}>
-          <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#111827'}}>Welcome back</h2>
-          <p style={{margin: '0 0 28px 0', fontSize: '14px', color: '#6b7280'}}>Sign in to your account to continue</p>
+          <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#111827'}}>{t.welcomeBack}</h2>
+          <p style={{margin: '0 0 28px 0', fontSize: '14px', color: '#6b7280'}}>{t.signInToAccount}</p>
           
           {error && <div style={{padding: '12px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '4px', marginBottom: '20px', fontSize: '13px', color: '#dc2626'}}>{error}</div>}
           
           <form onSubmit={handleSubmit}>
             <div style={{marginBottom: '18px'}}>
-              <label style={{display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '500', color: '#374151'}}>Username or Email</label>
+              <label style={{display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '500', color: '#374151'}}>{t.usernameOrEmail}</label>
               <input type="text" value={formData.username}
                 onChange={(e) => setFormData({...formData, username: e.target.value})}
                 style={{width: '100%', padding: '10px 12px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '4px', boxSizing: 'border-box', transition: 'border 0.2s'}}
@@ -62,7 +88,7 @@ function Login() {
             </div>
             
             <div style={{marginBottom: '24px'}}>
-              <label style={{display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '500', color: '#374151'}}>Password</label>
+              <label style={{display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '500', color: '#374151'}}>{t.password}</label>
               <input type="password" value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
                 style={{width: '100%', padding: '10px 12px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '4px', boxSizing: 'border-box', transition: 'border 0.2s'}}
@@ -78,16 +104,16 @@ function Login() {
               onMouseOver={(e) => !loading && (e.target.style.background = '#1E40AF')}
               onMouseOut={(e) => !loading && (e.target.style.background = '#1E3A8A')}
             >
-              Sign In
+              {t.signIn}
             </LoadingButton>
           </form>
           
           <div style={{marginTop: '16px', textAlign: 'center'}}>
-            <Link to="/forgot-password" style={{color: '#1E3A8A', textDecoration: 'none', fontSize: '13px', fontWeight: '500'}}>Forgot password?</Link>
+            <Link to="/forgot-password" style={{color: '#1E3A8A', textDecoration: 'none', fontSize: '13px', fontWeight: '500'}}>{t.forgotPassword}</Link>
           </div>
           
           <p style={{marginTop: '24px', textAlign: 'center', fontSize: '13px', color: '#6b7280'}}>
-            Don't have an account? <Link to="/register" style={{color: '#1E3A8A', textDecoration: 'none', fontWeight: '500'}}>Sign up</Link>
+            {t.dontHaveAccount} <Link to="/register" style={{color: '#1E3A8A', textDecoration: 'none', fontWeight: '500'}}>{t.signUp}</Link>
           </p>
         </div>
       </div>

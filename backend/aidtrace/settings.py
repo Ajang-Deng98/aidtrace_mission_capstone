@@ -13,9 +13,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# Increase upload size limits for base64-encoded documents
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+# Increase upload size limits for base64-encoded documents and beneficiaries ZIP files
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100MB
 
 INSTALLED_APPS = [
     'jazzmin',

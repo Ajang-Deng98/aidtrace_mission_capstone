@@ -170,10 +170,7 @@ function SupplierDashboard({ language = 'en', changeLanguage, theme, toggleTheme
               {showLangMenu && (
                 <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                   <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
-                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>
-                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Dinka</button>
-                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>Nuer</button>
-                </div>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>                </div>
               )}
             </div>
           </div>
@@ -324,7 +321,7 @@ function DeliveryHistory() {
 
       {deliveries.length === 0 ? (
         <div className="card" style={{textAlign: 'center', padding: '48px 20px', border: '1px solid #e0e0e0'}}>
-          <div style={{fontSize: '48px', marginBottom: '16px'}}>📦</div>
+          <i className="fas fa-box" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '18px', color: '#000', margin: '0 0 8px 0'}}>No delivery history yet</h3>
           <p style={{fontSize: '14px', color: '#666', margin: 0}}>Your confirmed deliveries will appear here</p>
         </div>
@@ -526,8 +523,27 @@ function ProfileSettings() {
     projectUpdates: true,
     monthlyReports: false
   });
-  const [activities] = useState([]);
+  const [activities, setActivities] = useState([]);
   const { showSuccess } = useNotification();
+
+  useEffect(() => {
+    if (activeTab === 'activity') {
+      loadActivities();
+    }
+  }, [activeTab]);
+
+  const loadActivities = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8000/api/activity-log/', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      setActivities(data);
+    } catch (err) {
+      console.error('Error loading activities:', err);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -622,7 +638,19 @@ function ProfileSettings() {
       {activeTab === 'activity' && (
         <div className="card">
           <h3>Recent Activity</h3>
-          <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+          {activities.length === 0 ? (
+            <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+          ) : (
+            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+              {activities.map((activity, idx) => (
+                <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', borderLeft: '3px solid #1E3A8A'}}>
+                  <p style={{margin: '0 0 4px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>{activity.action}</p>
+                  <p style={{margin: '0 0 4px 0', fontSize: '13px', color: '#666'}}>{activity.details}</p>
+                  <p style={{margin: 0, fontSize: '12px', color: '#999'}}>{new Date(activity.created_at).toLocaleString()}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -1012,7 +1040,7 @@ function SupplierQuoteDetails() {
 
       {hasSubmitted && myQuote && myQuote.is_selected && !deliveryConfirmed ? (
         <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
-          <h3 style={{color: '#1E3A8A'}}>🎉 Your Quote Was Selected!</h3>
+          <h3 style={{color: '#1E3A8A'}}><i className="fas fa-trophy" style={{marginRight: '8px'}}></i>Your Quote Was Selected!</h3>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
             <div>
               <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Selected Quote</p>

@@ -66,17 +66,20 @@ function DonorDashboard({ language = 'en', changeLanguage, theme, toggleTheme })
   };
 
   return (
-    <div style={{display: 'flex', minHeight: '100vh', background: '#ffffff'}}>
+    <div style={{display: 'flex', minHeight: '100vh', background: '#ffffff', direction: language === 'ar' ? 'rtl' : 'ltr'}}>
       {/* Sidebar */}
       <div style={{
         width: '220px',
         background: '#ffffff',
-        borderRight: '1px solid #e0e0e0',
+        borderRight: language === 'ar' ? 'none' : '1px solid #e0e0e0',
+        borderLeft: language === 'ar' ? '1px solid #e0e0e0' : 'none',
         display: 'flex',
         flexDirection: 'column',
         position: 'fixed',
         height: '100vh',
-        zIndex: 1000
+        zIndex: 1000,
+        left: language === 'ar' ? 'auto' : '0',
+        right: language === 'ar' ? '0' : 'auto'
       }}>
         {/* Logo/Header */}
         <div style={{padding: '16px 20px', borderBottom: '1px solid #1E3A8A', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -227,7 +230,7 @@ function DonorDashboard({ language = 'en', changeLanguage, theme, toggleTheme })
       </div>
 
       {/* Main Content */}
-      <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
+      <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
         {/* Top Bar */}
         <div style={{
           background: '#1E3A8A',
@@ -238,19 +241,17 @@ function DonorDashboard({ language = 'en', changeLanguage, theme, toggleTheme })
           alignItems: 'center'
         }}>
           <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>{t.donor} {t.dashboard}</h1>
-            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.fundAndTrack} {t.projects}</p>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.donor} {t.dashboard}</h1>
+            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9, fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.fundAndTrack} {t.projects}</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
             <button onClick={toggleTheme} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{theme === 'light' ? t.dark : t.light}</button>
             <div style={{position: 'relative'}}>
               <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
-                <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
+                <div style={{position: 'absolute', top: '40px', right: language === 'ar' ? 'auto' : '0', left: language === 'ar' ? '0' : 'auto', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                   <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>{t.english}</button>
                   <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>{t.arabic}</button>
-                  <button onClick={() => {changeLanguage('din'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'din' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>{t.dinka}</button>
-                  <button onClick={() => {changeLanguage('nuer'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'nuer' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>{t.nuer}</button>
                 </div>
               )}
             </div>
@@ -322,7 +323,7 @@ function Analytics({ language = 'en' }) {
 
   if (loading) {
     return (
-      <div>
+      <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
         <h2>{t.analyticsDashboard}</h2>
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
           {[1,2,3,4].map(i => (
@@ -363,7 +364,7 @@ function Analytics({ language = 'en' }) {
   const COLORS = ['#1E3A8A', '#000000', '#ffffff', '#666'];
 
   return (
-    <div>
+    <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.analyticsDashboard}</h2>
       <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.overviewFundingImpact}</p>
 
@@ -416,7 +417,7 @@ function Analytics({ language = 'en' }) {
         </div>
       ) : (
         <div className="card" style={{border: '1px solid #e0e0e0', padding: '48px 24px', textAlign: 'center', marginBottom: '24px'}}>
-          <div style={{fontSize: '48px', marginBottom: '16px'}}>📊</div>
+          <i className="fas fa-chart-bar" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '18px', marginBottom: '8px', color: '#000'}}>No Data Yet</h3>
           <p style={{color: '#666', fontSize: '14px', marginBottom: '16px'}}>Fund your first project to see analytics</p>
         </div>
@@ -426,7 +427,7 @@ function Analytics({ language = 'en' }) {
         <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600'}}>{t.recentFundedProjects}</h3>
         {fundedProjects.length === 0 ? (
           <div style={{padding: '32px 16px', textAlign: 'center'}}>
-            <div style={{fontSize: '48px', marginBottom: '16px'}}>💼</div>
+            <i className="fas fa-briefcase" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
             <p style={{color: '#666', fontSize: '14px'}}>{t.noFundedYet}</p>
           </div>
         ) : (
@@ -460,6 +461,8 @@ function AllProjects({ language = 'en' }) {
   const t = translations[language] || translations['en'];
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [viewingProject, setViewingProject] = useState(null);
+  const [beneficiaries, setBeneficiaries] = useState([]);
   const [amount, setAmount] = useState('');
   const [signature, setSignature] = useState('');
   const [loading, setLoading] = useState(true);
@@ -478,6 +481,23 @@ function AllProjects({ language = 'en' }) {
     } catch (err) {
       console.error('Error loading projects:', err);
       setLoading(false);
+    }
+  };
+
+  const loadProjectDetails = async (project) => {
+    setViewingProject(project);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:8000/api/ngo/project/${project.id}/beneficiaries/`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setBeneficiaries(data);
+      }
+    } catch (err) {
+      console.error('Error loading beneficiaries:', err);
+      setBeneficiaries([]);
     }
   };
 
@@ -533,7 +553,7 @@ function AllProjects({ language = 'en' }) {
   }
 
   return (
-    <div>
+    <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.pendingProjects}</h2>
       <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.projectsWaitingFunding}</p>
       
@@ -605,15 +625,253 @@ function AllProjects({ language = 'en' }) {
                 <p style={{margin: '0', fontSize: '13px'}}><strong>{t.beneficiaries}:</strong> <span style={{color: '#666'}}>{project.target_beneficiaries?.toLocaleString()}</span></p>
               </div>
               
-              <button 
-                onClick={() => setSelectedProject(project)} 
-                className="btn" 
-                style={{width: '100%', padding: '12px', fontSize: '14px', fontWeight: '600'}}
-              >
-                {t.fundThisProject}
-              </button>
+              <div style={{display: 'flex', gap: '8px'}}>
+                <button 
+                  onClick={() => loadProjectDetails(project)} 
+                  className="btn" 
+                  style={{flex: 1, padding: '12px', fontSize: '14px', fontWeight: '600', background: '#ffffff', color: '#1E3A8A', border: '2px solid #1E3A8A'}}
+                >
+                  View Details
+                </button>
+                <button 
+                  onClick={() => setSelectedProject(project)} 
+                  className="btn" 
+                  style={{flex: 1, padding: '12px', fontSize: '14px', fontWeight: '600'}}
+                >
+                  {t.fundThisProject}
+                </button>
+              </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {viewingProject && (
+        <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', overflowY: 'auto'}}>
+          <div style={{background: '#fff', padding: '32px', borderRadius: '8px', maxWidth: '900px', width: '100%', maxHeight: '90vh', overflowY: 'auto'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #1E3A8A'}}>
+              <div>
+                <h3 style={{margin: '0 0 8px 0', color: '#000', fontSize: '24px', fontWeight: '700'}}>{viewingProject.title}</h3>
+                <span className="badge badge-info">{viewingProject.category}</span>
+              </div>
+              <button onClick={() => {setViewingProject(null); setBeneficiaries([]);}} style={{background: 'none', border: 'none', fontSize: '28px', cursor: 'pointer', color: '#999', lineHeight: 1, padding: 0, width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '4px', transition: 'all 0.2s'}} onMouseEnter={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.color = '#000';}} onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#999';}}>&times;</button>
+            </div>
+            
+            <div style={{marginBottom: '24px'}}>
+              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Description</p>
+              <div style={{background: '#f8f9fa', padding: '20px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <p style={{margin: 0, fontSize: '15px', color: '#333', lineHeight: '1.8'}}>{viewingProject.description}</p>
+              </div>
+            </div>
+            
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px'}}>
+              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Location</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.location}</p>
+              </div>
+              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Budget</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '700'}}>${parseFloat(viewingProject.budget_amount || 0).toLocaleString()}</p>
+              </div>
+              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Duration</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.duration_months} months</p>
+              </div>
+              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Beneficiaries</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.target_beneficiaries?.toLocaleString()}</p>
+              </div>
+              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Start Date</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.start_date}</p>
+              </div>
+              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>End Date</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.end_date}</p>
+              </div>
+            </div>
+
+            {(viewingProject.document1_name || viewingProject.document2_name || viewingProject.document3_name || viewingProject.beneficiaries_csv_name) && (
+              <div style={{marginBottom: '24px', padding: '20px', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #e0e0e0'}}>
+                <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#000'}}>📄 Project Documents</h4>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                  {viewingProject.document1_name && (
+                    <button
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem('token');
+                          const response = await fetch(`http://localhost:8000/api/project/${viewingProject.id}/document/1/`, {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                          });
+                          if (!response.ok) throw new Error('Download failed');
+                          const blob = await response.blob();
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = viewingProject.document1_name;
+                          document.body.appendChild(a);
+                          a.click();
+                          window.URL.revokeObjectURL(url);
+                          document.body.removeChild(a);
+                        } catch (err) {
+                          alert('Failed to download document');
+                        }
+                      }}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                      </svg>
+                      {viewingProject.document1_name}
+                    </button>
+                  )}
+                  {viewingProject.document2_name && (
+                    <button
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem('token');
+                          const response = await fetch(`http://localhost:8000/api/project/${viewingProject.id}/document/2/`, {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                          });
+                          if (!response.ok) throw new Error('Download failed');
+                          const blob = await response.blob();
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = viewingProject.document2_name;
+                          document.body.appendChild(a);
+                          a.click();
+                          window.URL.revokeObjectURL(url);
+                          document.body.removeChild(a);
+                        } catch (err) {
+                          alert('Failed to download document');
+                        }
+                      }}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                      </svg>
+                      {viewingProject.document2_name}
+                    </button>
+                  )}
+                  {viewingProject.document3_name && (
+                    <button
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem('token');
+                          const response = await fetch(`http://localhost:8000/api/project/${viewingProject.id}/document/3/`, {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                          });
+                          if (!response.ok) throw new Error('Download failed');
+                          const blob = await response.blob();
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = viewingProject.document3_name;
+                          document.body.appendChild(a);
+                          a.click();
+                          window.URL.revokeObjectURL(url);
+                          document.body.removeChild(a);
+                        } catch (err) {
+                          alert('Failed to download document');
+                        }
+                      }}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                      </svg>
+                      {viewingProject.document3_name}
+                    </button>
+                  )}
+                  {viewingProject.beneficiaries_csv_name && (
+                    <button
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem('token');
+                          const response = await fetch(`http://localhost:8000/api/project/${viewingProject.id}/document/4/`, {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                          });
+                          if (!response.ok) throw new Error('Download failed');
+                          const blob = await response.blob();
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = viewingProject.beneficiaries_csv_name;
+                          document.body.appendChild(a);
+                          a.click();
+                          window.URL.revokeObjectURL(url);
+                          document.body.removeChild(a);
+                        } catch (err) {
+                          alert('Failed to download CSV');
+                        }
+                      }}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '2px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                      </svg>
+                      📊 {viewingProject.beneficiaries_csv_name}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {beneficiaries.length > 0 && (
+              <div style={{marginBottom: '24px'}}>
+                <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#000'}}>👥 Beneficiaries ({beneficiaries.length})</h4>
+                <div style={{maxHeight: '300px', overflowY: 'auto', border: '1px solid #e0e0e0', borderRadius: '6px'}}>
+                  <table style={{width: '100%', borderCollapse: 'collapse'}}>
+                    <thead style={{position: 'sticky', top: 0, background: '#f8f9fa', borderBottom: '2px solid #e0e0e0'}}>
+                      <tr>
+                        <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#666'}}>Name</th>
+                        <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#666'}}>Phone</th>
+                        <th style={{padding: '12px', textAlign: 'center', fontSize: '13px', fontWeight: '600', color: '#666'}}>Photo</th>
+                        <th style={{padding: '12px', textAlign: 'center', fontSize: '13px', fontWeight: '600', color: '#666'}}>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {beneficiaries.map((ben, idx) => (
+                        <tr key={ben.id} style={{borderBottom: '1px solid #f0f0f0', background: idx % 2 === 0 ? '#ffffff' : '#fafafa'}}>
+                          <td style={{padding: '12px', fontSize: '14px', color: '#000'}}>{ben.name}</td>
+                          <td style={{padding: '12px', fontSize: '14px', color: '#666'}}>{ben.phone_number}</td>
+                          <td style={{padding: '12px', textAlign: 'center'}}>
+                            {ben.face_photo ? (
+                              <span style={{color: '#22C55E', fontSize: '18px'}}>✓</span>
+                            ) : (
+                              <span style={{color: '#999', fontSize: '18px'}}>-</span>
+                            )}
+                          </td>
+                          <td style={{padding: '12px', textAlign: 'center'}}>
+                            {ben.confirmed ? (
+                              <span style={{padding: '4px 8px', background: '#22C55E', color: '#fff', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>Received</span>
+                            ) : (
+                              <span style={{padding: '4px 8px', background: '#f0f0f0', color: '#666', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>Pending</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+            
+            <div style={{display: 'flex', gap: '12px', paddingTop: '16px', borderTop: '1px solid #e0e0e0'}}>
+              <button onClick={() => {setViewingProject(null); setBeneficiaries([]); setSelectedProject(viewingProject);}} className="btn" style={{flex: 1, padding: '12px 24px', fontSize: '14px', fontWeight: '600'}}>Fund This Project</button>
+              <button onClick={() => {setViewingProject(null); setBeneficiaries([]);}} className="btn" style={{flex: 1, padding: '12px 24px', fontSize: '14px', fontWeight: '600', background: '#6c757d'}}>{t.close}</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -659,13 +917,13 @@ function FundedProjects({ language = 'en' }) {
   }
 
   return (
-    <div>
+    <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.fundedProjects}</h2>
       <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.trackFullLifecycle}</p>
       
       {projects.length === 0 ? (
         <div className="card" style={{border: '1px solid #e0e0e0', padding: '64px 24px', textAlign: 'center'}}>
-          <div style={{fontSize: '64px', marginBottom: '16px'}}>💰</div>
+          <i className="fas fa-hand-holding-usd" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', marginBottom: '8px', color: '#000'}}>{t.noFundedProjectsYet}</h3>
           <p style={{color: '#666', fontSize: '14px', marginBottom: '24px'}}>{t.noFundedProjectsDesc}</p>
           <Link to="/donor/projects">
@@ -758,7 +1016,7 @@ function ProjectDetails({ language = 'en' }) {
   }
 
   return (
-    <div>
+    <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.projectFullLifecycle}</h2>
       <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.completeTransparency}</p>
       
@@ -770,51 +1028,105 @@ function ProjectDetails({ language = 'en' }) {
         </div>
         
         {/* Project Documents */}
-        {(details.project.document1 || details.project.document2 || details.project.document3) && (
+        {(details.project.document1_name || details.project.document2_name || details.project.document3_name) && (
           <div style={{marginBottom: '24px', padding: '20px', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #e0e0e0'}}>
             <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#000'}}>📄 Project Documents</h4>
             <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-              {details.project.document1 && (
-                <a 
-                  href={`data:application/octet-stream;base64,${details.project.document1}`}
-                  download={details.project.document1_name || 'document1.pdf'}
-                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', textDecoration: 'none', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s'}}
+              {details.project.document1_name && (
+                <button
+                  onClick={async () => {
+                    try {
+                      const token = localStorage.getItem('token');
+                      const response = await fetch(`http://localhost:8000/api/project/${details.project.id}/document/1/`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                      });
+                      if (!response.ok) throw new Error('Download failed');
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = details.project.document1_name;
+                      document.body.appendChild(a);
+                      a.click();
+                      window.URL.revokeObjectURL(url);
+                      document.body.removeChild(a);
+                    } catch (err) {
+                      alert('Failed to download document');
+                    }
+                  }}
+                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
                   onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
                   onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
                   </svg>
-                  {details.project.document1_name || 'Document 1'}
-                </a>
+                  {details.project.document1_name}
+                </button>
               )}
-              {details.project.document2 && (
-                <a 
-                  href={`data:application/octet-stream;base64,${details.project.document2}`}
-                  download={details.project.document2_name || 'document2.pdf'}
-                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', textDecoration: 'none', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s'}}
+              {details.project.document2_name && (
+                <button
+                  onClick={async () => {
+                    try {
+                      const token = localStorage.getItem('token');
+                      const response = await fetch(`http://localhost:8000/api/project/${details.project.id}/document/2/`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                      });
+                      if (!response.ok) throw new Error('Download failed');
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = details.project.document2_name;
+                      document.body.appendChild(a);
+                      a.click();
+                      window.URL.revokeObjectURL(url);
+                      document.body.removeChild(a);
+                    } catch (err) {
+                      alert('Failed to download document');
+                    }
+                  }}
+                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
                   onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
                   onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
                   </svg>
-                  {details.project.document2_name || 'Document 2'}
-                </a>
+                  {details.project.document2_name}
+                </button>
               )}
-              {details.project.document3 && (
-                <a 
-                  href={`data:application/octet-stream;base64,${details.project.document3}`}
-                  download={details.project.document3_name || 'document3.pdf'}
-                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', textDecoration: 'none', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s'}}
+              {details.project.document3_name && (
+                <button
+                  onClick={async () => {
+                    try {
+                      const token = localStorage.getItem('token');
+                      const response = await fetch(`http://localhost:8000/api/project/${details.project.id}/document/3/`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                      });
+                      if (!response.ok) throw new Error('Download failed');
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = details.project.document3_name;
+                      document.body.appendChild(a);
+                      a.click();
+                      window.URL.revokeObjectURL(url);
+                      document.body.removeChild(a);
+                    } catch (err) {
+                      alert('Failed to download document');
+                    }
+                  }}
+                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
                   onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
                   onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
                   </svg>
-                  {details.project.document3_name || 'Document 3'}
-                </a>
+                  {details.project.document3_name}
+                </button>
               )}
             </div>
           </div>
@@ -1222,7 +1534,25 @@ function ProfileSettings({ language = 'en' }) {
     projectUpdates: true,
     monthlyReports: false
   });
+  const [activities, setActivities] = useState([]);
   const { showSuccess } = useNotification();
+
+  useEffect(() => {
+    if (activeSection === 'activity') loadActivities();
+  }, [activeSection]);
+
+  const loadActivities = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8000/api/activity-log/', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      setActivities(data);
+    } catch (err) {
+      console.error('Error loading activities:', err);
+    }
+  };
 
   const handleProfileUpdate = (e) => {
     e.preventDefault();
@@ -1236,7 +1566,7 @@ function ProfileSettings({ language = 'en' }) {
   };
 
   return (
-    <div>
+    <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.profileSettings}</h2>
       <p style={{color: '#666', marginBottom: '20px'}}>{t.manageAccountSettings}</p>
 
@@ -1379,7 +1709,23 @@ function ProfileSettings({ language = 'en' }) {
       {activeSection === 'activity' && (
         <div className="card" style={{border: '1px solid #e0e0e0'}}>
           <h3 style={{fontSize: '16px', marginBottom: '15px'}}>Recent Activity</h3>
-          <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+          {activities.length === 0 ? (
+            <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+          ) : (
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+              {activities.map((activity, idx) => (
+                <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px'}}>
+                    <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#000'}}>{activity.action}</p>
+                    <span style={{fontSize: '12px', color: '#666'}}>{new Date(activity.created_at).toLocaleString()}</span>
+                  </div>
+                  {activity.details && (
+                    <p style={{margin: '4px 0 0 0', fontSize: '13px', color: '#666'}}>{activity.details}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -1411,15 +1757,15 @@ function PublicReports({ language = 'en' }) {
   if (loading) return <div><h2>{t.publicReports}</h2><div className="card"><p>{t.loading}</p></div></div>;
 
   return (
-    <div>
+    <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.publicReports}</h2>
       <p style={{color: '#666', marginBottom: '20px', fontSize: '14px'}}>{t.viewAllSubmittedReports}</p>
       
       {reports.length === 0 ? (
         <div className="card" style={{border: '1px solid #e0e0e0', padding: '64px 24px', textAlign: 'center'}}>
-          <div style={{fontSize: '64px', marginBottom: '16px'}}>📋</div>
+          <i className="fas fa-clipboard-list" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', marginBottom: '8px', color: '#000'}}>{t.noReportsSubmitted}</h3>
-          <p style={{color: '#666', fontSize: '14px'}}>No reports have been published yet</p>
+          <p style={{color: '#666', fontSize: '14px'}}>{t.noReportsPublished}</p>
         </div>
       ) : (
         <div className="grid">
@@ -1442,7 +1788,7 @@ function PublicReports({ language = 'en' }) {
                 </div>
               </div>
               
-              <button onClick={() => setSelectedReport(report)} className="btn" style={{width: '100%', marginTop: '12px', padding: '10px', fontSize: '14px', fontWeight: '600'}}>View Full Report</button>
+              <button onClick={() => setSelectedReport(report)} className="btn" style={{width: '100%', marginTop: '12px', padding: '10px', fontSize: '14px', fontWeight: '600'}}>{t.viewFullReport}</button>
             </div>
           ))}
         </div>
@@ -1485,7 +1831,7 @@ function PublicReports({ language = 'en' }) {
             </div>
             
             <div style={{display: 'flex', gap: '12px'}}>
-              <button onClick={() => setSelectedReport(null)} className="btn" style={{flex: 1, padding: '12px 24px', fontSize: '14px', fontWeight: '600'}}>Close</button>
+              <button onClick={() => setSelectedReport(null)} className="btn" style={{flex: 1, padding: '12px 24px', fontSize: '14px', fontWeight: '600'}}>{t.close}</button>
             </div>
           </div>
         </div>

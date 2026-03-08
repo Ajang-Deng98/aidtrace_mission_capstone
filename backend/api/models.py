@@ -77,6 +77,8 @@ class Project(models.Model):
     document2_name = models.CharField(max_length=255, blank=True)
     document3 = models.TextField(blank=True)
     document3_name = models.CharField(max_length=255, blank=True)
+    beneficiaries_csv = models.TextField(blank=True)  # Base64 encoded CSV file
+    beneficiaries_csv_name = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -230,6 +232,7 @@ class Beneficiary(models.Model):
     phone_number = models.CharField(max_length=50)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='beneficiaries')
     face_photo = models.TextField(blank=True)  # Base64 encoded image
+    face_descriptor = models.TextField(blank=True)  # JSON array of 128 numbers from Face-API.js
     face_verified = models.BooleanField(default=False)
     confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -300,3 +303,13 @@ class PasswordResetToken(models.Model):
     
     class Meta:
         db_table = 'password_reset_tokens'
+
+class ActivityLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activities')
+    action = models.CharField(max_length=255)
+    details = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        db_table = 'activity_logs'
+        ordering = ['-created_at']

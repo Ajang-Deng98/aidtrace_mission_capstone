@@ -36,7 +36,7 @@ export const ngoAPI = {
   assignFieldOfficer: (data) => api.post('/ngo/assign-field-officer/', data),
   confirmFunding: (data) => api.post('/ngo/confirm-funding/', data),
   addBeneficiary: (data) => api.post('/field-officer/beneficiary/', data),
-  getBeneficiaries: (projectId) => api.get('/field-officer/beneficiary/all/', { params: { project_id: projectId } }),
+  getBeneficiaries: (projectId) => api.get(`/ngo/projects/${projectId}/beneficiaries/`),
   // Quote system endpoints
   createQuoteRequest: (data) => api.post('/ngo/quote-requests/', data),
   getQuoteRequests: () => api.get('/ngo/quote-requests/list/'),
@@ -73,6 +73,7 @@ export const fieldOfficerAPI = {
   getAllBeneficiaries: (params) => api.get('/field-officer/beneficiary/all/', { params }),
   getConfirmedBeneficiaries: (params) => api.get('/field-officer/beneficiary/confirmed/', { params }),
   mockFaceScan: () => api.post('/field-officer/face-scan/'),
+  verifyFace: (data) => api.post('/field-officer/verify-face/', data),
   sendOTP: (data) => api.post('/field-officer/send-otp/', data),
   verifyOTP: (data) => api.post('/field-officer/verify-otp/', data),
   getDistributions: (params) => api.get('/field-officer/distributions/', { params }),
