@@ -1,4 +1,5 @@
 from django.urls import path
+from django.http import JsonResponse
 from . import views
 from .blockchain_verify import verify_transaction, get_contract_info
 from .quote_views import create_quote_request, get_ngo_quote_requests, get_quote_request_quotes, select_quote, close_quote_request
@@ -6,7 +7,11 @@ from .supplier_quote_views import get_available_quote_requests, submit_quote, ge
 
 from .bulk_beneficiary import bulk_upload_beneficiaries
 
+def api_root(request):
+    return JsonResponse({'message': 'AidTrace API', 'version': '1.0'})
+
 urlpatterns = [
+    path('', api_root),
     # Auth
     path('register/', views.register),
     path('login/', views.login),
