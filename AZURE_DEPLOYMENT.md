@@ -82,16 +82,16 @@ ALLOWED_HOSTS = aidtrace-backend.azurewebsites.net
 
 BLOCKCHAIN_NETWORK = sepolia
 SEPOLIA_CONTRACT_ADDRESS = 0x394D38B35364BB63bF6497b925E9bEF6Bc056Be3
-ALCHEMY_API_KEY = YwvRYM_kMxKsCS0u32-H9
-BLOCKCHAIN_PRIVATE_KEY = 0x6fd7f85f80bbcc6c367fd3d01bc9c91732de29d01e1bbf3b37a77bdb73b473c0
-MNEMONIC = home agree crystal beach rocket buddy million stick travel stick nasty culture
+ALCHEMY_API_KEY = your_alchemy_api_key
+BLOCKCHAIN_PRIVATE_KEY = your_wallet_private_key
+MNEMONIC = your twelve word mnemonic phrase
 
-EMAIL_HOST_USER = a.deng3@alustudent.com
-EMAIL_HOST_PASSWORD = ctjjqwcnbticglhg
+EMAIL_HOST_USER = your_email@gmail.com
+EMAIL_HOST_PASSWORD = your_app_password
 
-TWILIO_ACCOUNT_SID = AC1cfed475477227b1074815a6bf5f43a6
-TWILIO_AUTH_TOKEN = ac3b3dcb465b7adb2f173ca9eff34dbf
-TWILIO_PHONE_NUMBER = +12294665486
+TWILIO_ACCOUNT_SID = your_twilio_sid
+TWILIO_AUTH_TOKEN = your_twilio_token
+TWILIO_PHONE_NUMBER = your_twilio_number
 
 SCM_DO_BUILD_DURING_DEPLOYMENT = true
 ```
