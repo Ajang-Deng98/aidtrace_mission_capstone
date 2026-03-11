@@ -1,103 +1,261 @@
-/* Home Page Responsive Styles */
-@media (max-width: 1024px) {
-  nav div[style*="maxWidth: 1280px"] {
-    padding: 12px 20px !important;
-  }
+/* Home Page Enhanced Responsive Styles */
 
-  section[style*="gridTemplateColumns: '1fr 1fr'"],
-  section div[style*="gridTemplateColumns: '1fr 1fr'"] {
+/* Base responsive container */
+section {
+  padding: 100px 5% !important;
+}
+
+section[style*="marginTop: '80px'"] {
+  margin-top: 80px !important;
+  padding: 120px 5% 140px !important;
+}
+
+/* Responsive grid layouts */
+@media (min-width: 1025px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  section {
+    padding: 80px 4% !important;
+  }
+  
+  section[style*="marginTop: '80px'"] {
+    padding: 100px 4% 120px !important;
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 30px !important;
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 30px !important;
+  }
+  
+  .grid-cols-2 {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
-
-  section div[style*="gridTemplateColumns: 'repeat(4, 1fr)'"] {
-    grid-template-columns: repeat(2, 1fr) !important;
+  
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 50px !important;
   }
-
-  section div[style*="gridTemplateColumns: 'repeat(3, 1fr)'"] {
-    grid-template-columns: repeat(2, 1fr) !important;
+  
+  /* Images responsive */
+  img[style*="height: '480px'"],
+  img[style*="height: '420px'"],
+  img[style*="height: '300px'"] {
+    height: auto !important;
+    max-height: 350px !important;
   }
 }
 
 @media (max-width: 768px) {
-  nav div[style*="display: 'flex'"][style*="gap: '32px'"] {
-    display: none !important;
-  }
-
-  nav div[style*="maxWidth: 1280px"] {
-    padding: 12px 15px !important;
-  }
-
   section {
     padding: 60px 20px !important;
   }
-
+  
   section[style*="marginTop: '80px'"] {
     margin-top: 70px !important;
     padding: 80px 20px 100px !important;
   }
-
+  
+  /* All grids to single column */
+  .grid-cols-4,
+  .grid-cols-3,
+  .grid-cols-2,
+  .hero-grid,
+  div[style*="gridTemplateColumns: 'repeat(4, 1fr')"],
+  div[style*="gridTemplateColumns: 'repeat(3, 1fr')"],
+  div[style*="gridTemplateColumns: 'repeat(2, 1fr')"],
+  div[style*="gridTemplateColumns: '1fr 1fr'"] {
+    grid-template-columns: 1fr !important;
+    gap: 25px !important;
+  }
+  
+  /* Navigation */
+  nav div[style*="display: 'flex'"][style*="gap: '32px'"] {
+    display: none !important;
+  }
+  
+  nav div[style*="maxWidth: '1280px'"] {
+    padding: 12px 20px !important;
+  }
+  
+  /* Typography */
   h1[style*="fontSize: '52px'"] {
     font-size: 32px !important;
+    line-height: 1.2 !important;
   }
-
+  
   h2[style*="fontSize: '42px'"] {
     font-size: 28px !important;
+    line-height: 1.3 !important;
   }
-
-  p[style*="fontSize: '19px'"] {
+  
+  h3[style*="fontSize: '28px'"] {
+    font-size: 22px !important;
+  }
+  
+  h4[style*="fontSize: '22px'"],
+  h4[style*="fontSize: '20px'"] {
+    font-size: 18px !important;
+  }
+  
+  p[style*="fontSize: '19px'"],
+  p[style*="fontSize: '18px'"] {
     font-size: 16px !important;
   }
-
-  section div[style*="gridTemplateColumns: 'repeat(4, 1fr')"],
-  section div[style*="gridTemplateColumns: 'repeat(3, 1fr')"],
-  section div[style*="gridTemplateColumns: 'repeat(2, 1fr')"] {
-    grid-template-columns: 1fr !important;
+  
+  /* Images */
+  img[style*="height: '480px'"],
+  img[style*="height: '420px'"],
+  img[style*="height: '300px'"] {
+    height: auto !important;
+    max-height: 250px !important;
+    width: 100% !important;
   }
-
+  
+  /* Buttons */
+  div[style*="display: 'flex'"][style*="gap: '14px'"],
+  .button-group {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  
+  button {
+    width: 100% !important;
+    padding: 12px 24px !important;
+  }
+  
+  /* Cards */
+  div[style*="padding: '32px'"] {
+    padding: 20px !important;
+  }
+  
+  div[style*="padding: '28px'"] {
+    padding: 18px !important;
+  }
+  
+  /* Stats */
+  div[style*="fontSize: '36px'"] {
+    font-size: 28px !important;
+  }
+  
+  /* Footer */
+  footer {
+    padding: 50px 20px 25px !important;
+  }
+  
   footer div[style*="gridTemplateColumns: 'repeat(4, 1fr')"] {
     grid-template-columns: 1fr !important;
     gap: 30px !important;
   }
-
-  img[style*="height: '480px'"],
-  img[style*="height: '420px'"],
-  img[style*="height: '300px'"] {
-    height: 250px !important;
-  }
-
-  div[style*="display: 'flex'"][style*="gap: '14px'"] {
-    flex-direction: column !important;
-  }
-
-  button {
-    width: 100% !important;
-  }
 }
 
 @media (max-width: 480px) {
-  h1[style*="fontSize: '52px'"] {
-    font-size: 26px !important;
-  }
-
-  h2[style*="fontSize: '42px'"] {
-    font-size: 24px !important;
-  }
-
-  h3[style*="fontSize: '28px'"] {
-    font-size: 20px !important;
-  }
-
   section {
     padding: 40px 15px !important;
   }
-
+  
   section[style*="marginTop: '80px'"] {
     margin-top: 65px !important;
     padding: 60px 15px 80px !important;
   }
-
-  footer {
-    padding: 50px 20px 20px !important;
+  
+  /* Typography */
+  h1[style*="fontSize: '52px'"] {
+    font-size: 26px !important;
   }
+  
+  h2[style*="fontSize: '42px'"] {
+    font-size: 24px !important;
+  }
+  
+  h3[style*="fontSize: '28px'"] {
+    font-size: 20px !important;
+  }
+  
+  h4[style*="fontSize: '22px'"],
+  h4[style*="fontSize: '20px'"] {
+    font-size: 16px !important;
+  }
+  
+  p[style*="fontSize: '19px'"],
+  p[style*="fontSize: '18px'"],
+  p[style*="fontSize: '16px'"] {
+    font-size: 14px !important;
+  }
+  
+  /* Images */
+  img[style*="height: '480px'"],
+  img[style*="height: '420px'"],
+  img[style*="height: '300px'"] {
+    max-height: 200px !important;
+  }
+  
+  /* Buttons */
+  button {
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Cards */
+  div[style*="padding: '32px'"],
+  div[style*="padding: '28px'"],
+  div[style*="padding: '24px'"] {
+    padding: 15px !important;
+  }
+  
+  /* Stats */
+  div[style*="fontSize: '36px'"] {
+    font-size: 24px !important;
+  }
+  
+  div[style*="fontSize: '16px'"] {
+    font-size: 14px !important;
+  }
+  
+  /* Icons */
+  div[style*="width: '56px'"][style*="height: '56px'"] {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  
+  svg[width="24"] {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
+  /* Footer */
+  footer {
+    padding: 40px 15px 20px !important;
+  }
+  
+  /* Logo */
+  img[style*="height: '50px'"] {
+    height: 40px !important;
+  }
+}
+
+/* Smooth transitions */
+section,
+div,
+button,
+img {
+  transition: all 0.3s ease;
 }
