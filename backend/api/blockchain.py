@@ -38,8 +38,20 @@ class BlockchainService:
     def load_contract(self):
         """Load smart contract ABI and create contract instance"""
         try:
-            contract_path = os.path.join(settings.BASE_DIR.parent, 'blockchain', 'build', 'contracts', 'AidTrace.json')
-            if os.path.exists(contract_path):
+            # Try multiple paths for ABI file (local dev vs Azure deployment)
+            possible_paths = [
+                os.path.join(settings.BASE_DIR.parent, 'blockchain', 'build', 'contracts', 'AidTrace.json'),
+                os.path.join(settings.BASE_DIR, 'blockchain', 'build', 'contracts', 'AidTrace.json'),
+                os.path.join(settings.BASE_DIR, '..', 'blockchain', 'build', 'contracts', 'AidTrace.json'),
+            ]
+            
+            contract_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    contract_path = path
+                    break
+            
+            if contract_path:
                 with open(contract_path) as f:
                     contract_json = json.load(f)
                     abi = contract_json['abi']
@@ -47,9 +59,10 @@ class BlockchainService:
                         address=Web3.to_checksum_address(settings.CONTRACT_ADDRESS),
                         abi=abi
                     )
-                logger.info(f"Contract loaded at: {settings.CONTRACT_ADDRESS}")
+                logger.info(f"Contract loaded from: {contract_path}")
+                logger.info(f"Contract address: {settings.CONTRACT_ADDRESS}")
             else:
-                logger.error(f"Contract ABI not found at: {contract_path}")
+                logger.error(f"Contract ABI not found. Tried paths: {possible_paths}")
                 logger.info("Run 'truffle compile' in blockchain directory to generate ABI")
         except Exception as e:
             logger.error(f"Contract loading failed: {e}")
