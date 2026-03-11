@@ -1,4 +1,5 @@
 import React from 'react';
+import { publicAPI } from '../services/api';
 
 function ViewablePublicReports() {
   const [reports, setReports] = React.useState([]);
@@ -11,9 +12,8 @@ function ViewablePublicReports() {
 
   const loadReports = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/public-reports/list/');
-      const data = await response.json();
-      setReports(data);
+      const response = await publicAPI.getReports();
+      setReports(response.data);
       setLoading(false);
     } catch (err) {
       console.error('Error loading reports:', err);
