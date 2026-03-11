@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { translations } from '../translations';
 import './Home.css';
+import '../styles/responsive.css';
 
 function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
   const t = translations[language] || translations['en'];
@@ -22,12 +23,12 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
         boxShadow: '0 2px 8px rgba(30,58,138,0.15)',
         borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>
-        <div style={{maxWidth: '1280px', margin: '0 auto', padding: '12px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <div className="nav-container" style={{maxWidth: '1280px', margin: '0 auto', padding: '12px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div style={{display: 'flex', alignItems: 'center'}}>
             <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '50px', width: 'auto'}} />
           </div>
           
-          <div style={{display: 'flex', gap: '32px', alignItems: 'center'}}>
+          <div className="nav-links" style={{display: 'flex', gap: '32px', alignItems: 'center'}}>
             <a href="#about" style={{
               textDecoration: 'none', 
               color: 'rgba(255,255,255,0.9)', 
@@ -186,12 +187,12 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
         </div>
       </nav>
 
-      <section style={{marginTop: '80px', padding: '120px 40px 140px', background: '#ffffff', position: 'relative'}}>
-        <div style={{maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center'}}>
+      <section className="hero-section" style={{marginTop: '80px', padding: '120px 40px 140px', background: '#ffffff', position: 'relative'}}>
+        <div className="hero-grid" style={{maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center'}}>
           <div>
-            <h1 style={{fontSize: '52px', color: '#111827', marginBottom: '24px', fontWeight: '800', lineHeight: '1.1', letterSpacing: '-0.03em'}}>{t.heroTitle}</h1>
+            <h1 className="hero-title" style={{fontSize: '52px', color: '#111827', marginBottom: '24px', fontWeight: '800', lineHeight: '1.1', letterSpacing: '-0.03em'}}>{t.heroTitle}</h1>
             <p style={{fontSize: '19px', color: '#6b7280', marginBottom: '36px', lineHeight: '1.7'}}>{t.heroDesc}</p>
-            <div style={{display: 'flex', gap: '14px'}}>
+            <div className="button-group" style={{display: 'flex', gap: '14px'}}>
               <Link to="/register"><button style={{padding: '14px 32px', background: 'linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%)', border: 'none', borderRadius: '8px', color: '#ffffff', fontSize: '16px', fontWeight: '600', cursor: 'pointer', boxShadow: '0 4px 14px rgba(28, 171, 226, 0.3)', transition: 'all 0.2s'}}
               onMouseOver={(e) => {e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 6px 20px rgba(28, 171, 226, 0.4)';}}
               onMouseOut={(e) => {e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 14px rgba(28, 171, 226, 0.3)';}}>{t.getStarted}</button></Link>
@@ -206,13 +207,13 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
         </div>
       </section>
 
-      <section id="about" style={{padding: '100px 40px', background: '#ffffff'}}>
+      <section id="about" className="section-padding" style={{padding: '100px 40px', background: '#ffffff'}}>
         <div style={{maxWidth: '1200px', margin: '0 auto'}}>
           <div style={{textAlign: 'center', marginBottom: '70px'}}>
-            <h2 style={{fontSize: '42px', fontWeight: '800', marginBottom: '16px', color: '#111827', letterSpacing: '-0.03em'}}>{t.aboutAidTrace}</h2>
+            <h2 className="section-title" style={{fontSize: '42px', fontWeight: '800', marginBottom: '16px', color: '#111827', letterSpacing: '-0.03em'}}>{t.aboutAidTrace}</h2>
             <p style={{fontSize: '18px', color: '#6b7280', maxWidth: '600px', margin: '0 auto'}}>{t.heroSubtitle}</p>
           </div>
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center'}}>
+          <div className="grid-cols-2" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center'}}>
             <div>
               <h3 style={{fontSize: '28px', fontWeight: '700', marginBottom: '20px', color: '#111827'}}>{t.ourMission}</h3>
               <p style={{fontSize: '16px', lineHeight: '1.8', color: '#6b7280', marginBottom: '24px'}}>{t.missionDesc1}</p>
@@ -230,7 +231,7 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
           <div style={{textAlign: 'center', marginBottom: '70px'}}>
             <h2 style={{fontSize: '42px', fontWeight: '800', marginBottom: '16px', color: '#111827', letterSpacing: '-0.03em'}}>{t.whyChoose}</h2>
           </div>
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '40px'}}>
+          <div className="grid-cols-2" style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '40px'}}>
             {[
               {title: t.transparencyTitle, desc: t.transparencyDesc},
               {title: t.accountabilityTitle, desc: t.accountabilityDesc},
@@ -251,7 +252,7 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
           <div style={{textAlign: 'center', marginBottom: '70px'}}>
             <h2 style={{fontSize: '42px', fontWeight: '800', marginBottom: '16px', color: '#111827', letterSpacing: '-0.03em'}}>{t.ourImpact}</h2>
           </div>
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '32px'}}>
+          <div className="grid-cols-4" style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '32px'}}>
             {[
               {number: '10,000+', label: t.beneficiariesServed},
               {number: '50+', label: t.activeProjects},
@@ -318,7 +319,7 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
             <h2 style={{fontSize: '42px', fontWeight: '800', marginBottom: '16px', color: '#111827', letterSpacing: '-0.03em'}}>{t.howItWorks}</h2>
             <p style={{fontSize: '18px', color: '#6b7280', maxWidth: '600px', margin: '0 auto'}}>{t.simpleSteps}</p>
           </div>
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px'}}>
+          <div className="grid-cols-3" style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px'}}>
             {[
               {num: '1', title: t.step1Title, desc: t.step1Desc, color: '#1E3A8A', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>},
               {num: '2', title: t.step2Title, desc: t.step2Desc, color: '#1E3A8A', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>},

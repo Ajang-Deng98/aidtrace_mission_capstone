@@ -15,6 +15,7 @@ import FieldOfficerDashboard from './pages/FieldOfficerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
 import './styles/humanitarian-theme.css';
+import './styles/global-responsive.css';
 
 function App() {
   const [language, setLanguage] = React.useState(localStorage.getItem('language') || 'en');
