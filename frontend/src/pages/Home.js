@@ -341,7 +341,7 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
       <section style={{padding: '100px 40px', background: '#ffffff'}}>
         <div style={{maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center'}}>
           <div>
-            <img src="/images2.jpg" alt="Blockchain Technology" style={{width: '100%', height: '420px', objectFit: 'cover', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.12)'}} />
+            <img src="/images3.jpg" alt="Blockchain Technology" style={{width: '100%', height: '420px', objectFit: 'cover', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0,0,0,0.12)'}} />
           </div>
           <div>
             <h2 style={{fontSize: '42px', fontWeight: '800', marginBottom: '20px', color: '#111827', letterSpacing: '-0.03em'}}>{t.blockchainTitle}</h2>
