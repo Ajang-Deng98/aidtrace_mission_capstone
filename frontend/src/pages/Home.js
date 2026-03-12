@@ -16,7 +16,7 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
   }, []);
 
   return (
-    <div style={{fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', minHeight: '100vh', background: '#ffffff'}}>
+    <div style={{fontFamily: '"Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', minHeight: '100vh', background: '#ffffff'}}>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
         background: '#1E3A8A',
