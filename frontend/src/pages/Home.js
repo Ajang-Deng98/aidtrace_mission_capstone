@@ -19,9 +19,9 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
     <div style={{fontFamily: '"Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', minHeight: '100vh', background: '#ffffff'}}>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        background: '#1E3A8A',
-        boxShadow: '0 2px 8px rgba(30,58,138,0.15)',
-        borderBottom: '1px solid rgba(255,255,255,0.1)'
+        background: '#ffffff',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+        borderBottom: '1px solid #e0e0e0'
       }}>
         <div className="nav-container" style={{maxWidth: '1280px', margin: '0 auto', padding: '12px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div style={{display: 'flex', alignItems: 'center'}}>
@@ -31,61 +31,61 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
           <div className="nav-links" style={{display: 'flex', gap: '32px', alignItems: 'center'}}>
             <a href="#about" style={{
               textDecoration: 'none', 
-              color: 'rgba(255,255,255,0.9)', 
+              color: '#1a1a1a', 
               fontSize: '14px', 
               fontWeight: '500',
               transition: 'color 0.2s',
               cursor: 'pointer'
             }}
-            onMouseOver={(e) => e.target.style.color = '#0EA5A4'}
-            onMouseOut={(e) => e.target.style.color = 'rgba(255,255,255,0.9)'}>
+            onMouseOver={(e) => e.target.style.color = '#1E3A8A'}
+            onMouseOut={(e) => e.target.style.color = '#1a1a1a'}>
               {t.about || 'About'}
             </a>
             <a href="#features" style={{
               textDecoration: 'none', 
-              color: 'rgba(255,255,255,0.9)', 
+              color: '#1a1a1a', 
               fontSize: '14px', 
               fontWeight: '500',
               transition: 'color 0.2s',
               cursor: 'pointer'
             }}
-            onMouseOver={(e) => e.target.style.color = '#0EA5A4'}
-            onMouseOut={(e) => e.target.style.color = 'rgba(255,255,255,0.9)'}>
+            onMouseOver={(e) => e.target.style.color = '#1E3A8A'}
+            onMouseOut={(e) => e.target.style.color = '#1a1a1a'}>
               {t.features}
             </a>
             <a href="#how-it-works" style={{
               textDecoration: 'none', 
-              color: 'rgba(255,255,255,0.9)', 
+              color: '#1a1a1a', 
               fontSize: '14px', 
               fontWeight: '500',
               transition: 'color 0.2s',
               cursor: 'pointer'
             }}
-            onMouseOver={(e) => e.target.style.color = '#0EA5A4'}
-            onMouseOut={(e) => e.target.style.color = 'rgba(255,255,255,0.9)'}>
+            onMouseOver={(e) => e.target.style.color = '#1E3A8A'}
+            onMouseOut={(e) => e.target.style.color = '#1a1a1a'}>
               {t.howItWorks}
             </a>
             <a href="#contact" style={{
               textDecoration: 'none', 
-              color: 'rgba(255,255,255,0.9)', 
+              color: '#1a1a1a', 
               fontSize: '14px', 
               fontWeight: '500',
               transition: 'color 0.2s',
               cursor: 'pointer'
             }}
-            onMouseOver={(e) => e.target.style.color = '#0EA5A4'}
-            onMouseOut={(e) => e.target.style.color = 'rgba(255,255,255,0.9)'}>
+            onMouseOver={(e) => e.target.style.color = '#1E3A8A'}
+            onMouseOut={(e) => e.target.style.color = '#1a1a1a'}>
               {t.contact}
             </a>
             <Link to="/public-report" style={{
               textDecoration: 'none', 
-              color: 'rgba(255,255,255,0.9)', 
+              color: '#1a1a1a', 
               fontSize: '14px', 
               fontWeight: '500',
               transition: 'color 0.2s'
             }}
-            onMouseOver={(e) => e.target.style.color = '#0EA5A4'}
-            onMouseOut={(e) => e.target.style.color = 'rgba(255,255,255,0.9)'}>
+            onMouseOver={(e) => e.target.style.color = '#1E3A8A'}
+            onMouseOut={(e) => e.target.style.color = '#1a1a1a'}>
               {t.submitReport}
             </Link>
           </div>
@@ -94,20 +94,20 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
             <Link to="/login">
               <button style={{
                 padding: '8px 16px', 
-                background: 'rgba(255,255,255,0.1)', 
-                border: '1px solid rgba(255,255,255,0.3)', 
+                background: '#ffffff', 
+                border: '1px solid #e0e0e0', 
                 borderRadius: '4px', 
-                color: '#ffffff', 
+                color: '#1a1a1a', 
                 fontSize: '13px', 
                 fontWeight: '500', 
                 cursor: 'pointer',
                 transition: 'all 0.2s'
               }}
               onMouseOver={(e) => {
-                e.target.style.background = 'rgba(255,255,255,0.2)';
+                e.target.style.background = '#f5f5f5';
               }}
               onMouseOut={(e) => {
-                e.target.style.background = 'rgba(255,255,255,0.1)';
+                e.target.style.background = '#ffffff';
               }}>
                 {t.login}
               </button>
@@ -115,7 +115,7 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
             <Link to="/register">
               <button style={{
                 padding: '8px 18px', 
-                background: '#22C55E', 
+                background: '#1E3A8A', 
                 border: 'none', 
                 borderRadius: '4px', 
                 color: '#ffffff', 
@@ -125,10 +125,10 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
                 transition: 'all 0.2s'
               }}
               onMouseOver={(e) => {
-                e.target.style.background = '#16A34A';
+                e.target.style.background = '#1E40AF';
               }}
               onMouseOut={(e) => {
-                e.target.style.background = '#22C55E';
+                e.target.style.background = '#1E3A8A';
               }}>
                 {t.getStarted}
               </button>
@@ -193,9 +193,9 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
             <h1 className="hero-title" style={{fontSize: '52px', color: '#111827', marginBottom: '24px', fontWeight: '800', lineHeight: '1.1', letterSpacing: '-0.03em'}}>{t.heroTitle}</h1>
             <p style={{fontSize: '19px', color: '#6b7280', marginBottom: '36px', lineHeight: '1.7'}}>{t.heroDesc}</p>
             <div className="button-group" style={{display: 'flex', gap: '14px'}}>
-              <Link to="/register"><button style={{padding: '14px 32px', background: 'linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%)', border: 'none', borderRadius: '8px', color: '#ffffff', fontSize: '16px', fontWeight: '600', cursor: 'pointer', boxShadow: '0 4px 14px rgba(28, 171, 226, 0.3)', transition: 'all 0.2s'}}
-              onMouseOver={(e) => {e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 6px 20px rgba(28, 171, 226, 0.4)';}}
-              onMouseOut={(e) => {e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 14px rgba(28, 171, 226, 0.3)';}}>{t.getStarted}</button></Link>
+              <Link to="/register"><button style={{padding: '14px 32px', background: '#000000', border: 'none', borderRadius: '8px', color: '#ffffff', fontSize: '16px', fontWeight: '600', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0, 0, 0, 0.2)', transition: 'all 0.2s'}}
+              onMouseOver={(e) => {e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';}}
+              onMouseOut={(e) => {e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.2)';}}>{t.getStarted}</button></Link>
               <Link to="/public-report"><button style={{padding: '14px 32px', background: '#ffffff', border: '2px solid #e5e7eb', borderRadius: '8px', color: '#374151', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s'}}
               onMouseOver={(e) => {e.target.style.borderColor = '#1E3A8A'; e.target.style.color = '#1E3A8A';}}
               onMouseOut={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.color = '#374151';}}>{t.submitReport}</button></Link>
@@ -260,7 +260,7 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
               {number: '99.9%', label: t.transparencyRate}
             ].map((stat, idx) => (
               <div key={idx} style={{textAlign: 'center', padding: '32px', background: '#fafafa', borderRadius: '12px'}}>
-                <div style={{fontSize: '36px', fontWeight: '800', color: '#1E3A8A', marginBottom: '8px'}}>{stat.number}</div>
+                <div style={{fontSize: '36px', fontWeight: '800', color: '#000000', marginBottom: '8px'}}>{stat.number}</div>
                 <div style={{fontSize: '16px', color: '#6b7280', fontWeight: '500'}}>{stat.label}</div>
               </div>
             ))}
@@ -289,23 +289,23 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
           <Link to="/register">
             <button style={{
               padding: '14px 32px', 
-              background: 'linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%)', 
+              background: '#000000', 
               border: 'none', 
               borderRadius: '8px', 
               color: '#ffffff', 
               fontSize: '16px', 
               fontWeight: '600', 
               cursor: 'pointer',
-              boxShadow: '0 4px 14px rgba(28, 171, 226, 0.3)',
+              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.2)',
               transition: 'all 0.2s'
             }}
             onMouseOver={(e) => {
               e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 6px 20px rgba(28, 171, 226, 0.4)';
+              e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
             }}
             onMouseOut={(e) => {
               e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 14px rgba(28, 171, 226, 0.3)';
+              e.target.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.2)';
             }}>
               {t.startYourProject}
             </button>
@@ -350,23 +350,23 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
             <Link to="/public-report">
               <button style={{
                 padding: '14px 28px', 
-                background: 'linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%)', 
+                background: '#000000', 
                 border: 'none', 
                 borderRadius: '8px', 
                 color: '#ffffff', 
                 fontSize: '16px', 
                 fontWeight: '600', 
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(28, 171, 226, 0.3)',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.2)',
                 transition: 'all 0.2s'
               }}
               onMouseOver={(e) => {
                 e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 6px 20px rgba(28, 171, 226, 0.4)';
+                e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
               }}
               onMouseOut={(e) => {
                 e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 14px rgba(28, 171, 226, 0.3)';
+                e.target.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.2)';
               }}>
                 {t.viewPublicReports}
               </button>
