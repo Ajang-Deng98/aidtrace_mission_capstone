@@ -42,7 +42,17 @@ export const publicAPI = {
 };
 
 export const ngoAPI = {
-  createProject: (data) => api.post('/ngo/projects/', data),
+  createProject: (data) => {
+    // If data is FormData, don't set Content-Type (let browser set it with boundary)
+    if (data instanceof FormData) {
+      return axios.post(`${API_URL}/ngo/projects/`, data, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+    }
+    return api.post('/ngo/projects/', data);
+  },
   getProjects: () => api.get('/ngo/projects/list/'),
   getDashboard: () => api.get('/ngo/dashboard/'),
   createFieldOfficer: (data) => api.post('/ngo/field-officers/', data),
