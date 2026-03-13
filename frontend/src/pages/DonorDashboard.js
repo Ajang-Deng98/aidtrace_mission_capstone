@@ -7,6 +7,133 @@ import { useNotification } from '../components/NotificationProvider';
 import SearchBar from '../components/SearchBar';
 import LoadingButton from '../components/LoadingButton';
 
+// Analytics Data Service
+class AnalyticsService {
+  static async fetchAnalyticsData() {
+    const [funded, all] = await Promise.all([
+      donorAPI.getFundedProjects(),
+      donorAPI.getProjects()
+    ]);
+    
+    const fundingsList = await this.fetchUserFundings(funded.data);
+    
+    return {
+      fundedProjects: funded.data,
+      allProjects: all.data,
+      fundings: fundingsList
+    };
+  }
+  
+  static async fetchUserFundings(projects) {
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    const fundingsList = [];
+    
+    await Promise.all(projects.map(async (project) => {
+      try {
+        const details = await donorAPI.getProjectDetails(project.id);
+        if (details.data.fundings) {
+          const userFundings = details.data.fundings.filter(f => f.donor === userId);
+          fundingsList.push(...userFundings);
+        }
+      } catch (err) {
+        console.error(`Error loading project ${project.id}:`, err);
+      }
+    }));
+    
+    return fundingsList;
+  }
+  
+  static calculateMetrics(fundedProjects, fundings) {
+    return {
+      totalFunded: fundedProjects.length,
+      totalDonated: fundings.reduce((sum, f) => sum + parseFloat(f.amount), 0),
+      blockchainProofs: fundings.length,
+      categoriesSupported: [...new Set(fundedProjects.map(p => p.category))].length
+    };
+  }
+  
+  static groupByCategory(projects) {
+    return projects.reduce((acc, project) => {
+      const existing = acc.find(item => item.name === project.category);
+      if (existing) {
+        existing.value += 1;
+      } else {
+        acc.push({ name: project.category, value: 1 });
+      }
+      return acc;
+    }, []);
+  }
+  
+  static groupByStatus(projects) {
+    return projects.reduce((acc, project) => {
+      const existing = acc.find(item => item.name === project.status);
+      if (existing) {
+        existing.value += 1;
+      } else {
+        acc.push({ name: project.status, value: 1 });
+      }
+      return acc;
+    }, []);
+  }
+}
+
+// Project Service
+class ProjectService {
+  static async loadProjects() {
+    const response = await donorAPI.getProjects();
+    return response.data;
+  }
+  
+  static async loadFundedProjects() {
+    const response = await donorAPI.getFundedProjects();
+    return response.data;
+  }
+  
+  static async loadProjectBeneficiaries(projectId) {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`http://localhost:8000/api/ngo/project/${projectId}/beneficiaries/`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (response.ok) {
+      return await response.json();
+    }
+    return [];
+  }
+  
+  static async fundProject(projectId, amount, signature) {
+    return await donorAPI.fundProject({
+      project_id: projectId,
+      amount: amount,
+      signature: signature
+    });
+  }
+}
+
+// Profile Service
+class ProfileService {
+  static async loadActivities() {
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://localhost:8000/api/activity-log/', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return await response.json();
+  }
+  
+  static updateProfile(user, profileData) {
+    const updatedUser = {...user, ...profileData};
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    return updatedUser;
+  }
+}
+
+// Reports Service
+class ReportsService {
+  static async loadPublicReports() {
+    const response = await fetch('http://localhost:8000/api/public-reports/list/');
+    return await response.json();
+  }
+}
+
 function DonorDashboard({ language = 'en', changeLanguage }) {
   const t = translations[language] || translations['en'];
   const navigate = useNavigate();
@@ -281,10 +408,9 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
 
 function Analytics({ language = 'en' }) {
   const t = translations[language] || translations['en'];
-  const [fundedProjects, setFundedProjects] = useState([]);
-  const [allProjects, setAllProjects] = useState([]);
-  const [fundings, setFundings] = useState([]);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -292,31 +418,14 @@ function Analytics({ language = 'en' }) {
 
   const loadData = async () => {
     try {
-      const funded = await donorAPI.getFundedProjects();
-      const all = await donorAPI.getProjects();
-      setFundedProjects(funded.data);
-      setAllProjects(all.data);
-      
-      // Calculate total donated from project details
-      let totalAmount = 0;
-      const fundingsList = [];
-      for (const project of funded.data) {
-        try {
-          const details = await donorAPI.getProjectDetails(project.id);
-          if (details.data.fundings) {
-            const userFundings = details.data.fundings.filter(f => f.donor === JSON.parse(localStorage.getItem('user')).id);
-            fundingsList.push(...userFundings);
-            totalAmount += userFundings.reduce((sum, f) => sum + parseFloat(f.amount), 0);
-          }
-        } catch (err) {
-          console.error('Error loading project details:', err);
-        }
-      }
-      setFundings(fundingsList);
-      
-      setLoading(false);
+      setLoading(true);
+      const analyticsData = await AnalyticsService.fetchAnalyticsData();
+      setData(analyticsData);
+      setError(null);
     } catch (err) {
-      console.error('Error loading data:', err);
+      console.error('Error loading analytics:', err);
+      setError('Failed to load analytics data');
+    } finally {
       setLoading(false);
     }
   };
@@ -336,30 +445,24 @@ function Analytics({ language = 'en' }) {
       </div>
     );
   }
-
-  const totalFunded = fundedProjects.length;
-  const totalAvailable = allProjects.length;
-  const totalDonated = fundings.reduce((sum, f) => sum + parseFloat(f.amount), 0);
   
-  const categoryData = fundedProjects.reduce((acc, project) => {
-    const existing = acc.find(item => item.name === project.category);
-    if (existing) {
-      existing.value += 1;
-    } else {
-      acc.push({ name: project.category, value: 1 });
-    }
-    return acc;
-  }, []);
+  if (error) {
+    return (
+      <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
+        <h2>{t.analyticsDashboard}</h2>
+        <div className="card" style={{border: '1px solid #e0e0e0', padding: '32px', textAlign: 'center'}}>
+          <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
+          <button onClick={loadData} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+        </div>
+      </div>
+    );
+  }
+  
+  if (!data) return null;
 
-  const statusData = fundedProjects.reduce((acc, project) => {
-    const existing = acc.find(item => item.name === project.status);
-    if (existing) {
-      existing.value += 1;
-    } else {
-      acc.push({ name: project.status, value: 1 });
-    }
-    return acc;
-  }, []);
+  const metrics = AnalyticsService.calculateMetrics(data.fundedProjects, data.fundings);
+  const categoryData = AnalyticsService.groupByCategory(data.fundedProjects);
+  const statusData = AnalyticsService.groupByStatus(data.fundedProjects);
 
   const COLORS = ['#1E3A8A', '#000000', '#ffffff', '#666'];
 
@@ -371,23 +474,23 @@ function Analytics({ language = 'en' }) {
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
         <div className="card" style={{border: '2px solid #1E3A8A', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t.totalDonated}</p>
-          <h3 style={{margin: '0', fontSize: '36px', color: '#1E3A8A', fontWeight: '700'}}>${totalDonated.toLocaleString()}</h3>
+          <h3 style={{margin: '0', fontSize: '36px', color: '#1E3A8A', fontWeight: '700'}}>${metrics.totalDonated.toLocaleString()}</h3>
         </div>
         <div className="card" style={{border: '1px solid #e0e0e0', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t.fundedProjects}</p>
-          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{totalFunded}</h3>
+          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{metrics.totalFunded}</h3>
         </div>
         <div className="card" style={{border: '1px solid #e0e0e0', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Blockchain Proofs</p>
-          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{fundings.length}</h3>
+          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{metrics.blockchainProofs}</h3>
         </div>
         <div className="card" style={{border: '1px solid #e0e0e0', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Categories Supported</p>
-          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{categoryData.length}</h3>
+          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{metrics.categoriesSupported}</h3>
         </div>
       </div>
 
-      {totalFunded > 0 ? (
+      {metrics.totalFunded > 0 ? (
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
           <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
             <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600'}}>{t.projectsByCategory}</h3>
@@ -425,7 +528,7 @@ function Analytics({ language = 'en' }) {
 
       <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
         <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600'}}>{t.recentFundedProjects}</h3>
-        {fundedProjects.length === 0 ? (
+        {data.fundedProjects.length === 0 ? (
           <div style={{padding: '32px 16px', textAlign: 'center'}}>
             <i className="fas fa-briefcase" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
             <p style={{color: '#666', fontSize: '14px'}}>{t.noFundedYet}</p>
@@ -441,7 +544,7 @@ function Analytics({ language = 'en' }) {
               </tr>
             </thead>
             <tbody>
-              {fundedProjects.slice(0, 5).map(project => (
+              {data.fundedProjects.slice(0, 5).map(project => (
                 <tr key={project.id} style={{cursor: 'pointer', transition: 'background 0.2s ease'}} onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
                   <td style={{padding: '12px 16px', fontWeight: '500'}}>{project.title}</td>
                   <td style={{padding: '12px 16px'}}><span className="badge badge-info">{project.category}</span></td>
@@ -475,11 +578,13 @@ function AllProjects({ language = 'en' }) {
 
   const loadProjects = async () => {
     try {
-      const response = await donorAPI.getProjects();
-      setProjects(response.data);
-      setLoading(false);
+      setLoading(true);
+      const data = await ProjectService.loadProjects();
+      setProjects(data);
     } catch (err) {
       console.error('Error loading projects:', err);
+      showError('Failed to load projects');
+    } finally {
       setLoading(false);
     }
   };
@@ -487,14 +592,8 @@ function AllProjects({ language = 'en' }) {
   const loadProjectDetails = async (project) => {
     setViewingProject(project);
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8000/api/ngo/project/${project.id}/beneficiaries/`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setBeneficiaries(data);
-      }
+      const data = await ProjectService.loadProjectBeneficiaries(project.id);
+      setBeneficiaries(data);
     } catch (err) {
       console.error('Error loading beneficiaries:', err);
       setBeneficiaries([]);
@@ -508,11 +607,7 @@ function AllProjects({ language = 'en' }) {
     }
     setFundLoading(true);
     try {
-      const response = await donorAPI.fundProject({
-        project_id: selectedProject.id,
-        amount: amount,
-        signature: signature
-      });
+      const response = await ProjectService.fundProject(selectedProject.id, amount, signature);
       
       const txHash = response.data.blockchain_tx;
       if (txHash) {
@@ -882,6 +977,7 @@ function FundedProjects({ language = 'en' }) {
   const t = translations[language] || translations['en'];
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -890,11 +986,14 @@ function FundedProjects({ language = 'en' }) {
 
   const loadProjects = async () => {
     try {
-      const response = await donorAPI.getFundedProjects();
-      setProjects(response.data);
-      setLoading(false);
+      setLoading(true);
+      const data = await ProjectService.loadFundedProjects();
+      setProjects(data);
+      setError(null);
     } catch (err) {
       console.error('Error loading funded projects:', err);
+      setError('Failed to load funded projects');
+    } finally {
       setLoading(false);
     }
   };
@@ -1535,7 +1634,8 @@ function ProfileSettings({ language = 'en' }) {
     monthlyReports: false
   });
   const [activities, setActivities] = useState([]);
-  const { showSuccess } = useNotification();
+  const [loading, setLoading] = useState(false);
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     if (activeSection === 'activity') loadActivities();
@@ -1543,21 +1643,25 @@ function ProfileSettings({ language = 'en' }) {
 
   const loadActivities = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8000/api/activity-log/', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
+      setLoading(true);
+      const data = await ProfileService.loadActivities();
       setActivities(data);
     } catch (err) {
       console.error('Error loading activities:', err);
+      showError('Failed to load activities');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleProfileUpdate = (e) => {
     e.preventDefault();
-    localStorage.setItem('user', JSON.stringify({...user, ...profileData}));
-    showSuccess(t.profileUpdatedSuccess);
+    try {
+      ProfileService.updateProfile(user, profileData);
+      showSuccess(t.profileUpdatedSuccess);
+    } catch (err) {
+      showError('Failed to update profile');
+    }
   };
 
   const handlePreferencesUpdate = (e) => {
@@ -1736,6 +1840,7 @@ function PublicReports({ language = 'en' }) {
   const t = translations[language] || translations['en'];
   const [reports, setReports] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
   const [selectedReport, setSelectedReport] = React.useState(null);
 
   React.useEffect(() => {
@@ -1744,12 +1849,14 @@ function PublicReports({ language = 'en' }) {
 
   const loadReports = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/public-reports/list/');
-      const data = await response.json();
+      setLoading(true);
+      const data = await ReportsService.loadPublicReports();
       setReports(data);
-      setLoading(false);
+      setError(null);
     } catch (err) {
       console.error('Error loading reports:', err);
+      setError('Failed to load reports');
+    } finally {
       setLoading(false);
     }
   };
