@@ -17,6 +17,7 @@ import './App.css';
 import './styles/humanitarian-theme.css';
 import './styles/global-responsive.css';
 import './styles/dashboard-colors.css';
+import './styles/clean-design.css';
 
 function App() {
   const [language, setLanguage] = React.useState(localStorage.getItem('language') || 'en');
