@@ -1658,112 +1658,164 @@ function CreateQuoteRequest() {
 
   return (
     <div>
-      <div style={{marginBottom: '24px'}}>
-        <button onClick={() => navigate('/ngo/suppliers')} className="btn" 
-          style={{background: '#666', marginBottom: '12px'}}>← Back to Suppliers</button>
-        <h2>Get Supplier</h2>
-        <p style={{color: '#666', margin: 0}}>Request competitive quotes from suppliers</p>
+      <button onClick={() => navigate('/ngo/suppliers')} 
+        style={{padding: '10px 20px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px'}}
+        onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+        onMouseLeave={(e) => e.target.style.background = '#27248C'}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+        Back to Suppliers
+      </button>
+
+      <div style={{marginBottom: '32px'}}>
+        <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>Get Supplier</h2>
+        <p style={{color: '#8391B2', margin: 0, fontSize: '14px'}}>Request competitive quotes from suppliers</p>
       </div>
 
-      <div className="card">
-        <form onSubmit={handleSubmit}>
-          <div style={{background: '#f0f9ff', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #1E3A8A'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#1E3A8A'}}>Project Selection</h3>
-            
-            <div className="form-group">
-              <label>Select Project</label>
-              <select value={formData.project_id} 
-                onChange={(e) => setFormData({...formData, project_id: e.target.value})} required>
-                <option value="">Choose a project</option>
-                {projects.map(p => (
-                  <option key={p.id} value={p.id}>{p.title} - {p.location}</option>
-                ))}
-              </select>
-              <small style={{color: '#666', fontSize: '12px'}}>Select the project for which you need supplier quotes</small>
-            </div>
-
-            {selectedProject && (
-              <div style={{background: '#ffffff', padding: '16px', borderRadius: '6px', marginTop: '16px', border: '1px solid #1E3A8A'}}>
-                <h4 style={{margin: '0 0 12px 0', fontSize: '15px', color: '#1E3A8A'}}>Project Details</h4>
-                <div style={{fontSize: '13px'}}>
-                  <p style={{margin: '6px 0'}}><strong>Title:</strong> {selectedProject.title}</p>
-                  <p style={{margin: '6px 0'}}><strong>Description:</strong> {selectedProject.description}</p>
-                  <p style={{margin: '6px 0'}}><strong>Budget:</strong> ${parseFloat(selectedProject.budget_amount || 0).toLocaleString()}</p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>Items & Quantities</h3>
-            
-            <div style={{border: '1px solid #e0e0e0', borderRadius: '6px', padding: '16px', background: '#ffffff'}}>
-              {formData.items.map((item, index) => (
-                <div key={index} style={{display: 'flex', gap: '12px', marginBottom: '12px', alignItems: 'center'}}>
-                  <input type="text" placeholder="Item name" value={item.name}
-                    onChange={(e) => updateItem(index, 'name', e.target.value)}
-                    style={{flex: 1}} required />
-                  <input type="number" placeholder="Qty" value={item.quantity} min="1"
-                    onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value))}
-                    style={{width: '100px'}} required />
-                  <button type="button" onClick={() => removeItem(index)} 
-                    style={{background: '#dc3545', color: 'white', border: 'none', padding: '10px 14px', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: '700'}}>×</button>
-                </div>
+      <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Project Selection</h3>
+          
+          <div style={{marginBottom: '20px'}}>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+            <select value={formData.project_id} 
+              onChange={(e) => setFormData({...formData, project_id: e.target.value})}
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', background: '#ffffff'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required>
+              <option value="">Choose a project</option>
+              {projects.map(p => (
+                <option key={p.id} value={p.id}>{p.title} - {p.location}</option>
               ))}
-              <button type="button" onClick={addItem} className="btn" 
-                style={{background: '#1E3A8A', padding: '10px 20px', fontSize: '14px', marginTop: '8px'}}>+ Add Item</button>
-            </div>
+            </select>
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>Select the project for which you need supplier quotes</small>
           </div>
 
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>Delivery Details</h3>
-            
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
-              <div className="form-group">
-                <label>Delivery Location</label>
-                <input type="text" value={formData.delivery_location}
-                  onChange={(e) => setFormData({...formData, delivery_location: e.target.value})} 
-                  placeholder="Enter delivery location"
-                  required />
-              </div>
-              <div className="form-group">
-                <label>Proposed Budget (USD)</label>
-                <input type="number" step="0.01" value={formData.proposed_budget}
-                  onChange={(e) => setFormData({...formData, proposed_budget: e.target.value})} 
-                  placeholder="Enter budget amount"
-                  required />
+          {selectedProject && (
+            <div style={{background: '#DFE8F0', padding: '20px', borderRadius: '8px', marginTop: '16px'}}>
+              <h4 style={{margin: '0 0 16px 0', fontSize: '15px', color: '#27248C', fontWeight: '600'}}>Project Details</h4>
+              <div style={{display: 'grid', gap: '12px', fontSize: '13px'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                  <span style={{color: '#8391B2'}}>Title:</span>
+                  <span style={{color: '#27248C', fontWeight: '600'}}>{selectedProject.title}</span>
+                </div>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                  <span style={{color: '#8391B2'}}>Description:</span>
+                  <span style={{color: '#27248C', textAlign: 'right', maxWidth: '60%'}}>{selectedProject.description}</span>
+                </div>
+                <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid #C5CED7'}}>
+                  <span style={{color: '#8391B2'}}>Budget:</span>
+                  <span style={{color: '#27248C', fontWeight: '600'}}>${parseFloat(selectedProject.budget_amount || 0).toLocaleString()}</span>
+                </div>
               </div>
             </div>
+          )}
+        </div>
 
-            <div className="form-group">
-              <label>Required Delivery Date</label>
-              <input type="date" value={formData.delivery_date}
-                onChange={(e) => setFormData({...formData, delivery_date: e.target.value})} required />
-              <small style={{color: '#666', fontSize: '12px'}}>Specify when you need the items delivered</small>
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Items & Quantities</h3>
+          
+          <div style={{display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px'}}>
+            {formData.items.map((item, index) => (
+              <div key={index} style={{display: 'flex', gap: '12px', alignItems: 'center', padding: '16px', background: '#DFE8F0', borderRadius: '8px'}}>
+                <input type="text" placeholder="Item name" value={item.name}
+                  onChange={(e) => updateItem(index, 'name', e.target.value)}
+                  style={{flex: 1, padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', background: '#ffffff'}}
+                  onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                  onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                  required />
+                <input type="number" placeholder="Quantity" value={item.quantity} min="1"
+                  onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value))}
+                  style={{width: '120px', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', background: '#ffffff'}}
+                  onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                  onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                  required />
+                <button type="button" onClick={() => removeItem(index)} 
+                  style={{padding: '12px 16px', background: '#dc3545', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '18px', fontWeight: '700', transition: 'all 0.2s', minWidth: '44px'}}
+                  onMouseEnter={(e) => e.target.style.background = '#c82333'}
+                  onMouseLeave={(e) => e.target.style.background = '#dc3545'}>×</button>
+              </div>
+            ))}
+          </div>
+          <button type="button" onClick={addItem} 
+            style={{padding: '12px 24px', fontSize: '14px', fontWeight: '600', background: '#4857A8', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '8px'}}
+            onMouseEnter={(e) => e.target.style.background = '#27248C'}
+            onMouseLeave={(e) => e.target.style.background = '#4857A8'}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+            Add Item
+          </button>
+        </div>
+
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Delivery Details</h3>
+          
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px'}}>
+            <div>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Delivery Location</label>
+              <input type="text" value={formData.delivery_location}
+                onChange={(e) => setFormData({...formData, delivery_location: e.target.value})} 
+                placeholder="Enter delivery location"
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                required />
+            </div>
+            <div>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Proposed Budget (USD)</label>
+              <input type="number" step="0.01" value={formData.proposed_budget}
+                onChange={(e) => setFormData({...formData, proposed_budget: e.target.value})} 
+                placeholder="Enter budget amount"
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                required />
             </div>
           </div>
 
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>Additional Requirements</h3>
-            
-            <div className="form-group">
-              <label>Additional Requirements (Optional)</label>
-              <textarea value={formData.additional_requirements}
-                onChange={(e) => setFormData({...formData, additional_requirements: e.target.value})}
-                placeholder="Any special delivery, quality, or packaging requirements" rows="4" />
-              <small style={{color: '#666', fontSize: '12px'}}>Provide any specific requirements for suppliers</small>
-            </div>
+          <div>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Required Delivery Date</label>
+            <input type="date" value={formData.delivery_date}
+              onChange={(e) => setFormData({...formData, delivery_date: e.target.value})}
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required />
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>Specify when you need the items delivered</small>
           </div>
+        </div>
 
-          <div style={{display: 'flex', gap: '12px', paddingTop: '16px', borderTop: '1px solid #e0e0e0'}}>
-            <LoadingButton type="submit" loading={createQuoteLoading} className="btn" style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600'}}>
-              Get Supplier
-            </LoadingButton>
-            <button type="button" onClick={() => navigate('/ngo/suppliers')} className="btn" 
-              style={{background: '#666', padding: '14px 24px', fontSize: '15px'}}>Cancel</button>
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Additional Requirements</h3>
+          
+          <div>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Additional Requirements (Optional)</label>
+            <textarea value={formData.additional_requirements}
+              onChange={(e) => setFormData({...formData, additional_requirements: e.target.value})}
+              placeholder="Any special delivery, quality, or packaging requirements" rows="4"
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', fontFamily: 'inherit', resize: 'vertical'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'} />
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>Provide any specific requirements for suppliers</small>
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div style={{display: 'flex', gap: '16px'}}>
+          <LoadingButton type="submit" loading={createQuoteLoading} 
+            style={{flex: 1, padding: '14px 24px', fontSize: '15px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+            onMouseEnter={(e) => !createQuoteLoading && (e.target.style.background = '#4857A8')}
+            onMouseLeave={(e) => !createQuoteLoading && (e.target.style.background = '#27248C')}>
+            Get Supplier
+          </LoadingButton>
+          <button type="button" onClick={() => navigate('/ngo/suppliers')} 
+            style={{padding: '14px 32px', fontSize: '15px', fontWeight: '600', background: '#ffffff', color: '#27248C', border: '1px solid #C5CED7', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+            onMouseEnter={(e) => {e.target.style.background = '#DFE8F0'; e.target.style.borderColor = '#27248C';}}
+            onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#C5CED7';}}>Cancel</button>
+        </div>
+      </form>
     </div>
   );
 }
