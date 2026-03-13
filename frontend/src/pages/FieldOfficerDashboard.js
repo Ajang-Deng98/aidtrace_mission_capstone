@@ -8,6 +8,97 @@ import SupplierReceipt from '../components/SupplierReceipt';
 import LoadingButton from '../components/LoadingButton';
 import { extractFaceDescriptorFromBase64 } from '../utils/faceRecognition';
 
+// Field Officer Services
+class AssignmentService {
+  static async loadAssignments() {
+    const response = await fieldOfficerAPI.getAssignments();
+    return response.data;
+  }
+  
+  static async confirmAssignment(assignmentId) {
+    const signature = `field_officer_confirmation_${assignmentId}_${Date.now()}`;
+    return await fieldOfficerAPI.confirmAssignment({
+      assignment_id: assignmentId,
+      signature: signature
+    });
+  }
+  
+  static getConfirmedAssignments(assignments) {
+    return assignments.filter(a => a.confirmed);
+  }
+}
+
+class BeneficiaryService {
+  static async loadAllBeneficiaries(projectId) {
+    const response = await fieldOfficerAPI.getAllBeneficiaries({ project_id: projectId });
+    return response.data;
+  }
+  
+  static async loadConfirmedBeneficiaries(projectId) {
+    const response = await fieldOfficerAPI.getConfirmedBeneficiaries({ project_id: projectId });
+    return response.data;
+  }
+  
+  static async registerBeneficiary(beneficiaryData) {
+    return await fieldOfficerAPI.addBeneficiary(beneficiaryData);
+  }
+  
+  static filterReadyToReceive(beneficiaries) {
+    return beneficiaries.filter(b => b.confirmed === false);
+  }
+  
+  static filterConfirmed(beneficiaries) {
+    return beneficiaries.filter(b => b.confirmed === true);
+  }
+  
+  static prepareSearchData(beneficiaries, type = 'Beneficiary') {
+    return beneficiaries.map(b => ({
+      ...b,
+      title: b.name,
+      description: `Phone: ${b.phone_number}`,
+      status: b.face_verified ? 'Verified' : 'Not Verified',
+      type: type
+    }));
+  }
+}
+
+class DistributionService {
+  static async sendOTP(phoneNumber) {
+    return await fieldOfficerAPI.sendOTP({ phone_number: phoneNumber });
+  }
+  
+  static async verifyOTP(verificationData) {
+    return await fieldOfficerAPI.verifyOTP(verificationData);
+  }
+  
+  static async extractFaceDescriptor(imageBase64) {
+    return await extractFaceDescriptorFromBase64(imageBase64);
+  }
+}
+
+class ProfileService {
+  static async loadActivities() {
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://localhost:8000/api/activity-log/', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return await response.json();
+  }
+  
+  static updateProfile(user, formData) {
+    const updatedUser = { ...user, ...formData };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    return updatedUser;
+  }
+}
+
+class ReportsService {
+  static async loadPublicReports() {
+    const response = await fetch('http://localhost:8000/api/public-reports/list/');
+    return await response.json();
+  }
+}
+
 function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
   const t = translations[language] || translations['en'];
   const navigate = useNavigate();
@@ -184,6 +275,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
 function Projects({ language }) {
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { showSuccess, showError } = useNotification();
   const t = translations[language];
@@ -194,11 +286,14 @@ function Projects({ language }) {
 
   const loadAssignments = async () => {
     try {
-      const response = await fieldOfficerAPI.getAssignments();
-      setAssignments(response.data);
-      setLoading(false);
+      setLoading(true);
+      const data = await AssignmentService.loadAssignments();
+      setAssignments(data);
+      setError(null);
     } catch (err) {
       console.error('Error:', err);
+      setError('Failed to load assignments');
+    } finally {
       setLoading(false);
     }
   };
@@ -206,11 +301,7 @@ function Projects({ language }) {
   const handleConfirmAssignment = async (assignmentId) => {
     setConfirmLoading(true);
     try {
-      const signature = `field_officer_confirmation_${assignmentId}_${Date.now()}`;
-      await fieldOfficerAPI.confirmAssignment({
-        assignment_id: assignmentId,
-        signature: signature
-      });
+      await AssignmentService.confirmAssignment(assignmentId);
       showSuccess('Assignment confirmed successfully! Project is now ready for distribution.');
       setTimeout(() => {
         loadAssignments();
@@ -319,6 +410,7 @@ function Beneficiaries({ language }) {
   const [faceImage, setFaceImage] = useState(null);
   const [facePreview, setFacePreview] = useState(null);
   const [registerLoading, setRegisterLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const t = translations[language];
   const { showSuccess, showError } = useNotification();
 
@@ -335,16 +427,25 @@ function Beneficiaries({ language }) {
   }, [beneficiaries]);
 
   const loadAssignments = async () => {
-    const response = await fieldOfficerAPI.getAssignments();
-    setAssignments(response.data.filter(a => a.confirmed));
+    try {
+      const data = await AssignmentService.loadAssignments();
+      setAssignments(AssignmentService.getConfirmedAssignments(data));
+    } catch (err) {
+      console.error('Error loading assignments:', err);
+      showError('Failed to load assignments');
+    }
   };
 
   const loadBeneficiaries = async () => {
     try {
-      const response = await fieldOfficerAPI.getAllBeneficiaries({ project_id: selectedProject });
-      setBeneficiaries(response.data);
+      setLoading(true);
+      const data = await BeneficiaryService.loadAllBeneficiaries(selectedProject);
+      setBeneficiaries(data);
     } catch (err) {
       console.error('Error loading beneficiaries:', err);
+      showError('Failed to load beneficiaries');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -352,13 +453,7 @@ function Beneficiaries({ language }) {
     setFilteredBeneficiaries(results.length > 0 ? results : beneficiaries);
   };
 
-  const searchData = beneficiaries.map(b => ({
-    ...b,
-    title: b.name,
-    description: `Phone: ${b.phone_number}`,
-    status: b.face_verified ? 'Verified' : 'Not Verified',
-    type: 'Beneficiary'
-  }));
+  const searchData = BeneficiaryService.prepareSearchData(beneficiaries);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -380,10 +475,9 @@ function Beneficiaries({ language }) {
     }
     setRegisterLoading(true);
     try {
-      // Extract face descriptor
       let faceDescriptor = null;
       try {
-        faceDescriptor = await extractFaceDescriptorFromBase64(facePreview);
+        faceDescriptor = await DistributionService.extractFaceDescriptor(facePreview);
         console.log('Face descriptor extracted:', faceDescriptor.length, 'values');
       } catch (error) {
         showError('Failed to detect face in photo. Please use a clear frontal face photo.');
@@ -397,7 +491,7 @@ function Beneficiaries({ language }) {
         face_photo: facePreview,
         face_descriptor: JSON.stringify(faceDescriptor)
       };
-      await fieldOfficerAPI.addBeneficiary(beneficiaryData);
+      await BeneficiaryService.registerBeneficiary(beneficiaryData);
       showSuccess('Beneficiary registered successfully with face recognition!');
       setTimeout(() => {
         setFormData({ name: '', phone_number: '' });
@@ -508,6 +602,7 @@ function Distribution({ language }) {
   const [sentOtp, setSentOtp] = useState('');
   const [sendOtpLoading, setSendOtpLoading] = useState(false);
   const [verifyOtpLoading, setVerifyOtpLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const t = translations[language];
   const { showSuccess, showError } = useNotification();
 
@@ -522,19 +617,27 @@ function Distribution({ language }) {
   }, [selectedProject]);
 
   const loadAssignments = async () => {
-    const response = await fieldOfficerAPI.getAssignments();
-    setAssignments(response.data.filter(a => a.confirmed));
+    try {
+      const data = await AssignmentService.loadAssignments();
+      setAssignments(AssignmentService.getConfirmedAssignments(data));
+    } catch (err) {
+      console.error('Error loading assignments:', err);
+      showError('Failed to load assignments');
+    }
   };
 
   const loadAllBeneficiaries = async () => {
     try {
-      const response = await fieldOfficerAPI.getAllBeneficiaries({ project_id: selectedProject });
-      // Filter only unconfirmed beneficiaries for distribution - confirmed=false
-      const readyBeneficiaries = response.data.filter(b => b.confirmed === false);
+      setLoading(true);
+      const data = await BeneficiaryService.loadAllBeneficiaries(selectedProject);
+      const readyBeneficiaries = BeneficiaryService.filterReadyToReceive(data);
       setAllBeneficiaries(readyBeneficiaries);
       setBeneficiaries(readyBeneficiaries);
     } catch (err) {
       console.error('Error loading beneficiaries:', err);
+      showError('Failed to load beneficiaries');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -542,12 +645,8 @@ function Distribution({ language }) {
     setBeneficiaries(results.length > 0 ? results : allBeneficiaries);
   };
 
-  const searchData = allBeneficiaries.map(b => ({
+  const searchData = BeneficiaryService.prepareSearchData(allBeneficiaries, 'Ready to Receive').map(b => ({
     ...b,
-    title: b.name,
-    description: `Phone: ${b.phone_number}`,
-    status: b.face_verified ? 'Face Verified' : 'Not Verified',
-    type: 'Ready to Receive',
     onClick: () => handleSelectBeneficiary(b)
   }));
 
@@ -616,7 +715,7 @@ function Distribution({ language }) {
   const handleSendOTP = async () => {
     setSendOtpLoading(true);
     try {
-      await fieldOfficerAPI.sendOTP({ phone_number: selectedBeneficiary.phone_number });
+      await DistributionService.sendOTP(selectedBeneficiary.phone_number);
       showSuccess('OTP sent to beneficiary phone');
       setTimeout(() => {
         setSentOtp('sent');
@@ -631,7 +730,7 @@ function Distribution({ language }) {
   const handleVerifyOTP = async () => {
     setVerifyOtpLoading(true);
     try {
-      await fieldOfficerAPI.verifyOTP({
+      await DistributionService.verifyOTP({
         phone_number: selectedBeneficiary.phone_number,
         code: otpCode,
         beneficiary_id: selectedBeneficiary.id,
@@ -874,7 +973,10 @@ function ConfirmedBeneficiaries({ language }) {
   const [confirmedBeneficiaries, setConfirmedBeneficiaries] = useState([]);
   const [filteredConfirmed, setFilteredConfirmed] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const t = translations[language];
+  const { showError } = useNotification();
 
   useEffect(() => {
     loadAssignments();
@@ -889,17 +991,26 @@ function ConfirmedBeneficiaries({ language }) {
   }, [confirmedBeneficiaries]);
 
   const loadAssignments = async () => {
-    const response = await fieldOfficerAPI.getAssignments();
-    setAssignments(response.data.filter(a => a.confirmed));
+    try {
+      const data = await AssignmentService.loadAssignments();
+      setAssignments(AssignmentService.getConfirmedAssignments(data));
+    } catch (err) {
+      console.error('Error loading assignments:', err);
+      showError('Failed to load assignments');
+    }
   };
 
   const loadConfirmedBeneficiaries = async () => {
     try {
-      const response = await fieldOfficerAPI.getConfirmedBeneficiaries({ project_id: selectedProject });
-      // Only show confirmed beneficiaries - confirmed=true
-      setConfirmedBeneficiaries(response.data);
+      setLoading(true);
+      const data = await BeneficiaryService.loadConfirmedBeneficiaries(selectedProject);
+      setConfirmedBeneficiaries(data);
+      setError(null);
     } catch (err) {
       console.error('Error loading confirmed beneficiaries:', err);
+      setError('Failed to load confirmed beneficiaries');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -907,12 +1018,9 @@ function ConfirmedBeneficiaries({ language }) {
     setFilteredConfirmed(results.length > 0 ? results : confirmedBeneficiaries);
   };
 
-  const searchData = confirmedBeneficiaries.map(b => ({
+  const searchData = BeneficiaryService.prepareSearchData(confirmedBeneficiaries, 'Confirmed').map(b => ({
     ...b,
-    title: b.name,
-    description: `Phone: ${b.phone_number}`,
-    status: 'Received & Confirmed',
-    type: 'Confirmed'
+    status: 'Received & Confirmed'
   }));
 
   return (
@@ -1001,7 +1109,10 @@ function ReadyToReceive({ language }) {
   const [readyBeneficiaries, setReadyBeneficiaries] = useState([]);
   const [filteredReady, setFilteredReady] = useState([]);
   const [selectedProject, setSelectedProject] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const t = translations[language];
+  const { showError } = useNotification();
 
   useEffect(() => {
     loadAssignments();
@@ -1016,18 +1127,27 @@ function ReadyToReceive({ language }) {
   }, [readyBeneficiaries]);
 
   const loadAssignments = async () => {
-    const response = await fieldOfficerAPI.getAssignments();
-    setAssignments(response.data.filter(a => a.confirmed));
+    try {
+      const data = await AssignmentService.loadAssignments();
+      setAssignments(AssignmentService.getConfirmedAssignments(data));
+    } catch (err) {
+      console.error('Error loading assignments:', err);
+      showError('Failed to load assignments');
+    }
   };
 
   const loadReadyBeneficiaries = async () => {
     try {
-      const response = await fieldOfficerAPI.getAllBeneficiaries({ project_id: selectedProject });
-      // Filter only unconfirmed beneficiaries (ready to receive) - confirmed=false
-      const ready = response.data.filter(b => b.confirmed === false);
+      setLoading(true);
+      const data = await BeneficiaryService.loadAllBeneficiaries(selectedProject);
+      const ready = BeneficiaryService.filterReadyToReceive(data);
       setReadyBeneficiaries(ready);
+      setError(null);
     } catch (err) {
       console.error('Error loading ready beneficiaries:', err);
+      setError('Failed to load beneficiaries');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -1035,13 +1155,7 @@ function ReadyToReceive({ language }) {
     setFilteredReady(results.length > 0 ? results : readyBeneficiaries);
   };
 
-  const searchData = readyBeneficiaries.map(b => ({
-    ...b,
-    title: b.name,
-    description: `Phone: ${b.phone_number}`,
-    status: b.face_verified ? 'Face Verified' : 'Not Verified',
-    type: 'Ready to Receive'
-  }));
+  const searchData = BeneficiaryService.prepareSearchData(readyBeneficiaries, 'Ready to Receive');
 
   return (
     <div>
@@ -1146,8 +1260,10 @@ function ProfileSettings({ language }) {
     monthlyReports: false
   });
   const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const t = translations[language];
-  const { showSuccess } = useNotification();
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     if (activeTab === 'activity') {
@@ -1157,22 +1273,26 @@ function ProfileSettings({ language }) {
 
   const loadActivities = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8000/api/activity-log/', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
+      setLoading(true);
+      const data = await ProfileService.loadActivities();
       setActivities(data);
+      setError(null);
     } catch (err) {
       console.error('Error loading activities:', err);
+      setError('Failed to load activities');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedUser = { ...user, ...formData };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    showSuccess('Profile updated successfully');
+    try {
+      ProfileService.updateProfile(user, formData);
+      showSuccess('Profile updated successfully');
+    } catch (err) {
+      showError('Failed to update profile');
+    }
   };
 
   const handleNotificationChange = (key) => {
@@ -1285,6 +1405,7 @@ export default FieldOfficerDashboard;
 function PublicReports({ language }) {
   const [reports, setReports] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
   const t = translations[language] || translations['en'];
 
   React.useEffect(() => {
@@ -1293,17 +1414,29 @@ function PublicReports({ language }) {
 
   const loadReports = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/public-reports/list/');
-      const data = await response.json();
+      setLoading(true);
+      const data = await ReportsService.loadPublicReports();
       setReports(data);
-      setLoading(false);
+      setError(null);
     } catch (err) {
       console.error('Error loading reports:', err);
+      setError('Failed to load reports');
+    } finally {
       setLoading(false);
     }
   };
 
   if (loading) return <div><h2>Public Reports</h2><div className="card"><p>Loading...</p></div></div>;
+  
+  if (error) return (
+    <div>
+      <h2>Public Reports</h2>
+      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+        <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
+        <button onClick={loadReports} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+      </div>
+    </div>
+  );
 
   return (
     <div>

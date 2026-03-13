@@ -6,6 +6,119 @@ import { useNotification } from '../components/NotificationProvider';
 import SearchBar from '../components/SearchBar';
 import LoadingButton from '../components/LoadingButton';
 
+// Supplier Services
+class QuoteService {
+  static async loadQuoteRequests() {
+    const response = await supplierAPI.getQuoteRequests();
+    return response.data;
+  }
+  
+  static async loadMyQuotes() {
+    const response = await supplierAPI.getMyQuotes();
+    return response.data || [];
+  }
+  
+  static async loadQuoteRequestDetails(requestId) {
+    const response = await supplierAPI.getQuoteRequestDetails(requestId);
+    return response.data;
+  }
+  
+  static async submitQuote(quoteData) {
+    return await supplierAPI.submitQuote(quoteData);
+  }
+  
+  static getSelectedQuotes(quotes) {
+    return quotes.filter(q => q.is_selected);
+  }
+  
+  static getDeliveredQuotes(quotes) {
+    return quotes.filter(q => q.is_selected && q.delivery_confirmed);
+  }
+  
+  static calculateWinRate(quotes) {
+    const total = quotes.length;
+    const selected = this.getSelectedQuotes(quotes).length;
+    return total > 0 ? Math.round((selected / total) * 100) : 0;
+  }
+}
+
+class DeliveryService {
+  static async confirmDelivery(deliveryData) {
+    return await supplierAPI.confirmDeliveryToFieldOfficer(deliveryData);
+  }
+  
+  static async loadDeliveryHistory() {
+    const quotesResponse = await supplierAPI.getMyQuotes();
+    return quotesResponse.data.filter(q => q.is_selected && q.delivery_confirmed);
+  }
+}
+
+class AnalyticsService {
+  static calculateMetrics(quotes) {
+    const totalQuotes = quotes.length;
+    const selectedQuotes = QuoteService.getSelectedQuotes(quotes).length;
+    const deliveredQuotes = QuoteService.getDeliveredQuotes(quotes).length;
+    const successRate = QuoteService.calculateWinRate(quotes);
+    
+    return {
+      totalQuotes,
+      selectedQuotes,
+      deliveredQuotes,
+      pendingQuotes: selectedQuotes - deliveredQuotes,
+      successRate
+    };
+  }
+  
+  static groupByLocation(quotes) {
+    return quotes.reduce((acc, q) => {
+      const loc = q.project_location || 'Unknown';
+      acc[loc] = (acc[loc] || 0) + 1;
+      return acc;
+    }, {});
+  }
+  
+  static groupByNGO(quotes) {
+    return quotes.reduce((acc, q) => {
+      const ngo = q.ngo_name || 'Unknown';
+      acc[ngo] = (acc[ngo] || 0) + 1;
+      return acc;
+    }, {});
+  }
+  
+  static calculateAvgResponseTime(quotes) {
+    if (quotes.length === 0) return 0;
+    return Math.round(quotes.reduce((sum, q) => {
+      const requestDate = new Date(q.quote_request_created_at || q.created_at);
+      const quoteDate = new Date(q.created_at);
+      const diffDays = Math.abs((quoteDate - requestDate) / (1000 * 60 * 60 * 24));
+      return sum + diffDays;
+    }, 0) / quotes.length);
+  }
+}
+
+class ProfileService {
+  static async loadActivities() {
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://localhost:8000/api/activity-log/', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return await response.json();
+  }
+  
+  static updateProfile(user, formData) {
+    const updatedUser = { ...user, ...formData };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    return updatedUser;
+  }
+}
+
+class ReportsService {
+  static async loadPublicReports() {
+    const response = await fetch('http://localhost:8000/api/public-reports/list/');
+    return await response.json();
+  }
+}
+
 function SupplierDashboard({ language = 'en', changeLanguage }) {
   const t = translations[language] || translations['en'];
   const navigate = useNavigate();
@@ -201,6 +314,7 @@ function Overview() {
   const [quotes, setQuotes] = useState([]);
   const [quoteRequests, setQuoteRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -208,24 +322,32 @@ function Overview() {
 
   const loadData = async () => {
     try {
-      const [quotesRes, requestsRes] = await Promise.all([
-        supplierAPI.getMyQuotes(),
-        supplierAPI.getQuoteRequests()
+      setLoading(true);
+      const [quotesData, requestsData] = await Promise.all([
+        QuoteService.loadMyQuotes(),
+        QuoteService.loadQuoteRequests()
       ]);
-      setQuotes(quotesRes.data || []);
-      setQuoteRequests(requestsRes.data || []);
-      setLoading(false);
+      setQuotes(quotesData);
+      setQuoteRequests(requestsData);
+      setError(null);
     } catch (err) {
+      console.error('Error loading overview data:', err);
+      setError('Failed to load dashboard data');
+    } finally {
       setLoading(false);
     }
   };
 
   if (loading) return <div style={{padding: '20px'}}><p style={{color: '#666'}}>Loading...</p></div>;
+  
+  if (error) return (
+    <div style={{padding: '20px'}}>
+      <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
+      <button onClick={loadData} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+    </div>
+  );
 
-  const totalQuotes = quotes.length;
-  const selectedQuotes = quotes.filter(q => q.is_selected).length;
-  const pendingQuotes = quotes.filter(q => !q.is_selected).length;
-  const successRate = totalQuotes > 0 ? Math.round((selectedQuotes / totalQuotes) * 100) : 0;
+  const metrics = AnalyticsService.calculateMetrics(quotes);
 
   return (
     <div>
@@ -241,15 +363,15 @@ function Overview() {
         </div>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
           <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Quotes Submitted</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{totalQuotes}</h3>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.totalQuotes}</h3>
         </div>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
           <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Quotes Selected</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{selectedQuotes}</h3>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.selectedQuotes}</h3>
         </div>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
           <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{successRate}%</h3>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.successRate}%</h3>
         </div>
       </div>
 
@@ -293,6 +415,7 @@ function Overview() {
 function DeliveryHistory() {
   const [deliveries, setDeliveries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -301,18 +424,29 @@ function DeliveryHistory() {
 
   const loadDeliveries = async () => {
     try {
-      // Get all my quotes that were selected
-      const quotesResponse = await supplierAPI.getMyQuotes();
-      const selectedQuotes = quotesResponse.data.filter(q => q.is_selected && q.delivery_confirmed);
-      setDeliveries(selectedQuotes);
-      setLoading(false);
+      setLoading(true);
+      const data = await DeliveryService.loadDeliveryHistory();
+      setDeliveries(data);
+      setError(null);
     } catch (err) {
       console.error('Error loading deliveries:', err);
+      setError('Failed to load delivery history');
+    } finally {
       setLoading(false);
     }
   };
 
   if (loading) return <div><h2>Delivery History</h2><div className="card"><p>Loading...</p></div></div>;
+  
+  if (error) return (
+    <div>
+      <h2>Delivery History</h2>
+      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+        <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
+        <button onClick={loadDeliveries} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+      </div>
+    </div>
+  );
 
   return (
     <div>
@@ -374,6 +508,7 @@ function DeliveryHistory() {
 function Analytics() {
   const [quotes, setQuotes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadAnalytics();
@@ -381,46 +516,34 @@ function Analytics() {
 
   const loadAnalytics = async () => {
     try {
-      const quotesResponse = await supplierAPI.getMyQuotes();
-      setQuotes(quotesResponse.data || []);
-      setLoading(false);
+      setLoading(true);
+      const data = await QuoteService.loadMyQuotes();
+      setQuotes(data);
+      setError(null);
     } catch (err) {
       console.error('Error loading analytics:', err);
+      setError('Failed to load analytics');
+    } finally {
       setLoading(false);
     }
   };
 
   if (loading) return <div><h2>Analytics</h2><div className="card"><p>Loading...</p></div></div>;
+  
+  if (error) return (
+    <div>
+      <h2>Analytics</h2>
+      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+        <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
+        <button onClick={loadAnalytics} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+      </div>
+    </div>
+  );
 
-  const totalQuotes = quotes.length;
-  const selectedQuotes = quotes.filter(q => q.is_selected).length;
-  const deliveredQuotes = quotes.filter(q => q.is_selected && q.delivery_confirmed).length;
-  const pendingQuotes = selectedQuotes - deliveredQuotes;
-  const successRate = totalQuotes > 0 ? Math.round((selectedQuotes / totalQuotes) * 100) : 0;
-
-  // Group by location
-  const locationData = quotes.reduce((acc, q) => {
-    const loc = q.project_location || 'Unknown';
-    acc[loc] = (acc[loc] || 0) + 1;
-    return acc;
-  }, {});
-
-  // Group by NGO
-  const ngoData = quotes.reduce((acc, q) => {
-    const ngo = q.ngo_name || 'Unknown';
-    acc[ngo] = (acc[ngo] || 0) + 1;
-    return acc;
-  }, {});
-
-  // Calculate average response time (days between quote request and quote submission)
-  const avgResponseTime = quotes.length > 0 
-    ? Math.round(quotes.reduce((sum, q) => {
-        const requestDate = new Date(q.quote_request_created_at || q.created_at);
-        const quoteDate = new Date(q.created_at);
-        const diffDays = Math.abs((quoteDate - requestDate) / (1000 * 60 * 60 * 24));
-        return sum + diffDays;
-      }, 0) / quotes.length)
-    : 0;
+  const metrics = AnalyticsService.calculateMetrics(quotes);
+  const locationData = AnalyticsService.groupByLocation(quotes);
+  const ngoData = AnalyticsService.groupByNGO(quotes);
+  const avgResponseTime = AnalyticsService.calculateAvgResponseTime(quotes);
 
   // Calculate total items from all quotes
   const totalItems = quotes.reduce((sum, q) => {
@@ -438,19 +561,19 @@ function Analytics() {
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
           <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Total Quotes</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{totalQuotes}</h3>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.totalQuotes}</h3>
         </div>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
           <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Selected</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{selectedQuotes}</h3>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.selectedQuotes}</h3>
         </div>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
           <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Delivered</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{deliveredQuotes}</h3>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.deliveredQuotes}</h3>
         </div>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
           <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{successRate}%</h3>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.successRate}%</h3>
         </div>
       </div>
 
@@ -497,7 +620,7 @@ function Analytics() {
           <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
             <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Delivery Rate</p>
             <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>
-              {selectedQuotes > 0 ? Math.round((deliveredQuotes / selectedQuotes) * 100) : 0}%
+              {metrics.selectedQuotes > 0 ? Math.round((metrics.deliveredQuotes / metrics.selectedQuotes) * 100) : 0}%
             </p>
           </div>
           <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
@@ -524,7 +647,9 @@ function ProfileSettings() {
     monthlyReports: false
   });
   const [activities, setActivities] = useState([]);
-  const { showSuccess } = useNotification();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     if (activeTab === 'activity') {
@@ -534,22 +659,26 @@ function ProfileSettings() {
 
   const loadActivities = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8000/api/activity-log/', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
+      setLoading(true);
+      const data = await ProfileService.loadActivities();
       setActivities(data);
+      setError(null);
     } catch (err) {
       console.error('Error loading activities:', err);
+      setError('Failed to load activities');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedUser = { ...user, ...formData };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    showSuccess('Profile updated successfully');
+    try {
+      ProfileService.updateProfile(user, formData);
+      showSuccess('Profile updated successfully');
+    } catch (err) {
+      showError('Failed to update profile');
+    }
   };
 
   const handleNotificationChange = (key) => {
@@ -664,34 +793,42 @@ function SupplierQuoteManagement() {
   const [myQuotes, setMyQuotes] = useState([]);
   const [activeTab, setActiveTab] = useState('available');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadQuoteRequests();
-    loadMyQuotes();
+    loadData();
   }, []);
 
-  const loadQuoteRequests = async () => {
+  const loadData = async () => {
     try {
-      const response = await supplierAPI.getQuoteRequests();
-      setQuoteRequests(response.data);
-      setLoading(false);
+      setLoading(true);
+      const [requests, quotes] = await Promise.all([
+        QuoteService.loadQuoteRequests(),
+        QuoteService.loadMyQuotes()
+      ]);
+      setQuoteRequests(requests);
+      setMyQuotes(quotes);
+      setError(null);
     } catch (err) {
-      console.error('Error loading quote requests:', err);
+      console.error('Error loading quotes:', err);
+      setError('Failed to load quote data');
+    } finally {
       setLoading(false);
-    }
-  };
-
-  const loadMyQuotes = async () => {
-    try {
-      const response = await supplierAPI.getMyQuotes();
-      setMyQuotes(response.data || []);
-    } catch (err) {
-      console.error('Error loading my quotes:', err);
     }
   };
 
   if (loading) return <div><h2>Quote Opportunities</h2><div className="card"><p>Loading...</p></div></div>;
+  
+  if (error) return (
+    <div>
+      <h2>Quote Opportunities</h2>
+      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+        <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
+        <button onClick={loadData} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+      </div>
+    </div>
+  );
 
   return (
     <div>
@@ -1243,6 +1380,7 @@ function SupplierQuoteDetails() {
 function PublicReports({ language }) {
   const [reports, setReports] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
   const [selectedReport, setSelectedReport] = React.useState(null);
   const t = translations[language] || translations['en'];
 
@@ -1252,17 +1390,29 @@ function PublicReports({ language }) {
 
   const loadReports = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/public-reports/list/');
-      const data = await response.json();
+      setLoading(true);
+      const data = await ReportsService.loadPublicReports();
       setReports(data);
-      setLoading(false);
+      setError(null);
     } catch (err) {
       console.error('Error loading reports:', err);
+      setError('Failed to load reports');
+    } finally {
       setLoading(false);
     }
   };
 
   if (loading) return <div><h2>{t.publicReports}</h2><div className="card"><p>{t.loading}</p></div></div>;
+  
+  if (error) return (
+    <div>
+      <h2>{t.publicReports}</h2>
+      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+        <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
+        <button onClick={loadReports} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+      </div>
+    </div>
+  );
 
   return (
     <div>
