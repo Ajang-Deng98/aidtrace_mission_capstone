@@ -37,58 +37,84 @@ function ViewablePublicReports() {
 
   return (
     <div>
-      <h2>Public Reports</h2>
-      <p style={{color: '#666', marginBottom: '24px'}}>View all submitted public reports</p>
+      <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>Public Reports</h2>
+      <p style={{color: '#8391B2', marginBottom: '32px', fontSize: '14px'}}>View all submitted public reports</p>
       
       {reports.length === 0 ? (
-        <div className="card" style={{textAlign: 'center', padding: '48px 20px'}}>
-          <div style={{fontSize: '48px', marginBottom: '16px'}}>📋</div>
-          <p style={{fontSize: '16px', color: '#000', fontWeight: '600', marginBottom: '8px'}}>No Reports Yet</p>
-          <p style={{fontSize: '14px', color: '#666', margin: 0}}>Public reports will appear here once submitted</p>
+        <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '64px 20px'}}>
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="#27248C" style={{marginBottom: '16px'}}>
+            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+          </svg>
+          <p style={{fontSize: '18px', color: '#27248C', fontWeight: '600', marginBottom: '8px'}}>No Reports Yet</p>
+          <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Public reports will appear here once submitted</p>
         </div>
       ) : (
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '16px'}}>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px'}}>
           {reports.map(report => (
             <div 
               key={report.id} 
-              className="card" 
               style={{
+                background: '#ffffff',
+                borderRadius: '12px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                padding: '24px',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
-                border: '1px solid #e0e0e0'
+                border: '1px solid #C5CED7'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                e.currentTarget.style.boxShadow = '0 8px 16px rgba(39,36,140,0.15)';
+                e.currentTarget.style.borderColor = '#27248C';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+                e.currentTarget.style.borderColor = '#C5CED7';
               }}
               onClick={() => setSelectedReport(report)}
             >
               <div style={{marginBottom: '16px'}}>
-                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px'}}>
-                  <span className="badge badge-info" style={{fontSize: '12px'}}>{report.report_type}</span>
-                  <span className="badge badge-success" style={{fontSize: '11px'}}>Published</span>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px'}}>
+                  <span style={{
+                    padding: '4px 12px',
+                    background: '#DFE8F0',
+                    color: '#27248C',
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    fontWeight: '600'
+                  }}>{report.report_type}</span>
+                  <span style={{
+                    padding: '4px 12px',
+                    background: '#22C55E',
+                    color: '#ffffff',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: '600'
+                  }}>Published</span>
                 </div>
-                <h3 style={{margin: '0 0 8px 0', fontSize: '16px', color: '#000', fontWeight: '600'}}>{report.project_name}</h3>
-              </div>
-              
-              <div style={{marginBottom: '16px'}}>
-                <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#000', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'}}>
+                <h3 style={{margin: '0 0 12px 0', fontSize: '17px', color: '#27248C', fontWeight: '600', lineHeight: '1.4'}}>{report.project_name}</h3>
+                <p style={{margin: '0', fontSize: '14px', color: '#8391B2', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'}}>
                   {report.description}
                 </p>
               </div>
               
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid #e0e0e0'}}>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div>
-                  <p style={{margin: '0 0 2px 0', fontSize: '11px', color: '#666', textTransform: 'uppercase', fontWeight: '600'}}>Location</p>
-                  <p style={{margin: 0, fontSize: '13px', color: '#000'}}>{report.location || 'N/A'}</p>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px'}}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#27248C">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <span style={{fontSize: '13px', color: '#27248C', fontWeight: '600'}}>{report.location || 'N/A'}</span>
+                  </div>
                 </div>
                 <div style={{textAlign: 'right'}}>
-                  <p style={{margin: '0 0 2px 0', fontSize: '11px', color: '#666', textTransform: 'uppercase', fontWeight: '600'}}>Date</p>
-                  <p style={{margin: 0, fontSize: '13px', color: '#000'}}>{new Date(report.created_at).toLocaleDateString()}</p>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#27248C">
+                      <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                    </svg>
+                    <span style={{fontSize: '13px', color: '#8391B2'}}>{new Date(report.created_at).toLocaleDateString()}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -193,8 +219,9 @@ function ViewablePublicReports() {
             <div style={{textAlign: 'right'}}>
               <button 
                 onClick={() => setSelectedReport(null)} 
-                className="btn" 
-                style={{padding: '12px 24px'}}
+                style={{padding: '12px 32px', fontSize: '15px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+                onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+                onMouseLeave={(e) => e.target.style.background = '#27248C'}
               >Close</button>
             </div>
           </div>

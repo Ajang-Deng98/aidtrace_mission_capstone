@@ -1876,8 +1876,15 @@ function QuoteDetails() {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <button onClick={() => navigate('/ngo/suppliers')} className="btn" 
-          style={{background: '#666', marginBottom: '12px', padding: '8px 16px', fontSize: '13px'}}>← {t.backToSuppliers}</button>
+        <button onClick={() => navigate('/ngo/suppliers')} 
+          style={{padding: '10px 20px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}
+          onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+          onMouseLeave={(e) => e.target.style.background = '#27248C'}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+          </svg>
+          {t.backToSuppliers}
+        </button>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
           <div>
             <h2 style={{margin: '0 0 4px 0', fontSize: '20px', fontWeight: '600'}}>{t.quoteRequestDetails}</h2>
@@ -2016,38 +2023,37 @@ function QuoteDetails() {
                         </span>
                       )}
                       {quote.is_selected && (
-                        <div style={{marginTop: '12px'}}>
-                          <button 
-                            onClick={async (e) => {
-                              e.stopPropagation();
-                              try {
-                                const token = localStorage.getItem('token');
-                                const response = await fetch(`http://localhost:8000/api/ngo/download-quote/${quote.id}/`, {
-                                  headers: { 'Authorization': `Bearer ${token}` }
-                                });
-                                if (!response.ok) throw new Error('Download failed');
-                                const blob = await response.blob();
-                                const url = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = `AidTrace_Supplier_Quote_${quote.supplier_name}_${quote.id}.html`;
-                                document.body.appendChild(a);
-                                a.click();
-                                window.URL.revokeObjectURL(url);
-                                document.body.removeChild(a);
-                                showSuccess('Quote downloaded successfully');
-                              } catch (err) {
-                                showError('Failed to download quote');
-                              }
-                            }}
-                            className="btn" 
-                            style={{width: '100%', padding: '10px', fontSize: '13px', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'}}>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                            </svg>
-                            Download Quote
-                          </button>
-                        </div>
+                        <button 
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            try {
+                              const token = localStorage.getItem('token');
+                              const response = await fetch(`http://localhost:8000/api/ngo/download-quote/${quote.id}/`, {
+                                headers: { 'Authorization': `Bearer ${token}` }
+                              });
+                              if (!response.ok) throw new Error('Download failed');
+                              const blob = await response.blob();
+                              const url = window.URL.createObjectURL(blob);
+                              const a = document.createElement('a');
+                              a.href = url;
+                              a.download = `AidTrace_Supplier_Quote_${quote.supplier_name}_${quote.id}.html`;
+                              document.body.appendChild(a);
+                              a.click();
+                              window.URL.revokeObjectURL(url);
+                              document.body.removeChild(a);
+                              showSuccess('Quote downloaded successfully');
+                            } catch (err) {
+                              showError('Failed to download quote');
+                            }
+                          }}
+                          style={{padding: '10px 20px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '8px'}}
+                          onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+                          onMouseLeave={(e) => e.target.style.background = '#27248C'}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                          </svg>
+                          Download Quote
+                        </button>
                       )}
                     </div>
                   </div>
