@@ -324,39 +324,39 @@ function Dashboard() {
 
   return (
     <div>
-      <h2>Dashboard Overview</h2>
-      <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>Monitor your projects and field operations</p>
+      <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>Dashboard Overview</h2>
+      <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>Monitor your projects and field operations</p>
       
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
-        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff', transition: 'all 0.2s ease', cursor: 'pointer'}}
-          onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}}
-          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-          <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{stats.total_projects}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>{t.totalProjects}</p>
+        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7', transition: 'all 0.2s ease', cursor: 'pointer'}}
+          onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)'; e.currentTarget.style.borderColor = '#27248C';}}
+          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#C5CED7';}}>
+          <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{stats.total_projects}</h3>
+          <p style={{margin: 0, color: '#8391B2', fontSize: '14px', fontWeight: '500'}}>{t.totalProjects}</p>
         </div>
-        <div className="card" style={{border: '1px solid #1E3A8A', background: '#f0f9ff', transition: 'all 0.2s ease', cursor: 'pointer'}}
-          onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}}
-          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-          <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{stats.funded_projects}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>{t.fundedProjects}</p>
+        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7', transition: 'all 0.2s ease', cursor: 'pointer'}}
+          onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)'; e.currentTarget.style.borderColor = '#27248C';}}
+          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#C5CED7';}}>
+          <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{stats.funded_projects}</h3>
+          <p style={{margin: 0, color: '#8391B2', fontSize: '14px', fontWeight: '500'}}>{t.fundedProjects}</p>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', background: '#fafafa', transition: 'all 0.2s ease', cursor: 'pointer'}}
-          onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}}
-          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-          <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#000', fontWeight: '700'}}>{stats.field_officers}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>{t.fieldOfficers}</p>
+        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7', transition: 'all 0.2s ease', cursor: 'pointer'}}
+          onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)'; e.currentTarget.style.borderColor = '#27248C';}}
+          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#C5CED7';}}>
+          <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{stats.field_officers}</h3>
+          <p style={{margin: 0, color: '#8391B2', fontSize: '14px', fontWeight: '500'}}>{t.fieldOfficers}</p>
         </div>
-        <div className="card" style={{border: '1px solid #1E3A8A', background: '#f0f9ff', transition: 'all 0.2s ease', cursor: 'pointer'}}
-          onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}}
-          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-          <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{stats.projects.filter(p => p.is_approved).length}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '14px', fontWeight: '500'}}>{t.approvedProjects}</p>
+        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7', transition: 'all 0.2s ease', cursor: 'pointer'}}
+          onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)'; e.currentTarget.style.borderColor = '#27248C';}}
+          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#C5CED7';}}>
+          <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{stats.projects.filter(p => p.is_approved).length}</h3>
+          <p style={{margin: 0, color: '#8391B2', fontSize: '14px', fontWeight: '500'}}>{t.approvedProjects}</p>
         </div>
       </div>
 
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
-        <div className="card">
-          <h3 style={{marginBottom: '16px'}}>{t.projectsByStatus}</h3>
+        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7'}}>
+          <h3 style={{marginBottom: '16px', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>{t.projectsByStatus}</h3>
           {projectStatusData.length === 0 ? (
             <div style={{textAlign: 'center', padding: '48px 20px'}}>
               <i className="fas fa-chart-bar" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
@@ -375,8 +375,8 @@ function Dashboard() {
           )}
         </div>
 
-        <div className="card">
-          <h3 style={{marginBottom: '16px'}}>{t.projectApprovalStatus}</h3>
+        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7'}}>
+          <h3 style={{marginBottom: '16px', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>{t.projectApprovalStatus}</h3>
           {approvalData.every(d => d.value === 0) ? (
             <div style={{textAlign: 'center', padding: '48px 20px'}}>
               <i className="fas fa-clipboard-list" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
@@ -396,8 +396,8 @@ function Dashboard() {
         </div>
       </div>
       
-      <div className="card">
-        <h3 style={{marginBottom: '16px'}}>{t.recentProjects}</h3>
+      <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7'}}>
+        <h3 style={{marginBottom: '16px', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>{t.recentProjects}</h3>
         {stats.projects.length === 0 ? (
           <div style={{textAlign: 'center', padding: '48px 20px'}}>
             <i className="fas fa-briefcase" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
@@ -556,13 +556,13 @@ function CreateProject() {
 
   return (
     <div>
-      <h2>{t.createNewProject}</h2>
-      <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>{t.submitNewProject}</p>
+      <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>{t.createNewProject}</h2>
+      <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>{t.submitNewProject}</p>
       
-      <div className="card">
+      <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7'}}>
         <form onSubmit={handleSubmit}>
-          <div style={{background: '#f0f9ff', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #1E3A8A'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#1E3A8A'}}>{t.basicInformation}</h3>
+          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>{t.basicInformation}</h3>
             
             <div className="form-group">
               <label>{t.projectTitleLabel}</label>
@@ -596,8 +596,8 @@ function CreateProject() {
             </div>
           </div>
 
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>{t.donorSelection}</h3>
+          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>{t.donorSelection}</h3>
             
             <div className="form-group">
               <label>{t.firstDesiredDonor}</label>
@@ -636,8 +636,8 @@ function CreateProject() {
             </div>
           </div>
 
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>Location & Timeline</h3>
+          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>Location & Timeline</h3>
             
             <div className="form-group">
               <label>Location in South Sudan</label>
@@ -669,8 +669,8 @@ function CreateProject() {
             </div>
           </div>
 
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>Budget & Resources</h3>
+          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>Budget & Resources</h3>
             
             <div className="form-group">
               <label>Budget Amount (USD)</label>
@@ -697,8 +697,8 @@ function CreateProject() {
             </div>
           </div>
 
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#000'}}>Supporting Documents (Optional)</h3>
+          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>Supporting Documents (Optional)</h3>
             <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#666'}}>Upload up to 3 relevant documents (proposals, budgets, permits, etc.)</p>
             
             {documents.map((doc, index) => (
@@ -750,8 +750,8 @@ function CreateProject() {
             ))}
           </div>
           
-          <div style={{background: '#f0f9ff', padding: '16px', borderRadius: '6px', marginBottom: '24px', border: '1px solid #1E3A8A'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#1E3A8A'}}>Beneficiaries (Optional)</h3>
+          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
+            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>Beneficiaries (Optional)</h3>
             <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#666'}}>Upload beneficiaries list with photos (ZIP file containing CSV + photos)</p>
             
             {!beneficiariesPreview ? (
@@ -798,9 +798,9 @@ function CreateProject() {
             )}
           </div>
           
-          <div style={{display: 'flex', gap: '12px', paddingTop: '16px', borderTop: '1px solid #e0e0e0'}}>
-            <LoadingButton type="submit" loading={createLoading} className="btn" style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600'}}>Create Project</LoadingButton>
-            <button type="button" onClick={() => navigate('/ngo/projects')} className="btn" style={{padding: '14px 24px', fontSize: '15px', background: '#666'}}>Cancel</button>
+          <div style={{display: 'flex', gap: '12px', paddingTop: '20px', borderTop: '1px solid #C5CED7'}}>
+            <LoadingButton type="submit" loading={createLoading} className="btn" style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600', background: '#27248C', border: 'none'}}>Create Project</LoadingButton>
+            <button type="button" onClick={() => navigate('/ngo/projects')} className="btn" style={{padding: '14px 24px', fontSize: '15px', background: '#8391B2', border: 'none'}}>Cancel</button>
           </div>
         </form>
       </div>
