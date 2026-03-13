@@ -51,25 +51,25 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
   };
 
   return (
-    <div style={{display: 'flex', minHeight: '100vh', background: '#ffffff'}}>
+    <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0'}}>
       <div style={{
         width: '220px',
-        background: '#ffffff',
-        borderRight: '1px solid #e0e0e0',
+        background: '#27248C',
+        borderRight: 'none',
         display: 'flex',
         flexDirection: 'column',
         position: 'fixed',
         height: '100vh',
         zIndex: 1000
       }}>
-        <div style={{padding: '20px', borderBottom: '1px solid #e0e0e0', background: '#ffffff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
-          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#2563EB', letterSpacing: '-0.5px'}}>AidTrace</h1>
-          <p style={{margin: 0, fontSize: '11px', color: '#666', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>Supplier Portal</p>
+        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.5px'}}>AidTrace</h1>
+          <p style={{margin: 0, fontSize: '11px', color: '#B3BEC7', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>Supplier Portal</p>
         </div>
 
-        <div style={{padding: '12px 16px', borderBottom: '1px solid #e0e0e0'}}>
-          <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#000'}}>{user.name}</p>
-          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#666'}}>Supplier</p>
+        <div style={{padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
+          <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#ffffff'}}>{user.name}</p>
+          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#B3BEC7'}}>Supplier</p>
         </div>
 
         <nav style={{flex: 1, padding: '8px 0'}}>
@@ -146,20 +146,20 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
           </Link>
         </nav>
 
-        <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
+        <div style={{padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.1)'}}>
           <button onClick={handleLogout} style={{
-            width: '100%', padding: '10px', background: '#ffffff', border: '1px solid #e0e0e0',
-            borderRadius: '4px', color: '#666', fontSize: '14px', fontWeight: '500', cursor: 'pointer'
+            width: '100%', padding: '10px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+            borderRadius: '8px', color: '#ffffff', fontSize: '14px', fontWeight: '500', cursor: 'pointer'
           }}
-          onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1E3A8A';}}
-          onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0';}}>
+          onMouseOver={(e) => {e.target.style.background = 'rgba(255,255,255,0.15)'; e.target.style.borderColor = '#ffffff';}}
+          onMouseOut={(e) => {e.target.style.background = 'rgba(255,255,255,0.1)'; e.target.style.borderColor = 'rgba(255,255,255,0.2)';}}>
             Logout
           </button>
         </div>
       </div>
 
-      <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
-        <div style={{background: '#1E3A8A', padding: '12px 20px', borderBottom: '1px solid #1E3A8A', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
+        <div style={{background: 'linear-gradient(135deg, #27248C 0%, #4857A8 100%)', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
           <div>
             <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>{t.supplier} {t.dashboard}</h1>
             <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>Submit competitive quotes for NGO projects</p>
@@ -177,7 +177,7 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
           </div>
         </div>
 
-        <div style={{flex: 1, padding: '20px', overflowY: 'auto', background: '#ffffff'}}>
+        <div style={{flex: 1, padding: '24px', overflowY: 'auto', background: '#DFE8F0'}}>
           <SearchBar 
             searchData={allSearchData}
             placeholder="Search quote requests, opportunities..."

@@ -6,13 +6,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'canva-purple': '#7D2AE8',
-        'canva-blue': '#00C4CC',
-        'canva-pink': '#FF5757',
-        'canva-yellow': '#FFB800',
-        'canva-green': '#00C875',
-        'deep-blue': '#1E3A8A',
-        'bright-blue': '#2563EB',
+        primary: '#27248C',
+        primaryLight: '#4857A8',
+        dashboardBg: '#DFE8F0',
+        card: '#C5CED7',
+        muted: '#8391B2',
+        softGray: '#B3BEC7',
       },
     },
   },

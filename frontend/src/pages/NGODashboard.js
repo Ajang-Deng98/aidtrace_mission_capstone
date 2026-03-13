@@ -93,12 +93,12 @@ function NGODashboard({ language = 'en', changeLanguage }) {
   };
 
   return (
-    <div style={{display: 'flex', minHeight: '100vh', background: '#ffffff', direction: language === 'ar' ? 'rtl' : 'ltr'}}>
+    <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0', direction: language === 'ar' ? 'rtl' : 'ltr'}}>
       <div style={{
         width: '220px',
-        background: '#ffffff',
-        borderRight: language === 'ar' ? 'none' : '1px solid #e0e0e0',
-        borderLeft: language === 'ar' ? '1px solid #e0e0e0' : 'none',
+        background: '#27248C',
+        borderRight: 'none',
+        borderLeft: 'none',
         display: 'flex',
         flexDirection: 'column',
         position: 'fixed',
@@ -107,21 +107,21 @@ function NGODashboard({ language = 'en', changeLanguage }) {
         left: language === 'ar' ? 'auto' : '0',
         right: language === 'ar' ? '0' : 'auto'
       }}>
-        <div style={{padding: '20px', borderBottom: '1px solid #e0e0e0', background: '#ffffff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
-          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#2563EB', letterSpacing: '-0.5px'}}>AidTrace</h1>
-          <p style={{margin: 0, fontSize: '11px', color: '#666', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>NGO Portal</p>
+        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.5px'}}>AidTrace</h1>
+          <p style={{margin: 0, fontSize: '11px', color: '#B3BEC7', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>NGO Portal</p>
         </div>
 
-        <div style={{padding: '12px 16px', borderBottom: '1px solid #e0e0e0'}}>
-          <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#000'}}>{user.name}</p>
-          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#666'}}>NGO</p>
+        <div style={{padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
+          <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#ffffff'}}>{user.name}</p>
+          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#B3BEC7'}}>NGO</p>
         </div>
 
         <nav style={{flex: 1, padding: '8px 0'}}>
           <Link to="/ngo" onClick={() => setActiveTab('dashboard')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'dashboard' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'dashboard' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'dashboard' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'dashboard' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'dashboard' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'dashboard' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'dashboard' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -131,9 +131,9 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/ngo/create-project" onClick={() => setActiveTab('create')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'create' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'create' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'create' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'create' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'create' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'create' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'create' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -143,9 +143,9 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/ngo/projects" onClick={() => setActiveTab('projects')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'projects' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'projects' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'projects' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'projects' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'projects' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'projects' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'projects' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -155,9 +155,9 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/ngo/suppliers" onClick={() => setActiveTab('suppliers')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'suppliers' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'suppliers' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'suppliers' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'suppliers' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'suppliers' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'suppliers' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'suppliers' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -167,9 +167,9 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/ngo/field-officers" onClick={() => setActiveTab('officers')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'officers' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'officers' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'officers' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'officers' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'officers' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'officers' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'officers' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -179,9 +179,9 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/ngo/beneficiaries" onClick={() => setActiveTab('beneficiaries')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'beneficiaries' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'beneficiaries' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'beneficiaries' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'beneficiaries' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -191,9 +191,9 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/ngo/reports" onClick={() => setActiveTab('reports')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'reports' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'reports' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'reports' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -203,9 +203,9 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/ngo/profile" onClick={() => setActiveTab('profile')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'profile' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'profile' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'profile' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -215,20 +215,20 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
         </nav>
 
-        <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
+        <div style={{padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.1)'}}>
           <button onClick={handleLogout} style={{
-            width: '100%', padding: '10px', background: '#ffffff', border: '1px solid #e0e0e0',
-            borderRadius: '4px', color: '#666', fontSize: '14px', fontWeight: '500', cursor: 'pointer'
+            width: '100%', padding: '10px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+            borderRadius: '8px', color: '#ffffff', fontSize: '14px', fontWeight: '500', cursor: 'pointer'
           }}
-          onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1E3A8A';}}
-          onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0';}}>
+          onMouseOver={(e) => {e.target.style.background = 'rgba(255,255,255,0.15)'; e.target.style.borderColor = '#ffffff';}}
+          onMouseOut={(e) => {e.target.style.background = 'rgba(255,255,255,0.1)'; e.target.style.borderColor = 'rgba(255,255,255,0.2)';}}>
             {t.logout}
           </button>
         </div>
       </div>
 
-      <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#ffffff'}}>
-        <div style={{background: '#1E3A8A', padding: '12px 20px', borderBottom: '1px solid #1E3A8A', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
+        <div style={{background: 'linear-gradient(135deg, #27248C 0%, #4857A8 100%)', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
           <div>
             <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>NGO {t.dashboard}</h1>
             <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageProjects}</p>
@@ -246,7 +246,7 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </div>
         </div>
 
-        <div style={{flex: 1, padding: '12px', overflowY: 'auto', background: '#ffffff'}}>
+        <div style={{flex: 1, padding: '24px', overflowY: 'auto', background: '#DFE8F0'}}>
           <SearchBar 
             searchData={allSearchData}
             placeholder="Search projects, quotes, suppliers, officers..."

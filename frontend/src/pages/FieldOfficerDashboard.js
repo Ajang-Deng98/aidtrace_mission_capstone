@@ -21,26 +21,26 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
   };
 
   return (
-    <div style={{display: 'flex', minHeight: '100vh', background: '#ffffff'}}>
+    <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0'}}>
       <div style={{
-        width: '220px', background: '#ffffff', borderRight: '1px solid #e0e0e0',
+        width: '220px', background: '#27248C', borderRight: 'none',
         display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', zIndex: 1000
       }}>
-        <div style={{padding: '20px', borderBottom: '1px solid #e0e0e0', background: '#ffffff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
-          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#2563EB', letterSpacing: '-0.5px'}}>AidTrace</h1>
-          <p style={{margin: 0, fontSize: '11px', color: '#666', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>Field Officer</p>
+        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.5px'}}>AidTrace</h1>
+          <p style={{margin: 0, fontSize: '11px', color: '#B3BEC7', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>Field Officer</p>
         </div>
 
-        <div style={{padding: '12px 16px', borderBottom: '1px solid #e0e0e0'}}>
-          <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#000'}}>{user.name}</p>
-          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#666'}}>Field Officer</p>
+        <div style={{padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
+          <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#ffffff'}}>{user.name}</p>
+          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#B3BEC7'}}>Field Officer</p>
         </div>
 
         <nav style={{flex: 1, padding: '8px 0'}}>
           <Link to="/field-officer/receipts" onClick={() => setActiveTab('receipts')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'receipts' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'receipts' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'receipts' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'receipts' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'receipts' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'receipts' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'receipts' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -50,9 +50,9 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer" onClick={() => setActiveTab('projects')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'projects' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'projects' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'projects' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'projects' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'projects' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'projects' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'projects' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -134,20 +134,20 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
         </nav>
 
-        <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
+        <div style={{padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.1)'}}>
           <button onClick={handleLogout} style={{
-            width: '100%', padding: '10px', background: '#ffffff', border: '1px solid #e0e0e0',
-            borderRadius: '4px', color: '#666', fontSize: '14px', fontWeight: '500', cursor: 'pointer'
+            width: '100%', padding: '10px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+            borderRadius: '8px', color: '#ffffff', fontSize: '14px', fontWeight: '500', cursor: 'pointer'
           }}
-          onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1E3A8A';}}
-          onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0';}}>
+          onMouseOver={(e) => {e.target.style.background = 'rgba(255,255,255,0.15)'; e.target.style.borderColor = '#ffffff';}}
+          onMouseOut={(e) => {e.target.style.background = 'rgba(255,255,255,0.1)'; e.target.style.borderColor = 'rgba(255,255,255,0.2)';}}>
             {t.logout}
           </button>
         </div>
       </div>
 
-      <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
-        <div style={{background: '#1E3A8A', padding: '12px 20px', borderBottom: '1px solid #1E3A8A', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
+        <div style={{background: 'linear-gradient(135deg, #27248C 0%, #4857A8 100%)', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
           <div>
             <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600'}}>{t.fieldOfficerDashboard}</h1>
             <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9}}>{t.manageDistribution}</p>
@@ -165,7 +165,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </div>
         </div>
 
-        <div style={{flex: 1, padding: '20px', overflowY: 'auto', background: '#ffffff'}}>
+        <div style={{flex: 1, padding: '24px', overflowY: 'auto', background: '#DFE8F0'}}>
           <Routes>
             <Route path="/receipts" element={<SupplierReceipt />} />
             <Route path="/" element={<Projects language={language} />} />

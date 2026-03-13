@@ -66,13 +66,13 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
   };
 
   return (
-    <div style={{display: 'flex', minHeight: '100vh', background: '#ffffff', direction: language === 'ar' ? 'rtl' : 'ltr'}}>
+    <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0', direction: language === 'ar' ? 'rtl' : 'ltr'}}>
       {/* Sidebar */}
       <div style={{
         width: '220px',
-        background: '#ffffff',
-        borderRight: language === 'ar' ? 'none' : '1px solid #e0e0e0',
-        borderLeft: language === 'ar' ? '1px solid #e0e0e0' : 'none',
+        background: '#27248C',
+        borderRight: 'none',
+        borderLeft: 'none',
         display: 'flex',
         flexDirection: 'column',
         position: 'fixed',
@@ -82,15 +82,15 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
         right: language === 'ar' ? '0' : 'auto'
       }}>
         {/* Logo/Header */}
-        <div style={{padding: '20px', borderBottom: '1px solid #e0e0e0', background: '#ffffff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
-          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#2563EB', letterSpacing: '-0.5px'}}>AidTrace</h1>
-          <p style={{margin: 0, fontSize: '11px', color: '#666', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>Donor Portal</p>
+        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
+          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.5px'}}>AidTrace</h1>
+          <p style={{margin: 0, fontSize: '11px', color: '#B3BEC7', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>Donor Portal</p>
         </div>
 
         {/* User Info */}
-        <div style={{padding: '12px 16px', borderBottom: '1px solid #e0e0e0'}}>
-          <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#000'}}>{user.name}</p>
-          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#666'}}>{t.donor}</p>
+        <div style={{padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
+          <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#ffffff'}}>{user.name}</p>
+          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#B3BEC7'}}>{t.donor}</p>
         </div>
 
         {/* Navigation */}
@@ -103,10 +103,10 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
               alignItems: 'center',
               gap: '10px',
               padding: '10px 16px',
-              color: activeTab === 'analytics' ? '#1E3A8A' : '#666',
+              color: activeTab === 'analytics' ? '#ffffff' : '#B3BEC7',
               textDecoration: 'none',
-              background: activeTab === 'analytics' ? '#f5f5f5' : 'transparent',
-              borderLeft: activeTab === 'analytics' ? '3px solid #1E3A8A' : '3px solid transparent',
+              background: activeTab === 'analytics' ? 'rgba(255,255,255,0.1)' : 'transparent',
+              borderLeft: activeTab === 'analytics' ? '3px solid #ffffff' : '3px solid transparent',
               fontWeight: activeTab === 'analytics' ? '600' : '400',
               fontSize: '14px'
             }}
@@ -125,10 +125,10 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
               alignItems: 'center',
               gap: '10px',
               padding: '10px 16px',
-              color: activeTab === 'projects' ? '#1E3A8A' : '#666',
+              color: activeTab === 'projects' ? '#ffffff' : '#B3BEC7',
               textDecoration: 'none',
-              background: activeTab === 'projects' ? '#f5f5f5' : 'transparent',
-              borderLeft: activeTab === 'projects' ? '3px solid #1E3A8A' : '3px solid transparent',
+              background: activeTab === 'projects' ? 'rgba(255,255,255,0.1)' : 'transparent',
+              borderLeft: activeTab === 'projects' ? '3px solid #ffffff' : '3px solid transparent',
               fontWeight: activeTab === 'projects' ? '600' : '400',
               fontSize: '14px'
             }}
@@ -147,10 +147,10 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
               alignItems: 'center',
               gap: '10px',
               padding: '10px 16px',
-              color: activeTab === 'funded' ? '#1E3A8A' : '#666',
+              color: activeTab === 'funded' ? '#ffffff' : '#B3BEC7',
               textDecoration: 'none',
-              background: activeTab === 'funded' ? '#f5f5f5' : 'transparent',
-              borderLeft: activeTab === 'funded' ? '3px solid #1E3A8A' : '3px solid transparent',
+              background: activeTab === 'funded' ? 'rgba(255,255,255,0.1)' : 'transparent',
+              borderLeft: activeTab === 'funded' ? '3px solid #ffffff' : '3px solid transparent',
               fontWeight: activeTab === 'funded' ? '600' : '400',
               fontSize: '14px'
             }}
@@ -169,10 +169,10 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
               alignItems: 'center',
               gap: '10px',
               padding: '10px 16px',
-              color: activeTab === 'reports' ? '#1E3A8A' : '#666',
+              color: activeTab === 'reports' ? '#ffffff' : '#B3BEC7',
               textDecoration: 'none',
-              background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
-              borderLeft: activeTab === 'reports' ? '3px solid #1E3A8A' : '3px solid transparent',
+              background: activeTab === 'reports' ? 'rgba(255,255,255,0.1)' : 'transparent',
+              borderLeft: activeTab === 'reports' ? '3px solid #ffffff' : '3px solid transparent',
               fontWeight: activeTab === 'reports' ? '600' : '400',
               fontSize: '14px'
             }}
@@ -191,10 +191,10 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
               alignItems: 'center',
               gap: '10px',
               padding: '10px 16px',
-              color: activeTab === 'profile' ? '#1E3A8A' : '#666',
+              color: activeTab === 'profile' ? '#ffffff' : '#B3BEC7',
               textDecoration: 'none',
-              background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
-              borderLeft: activeTab === 'profile' ? '3px solid #1E3A8A' : '3px solid transparent',
+              background: activeTab === 'profile' ? 'rgba(255,255,255,0.1)' : 'transparent',
+              borderLeft: activeTab === 'profile' ? '3px solid #ffffff' : '3px solid transparent',
               fontWeight: activeTab === 'profile' ? '600' : '400',
               fontSize: '14px'
             }}
@@ -207,23 +207,23 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
         </nav>
 
         {/* Logout Button */}
-        <div style={{padding: '12px 16px', borderTop: '1px solid #e0e0e0'}}>
+        <div style={{padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.1)'}}>
             <button 
               onClick={handleLogout}
               style={{
                 width: '100%',
                 padding: '10px',
-                background: '#ffffff',
-                border: '1px solid #e0e0e0',
-                borderRadius: '4px',
-                color: '#666',
+                background: 'rgba(255,255,255,0.1)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                borderRadius: '8px',
+                color: '#ffffff',
                 fontSize: '14px',
                 fontWeight: '500',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'
               }}
-              onMouseOver={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.borderColor = '#1E3A8A'; e.target.style.color = '#1E3A8A';}}
-              onMouseOut={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#e0e0e0'; e.target.style.color = '#666';}}
+              onMouseOver={(e) => {e.target.style.background = 'rgba(255,255,255,0.15)'; e.target.style.borderColor = '#ffffff';}}
+              onMouseOut={(e) => {e.target.style.background = 'rgba(255,255,255,0.1)'; e.target.style.borderColor = 'rgba(255,255,255,0.2)';}}
             >
               {t.logout}
             </button>
@@ -231,15 +231,15 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
       </div>
 
       {/* Main Content */}
-      <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#fafafa'}}>
+      <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
         {/* Top Bar */}
         <div style={{
-          background: '#1E3A8A',
-          padding: '12px 20px',
-          borderBottom: '1px solid #1E3A8A',
+          background: 'linear-gradient(135deg, #27248C 0%, #4857A8 100%)',
+          padding: '16px 24px',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
         }}>
           <div>
             <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.donor} {t.dashboard}</h1>
@@ -260,7 +260,7 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
         </div>
 
         {/* Content Area */}
-        <div style={{flex: 1, padding: '12px', overflowY: 'auto', background: '#ffffff'}}>
+        <div style={{flex: 1, padding: '24px', overflowY: 'auto', background: '#DFE8F0'}}>
           <SearchBar 
             searchData={allSearchData}
             placeholder="Search projects, reports, or anything..."
