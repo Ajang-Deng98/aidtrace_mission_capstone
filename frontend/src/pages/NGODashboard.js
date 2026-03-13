@@ -1266,71 +1266,107 @@ function SuppliersUnified() {
       {activeTab === 'quotes' ? (
         <div>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
-            <p style={{color: '#666', margin: 0, fontSize: '14px'}}>{t.requestCompetitiveQuotes}</p>
-            <button onClick={() => navigate('/ngo/suppliers/create')} className="btn" 
-              style={{background: '#1E3A8A', padding: '10px 20px', fontSize: '14px', fontWeight: '600'}}>
-              + {t.getSupplier}
+            <p style={{color: '#8391B2', margin: 0, fontSize: '14px'}}>{t.requestCompetitiveQuotes}</p>
+            <button onClick={() => navigate('/ngo/suppliers/create')} 
+              style={{padding: '12px 24px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '8px'}}
+              onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+              onMouseLeave={(e) => e.target.style.background = '#27248C'}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+              </svg>
+              {t.getSupplier}
             </button>
           </div>
 
           {quoteRequests.length === 0 ? (
-            <div className="card" style={{textAlign: 'center', padding: '64px 20px', border: '1px solid #e0e0e0'}}>
-              <i className="fas fa-file-invoice" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-              <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>{t.noQuoteRequestsYet}</h3>
-              <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>{t.createFirstQuoteRequest}</p>
-              <button onClick={() => navigate('/ngo/suppliers/create')} className="btn" style={{padding: '12px 24px', fontSize: '15px'}}>
+            <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '64px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="#27248C" style={{marginBottom: '16px'}}>
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+              </svg>
+              <h3 style={{fontSize: '20px', color: '#27248C', margin: '0 0 8px 0', fontWeight: '600'}}>{t.noQuoteRequestsYet}</h3>
+              <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>{t.createFirstQuoteRequest}</p>
+              <button onClick={() => navigate('/ngo/suppliers/create')} 
+                style={{padding: '12px 32px', fontSize: '15px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+                onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+                onMouseLeave={(e) => e.target.style.background = '#27248C'}>
                 {t.getSupplier}
               </button>
             </div>
           ) : (
-            <div className="grid">
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px'}}>
               {quoteRequests.map(request => (
-                <div key={request.id} className="card" 
+                <div key={request.id} 
                   style={{
-                    border: '1px solid #e0e0e0',
+                    background: '#ffffff',
+                    borderRadius: '12px',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                    padding: '24px',
                     transition: 'all 0.2s ease',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    border: '1px solid #C5CED7'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(30,58,138,0.15)';
-                    e.currentTarget.style.borderColor = '#1E3A8A';
+                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(39,36,140,0.15)';
+                    e.currentTarget.style.borderColor = '#27248C';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.borderColor = '#e0e0e0';
+                    e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+                    e.currentTarget.style.borderColor = '#C5CED7';
                   }}
                   onClick={() => navigate(`/ngo/suppliers/${request.id}`)}>
                   <div style={{marginBottom: '16px'}}>
-                    <h3 style={{color: '#1E3A8A', margin: '0 0 12px 0', fontSize: '18px', fontWeight: '600'}}>{request.project_title}</h3>
+                    <h3 style={{color: '#27248C', margin: '0 0 12px 0', fontSize: '17px', fontWeight: '600', lineHeight: '1.4'}}>{request.project_title}</h3>
                     <div style={{display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap'}}>
-                      <span className={`badge ${request.status === 'OPEN' ? 'badge-success' : request.status === 'SELECTED' ? 'badge-info' : 'badge-warning'}`} style={{fontSize: '12px'}}>
+                      <span style={{
+                        padding: '4px 12px',
+                        background: request.status === 'OPEN' ? '#22C55E' : request.status === 'SELECTED' ? '#27248C' : '#FFA500',
+                        color: '#ffffff',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}>
                         {request.status.replace(/_/g, ' ')}
                       </span>
-                      <span className="badge" style={{background: '#f0f0f0', color: '#666', fontSize: '12px'}}>
+                      <span style={{
+                        padding: '4px 12px',
+                        background: '#DFE8F0',
+                        color: '#27248C',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}>
                         {request.quotes_count || 0} {request.quotes_count === 1 ? t.quote : t.quotes}
                       </span>
                     </div>
                   </div>
                   
-                  <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px'}}>
-                    <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                      <strong style={{color: '#000'}}>{t.deliveryLocation}:</strong> 
-                      <span>{request.delivery_location}</span>
-                    </p>
-                    <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                      <strong style={{color: '#000'}}>{t.deliveryDate}:</strong> 
-                      <span>{request.delivery_date}</span>
-                    </p>
-                    <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                      <strong style={{color: '#000'}}>{t.budget}:</strong> 
-                      <span>${parseFloat(request.proposed_budget || 0).toLocaleString()}</span>
-                    </p>
+                  <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px'}}>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px'}}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="#27248C">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                      </svg>
+                      <span style={{fontSize: '13px', color: '#27248C', fontWeight: '600'}}>{request.delivery_location}</span>
+                    </div>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px'}}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="#27248C">
+                        <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                      </svg>
+                      <span style={{fontSize: '13px', color: '#8391B2'}}>{request.delivery_date}</span>
+                    </div>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="#27248C">
+                        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                      </svg>
+                      <span style={{fontSize: '15px', color: '#27248C', fontWeight: '600'}}>${parseFloat(request.proposed_budget || 0).toLocaleString()}</span>
+                    </div>
                   </div>
                   
-                  <button onClick={(e) => {e.stopPropagation(); navigate(`/ngo/suppliers/${request.id}`);}} className="btn" 
-                    style={{width: '100%', padding: '10px', fontSize: '14px'}}>{t.viewQuotesDetails}</button>
+                  <button onClick={(e) => {e.stopPropagation(); navigate(`/ngo/suppliers/${request.id}`);}} 
+                    style={{width: '100%', padding: '12px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+                    onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+                    onMouseLeave={(e) => e.target.style.background = '#27248C'}>{t.viewQuotesDetails}</button>
                 </div>
               ))}
             </div>
@@ -3292,34 +3328,86 @@ function Beneficiaries() {
         {beneficiaries.length === 0 ? (
           <p style={{color: '#8391B2', textAlign: 'center', padding: '32px 0'}}>No beneficiaries registered yet.</p>
         ) : (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Phone Number</th>
-                <th>Project</th>
-                <th>Face Verified</th>
-                <th>Registered Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {beneficiaries.map((beneficiary, idx) => (
-                <tr key={idx}>
-                  <td>{beneficiary.name}</td>
-                  <td>{beneficiary.phone_number}</td>
-                  <td>{beneficiary.project_title}</td>
-                  <td>
+          <div style={{display: 'grid', gap: '16px'}}>
+            {beneficiaries.map((beneficiary, idx) => (
+              <div key={idx} 
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #C5CED7',
+                  borderRadius: '12px',
+                  padding: '20px',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)';
+                  e.currentTarget.style.borderColor = '#27248C';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = '#C5CED7';
+                }}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '16px', flex: 1}}>
+                    <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#27248C', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: '18px', fontWeight: '700'}}>
+                      {beneficiary.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div style={{flex: 1}}>
+                      <h4 style={{margin: '0 0 6px 0', fontSize: '16px', fontWeight: '600', color: '#27248C'}}>{beneficiary.name}</h4>
+                      <div style={{display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center'}}>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#8391B2">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                          </svg>
+                          <span style={{fontSize: '13px', color: '#8391B2'}}>{beneficiary.phone_number}</span>
+                        </div>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#8391B2">
+                            <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                          </svg>
+                          <span style={{fontSize: '13px', color: '#8391B2'}}>{beneficiary.project_title}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
                     {beneficiary.face_verified ? (
-                      <span style={{color: '#22C55E', fontWeight: '600', fontSize: '13px'}}>✓ Verified</span>
+                      <span style={{
+                        padding: '6px 16px',
+                        background: '#22C55E',
+                        color: '#ffffff',
+                        borderRadius: '8px',
+                        fontSize: '13px',
+                        fontWeight: '600',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        Verified
+                      </span>
                     ) : (
-                      <span style={{color: '#dc3545', fontSize: '13px'}}>✗ Not Verified</span>
+                      <span style={{
+                        padding: '6px 16px',
+                        background: '#dc3545',
+                        color: '#ffffff',
+                        borderRadius: '8px',
+                        fontSize: '13px',
+                        fontWeight: '600'
+                      }}>Not Verified</span>
                     )}
-                  </td>
-                  <td>{new Date(beneficiary.created_at).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '6px', color: '#8391B2', fontSize: '13px'}}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                      </svg>
+                      <span>{new Date(beneficiary.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
