@@ -1481,97 +1481,129 @@ function PublicReports({ language }) {
     }
   };
 
-  if (loading) return <div><h2>{t.publicReports}</h2><div className="card"><p>{t.loading}</p></div></div>;
+  if (loading) return <div><h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Public Reports</h2><div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}><p style={{color: '#8391B2'}}>Loading...</p></div></div>;
   
   if (error) return (
     <div>
-      <h2>{t.publicReports}</h2>
-      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Public Reports</h2>
+      <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '32px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
         <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
-        <button onClick={loadReports} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+        <button onClick={loadReports} style={{padding: '10px 20px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '14px', fontWeight: '600'}}>Retry</button>
       </div>
     </div>
   );
 
   return (
     <div>
-      <h2>{t.publicReports}</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>View all submitted public reports</p>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Public Reports</h2>
+      <p style={{color: '#8391B2', marginBottom: '20px', fontSize: '14px'}}>View all submitted public reports</p>
       
       {reports.length === 0 ? (
-        <div className="card"><p>{t.noReports}</p></div>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '48px 24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="#C5CED7"/>
+          </svg>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>No Reports Available</h3>
+          <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Public reports will appear here once submitted</p>
+        </div>
       ) : (
-        <div className="card">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>{t.reportType}</th>
-                <th>{t.description}</th>
-                <th>{t.location}</th>
-                <th>{t.reportDate}</th>
-                <th>{t.status}</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reports.map(report => (
-                <tr key={report.id}>
-                  <td><span className="badge badge-info">{report.report_type}</span></td>
-                  <td>{report.description.substring(0, 50)}...</td>
-                  <td>{report.location || 'N/A'}</td>
-                  <td>{new Date(report.created_at).toLocaleDateString()}</td>
-                  <td><span className="badge badge-success">Published</span></td>
-                  <td><button onClick={() => setSelectedReport(report)} className="btn" style={{padding: '6px 12px', fontSize: '13px'}}>View Report</button></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px'}}>
+          {reports.map(report => (
+            <div key={report.id} 
+              style={{
+                background: '#ffffff',
+                border: '1px solid #C5CED7',
+                borderRadius: '12px',
+                padding: '20px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+              }}
+              onClick={() => setSelectedReport(report)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 8px 16px rgba(30,58,138,0.15)';
+                e.currentTarget.style.borderColor = '#1E3A8A';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+                e.currentTarget.style.borderColor = '#C5CED7';
+              }}>
+              <div style={{marginBottom: '12px'}}>
+                <h3 style={{color: '#1E3A8A', margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600'}}>{report.project_name}</h3>
+                <span style={{padding: '4px 10px', background: '#22C55E', color: '#ffffff', borderRadius: '6px', fontSize: '11px', fontWeight: '600'}}>Published</span>
+              </div>
+              
+              <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', marginBottom: '12px'}}>
+                <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>Location:</strong> <span style={{color: '#8391B2'}}>{report.location || 'N/A'}</span></p>
+                <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>Type:</strong> <span style={{color: '#8391B2'}}>{report.report_type}</span></p>
+                <p style={{margin: '0', fontSize: '13px', color: '#1E3A8A'}}><strong>Date:</strong> <span style={{color: '#8391B2'}}>{new Date(report.created_at).toLocaleDateString()}</span></p>
+              </div>
+              
+              <p style={{margin: '0 0 12px 0', fontSize: '13px', color: '#8391B2', lineHeight: '1.5'}}>{report.description.substring(0, 80)}...</p>
+              
+              <button onClick={(e) => {e.stopPropagation(); setSelectedReport(report);}} 
+                style={{width: '100%', padding: '10px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s'}}
+                onMouseEnter={(e) => e.target.style.background = '#27248C'}
+                onMouseLeave={(e) => e.target.style.background = '#1E3A8A'}>View Full Report</button>
+            </div>
+          ))}
         </div>
       )}
       
       {selectedReport && (
-        <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <div style={{background: '#fff', padding: '30px', borderRadius: '8px', maxWidth: '600px', width: '90%', maxHeight: '80vh', overflowY: 'auto'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #e0e0e0', paddingBottom: '15px'}}>
-              <h3 style={{margin: 0, color: '#000'}}>Report Details</h3>
-              <button onClick={() => setSelectedReport(null)} style={{background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#666'}}>&times;</button>
+        <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'}} onClick={() => setSelectedReport(null)}>
+          <div style={{background: '#ffffff', padding: '30px', borderRadius: '12px', maxWidth: '700px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 60px rgba(0,0,0,0.3)'}} onClick={(e) => e.stopPropagation()}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #DFE8F0'}}>
+              <h3 style={{margin: 0, color: '#1E3A8A', fontSize: '20px', fontWeight: '600'}}>Report Details</h3>
+              <button onClick={() => setSelectedReport(null)} style={{background: 'none', border: 'none', fontSize: '28px', cursor: 'pointer', color: '#8391B2', lineHeight: '1', padding: '0', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '4px', transition: 'all 0.2s'}}
+                onMouseEnter={(e) => {e.target.style.background = '#DFE8F0'; e.target.style.color = '#1E3A8A';}}
+                onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#8391B2';}}>&times;</button>
             </div>
             
-            <div style={{marginBottom: '15px'}}>
-              <p style={{margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>PROJECT NAME</p>
-              <p style={{margin: '0 0 15px 0', fontSize: '16px', color: '#000', fontWeight: '600'}}>{selectedReport.project_name}</p>
+            <div style={{marginBottom: '20px'}}>
+              <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Project Name</p>
+              <p style={{margin: '0', fontSize: '18px', color: '#1E3A8A', fontWeight: '600'}}>{selectedReport.project_name}</p>
             </div>
             
-            <div style={{marginBottom: '15px'}}>
-              <p style={{margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>LOCATION</p>
-              <p style={{margin: '0 0 15px 0', fontSize: '14px', color: '#000'}}>{selectedReport.location}</p>
+            <div style={{marginBottom: '20px'}}>
+              <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Location</p>
+              <p style={{margin: '0', fontSize: '15px', color: '#1E3A8A'}}>{selectedReport.location}</p>
             </div>
             
-            <div style={{marginBottom: '15px'}}>
-              <p style={{margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>REPORT DESCRIPTION</p>
-              <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: 0, fontSize: '14px', color: '#000', lineHeight: '1.6'}}>{selectedReport.description}</p>
+            <div style={{marginBottom: '20px'}}>
+              <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Report Type</p>
+              <span style={{padding: '6px 12px', background: '#DFE8F0', color: '#1E3A8A', borderRadius: '6px', fontSize: '13px', fontWeight: '600'}}>{selectedReport.report_type}</span>
+            </div>
+            
+            <div style={{marginBottom: '20px'}}>
+              <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Description</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: 0, fontSize: '14px', color: '#1E3A8A', lineHeight: '1.6'}}>{selectedReport.description}</p>
               </div>
             </div>
             
-            <div style={{marginBottom: '15px'}}>
-              <p style={{margin: '0 0 5px 0', fontSize: '13px', color: '#666', fontWeight: '600'}}>CONTACT INFORMATION</p>
-              <p style={{margin: '0 0 15px 0', fontSize: '14px', color: '#000'}}>{selectedReport.contact_info}</p>
+            <div style={{marginBottom: '20px'}}>
+              <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Contact Information</p>
+              <p style={{margin: '0', fontSize: '14px', color: '#1E3A8A'}}>{selectedReport.contact_info}</p>
             </div>
             
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px', background: '#f0fdf4', borderRadius: '4px', border: '1px solid #d4edda'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: '#F0FDF4', borderRadius: '8px', border: '1px solid #22C55E', marginBottom: '24px'}}>
               <div>
-                <p style={{margin: '0 0 3px 0', fontSize: '13px', color: '#666'}}>Report Status</p>
-                <span className="badge badge-success">Published</span>
+                <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#8391B2'}}>Status</p>
+                <span style={{padding: '4px 10px', background: '#22C55E', color: '#ffffff', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>Published</span>
               </div>
               <div style={{textAlign: 'right'}}>
-                <p style={{margin: '0 0 3px 0', fontSize: '13px', color: '#666'}}>Submitted Date</p>
-                <p style={{margin: 0, fontSize: '14px', color: '#000', fontWeight: '600'}}>{new Date(selectedReport.created_at).toLocaleDateString()}</p>
+                <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#8391B2'}}>Submitted Date</p>
+                <p style={{margin: 0, fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>{new Date(selectedReport.created_at).toLocaleDateString()}</p>
               </div>
             </div>
             
-            <div style={{marginTop: '20px', textAlign: 'right'}}>
-              <button onClick={() => setSelectedReport(null)} className="btn" style={{padding: '10px 20px'}}>Close</button>
+            <div style={{textAlign: 'right'}}>
+              <button onClick={() => setSelectedReport(null)} style={{padding: '12px 32px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s'}}
+                onMouseEnter={(e) => e.target.style.background = '#27248C'}
+                onMouseLeave={(e) => e.target.style.background = '#1E3A8A'}>Close</button>
             </div>
           </div>
         </div>
