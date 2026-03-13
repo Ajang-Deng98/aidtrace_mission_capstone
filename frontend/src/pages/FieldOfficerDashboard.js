@@ -128,7 +128,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
 
         <nav style={{flex: 1, padding: '8px 0'}}>
           <Link to="/field-officer/receipts" onClick={() => setActiveTab('receipts')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'receipts' ? '#ffffff' : '#B3BEC7',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
             textDecoration: 'none', background: activeTab === 'receipts' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'receipts' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'receipts' ? '600' : '400', fontSize: '14px'
@@ -140,7 +140,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer" onClick={() => setActiveTab('projects')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'projects' ? '#ffffff' : '#B3BEC7',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
             textDecoration: 'none', background: activeTab === 'projects' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'projects' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'projects' ? '600' : '400', fontSize: '14px'
@@ -152,7 +152,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/beneficiaries" onClick={() => setActiveTab('beneficiaries')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#ffffff' : '#B3BEC7',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
             textDecoration: 'none', background: activeTab === 'beneficiaries' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'beneficiaries' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px'
@@ -164,7 +164,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/distribute" onClick={() => setActiveTab('distribute')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'distribute' ? '#ffffff' : '#B3BEC7',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
             textDecoration: 'none', background: activeTab === 'distribute' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'distribute' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'distribute' ? '600' : '400', fontSize: '14px'
@@ -176,7 +176,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/confirmed" onClick={() => setActiveTab('confirmed')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'confirmed' ? '#ffffff' : '#B3BEC7',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
             textDecoration: 'none', background: activeTab === 'confirmed' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'confirmed' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'confirmed' ? '600' : '400', fontSize: '14px'
@@ -188,7 +188,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/ready" onClick={() => setActiveTab('ready')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'ready' ? '#ffffff' : '#B3BEC7',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
             textDecoration: 'none', background: activeTab === 'ready' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'ready' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'ready' ? '600' : '400', fontSize: '14px'
@@ -200,7 +200,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/profile" onClick={() => setActiveTab('profile')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#ffffff' : '#B3BEC7',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
             textDecoration: 'none', background: activeTab === 'profile' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'profile' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
@@ -212,7 +212,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/reports" onClick={() => setActiveTab('reports')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#ffffff' : '#B3BEC7',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
             textDecoration: 'none', background: activeTab === 'reports' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'reports' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
