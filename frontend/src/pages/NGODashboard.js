@@ -557,148 +557,192 @@ function CreateProject() {
   return (
     <div>
       <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>{t.createNewProject}</h2>
-      <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>{t.submitNewProject}</p>
+      <p style={{color: '#8391B2', marginBottom: '32px', fontSize: '14px'}}>{t.submitNewProject}</p>
       
-      <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7'}}>
-        <form onSubmit={handleSubmit}>
-          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>{t.basicInformation}</h3>
+      <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>{t.basicInformation}</h3>
+          
+          <div style={{marginBottom: '20px'}}>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.projectTitleLabel}</label>
+            <input type="text" value={formData.title}
+              onChange={(e) => setFormData({...formData, title: e.target.value})} 
+              placeholder={t.enterProjectTitle}
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required />
+          </div>
+          
+          <div style={{marginBottom: '20px'}}>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.descriptionLabel}</label>
+            <textarea rows="4" value={formData.description}
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              placeholder={t.describeProject}
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', fontFamily: 'inherit', resize: 'vertical'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required />
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>{t.provideDetailedInfo}</small>
+          </div>
+          
+          <div>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.categoryLabel}</label>
+            <select value={formData.category}
+              onChange={(e) => setFormData({...formData, category: e.target.value})}
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', background: '#ffffff'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required>
+              <option value="General Aid">{t.generalAid}</option>
+              <option value="Food Distribution">{t.foodDistribution}</option>
+              <option value="Medical Supplies">{t.medicalSupplies}</option>
+              <option value="Water & Sanitation">{t.waterSanitation}</option>
+              <option value="Education">{t.education}</option>
+              <option value="Shelter">{t.shelter}</option>
+              <option value="Emergency Relief">{t.emergencyRelief}</option>
+            </select>
+          </div>
+        </div>
+
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>{t.donorSelection}</h3>
             
-            <div className="form-group">
-              <label>{t.projectTitleLabel}</label>
-              <input type="text" value={formData.title}
-                onChange={(e) => setFormData({...formData, title: e.target.value})} 
-                placeholder={t.enterProjectTitle}
+          <div style={{marginBottom: '20px'}}>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.firstDesiredDonor}</label>
+            <select value={selectedDonors[0] || ''}
+              onChange={(e) => {
+                const newDonors = [...selectedDonors];
+                newDonors[0] = parseInt(e.target.value);
+                setSelectedDonors(newDonors.filter(d => d));
+              }}
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', background: '#ffffff'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required>
+              <option value="">{t.selectFirstDonor}</option>
+              {donors.map(donor => (
+                <option key={donor.id} value={donor.id} disabled={selectedDonors[1] === donor.id}>
+                  {donor.name}
+                </option>
+              ))}
+            </select>
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>{t.choosePreferredPrimary}</small>
+          </div>
+          
+          <div>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.secondDesiredDonor}</label>
+            <select value={selectedDonors[1] || ''}
+              onChange={(e) => {
+                const newDonors = [...selectedDonors];
+                newDonors[1] = parseInt(e.target.value);
+                setSelectedDonors(newDonors.filter(d => d));
+              }}
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', background: '#ffffff'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required>
+              <option value="">{t.selectSecondDonor}</option>
+              {donors.map(donor => (
+                <option key={donor.id} value={donor.id} disabled={selectedDonors[0] === donor.id}>
+                  {donor.name}
+                </option>
+              ))}
+            </select>
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>{t.choosePreferredSecondary}</small>
+          </div>
+        </div>
+
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Location & Timeline</h3>
+          
+          <div style={{marginBottom: '20px'}}>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Location in South Sudan</label>
+            <input type="text" value={formData.location}
+              onChange={(e) => setFormData({...formData, location: e.target.value})}
+              placeholder="e.g., Juba, Unity State, Upper Nile"
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required />
+          </div>
+          
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px'}}>
+            <div>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Start Date</label>
+              <input type="date" value={formData.start_date}
+                onChange={(e) => setFormData({...formData, start_date: e.target.value})}
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
                 required />
             </div>
             
-            <div className="form-group">
-              <label>{t.descriptionLabel}</label>
-              <textarea rows="4" value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
-                placeholder={t.describeProject}
-                required />
-              <small style={{color: '#666', fontSize: '12px'}}>{t.provideDetailedInfo}</small>
-            </div>
-            
-            <div className="form-group">
-              <label>{t.categoryLabel}</label>
-              <select value={formData.category}
-                onChange={(e) => setFormData({...formData, category: e.target.value})} required>
-                <option value="General Aid">{t.generalAid}</option>
-                <option value="Food Distribution">{t.foodDistribution}</option>
-                <option value="Medical Supplies">{t.medicalSupplies}</option>
-                <option value="Water & Sanitation">{t.waterSanitation}</option>
-                <option value="Education">{t.education}</option>
-                <option value="Shelter">{t.shelter}</option>
-                <option value="Emergency Relief">{t.emergencyRelief}</option>
-              </select>
-            </div>
-          </div>
-
-          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>{t.donorSelection}</h3>
-            
-            <div className="form-group">
-              <label>{t.firstDesiredDonor}</label>
-              <select value={selectedDonors[0] || ''}
-                onChange={(e) => {
-                  const newDonors = [...selectedDonors];
-                  newDonors[0] = parseInt(e.target.value);
-                  setSelectedDonors(newDonors.filter(d => d));
-                }} required>
-                <option value="">{t.selectFirstDonor}</option>
-                {donors.map(donor => (
-                  <option key={donor.id} value={donor.id} disabled={selectedDonors[1] === donor.id}>
-                    {donor.name}
-                  </option>
-                ))}
-              </select>
-              <small style={{color: '#666', fontSize: '12px'}}>{t.choosePreferredPrimary}</small>
-            </div>
-            
-            <div className="form-group">
-              <label>{t.secondDesiredDonor}</label>
-              <select value={selectedDonors[1] || ''}
-                onChange={(e) => {
-                  const newDonors = [...selectedDonors];
-                  newDonors[1] = parseInt(e.target.value);
-                  setSelectedDonors(newDonors.filter(d => d));
-                }} required>
-                <option value="">{t.selectSecondDonor}</option>
-                {donors.map(donor => (
-                  <option key={donor.id} value={donor.id} disabled={selectedDonors[0] === donor.id}>
-                    {donor.name}
-                  </option>
-                ))}
-              </select>
-              <small style={{color: '#666', fontSize: '12px'}}>{t.choosePreferredSecondary}</small>
-            </div>
-          </div>
-
-          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>Location & Timeline</h3>
-            
-            <div className="form-group">
-              <label>Location in South Sudan</label>
-              <input type="text" value={formData.location}
-                onChange={(e) => setFormData({...formData, location: e.target.value})}
-                placeholder="e.g., Juba, Unity State, Upper Nile"
+            <div>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>End Date</label>
+              <input type="date" value={formData.end_date}
+                onChange={(e) => setFormData({...formData, end_date: e.target.value})}
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
                 required />
             </div>
-            
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
-              <div className="form-group">
-                <label>Start Date</label>
-                <input type="date" value={formData.start_date}
-                  onChange={(e) => setFormData({...formData, start_date: e.target.value})} required />
-              </div>
-              
-              <div className="form-group">
-                <label>End Date</label>
-                <input type="date" value={formData.end_date}
-                  onChange={(e) => setFormData({...formData, end_date: e.target.value})} required />
-              </div>
-            </div>
-            
-            <div className="form-group">
-              <label>Duration (Months)</label>
-              <input type="number" value={formData.duration_months}
-                onChange={(e) => setFormData({...formData, duration_months: e.target.value})}
-                placeholder="e.g., 6" required />
-            </div>
           </div>
-
-          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>Budget & Resources</h3>
-            
-            <div className="form-group">
-              <label>Budget Amount (USD)</label>
-              <input type="number" step="0.01" value={formData.budget_amount}
-                onChange={(e) => setFormData({...formData, budget_amount: e.target.value})}
-                placeholder="e.g., 50000" required />
-              <small style={{color: '#666', fontSize: '12px'}}>Enter the total estimated budget for this project</small>
-            </div>
-            
-            <div className="form-group">
-              <label>Target Beneficiaries</label>
-              <input type="number" value={formData.target_beneficiaries}
-                onChange={(e) => setFormData({...formData, target_beneficiaries: e.target.value})}
-                placeholder="e.g., 1000" required />
-              <small style={{color: '#666', fontSize: '12px'}}>Number of people who will benefit from this project</small>
-            </div>
-            
-            <div className="form-group">
-              <label>Required Items (comma separated)</label>
-              <input type="text" value={formData.required_items}
-                onChange={(e) => setFormData({...formData, required_items: e.target.value})}
-                placeholder="e.g., Food, Water, Medicine, Shelter Materials" required />
-              <small style={{color: '#666', fontSize: '12px'}}>List all items needed for project implementation</small>
-            </div>
+          
+          <div>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Duration (Months)</label>
+            <input type="number" value={formData.duration_months}
+              onChange={(e) => setFormData({...formData, duration_months: e.target.value})}
+              placeholder="e.g., 6"
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required />
           </div>
+        </div>
 
-          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>Supporting Documents (Optional)</h3>
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Budget & Resources</h3>
+          
+          <div style={{marginBottom: '20px'}}>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Budget Amount (USD)</label>
+            <input type="number" step="0.01" value={formData.budget_amount}
+              onChange={(e) => setFormData({...formData, budget_amount: e.target.value})}
+              placeholder="e.g., 50000"
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required />
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>Enter the total estimated budget for this project</small>
+          </div>
+          
+          <div style={{marginBottom: '20px'}}>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Target Beneficiaries</label>
+            <input type="number" value={formData.target_beneficiaries}
+              onChange={(e) => setFormData({...formData, target_beneficiaries: e.target.value})}
+              placeholder="e.g., 1000"
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required />
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>Number of people who will benefit from this project</small>
+          </div>
+          
+          <div>
+            <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Required Items (comma separated)</label>
+            <input type="text" value={formData.required_items}
+              onChange={(e) => setFormData({...formData, required_items: e.target.value})}
+              placeholder="e.g., Food, Water, Medicine, Shelter Materials"
+              style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+              required />
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '6px'}}>List all items needed for project implementation</small>
+          </div>
+        </div>
+
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Supporting Documents (Optional)</h3>
             <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#666'}}>Upload up to 3 relevant documents (proposals, budgets, permits, etc.)</p>
             
             {documents.map((doc, index) => (
@@ -750,8 +794,8 @@ function CreateProject() {
             ))}
           </div>
           
-          <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #C5CED7'}}>
-            <h3 style={{margin: '0 0 16px 0', fontSize: '16px', color: '#27248C', fontWeight: '600'}}>Beneficiaries (Optional)</h3>
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Beneficiaries (Optional)</h3>
             <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#666'}}>Upload beneficiaries list with photos (ZIP file containing CSV + photos)</p>
             
             {!beneficiariesPreview ? (
@@ -798,12 +842,15 @@ function CreateProject() {
             )}
           </div>
           
-          <div style={{display: 'flex', gap: '12px', paddingTop: '20px', borderTop: '1px solid #C5CED7'}}>
-            <LoadingButton type="submit" loading={createLoading} className="btn" style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600', background: '#27248C', border: 'none'}}>Create Project</LoadingButton>
-            <button type="button" onClick={() => navigate('/ngo/projects')} className="btn" style={{padding: '14px 24px', fontSize: '15px', background: '#8391B2', border: 'none'}}>Cancel</button>
-          </div>
-        </form>
-      </div>
+        <div style={{display: 'flex', gap: '16px'}}>
+          <LoadingButton type="submit" loading={createLoading} style={{flex: 1, padding: '14px 24px', fontSize: '15px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+            onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+            onMouseLeave={(e) => e.target.style.background = '#27248C'}>Create Project</LoadingButton>
+          <button type="button" onClick={() => navigate('/ngo/projects')} style={{padding: '14px 32px', fontSize: '15px', fontWeight: '600', background: '#ffffff', color: '#27248C', border: '1px solid #C5CED7', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+            onMouseEnter={(e) => {e.target.style.background = '#DFE8F0'; e.target.style.borderColor = '#27248C';}}
+            onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#C5CED7';}}>Cancel</button>
+        </div>
+      </form>
     </div>
   );
 }
