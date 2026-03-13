@@ -1,4 +1,169 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #FAFBFC;
+  color: #1A202C;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Override existing styles to work with Canva design */
+.navbar {
+  background: #FFFFFF;
+  border-bottom: 1px solid #E8EAED;
+  padding: 16px 32px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E8EAED;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #7D2AE8;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #6A1FD1;
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background: #00C875;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #00B368;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th {
+  background: #F5F6F8;
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  border-bottom: 2px solid #E8EAED;
+}
+
+.table td {
+  padding: 16px;
+  border-bottom: 1px solid #E8EAED;
+  font-size: 14px;
+}
+
+.table tr:hover {
+  background: #FAFBFC;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-success {
+  background: rgba(0, 200, 117, 0.15);
+  color: #00C875;
+}
+
+.badge-warning {
+  background: rgba(255, 184, 0, 0.15);
+  color: #FFB800;
+}
+
+.badge-info {
+  background: rgba(0, 196, 204, 0.15);
+  color: #00C4CC;
+}
+
+.stat-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #E8EAED;
+}
+
+.stat-card h3 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1A202C;
+}
+
+.stat-card p {
+  font-size: 14px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #D1D5DB;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #7D2AE8;
+  box-shadow: 0 0 0 3px rgba(125, 42, 232, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 12px 16px;
+  }
+  
+  .card {
+    padding: 16px;
+  }
+}
 
 @keyframes loading {
   0% { background-position: 200% 0; }

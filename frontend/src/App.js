@@ -14,8 +14,7 @@ import SupplierDashboard from './pages/SupplierDashboard';
 import FieldOfficerDashboard from './pages/FieldOfficerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
-import './styles/main.css';
-import './styles/modern-dashboard.css';
+import './styles/canva-dashboard.css';
 
 function App() {
   const [language, setLanguage] = React.useState(localStorage.getItem('language') || 'en');
