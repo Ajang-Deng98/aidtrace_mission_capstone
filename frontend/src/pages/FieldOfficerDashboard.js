@@ -114,7 +114,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
   return (
     <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0'}}>
       <div style={{
-        width: '220px', background: '#27248C', borderRight: 'none',
+        width: '220px', background: '#1E3A8A', borderRight: 'none',
         display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', zIndex: 1000
       }}>
         <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px'}}>
@@ -239,13 +239,13 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
       <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
         <div style={{background: '#ffffff', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}>
           <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#27248C', fontWeight: '600'}}>{t.fieldOfficerDashboard}</h1>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#1E3A8A', fontWeight: '600'}}>{t.fieldOfficerDashboard}</h1>
             <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px'}}>{t.manageDistribution}</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
             <div style={{position: 'relative'}}>
-              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '4px', color: '#27248C', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
                 <div style={{position: 'absolute', top: '40px', right: '0', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                   <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
@@ -319,14 +319,14 @@ function Projects({ language }) {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>My Projects</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>My Projects</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Projects assigned to you through the quote system</p>
       </div>
 
       {assignments.length === 0 ? (
         <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
-          <i className="fas fa-clipboard-list" style={{fontSize: '48px', marginBottom: '16px', color: '#27248C'}}></i>
-          <h3 style={{fontSize: '16px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>No Projects Assigned</h3>
+          <i className="fas fa-clipboard-list" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
+          <h3 style={{fontSize: '16px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>No Projects Assigned</h3>
           <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>You don't have any project assignments yet. Projects are assigned through the NGO quote system.</p>
         </div>
       ) : (
@@ -334,7 +334,7 @@ function Projects({ language }) {
           {assignments.map(assignment => (
             <div key={assignment.id} style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
               <div style={{marginBottom: '16px'}}>
-                <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>{assignment.project_title}</h3>
+                <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>{assignment.project_title}</h3>
                 <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
                   <span style={{padding: '4px 10px', background: '#e0e0e0', color: '#666', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>{assignment.project_category}</span>
                   <span style={{padding: '4px 10px', background: assignment.confirmed ? '#d4edda' : '#fff3cd', color: assignment.confirmed ? '#155724' : '#856404', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>
@@ -346,18 +346,18 @@ function Projects({ language }) {
               
               <div style={{background: '#DFE8F0', padding: '14px', borderRadius: '8px', marginBottom: '16px'}}>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '13px'}}>
-                  <div><span style={{color: '#8391B2'}}>NGO:</span> <span style={{color: '#27248C', fontWeight: '500'}}>{assignment.ngo_name}</span></div>
-                  <div><span style={{color: '#8391B2'}}>Location:</span> <span style={{color: '#27248C', fontWeight: '500'}}>{assignment.project_location}</span></div>
-                  <div><span style={{color: '#8391B2'}}>Budget:</span> <span style={{color: '#27248C', fontWeight: '500'}}>${parseFloat(assignment.budget_amount).toLocaleString()}</span></div>
-                  <div><span style={{color: '#8391B2'}}>Beneficiaries:</span> <span style={{color: '#27248C', fontWeight: '500'}}>{assignment.target_beneficiaries}</span></div>
+                  <div><span style={{color: '#8391B2'}}>NGO:</span> <span style={{color: '#1E3A8A', fontWeight: '500'}}>{assignment.ngo_name}</span></div>
+                  <div><span style={{color: '#8391B2'}}>Location:</span> <span style={{color: '#1E3A8A', fontWeight: '500'}}>{assignment.project_location}</span></div>
+                  <div><span style={{color: '#8391B2'}}>Budget:</span> <span style={{color: '#1E3A8A', fontWeight: '500'}}>${parseFloat(assignment.budget_amount).toLocaleString()}</span></div>
+                  <div><span style={{color: '#8391B2'}}>Beneficiaries:</span> <span style={{color: '#1E3A8A', fontWeight: '500'}}>{assignment.target_beneficiaries}</span></div>
                 </div>
                 {assignment.supplier_info && (
                   <div style={{marginTop: '12px', padding: '12px', background: '#ffffff', borderRadius: '8px', border: '1px solid #C5CED7'}}>
-                    <p style={{margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Selected Supplier</p>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Selected Supplier</p>
                     <div style={{display: 'grid', gap: '4px', fontSize: '13px'}}>
-                      <div><span style={{color: '#8391B2'}}>Name:</span> <span style={{color: '#27248C'}}>{assignment.supplier_info.name}</span></div>
-                      <div><span style={{color: '#8391B2'}}>Contact:</span> <span style={{color: '#27248C'}}>{assignment.supplier_info.contact}</span></div>
-                      <div><span style={{color: '#8391B2'}}>Amount:</span> <span style={{color: '#27248C', fontWeight: '500'}}>${parseFloat(assignment.supplier_info.quoted_amount).toLocaleString()}</span></div>
+                      <div><span style={{color: '#8391B2'}}>Name:</span> <span style={{color: '#1E3A8A'}}>{assignment.supplier_info.name}</span></div>
+                      <div><span style={{color: '#8391B2'}}>Contact:</span> <span style={{color: '#1E3A8A'}}>{assignment.supplier_info.contact}</span></div>
+                      <div><span style={{color: '#8391B2'}}>Amount:</span> <span style={{color: '#1E3A8A', fontWeight: '500'}}>${parseFloat(assignment.supplier_info.quoted_amount).toLocaleString()}</span></div>
                     </div>
                     {assignment.delivery_info && (
                       <div style={{marginTop: '8px', padding: '10px', background: '#ffffff', borderRadius: '3px', border: '1px solid #e0e0e0'}}>
@@ -374,12 +374,12 @@ function Projects({ language }) {
               
               {!assignment.confirmed && assignment.status === 'SUPPLIER_DELIVERED' && (
                 <div style={{padding: '16px', background: '#ffffff', borderRadius: '8px', border: '1px solid #C5CED7'}}>
-                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>Final Confirmation Required</h4>
+                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>Final Confirmation Required</h4>
                   <p style={{margin: '0 0 12px 0', fontSize: '13px', color: '#8391B2'}}>The supplier has delivered items to you. Please provide final confirmation to make this project ready for distribution.</p>
                   <LoadingButton 
                     onClick={() => handleConfirmAssignment(assignment.id)}
                     loading={confirmLoading}
-                    style={{padding: '8px 16px', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}
+                    style={{padding: '8px 16px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}
                   >
                     Confirm Final Receipt
                   </LoadingButton>
@@ -388,7 +388,7 @@ function Projects({ language }) {
               
               {assignment.confirmed && (
                 <div style={{padding: '16px', background: '#ffffff', borderRadius: '8px', border: '1px solid #C5CED7'}}>
-                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>✓ Assignment Confirmed</h4>
+                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>✓ Assignment Confirmed</h4>
                   <p style={{margin: '0', fontSize: '13px', color: '#8391B2'}}>This project is ready for distribution. You can now register beneficiaries and distribute aid.</p>
                 </div>
               )}
@@ -510,12 +510,12 @@ function Beneficiaries({ language }) {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Beneficiaries</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Beneficiaries</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Register and manage project beneficiaries</p>
       </div>
 
       <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px'}}>
-        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Select Project</label>
         <select 
           value={selectedProject} 
           onChange={(e) => setSelectedProject(e.target.value)}
@@ -525,7 +525,7 @@ function Beneficiaries({ language }) {
             border: '1px solid #C5CED7',
             borderRadius: '8px',
             fontSize: '14px',
-            color: '#27248C',
+            color: '#1E3A8A',
             background: '#ffffff',
             cursor: 'pointer'
           }}
@@ -540,7 +540,7 @@ function Beneficiaries({ language }) {
       {selectedProject && (
         <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: 0}}>Registered Beneficiaries</h3>
+            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: 0}}>Registered Beneficiaries</h3>
             <div style={{ fontSize: '13px', color: '#8391B2' }}>
               Total: {beneficiaries.length} | Showing: {filteredBeneficiaries.length}
             </div>
@@ -575,16 +575,16 @@ function Beneficiaries({ language }) {
               <table style={{width: '100%', borderCollapse: 'collapse'}}>
                 <thead>
                   <tr style={{borderBottom: '2px solid #DFE8F0'}}>
-                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Name</th>
-                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Phone Number</th>
-                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Face Verified</th>
-                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Registered Date</th>
+                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Name</th>
+                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Phone Number</th>
+                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Face Verified</th>
+                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Registered Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredBeneficiaries.map((b, idx) => (
                     <tr key={idx} style={{borderBottom: '1px solid #DFE8F0'}}>
-                      <td style={{padding: '12px', fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{b.name}</td>
+                      <td style={{padding: '12px', fontSize: '14px', color: '#1E3A8A', fontWeight: '500'}}>{b.name}</td>
                       <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{b.phone_number}</td>
                       <td style={{padding: '12px'}}>
                         {b.face_verified ? (
@@ -788,12 +788,12 @@ function Distribution({ language }) {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Distribute Aid</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Distribute Aid</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Verify beneficiaries and distribute aid items</p>
       </div>
 
       <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px'}}>
-        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Select Project</label>
         <select 
           value={selectedProject} 
           onChange={(e) => setSelectedProject(e.target.value)}
@@ -803,7 +803,7 @@ function Distribution({ language }) {
             border: '1px solid #C5CED7',
             borderRadius: '8px',
             fontSize: '14px',
-            color: '#27248C',
+            color: '#1E3A8A',
             background: '#ffffff',
             cursor: 'pointer'
           }}
@@ -817,7 +817,7 @@ function Distribution({ language }) {
 
       {selectedProject && step === 1 && (
         <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>Step 1: Search & Select Beneficiary</h3>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>Step 1: Search & Select Beneficiary</h3>
           <p style={{color: '#8391B2', marginBottom: '20px', fontSize: '14px'}}>Search for beneficiaries ready to receive aid</p>
           
           {allBeneficiaries.length > 0 ? (
@@ -832,13 +832,13 @@ function Distribution({ language }) {
               
               <div>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
-                  <h4 style={{fontSize: '14px', fontWeight: '600', color: '#27248C', margin: 0}}>Available Beneficiaries</h4>
+                  <h4 style={{fontSize: '14px', fontWeight: '600', color: '#1E3A8A', margin: 0}}>Available Beneficiaries</h4>
                   <span style={{fontSize: '13px', color: '#8391B2'}}>Showing {beneficiaries.length} of {allBeneficiaries.length}</span>
                 </div>
                 {beneficiaries.map(b => (
                   <div key={b.id} style={{padding: '16px', borderBottom: '1px solid #DFE8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <div>
-                      <p style={{margin: 0, fontWeight: '600', fontSize: '15px', color: '#27248C'}}>{b.name}</p>
+                      <p style={{margin: 0, fontWeight: '600', fontSize: '15px', color: '#1E3A8A'}}>{b.name}</p>
                       <p style={{margin: '4px 0 0 0', fontSize: '13px', color: '#8391B2'}}>{b.phone_number}</p>
                       <span style={{fontSize: '12px', padding: '4px 8px', borderRadius: '6px', marginTop: '4px', display: 'inline-block', background: b.face_verified ? '#D1FAE5' : '#FEE2E2', color: b.face_verified ? '#065F46' : '#991B1B', fontWeight: '600'}}>
                         {b.face_verified ? '✓ Face Verified' : '✗ Not Verified'}
@@ -850,7 +850,7 @@ function Distribution({ language }) {
                         padding: '8px 16px', 
                         fontSize: '13px', 
                         fontWeight: '600', 
-                        background: '#27248C', 
+                        background: '#1E3A8A', 
                         color: '#ffffff', 
                         border: 'none', 
                         borderRadius: '8px', 
@@ -1085,12 +1085,12 @@ function ConfirmedBeneficiaries({ language }) {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Confirmed Beneficiaries</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Confirmed Beneficiaries</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View beneficiaries who have received and confirmed aid</p>
       </div>
 
       <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px'}}>
-        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Select Project</label>
         <select 
           value={selectedProject} 
           onChange={(e) => setSelectedProject(e.target.value)}
@@ -1100,7 +1100,7 @@ function ConfirmedBeneficiaries({ language }) {
             border: '1px solid #C5CED7',
             borderRadius: '8px',
             fontSize: '14px',
-            color: '#27248C',
+            color: '#1E3A8A',
             background: '#ffffff',
             cursor: 'pointer'
           }}
@@ -1115,7 +1115,7 @@ function ConfirmedBeneficiaries({ language }) {
       {selectedProject && (
         <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: 0}}>Confirmed Beneficiaries</h3>
+            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: 0}}>Confirmed Beneficiaries</h3>
             <div style={{ fontSize: '13px', color: '#8391B2' }}>
               Total: {confirmedBeneficiaries.length} | Showing: {filteredConfirmed.length}
             </div>
@@ -1164,16 +1164,16 @@ function ConfirmedBeneficiaries({ language }) {
                 <table style={{width: '100%', borderCollapse: 'collapse'}}>
                   <thead>
                     <tr style={{borderBottom: '2px solid #DFE8F0'}}>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Name</th>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Phone Number</th>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Registered Date</th>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Status</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Name</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Phone Number</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Registered Date</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredConfirmed.map((b, idx) => (
                       <tr key={idx} style={{borderBottom: '1px solid #DFE8F0'}}>
-                        <td style={{padding: '12px', fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{b.name}</td>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#1E3A8A', fontWeight: '500'}}>{b.name}</td>
                         <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{b.phone_number}</td>
                         <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{new Date(b.created_at).toLocaleDateString()}</td>
                         <td style={{padding: '12px'}}>
@@ -1248,12 +1248,12 @@ function ReadyToReceive({ language }) {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Ready to Receive Aid</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Ready to Receive Aid</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View all registered beneficiaries ready to receive aid</p>
       </div>
 
       <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px'}}>
-        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Select Project</label>
         <select 
           value={selectedProject} 
           onChange={(e) => setSelectedProject(e.target.value)}
@@ -1263,7 +1263,7 @@ function ReadyToReceive({ language }) {
             border: '1px solid #C5CED7',
             borderRadius: '8px',
             fontSize: '14px',
-            color: '#27248C',
+            color: '#1E3A8A',
             background: '#ffffff',
             cursor: 'pointer'
           }}
@@ -1278,7 +1278,7 @@ function ReadyToReceive({ language }) {
       {selectedProject && (
         <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: 0}}>Beneficiaries Ready to Receive</h3>
+            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: 0}}>Beneficiaries Ready to Receive</h3>
             <div style={{ fontSize: '13px', color: '#8391B2' }}>
               Total: {readyBeneficiaries.length} | Showing: {filteredReady.length}
             </div>
@@ -1327,17 +1327,17 @@ function ReadyToReceive({ language }) {
                 <table style={{width: '100%', borderCollapse: 'collapse'}}>
                   <thead>
                     <tr style={{borderBottom: '2px solid #DFE8F0'}}>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Name</th>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Phone Number</th>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Face Verified</th>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Registered Date</th>
-                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Status</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Name</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Phone Number</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Face Verified</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Registered Date</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredReady.map((b, idx) => (
                       <tr key={idx} style={{borderBottom: '1px solid #DFE8F0'}}>
-                        <td style={{padding: '12px', fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{b.name}</td>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#1E3A8A', fontWeight: '500'}}>{b.name}</td>
                         <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{b.phone_number}</td>
                         <td style={{padding: '12px'}}>
                           {b.face_verified ? (
@@ -1419,7 +1419,7 @@ function ProfileSettings({ language }) {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Profile & Settings</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Profile & Settings</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Manage your account settings and preferences</p>
       </div>
 
@@ -1427,20 +1427,20 @@ function ProfileSettings({ language }) {
         <div style={{display: 'flex', gap: '32px'}}>
           <button onClick={() => setActiveTab('profile')} style={{
             background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'profile' ? '#27248C' : '#8391B2', cursor: 'pointer',
-            borderBottom: activeTab === 'profile' ? '3px solid #27248C' : '3px solid transparent',
+            color: activeTab === 'profile' ? '#1E3A8A' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'profile' ? '3px solid #1E3A8A' : '3px solid transparent',
             transition: 'all 0.2s'
           }}>Profile Information</button>
           <button onClick={() => setActiveTab('preferences')} style={{
             background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'preferences' ? '#27248C' : '#8391B2', cursor: 'pointer',
-            borderBottom: activeTab === 'preferences' ? '3px solid #27248C' : '3px solid transparent',
+            color: activeTab === 'preferences' ? '#1E3A8A' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'preferences' ? '3px solid #1E3A8A' : '3px solid transparent',
             transition: 'all 0.2s'
           }}>Preferences</button>
           <button onClick={() => setActiveTab('activity')} style={{
             background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'activity' ? '#27248C' : '#8391B2', cursor: 'pointer',
-            borderBottom: activeTab === 'activity' ? '3px solid #27248C' : '3px solid transparent',
+            color: activeTab === 'activity' ? '#1E3A8A' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'activity' ? '3px solid #1E3A8A' : '3px solid transparent',
             transition: 'all 0.2s'
           }}>Activity Log</button>
         </div>
@@ -1448,10 +1448,10 @@ function ProfileSettings({ language }) {
 
       {activeTab === 'profile' && (
         <div style={{background: '#ffffff', padding: '24px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Profile Information</h3>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 20px 0'}}>Profile Information</h3>
           <form onSubmit={handleSubmit}>
             <div style={{marginBottom: '20px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Name</label>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Name</label>
               <input 
                 type="text" 
                 value={formData.name}
@@ -1463,12 +1463,12 @@ function ProfileSettings({ language }) {
                   border: '1px solid #C5CED7',
                   borderRadius: '8px',
                   fontSize: '14px',
-                  color: '#27248C'
+                  color: '#1E3A8A'
                 }}
               />
             </div>
             <div style={{marginBottom: '20px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Email</label>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Email</label>
               <input 
                 type="email" 
                 value={formData.email}
@@ -1480,12 +1480,12 @@ function ProfileSettings({ language }) {
                   border: '1px solid #C5CED7',
                   borderRadius: '8px',
                   fontSize: '14px',
-                  color: '#27248C'
+                  color: '#1E3A8A'
                 }}
               />
             </div>
             <div style={{marginBottom: '20px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Contact</label>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Contact</label>
               <input 
                 type="text" 
                 value={formData.contact}
@@ -1496,12 +1496,12 @@ function ProfileSettings({ language }) {
                   border: '1px solid #C5CED7',
                   borderRadius: '8px',
                   fontSize: '14px',
-                  color: '#27248C'
+                  color: '#1E3A8A'
                 }}
               />
             </div>
             <div style={{marginBottom: '24px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Role</label>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Role</label>
               <input 
                 type="text" 
                 value={user.role} 
@@ -1521,7 +1521,7 @@ function ProfileSettings({ language }) {
               type="submit" 
               style={{
                 padding: '10px 24px',
-                background: '#27248C',
+                background: '#1E3A8A',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '8px',
@@ -1538,34 +1538,34 @@ function ProfileSettings({ language }) {
 
       {activeTab === 'preferences' && (
         <div style={{background: '#ffffff', padding: '24px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Notification Preferences</h3>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 20px 0'}}>Notification Preferences</h3>
           <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
             <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
               <input 
                 type="checkbox" 
                 checked={notifications.emailNotifications}
                 onChange={() => handleNotificationChange('emailNotifications')}
-                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} 
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#1E3A8A'}} 
               />
-              <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>Email Notifications</span>
+              <span style={{fontSize: '14px', color: '#1E3A8A', fontWeight: '500'}}>Email Notifications</span>
             </label>
             <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
               <input 
                 type="checkbox" 
                 checked={notifications.projectUpdates}
                 onChange={() => handleNotificationChange('projectUpdates')}
-                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} 
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#1E3A8A'}} 
               />
-              <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>Project Updates</span>
+              <span style={{fontSize: '14px', color: '#1E3A8A', fontWeight: '500'}}>Project Updates</span>
             </label>
             <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
               <input 
                 type="checkbox" 
                 checked={notifications.monthlyReports}
                 onChange={() => handleNotificationChange('monthlyReports')}
-                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} 
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#1E3A8A'}} 
               />
-              <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>Monthly Reports</span>
+              <span style={{fontSize: '14px', color: '#1E3A8A', fontWeight: '500'}}>Monthly Reports</span>
             </label>
           </div>
         </div>
@@ -1573,7 +1573,7 @@ function ProfileSettings({ language }) {
 
       {activeTab === 'activity' && (
         <div style={{background: '#ffffff', padding: '24px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Recent Activity</h3>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 20px 0'}}>Recent Activity</h3>
           {activities.length === 0 ? (
             <div style={{textAlign: 'center', padding: '40px 20px'}}>
               <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
@@ -1584,8 +1584,8 @@ function ProfileSettings({ language }) {
           ) : (
             <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
               {activities.map((activity, idx) => (
-                <div key={idx} style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', borderLeft: '4px solid #27248C'}}>
-                  <p style={{margin: '0 0 6px 0', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{activity.action}</p>
+                <div key={idx} style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', borderLeft: '4px solid #1E3A8A'}}>
+                  <p style={{margin: '0 0 6px 0', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>{activity.action}</p>
                   <p style={{margin: '0 0 6px 0', fontSize: '13px', color: '#8391B2'}}>{activity.details}</p>
                   <p style={{margin: 0, fontSize: '12px', color: '#8391B2'}}>{new Date(activity.created_at).toLocaleString()}</p>
                 </div>
@@ -1627,7 +1627,7 @@ function PublicReports({ language }) {
   if (loading) return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Public Reports</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Public Reports</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View all submitted public reports</p>
       </div>
       <div style={{background: '#ffffff', padding: '40px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
@@ -1639,7 +1639,7 @@ function PublicReports({ language }) {
   if (error) return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Public Reports</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Public Reports</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View all submitted public reports</p>
       </div>
       <div style={{background: '#ffffff', padding: '40px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
@@ -1651,7 +1651,7 @@ function PublicReports({ language }) {
           onClick={loadReports} 
           style={{
             padding: '10px 24px',
-            background: '#27248C',
+            background: '#1E3A8A',
             color: '#ffffff',
             border: 'none',
             borderRadius: '8px',
@@ -1669,7 +1669,7 @@ function PublicReports({ language }) {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Public Reports</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Public Reports</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View all submitted public reports</p>
       </div>
       
@@ -1686,11 +1686,11 @@ function PublicReports({ language }) {
             <table style={{width: '100%', borderCollapse: 'collapse'}}>
               <thead>
                 <tr style={{borderBottom: '2px solid #DFE8F0'}}>
-                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Type</th>
-                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Description</th>
-                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Location</th>
-                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Date</th>
-                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Status</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Type</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Description</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Location</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Date</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Status</th>
                 </tr>
               </thead>
               <tbody>

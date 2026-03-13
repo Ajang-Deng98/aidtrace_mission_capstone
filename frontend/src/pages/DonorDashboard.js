@@ -197,7 +197,7 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
       {/* Sidebar */}
       <div style={{
         width: '220px',
-        background: '#27248C',
+        background: '#1E3A8A',
         borderRight: 'none',
         borderLeft: 'none',
         display: 'flex',
@@ -368,13 +368,13 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
         }}>
           <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#27248C', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.donor} {t.dashboard}</h1>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#1E3A8A', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.donor} {t.dashboard}</h1>
             <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.fundAndTrack} {t.projects}</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
             <div style={{position: 'relative'}}>
-              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '4px', color: '#27248C', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
                 <div style={{position: 'absolute', top: '40px', right: language === 'ar' ? 'auto' : '0', left: language === 'ar' ? '0' : 'auto', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                   <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>{t.english}</button>
@@ -464,7 +464,7 @@ function Analytics({ language = 'en' }) {
   const categoryData = AnalyticsService.groupByCategory(data.fundedProjects);
   const statusData = AnalyticsService.groupByStatus(data.fundedProjects);
 
-  const COLORS = ['#27248C', '#000000', '#ffffff', '#666'];
+  const COLORS = ['#1E3A8A', '#000000', '#ffffff', '#666'];
 
   return (
     <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
@@ -472,9 +472,9 @@ function Analytics({ language = 'en' }) {
       <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.overviewFundingImpact}</p>
 
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
-        <div className="card" style={{border: '2px solid #27248C', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
+        <div className="card" style={{border: '2px solid #1E3A8A', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t.totalDonated}</p>
-          <h3 style={{margin: '0', fontSize: '36px', color: '#27248C', fontWeight: '700'}}>${metrics.totalDonated.toLocaleString()}</h3>
+          <h3 style={{margin: '0', fontSize: '36px', color: '#1E3A8A', fontWeight: '700'}}>${metrics.totalDonated.toLocaleString()}</h3>
         </div>
         <div className="card" style={{border: '1px solid #e0e0e0', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
           <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t.fundedProjects}</p>
@@ -500,7 +500,7 @@ function Analytics({ language = 'en' }) {
                 <XAxis type="number" style={{fontSize: '12px'}} />
                 <YAxis dataKey="name" type="category" width={100} style={{fontSize: '12px'}} />
                 <Tooltip />
-                <Bar dataKey="value" fill="#27248C" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="value" fill="#1E3A8A" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -513,14 +513,14 @@ function Analytics({ language = 'en' }) {
                 <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} style={{fontSize: '12px'}} />
                 <YAxis style={{fontSize: '12px'}} />
                 <Tooltip />
-                <Bar dataKey="value" fill="#27248C" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="value" fill="#1E3A8A" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
       ) : (
         <div className="card" style={{border: '1px solid #e0e0e0', padding: '48px 24px', textAlign: 'center', marginBottom: '24px'}}>
-          <i className="fas fa-chart-bar" style={{fontSize: '48px', marginBottom: '16px', color: '#27248C'}}></i>
+          <i className="fas fa-chart-bar" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '18px', marginBottom: '8px', color: '#000'}}>No Data Yet</h3>
           <p style={{color: '#666', fontSize: '14px', marginBottom: '16px'}}>Fund your first project to see analytics</p>
         </div>
@@ -530,7 +530,7 @@ function Analytics({ language = 'en' }) {
         <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600'}}>{t.recentFundedProjects}</h3>
         {data.fundedProjects.length === 0 ? (
           <div style={{padding: '32px 16px', textAlign: 'center'}}>
-            <i className="fas fa-briefcase" style={{fontSize: '48px', marginBottom: '16px', color: '#27248C'}}></i>
+            <i className="fas fa-briefcase" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
             <p style={{color: '#666', fontSize: '14px'}}>{t.noFundedYet}</p>
           </div>
         ) : (
@@ -653,13 +653,13 @@ function AllProjects({ language = 'en' }) {
       <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.projectsWaitingFunding}</p>
       
       {selectedProject && (
-        <div className="card" style={{background: '#f8f9fa', border: '2px solid #27248C', marginBottom: '24px', padding: '24px'}}>
+        <div className="card" style={{background: '#f8f9fa', border: '2px solid #1E3A8A', marginBottom: '24px', padding: '24px'}}>
           <h3 style={{marginBottom: '16px', fontSize: '20px', fontWeight: '600'}}>{t.fundProject}: {selectedProject.title}</h3>
           <div style={{background: 'white', padding: '20px', borderRadius: '6px', marginBottom: '20px', border: '1px solid #e0e0e0'}}>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
               <p style={{margin: '0', fontSize: '14px'}}><strong>{t.category}:</strong> <span style={{color: '#666'}}>{selectedProject.category}</span></p>
               <p style={{margin: '0', fontSize: '14px'}}><strong>{t.location}:</strong> <span style={{color: '#666'}}>{selectedProject.location}</span></p>
-              <p style={{margin: '0', fontSize: '14px'}}><strong>{t.budgetNeeded}:</strong> <span style={{color: '#27248C', fontWeight: '600'}}>${parseFloat(selectedProject.budget_amount || 0).toLocaleString()}</span></p>
+              <p style={{margin: '0', fontSize: '14px'}}><strong>{t.budgetNeeded}:</strong> <span style={{color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(selectedProject.budget_amount || 0).toLocaleString()}</span></p>
               <p style={{margin: '0', fontSize: '14px'}}><strong>{t.targetBeneficiaries}:</strong> <span style={{color: '#666'}}>{selectedProject.target_beneficiaries?.toLocaleString()}</span></p>
               <p style={{margin: '0', fontSize: '14px'}}><strong>{t.duration}:</strong> <span style={{color: '#666'}}>{selectedProject.duration_months} {t.months}</span></p>
             </div>
@@ -704,7 +704,7 @@ function AllProjects({ language = 'en' }) {
         <div className="grid">
           {projects.map(project => (
             <div key={project.id} className="card" style={{border: '1px solid #e0e0e0', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-              <div style={{borderBottom: '3px solid #27248C', paddingBottom: '12px', marginBottom: '16px'}}>
+              <div style={{borderBottom: '3px solid #1E3A8A', paddingBottom: '12px', marginBottom: '16px'}}>
                 <h3 style={{color: '#000', marginBottom: '8px', fontSize: '18px', fontWeight: '600'}}>{project.title}</h3>
                 <span className="badge badge-info">{project.category}</span>
               </div>
@@ -715,7 +715,7 @@ function AllProjects({ language = 'en' }) {
               
               <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', marginBottom: '16px'}}>
                 <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.location}:</strong> <span style={{color: '#666'}}>{project.location}</span></p>
-                <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.budget}:</strong> <span style={{color: '#27248C', fontWeight: '600'}}>${parseFloat(project.budget_amount || 0).toLocaleString()}</span></p>
+                <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.budget}:</strong> <span style={{color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(project.budget_amount || 0).toLocaleString()}</span></p>
                 <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.duration}:</strong> <span style={{color: '#666'}}>{project.duration_months} {t.months}</span></p>
                 <p style={{margin: '0', fontSize: '13px'}}><strong>{t.beneficiaries}:</strong> <span style={{color: '#666'}}>{project.target_beneficiaries?.toLocaleString()}</span></p>
               </div>
@@ -724,7 +724,7 @@ function AllProjects({ language = 'en' }) {
                 <button 
                   onClick={() => loadProjectDetails(project)} 
                   className="btn" 
-                  style={{flex: 1, padding: '12px', fontSize: '14px', fontWeight: '600', background: '#ffffff', color: '#27248C', border: '2px solid #27248C'}}
+                  style={{flex: 1, padding: '12px', fontSize: '14px', fontWeight: '600', background: '#ffffff', color: '#1E3A8A', border: '2px solid #1E3A8A'}}
                 >
                   View Details
                 </button>
@@ -744,7 +744,7 @@ function AllProjects({ language = 'en' }) {
       {viewingProject && (
         <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', overflowY: 'auto'}}>
           <div style={{background: '#fff', padding: '32px', borderRadius: '8px', maxWidth: '900px', width: '100%', maxHeight: '90vh', overflowY: 'auto'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #27248C'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #1E3A8A'}}>
               <div>
                 <h3 style={{margin: '0 0 8px 0', color: '#000', fontSize: '24px', fontWeight: '700'}}>{viewingProject.title}</h3>
                 <span className="badge badge-info">{viewingProject.category}</span>
@@ -766,7 +766,7 @@ function AllProjects({ language = 'en' }) {
               </div>
               <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
                 <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Budget</p>
-                <p style={{margin: 0, fontSize: '16px', color: '#27248C', fontWeight: '700'}}>${parseFloat(viewingProject.budget_amount || 0).toLocaleString()}</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '700'}}>${parseFloat(viewingProject.budget_amount || 0).toLocaleString()}</p>
               </div>
               <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
                 <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Duration</p>
@@ -812,9 +812,9 @@ function AllProjects({ language = 'en' }) {
                           alert('Failed to download document');
                         }
                       }}
-                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #27248C', borderRadius: '6px', color: '#27248C', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
-                      onMouseEnter={(e) => {e.target.style.background = '#27248C'; e.target.style.color = '#ffffff';}}
-                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#27248C';}}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
@@ -844,9 +844,9 @@ function AllProjects({ language = 'en' }) {
                           alert('Failed to download document');
                         }
                       }}
-                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #27248C', borderRadius: '6px', color: '#27248C', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
-                      onMouseEnter={(e) => {e.target.style.background = '#27248C'; e.target.style.color = '#ffffff';}}
-                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#27248C';}}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
@@ -876,9 +876,9 @@ function AllProjects({ language = 'en' }) {
                           alert('Failed to download document');
                         }
                       }}
-                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #27248C', borderRadius: '6px', color: '#27248C', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
-                      onMouseEnter={(e) => {e.target.style.background = '#27248C'; e.target.style.color = '#ffffff';}}
-                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#27248C';}}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
@@ -908,9 +908,9 @@ function AllProjects({ language = 'en' }) {
                           alert('Failed to download CSV');
                         }
                       }}
-                      style={{padding: '12px 16px', background: '#ffffff', border: '2px solid #27248C', borderRadius: '6px', color: '#27248C', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
-                      onMouseEnter={(e) => {e.target.style.background = '#27248C'; e.target.style.color = '#ffffff';}}
-                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#27248C';}}
+                      style={{padding: '12px 16px', background: '#ffffff', border: '2px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
@@ -1022,7 +1022,7 @@ function FundedProjects({ language = 'en' }) {
       
       {projects.length === 0 ? (
         <div className="card" style={{border: '1px solid #e0e0e0', padding: '64px 24px', textAlign: 'center'}}>
-          <i className="fas fa-hand-holding-usd" style={{fontSize: '64px', marginBottom: '16px', color: '#27248C'}}></i>
+          <i className="fas fa-hand-holding-usd" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', marginBottom: '8px', color: '#000'}}>{t.noFundedProjectsYet}</h3>
           <p style={{color: '#666', fontSize: '14px', marginBottom: '24px'}}>{t.noFundedProjectsDesc}</p>
           <Link to="/donor/projects">
@@ -1041,8 +1041,8 @@ function FundedProjects({ language = 'en' }) {
                 <p style={{margin: '0', fontSize: '13px'}}><strong>{t.beneficiaries}:</strong> <span style={{color: '#666'}}>{project.target_beneficiaries?.toLocaleString()}</span></p>
               </div>
               
-              <div style={{padding: '12px', background: '#f0f9ff', borderRadius: '6px', border: '1px solid #27248C', marginBottom: '16px'}}>
-                <p style={{margin: '0', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>{t.status}: {project.status.replace(/_/g, ' ')}</p>
+              <div style={{padding: '12px', background: '#f0f9ff', borderRadius: '6px', border: '1px solid #1E3A8A', marginBottom: '16px'}}>
+                <p style={{margin: '0', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>{t.status}: {project.status.replace(/_/g, ' ')}</p>
               </div>
               
               <button 
@@ -1153,9 +1153,9 @@ function ProjectDetails({ language = 'en' }) {
                       alert('Failed to download document');
                     }
                   }}
-                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #27248C', borderRadius: '6px', color: '#27248C', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
-                  onMouseEnter={(e) => {e.target.style.background = '#27248C'; e.target.style.color = '#ffffff';}}
-                  onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#27248C';}}
+                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                  onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                  onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
@@ -1185,9 +1185,9 @@ function ProjectDetails({ language = 'en' }) {
                       alert('Failed to download document');
                     }
                   }}
-                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #27248C', borderRadius: '6px', color: '#27248C', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
-                  onMouseEnter={(e) => {e.target.style.background = '#27248C'; e.target.style.color = '#ffffff';}}
-                  onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#27248C';}}
+                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                  onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                  onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
@@ -1217,9 +1217,9 @@ function ProjectDetails({ language = 'en' }) {
                       alert('Failed to download document');
                     }
                   }}
-                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #27248C', borderRadius: '6px', color: '#27248C', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
-                  onMouseEnter={(e) => {e.target.style.background = '#27248C'; e.target.style.color = '#ffffff';}}
-                  onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#27248C';}}
+                  style={{padding: '12px 16px', background: '#ffffff', border: '1px solid #1E3A8A', borderRadius: '6px', color: '#1E3A8A', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', cursor: 'pointer'}}
+                  onMouseEnter={(e) => {e.target.style.background = '#1E3A8A'; e.target.style.color = '#ffffff';}}
+                  onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.color = '#1E3A8A';}}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
@@ -1242,7 +1242,7 @@ function ProjectDetails({ language = 'en' }) {
           </div>
           <div>
             <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Budget</p>
-            <p style={{margin: 0, fontSize: '15px', color: '#27248C', fontWeight: '700'}}>${parseFloat(details.project.budget_amount || 0).toLocaleString()}</p>
+            <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', fontWeight: '700'}}>${parseFloat(details.project.budget_amount || 0).toLocaleString()}</p>
           </div>
           <div>
             <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Duration</p>
@@ -1261,7 +1261,7 @@ function ProjectDetails({ language = 'en' }) {
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '24px'}}>
           <div>
             <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Current Status</p>
-            <p style={{margin: 0, fontSize: '16px', color: '#27248C', fontWeight: '700'}}>{details.project.status.replace(/_/g, ' ')}</p>
+            <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '700'}}>{details.project.status.replace(/_/g, ' ')}</p>
           </div>
           {details.project.blockchain_tx && (
             <div style={{textAlign: 'right'}}>
@@ -1287,7 +1287,7 @@ function ProjectDetails({ language = 'en' }) {
                 </div>
                 <div style={{textAlign: 'right'}}>
                   <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Amount</p>
-                  <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#27248C'}}>${parseFloat(funding.amount).toLocaleString()}</p>
+                  <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#1E3A8A'}}>${parseFloat(funding.amount).toLocaleString()}</p>
                 </div>
               </div>
               <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
@@ -1314,7 +1314,7 @@ function ProjectDetails({ language = 'en' }) {
                     }
                   }}
                   className="btn" 
-                  style={{padding: '6px 14px', fontSize: '12px', background: '#27248C', display: 'flex', alignItems: 'center', gap: '6px'}}>
+                  style={{padding: '6px 14px', fontSize: '12px', background: '#1E3A8A', display: 'flex', alignItems: 'center', gap: '6px'}}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
                   </svg>
@@ -1413,14 +1413,14 @@ function ProjectDetails({ language = 'en' }) {
           </h3>
           
           <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
-            <div style={{padding: '20px', background: '#ffffff', borderRadius: '8px', border: '2px solid #27248C', position: 'relative', overflow: 'hidden'}}>
-              <div style={{position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: '#27248C'}}></div>
+            <div style={{padding: '20px', background: '#ffffff', borderRadius: '8px', border: '2px solid #1E3A8A', position: 'relative', overflow: 'hidden'}}>
+              <div style={{position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: '#1E3A8A'}}></div>
               <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                <div style={{width: '32px', height: '32px', borderRadius: '50%', background: '#27248C', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                <div style={{width: '32px', height: '32px', borderRadius: '50%', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
                   <span style={{color: '#fff', fontSize: '18px', fontWeight: '700'}}>✓</span>
                 </div>
                 <div style={{flex: 1}}>
-                  <h4 style={{color: '#27248C', margin: '0 0 12px 0', fontSize: '15px', fontWeight: '600'}}>Project Created by NGO</h4>
+                  <h4 style={{color: '#1E3A8A', margin: '0 0 12px 0', fontSize: '15px', fontWeight: '600'}}>Project Created by NGO</h4>
                   <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '13px'}}>
                     <div>
                       <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Title:</strong> {details.project.title}</p>
@@ -1434,8 +1434,8 @@ function ProjectDetails({ language = 'en' }) {
                     </div>
                   </div>
                   {details.project.blockchain_tx && (
-                    <div style={{marginTop: '12px', padding: '12px', background: '#f0f9ff', borderRadius: '6px', border: '1px solid #27248C'}}>
-                      <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#27248C', fontWeight: '600'}}>✓ Project Creation Hash:</p>
+                    <div style={{marginTop: '12px', padding: '12px', background: '#f0f9ff', borderRadius: '6px', border: '1px solid #1E3A8A'}}>
+                      <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Project Creation Hash:</p>
                       <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#ffffff', padding: '8px', borderRadius: '4px', border: '1px solid #e0e0e0', display: 'block'}}>{details.project.blockchain_tx}</code>
                       <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Project creation permanently recorded on Sepolia blockchain</p>
                     </div>
@@ -1446,8 +1446,8 @@ function ProjectDetails({ language = 'en' }) {
 
             {details.fundings && details.fundings.length > 0 && (
               <>
-                <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                  <h4 style={{color: '#27248C', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Donor Funding</h4>
+                <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                  <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Donor Funding</h4>
                   <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '13px'}}>
                     <div>
                       <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Donor:</strong> {details.fundings[0].donor_name}</p>
@@ -1460,8 +1460,8 @@ function ProjectDetails({ language = 'en' }) {
                     </div>
                   </div>
                   {details.fundings[0].blockchain_tx && (
-                    <div style={{marginTop: '8px', padding: '8px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                      <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#27248C', fontWeight: '600'}}>✓ Donor Transaction Hash:</p>
+                    <div style={{marginTop: '8px', padding: '8px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                      <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Donor Transaction Hash:</p>
                       <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{details.fundings[0].blockchain_tx}</code>
                       <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Donor funding permanently recorded on Sepolia blockchain</p>
                     </div>
@@ -1469,8 +1469,8 @@ function ProjectDetails({ language = 'en' }) {
                 </div>
 
                 {details.fundings[0].ngo_signature && (
-                  <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                    <h4 style={{color: '#27248C', margin: '0 0 10px 0', fontSize: '14px'}}>✓ NGO Funding Confirmation</h4>
+                  <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                    <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ NGO Funding Confirmation</h4>
                     <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '13px'}}>
                       <div>
                         <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>NGO:</strong> {details.project.ngo_name}</p>
@@ -1483,8 +1483,8 @@ function ProjectDetails({ language = 'en' }) {
                       </div>
                     </div>
                     {details.fundings[0].ngo_confirmation_tx && (
-                      <div style={{marginTop: '8px', padding: '8px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                        <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#27248C', fontWeight: '600'}}>✓ NGO Confirmation Hash:</p>
+                      <div style={{marginTop: '8px', padding: '8px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                        <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ NGO Confirmation Hash:</p>
                         <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{details.fundings[0].ngo_confirmation_tx}</code>
                         <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>NGO confirmation permanently recorded on Sepolia blockchain</p>
                       </div>
@@ -1494,8 +1494,8 @@ function ProjectDetails({ language = 'en' }) {
               </>
             )}
             {workflowStatus.quote_request && (
-              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                <h4 style={{color: '#27248C', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Quote Request Created by NGO</h4>
+              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Quote Request Created by NGO</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '13px'}}>
                   <div>
                     <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Delivery Location:</strong> {workflowStatus.quote_request.delivery_location}</p>
@@ -1509,8 +1509,8 @@ function ProjectDetails({ language = 'en' }) {
                   </div>
                 </div>
                 {workflowStatus.quote_request.blockchain_tx && (
-                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                    <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#27248C', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
+                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                    <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
                     <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{workflowStatus.quote_request.blockchain_tx}</code>
                     <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Quote request permanently recorded on Sepolia blockchain</p>
                   </div>
@@ -1519,8 +1519,8 @@ function ProjectDetails({ language = 'en' }) {
             )}
             
             {workflowStatus.quote_selection && (
-              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                <h4 style={{color: '#27248C', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Quote Selected & Field Officer Assigned</h4>
+              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Quote Selected & Field Officer Assigned</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '13px'}}>
                   <div>
                     <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Supplier:</strong> {workflowStatus.quote_selection.supplier_name}</p>
@@ -1537,8 +1537,8 @@ function ProjectDetails({ language = 'en' }) {
                   </div>
                 </div>
                 {workflowStatus.quote_selection.blockchain_tx && (
-                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                    <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#27248C', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
+                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                    <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
                     <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{workflowStatus.quote_selection.blockchain_tx}</code>
                     <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Quote selection permanently recorded on Sepolia blockchain</p>
                   </div>
@@ -1547,8 +1547,8 @@ function ProjectDetails({ language = 'en' }) {
             )}
             
             {workflowStatus.supplier_delivery && (
-              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                <h4 style={{color: '#27248C', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Supplier Delivery Confirmed</h4>
+              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Supplier Delivery Confirmed</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '13px'}}>
                   <div>
                     <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Supplier:</strong> {workflowStatus.supplier_delivery.supplier_name}</p>
@@ -1561,8 +1561,8 @@ function ProjectDetails({ language = 'en' }) {
                   </div>
                 </div>
                 {workflowStatus.supplier_delivery.blockchain_tx && (
-                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                    <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#27248C', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
+                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                    <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
                     <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{workflowStatus.supplier_delivery.blockchain_tx}</code>
                     <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Delivery confirmation permanently recorded on Sepolia blockchain</p>
                   </div>
@@ -1571,8 +1571,8 @@ function ProjectDetails({ language = 'en' }) {
             )}
             
             {workflowStatus.field_officer_confirmation && (
-              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                <h4 style={{color: '#27248C', margin: '0 0 10px 0', fontSize: '14px'}}>
+              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>
                   {workflowStatus.field_officer_confirmation.confirmed ? '✓ Field Officer Final Confirmation - Ready for Distribution' : 'Awaiting Field Officer Final Confirmation'}
                 </h4>
                 <div style={{fontSize: '13px'}}>
@@ -1583,8 +1583,8 @@ function ProjectDetails({ language = 'en' }) {
                       <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Signature:</strong></p>
                       <code style={{fontSize: '11px', background: '#f5f5f5', padding: '2px 4px', borderRadius: '2px'}}>{workflowStatus.field_officer_confirmation.signature}</code>
                       {workflowStatus.field_officer_confirmation.blockchain_tx && (
-                        <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #27248C'}}>
-                          <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#27248C', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
+                        <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                          <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
                           <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{workflowStatus.field_officer_confirmation.blockchain_tx}</code>
                           <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Final confirmation permanently recorded on Sepolia blockchain</p>
                         </div>
@@ -1597,14 +1597,14 @@ function ProjectDetails({ language = 'en' }) {
               </div>
             )}
             
-                <div style={{padding: '20px', background: '#ffffff', borderRadius: '8px', border: '2px solid #27248C', position: 'relative', overflow: 'hidden'}}>
-                  <div style={{position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: '#27248C'}}></div>
+                <div style={{padding: '20px', background: '#ffffff', borderRadius: '8px', border: '2px solid #1E3A8A', position: 'relative', overflow: 'hidden'}}>
+                  <div style={{position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: '#1E3A8A'}}></div>
                   <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                    <div style={{width: '32px', height: '32px', borderRadius: '50%', background: '#27248C', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                    <div style={{width: '32px', height: '32px', borderRadius: '50%', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
                       <span style={{color: '#fff', fontSize: '18px', fontWeight: '700'}}>✓</span>
                     </div>
                     <div style={{flex: 1}}>
-                      <h4 style={{color: '#27248C', margin: '0 0 12px 0', fontSize: '15px', fontWeight: '600'}}>Current Status</h4>
+                      <h4 style={{color: '#1E3A8A', margin: '0 0 12px 0', fontSize: '15px', fontWeight: '600'}}>Current Status</h4>
                       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                         <span style={{fontSize: '16px', fontWeight: '600', color: '#000000'}}>{workflowStatus.project_status.replace(/_/g, ' ')}</span>
                         <span style={{fontSize: '13px', color: '#666'}}>Project ID: {workflowStatus.project_id}</span>
@@ -1672,7 +1672,7 @@ function ProfileSettings({ language = 'en' }) {
   return (
     <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>{t.profileSettings}</h2>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>{t.profileSettings}</h2>
         <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>{t.manageAccountSettings}</p>
       </div>
 
@@ -1684,8 +1684,8 @@ function ProfileSettings({ language = 'en' }) {
               padding: '12px 0',
               background: 'transparent',
               border: 'none',
-              borderBottom: activeSection === 'profile' ? '3px solid #27248C' : '3px solid transparent',
-              color: activeSection === 'profile' ? '#27248C' : '#8391B2',
+              borderBottom: activeSection === 'profile' ? '3px solid #1E3A8A' : '3px solid transparent',
+              color: activeSection === 'profile' ? '#1E3A8A' : '#8391B2',
               fontWeight: '600',
               fontSize: '14px',
               cursor: 'pointer',
@@ -1701,8 +1701,8 @@ function ProfileSettings({ language = 'en' }) {
               padding: '12px 0',
               background: 'transparent',
               border: 'none',
-              borderBottom: activeSection === 'preferences' ? '3px solid #27248C' : '3px solid transparent',
-              color: activeSection === 'preferences' ? '#27248C' : '#8391B2',
+              borderBottom: activeSection === 'preferences' ? '3px solid #1E3A8A' : '3px solid transparent',
+              color: activeSection === 'preferences' ? '#1E3A8A' : '#8391B2',
               fontWeight: '600',
               fontSize: '14px',
               cursor: 'pointer',
@@ -1718,8 +1718,8 @@ function ProfileSettings({ language = 'en' }) {
               padding: '12px 0',
               background: 'transparent',
               border: 'none',
-              borderBottom: activeSection === 'activity' ? '3px solid #27248C' : '3px solid transparent',
-              color: activeSection === 'activity' ? '#27248C' : '#8391B2',
+              borderBottom: activeSection === 'activity' ? '3px solid #1E3A8A' : '3px solid transparent',
+              color: activeSection === 'activity' ? '#1E3A8A' : '#8391B2',
               fontWeight: '600',
               fontSize: '14px',
               cursor: 'pointer',
@@ -1734,38 +1734,38 @@ function ProfileSettings({ language = 'en' }) {
 
       {activeSection === 'profile' && (
         <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>{t.profileInformation}</h3>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 20px 0'}}>{t.profileInformation}</h3>
           <form onSubmit={handleProfileUpdate}>
             <div style={{marginBottom: '20px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.fullName}</label>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>{t.fullName}</label>
               <input
                 type="text"
                 value={profileData.name}
                 onChange={(e) => setProfileData({...profileData, name: e.target.value})}
-                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A'}}
               />
             </div>
             <div style={{marginBottom: '20px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.emailAddress}</label>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>{t.emailAddress}</label>
               <input
                 type="email"
                 value={profileData.email}
                 onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A'}}
               />
             </div>
             <div style={{marginBottom: '20px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.contactNumber}</label>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>{t.contactNumber}</label>
               <input
                 type="text"
                 value={profileData.contact}
                 onChange={(e) => setProfileData({...profileData, contact: e.target.value})}
                 placeholder="+211XXXXXXXXX"
-                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A'}}
               />
             </div>
             <div style={{marginBottom: '24px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.role}</label>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>{t.role}</label>
               <input
                 type="text"
                 value={t.donor}
@@ -1773,14 +1773,14 @@ function ProfileSettings({ language = 'en' }) {
                 style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', background: '#DFE8F0', color: '#8391B2'}}
               />
             </div>
-            <button type="submit" style={{padding: '12px 24px', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>{t.updateProfile}</button>
+            <button type="submit" style={{padding: '12px 24px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>{t.updateProfile}</button>
           </form>
         </div>
       )}
 
       {activeSection === 'preferences' && (
         <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Notification Preferences</h3>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 20px 0'}}>Notification Preferences</h3>
           <form onSubmit={handlePreferencesUpdate}>
             <div style={{display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px'}}>
               <label style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', background: '#DFE8F0', borderRadius: '8px', cursor: 'pointer'}}>
@@ -1788,10 +1788,10 @@ function ProfileSettings({ language = 'en' }) {
                   type="checkbox"
                   checked={preferences.emailNotifications}
                   onChange={(e) => setPreferences({...preferences, emailNotifications: e.target.checked})}
-                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}}
+                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#1E3A8A'}}
                 />
                 <div>
-                  <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Email notifications for project updates</span>
+                  <span style={{fontSize: '14px', fontWeight: '600', color: '#1E3A8A', display: 'block'}}>Email notifications for project updates</span>
                   <span style={{fontSize: '12px', color: '#8391B2'}}>Get notified when your funded projects are updated</span>
                 </div>
               </label>
@@ -1800,10 +1800,10 @@ function ProfileSettings({ language = 'en' }) {
                   type="checkbox"
                   checked={preferences.projectUpdates}
                   onChange={(e) => setPreferences({...preferences, projectUpdates: e.target.checked})}
-                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}}
+                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#1E3A8A'}}
                 />
                 <div>
-                  <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Real-time updates on funded projects</span>
+                  <span style={{fontSize: '14px', fontWeight: '600', color: '#1E3A8A', display: 'block'}}>Real-time updates on funded projects</span>
                   <span style={{fontSize: '12px', color: '#8391B2'}}>Receive instant notifications about project milestones</span>
                 </div>
               </label>
@@ -1812,22 +1812,22 @@ function ProfileSettings({ language = 'en' }) {
                   type="checkbox"
                   checked={preferences.monthlyReports}
                   onChange={(e) => setPreferences({...preferences, monthlyReports: e.target.checked})}
-                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}}
+                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#1E3A8A'}}
                 />
                 <div>
-                  <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Monthly impact reports</span>
+                  <span style={{fontSize: '14px', fontWeight: '600', color: '#1E3A8A', display: 'block'}}>Monthly impact reports</span>
                   <span style={{fontSize: '12px', color: '#8391B2'}}>Receive comprehensive monthly summaries of your impact</span>
                 </div>
               </label>
             </div>
-            <button type="submit" style={{padding: '12px 24px', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Save Preferences</button>
+            <button type="submit" style={{padding: '12px 24px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Save Preferences</button>
           </form>
         </div>
       )}
 
       {activeSection === 'activity' && (
         <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Recent Activity</h3>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 20px 0'}}>Recent Activity</h3>
           {activities.length === 0 ? (
             <div style={{textAlign: 'center', padding: '40px 20px'}}>
               <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
@@ -1838,9 +1838,9 @@ function ProfileSettings({ language = 'en' }) {
           ) : (
             <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
               {activities.map((activity, idx) => (
-                <div key={idx} style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', borderLeft: '4px solid #27248C'}}>
+                <div key={idx} style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', borderLeft: '4px solid #1E3A8A'}}>
                   <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px'}}>
-                    <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{activity.action}</p>
+                    <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>{activity.action}</p>
                     <span style={{fontSize: '12px', color: '#8391B2'}}>{new Date(activity.created_at).toLocaleString()}</span>
                   </div>
                   {activity.details && (
@@ -1890,7 +1890,7 @@ function PublicReports({ language = 'en' }) {
       
       {reports.length === 0 ? (
         <div className="card" style={{border: '1px solid #e0e0e0', padding: '64px 24px', textAlign: 'center'}}>
-          <i className="fas fa-clipboard-list" style={{fontSize: '64px', marginBottom: '16px', color: '#27248C'}}></i>
+          <i className="fas fa-clipboard-list" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
           <h3 style={{fontSize: '20px', marginBottom: '8px', color: '#000'}}>{t.noReportsSubmitted}</h3>
           <p style={{color: '#666', fontSize: '14px'}}>{t.noReportsPublished}</p>
         </div>
@@ -1924,7 +1924,7 @@ function PublicReports({ language = 'en' }) {
       {selectedReport && (
         <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'}}>
           <div style={{background: '#fff', padding: '32px', borderRadius: '8px', maxWidth: '700px', width: '100%', maxHeight: '85vh', overflowY: 'auto'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #27248C'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #1E3A8A'}}>
               <div>
                 <span className="badge badge-info" style={{marginBottom: '8px', display: 'inline-block'}}>{selectedReport.report_type}</span>
                 <h3 style={{margin: 0, color: '#000', fontSize: '24px', fontWeight: '700'}}>{selectedReport.project_name}</h3>
