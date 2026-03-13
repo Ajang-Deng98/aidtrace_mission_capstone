@@ -2865,105 +2865,134 @@ function FieldOfficers() {
 
   return (
     <div>
-      <h2>Field Officers</h2>
-      <p style={{color: '#666', marginBottom: '24px'}}>Manage field officers for project operations</p>
+      <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>Field Officers</h2>
+      <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>Manage field officers for project operations</p>
       
-      <button onClick={() => setShowForm(!showForm)} className="btn" style={{marginBottom: '24px', padding: '12px 24px', fontSize: '15px'}}>
+      <button onClick={() => setShowForm(!showForm)} 
+        style={{marginBottom: '24px', padding: '12px 24px', fontSize: '15px', fontWeight: '600', background: showForm ? '#8391B2' : '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+        onMouseEnter={(e) => e.target.style.background = showForm ? '#8391B2' : '#4857A8'}
+        onMouseLeave={(e) => e.target.style.background = showForm ? '#8391B2' : '#27248C'}>
         {showForm ? 'Cancel' : '+ Create New Field Officer'}
       </button>
       
       {showForm && (
-        <div className="card" style={{marginBottom: '24px', border: '1px solid #1E3A8A'}}>
-          <h3 style={{fontSize: '18px', marginBottom: '16px', color: '#1E3A8A'}}>Create Field Officer</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px', marginBottom: '24px'}}>
+          <h3 style={{fontSize: '18px', marginBottom: '24px', color: '#27248C', fontWeight: '600'}}>Create Field Officer</h3>
           <form onSubmit={handleSubmit}>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
-              <div className="form-group">
-                <label>Username</label>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px'}}>
+              <div>
+                <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Username</label>
                 <input type="text" value={formData.username}
-                  onChange={(e) => setFormData({...formData, username: e.target.value})} required />
+                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                  onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                  onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                  required />
               </div>
               
-              <div className="form-group">
-                <label>Email</label>
+              <div>
+                <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Email</label>
                 <input type="email" value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})} required />
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                  onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                  onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                  required />
               </div>
             </div>
             
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
-              <div className="form-group">
-                <label>Name</label>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px'}}>
+              <div>
+                <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Name</label>
                 <input type="text" value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                  onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                  onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                  required />
               </div>
               
-              <div className="form-group">
-                <label>Contact</label>
+              <div>
+                <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Contact</label>
                 <input type="text" value={formData.contact}
-                  onChange={(e) => setFormData({...formData, contact: e.target.value})} required />
+                  onChange={(e) => setFormData({...formData, contact: e.target.value})}
+                  style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                  onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                  onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                  required />
               </div>
             </div>
             
-            <div className="form-group">
-              <label>Password</label>
+            <div style={{marginBottom: '24px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Password</label>
               <input type="password" value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})} required />
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                required />
             </div>
             
-            <LoadingButton type="submit" loading={createOfficerLoading} className="btn" style={{padding: '12px 24px', fontSize: '15px'}}>Create Field Officer</LoadingButton>
+            <LoadingButton type="submit" loading={createOfficerLoading} 
+              style={{padding: '12px 32px', fontSize: '15px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+              onMouseEnter={(e) => !createOfficerLoading && (e.target.style.background = '#4857A8')}
+              onMouseLeave={(e) => !createOfficerLoading && (e.target.style.background = '#27248C')}>Create Field Officer</LoadingButton>
           </form>
         </div>
       )}
       
       {officers.length === 0 ? (
-        <div className="card" style={{textAlign: 'center', padding: '64px 20px'}}>
-          <i className="fas fa-users" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-          <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Field Officers Yet</h3>
-          <p style={{fontSize: '14px', color: '#666', margin: 0}}>Create your first field officer to manage project operations</p>
+        <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '64px 20px'}}>
+          <i className="fas fa-users" style={{fontSize: '64px', marginBottom: '16px', color: '#27248C'}}></i>
+          <h3 style={{fontSize: '20px', color: '#27248C', margin: '0 0 8px 0', fontWeight: '600'}}>No Field Officers Yet</h3>
+          <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Create your first field officer to manage project operations</p>
         </div>
       ) : (
         <div className="grid">
           {officers.map(officer => (
-            <div key={officer.id} className="card" 
+            <div key={officer.id} 
               style={{
-                border: '1px solid #e0e0e0',
+                background: '#ffffff',
+                borderRadius: '12px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                padding: '24px',
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                e.currentTarget.style.borderColor = '#1E3A8A';
+                e.currentTarget.style.boxShadow = '0 8px 16px rgba(39,36,140,0.15)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.borderColor = '#e0e0e0';
+                e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
               }}>
               <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px'}}>
-                <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '20px', fontWeight: '700'}}>
+                <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#27248C', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '20px', fontWeight: '700'}}>
                   {officer.name.charAt(0).toUpperCase()}
                 </div>
                 <div style={{flex: 1}}>
-                  <h3 style={{margin: '0 0 4px 0', fontSize: '18px', color: '#000', fontWeight: '600'}}>{officer.name}</h3>
+                  <h3 style={{margin: '0 0 4px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>{officer.name}</h3>
                   <span className="badge badge-success" style={{fontSize: '11px'}}>Active</span>
                 </div>
               </div>
               
-              <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px'}}>
-                <p style={{margin: '6px 0', color: '#666'}}>
-                  <strong style={{color: '#000'}}>Email:</strong> {officer.email}
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px', fontSize: '13px'}}>
+                <p style={{margin: '8px 0', color: '#8391B2'}}>
+                  <strong style={{color: '#27248C'}}>Email:</strong> {officer.email}
                 </p>
-                <p style={{margin: '6px 0', color: '#666'}}>
-                  <strong style={{color: '#000'}}>Contact:</strong> {officer.contact}
+                <p style={{margin: '8px 0', color: '#8391B2'}}>
+                  <strong style={{color: '#27248C'}}>Contact:</strong> {officer.contact}
                 </p>
               </div>
               
               {showAssignForm === officer.id ? (
-                <div style={{background: '#f0f9ff', padding: '16px', borderRadius: '6px', border: '1px solid #1E3A8A'}}>
-                  <div style={{marginBottom: '12px'}}>
-                    <label style={{display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#000'}}>Select Project</label>
+                <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                  <div style={{marginBottom: '16px'}}>
+                    <label style={{display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#27248C'}}>Select Project</label>
                     <select value={selectedProject} onChange={(e) => setSelectedProject(e.target.value)}
-                      style={{width: '100%', padding: '10px', fontSize: '14px', border: '2px solid #1E3A8A', borderRadius: '4px', background: '#ffffff'}}>
+                      style={{width: '100%', padding: '12px 16px', fontSize: '14px', border: '1px solid #C5CED7', borderRadius: '8px', background: '#ffffff', outline: 'none', transition: 'all 0.2s'}}
+                      onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                      onBlur={(e) => e.target.style.borderColor = '#C5CED7'}>
                       <option value="">Choose a project...</option>
                       {projects.map(p => {
                         const statusInfo = getProjectStatus(p.status);
@@ -2976,23 +3005,23 @@ function FieldOfficers() {
                     </select>
                   </div>
                   {selectedProject && (
-                    <div style={{background: '#ffffff', padding: '12px', borderRadius: '4px', marginBottom: '12px', border: '1px solid #1E3A8A'}}>
+                    <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px'}}>
                       {(() => {
                         const project = projects.find(p => p.id === parseInt(selectedProject));
                         if (!project) return null;
                         const statusInfo = getProjectStatus(project.status);
                         return (
                           <div style={{fontSize: '13px'}}>
-                            <p style={{margin: '0 0 6px 0'}}><strong>Project:</strong> {project.title}</p>
-                            <p style={{margin: '0 0 6px 0', color: '#666'}}><strong>Location:</strong> {project.location}</p>
-                            <p style={{margin: '0 0 6px 0', color: '#666'}}><strong>Category:</strong> {project.category}</p>
+                            <p style={{margin: '0 0 6px 0', color: '#27248C'}}><strong>Project:</strong> {project.title}</p>
+                            <p style={{margin: '0 0 6px 0', color: '#8391B2'}}><strong>Location:</strong> {project.location}</p>
+                            <p style={{margin: '0 0 6px 0', color: '#8391B2'}}><strong>Category:</strong> {project.category}</p>
                             <p style={{margin: '0', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                              <strong>Status:</strong>
+                              <strong style={{color: '#27248C'}}>Status:</strong>
                               <span style={{
                                 background: statusInfo.color,
                                 color: '#ffffff',
-                                padding: '3px 10px',
-                                borderRadius: '4px',
+                                padding: '4px 12px',
+                                borderRadius: '6px',
                                 fontSize: '11px',
                                 fontWeight: '600'
                               }}>{statusInfo.label}</span>
@@ -3003,15 +3032,21 @@ function FieldOfficers() {
                     </div>
                   )}
                   <div style={{display: 'flex', gap: '8px'}}>
-                    <LoadingButton onClick={() => handleAssign(officer.id)} loading={assignLoading} className="btn" 
-                      style={{flex: 1, padding: '10px', fontSize: '14px', background: '#1E3A8A'}}>Assign Officer</LoadingButton>
-                    <button onClick={() => {setShowAssignForm(null); setSelectedProject('');}} className="btn" 
-                      style={{padding: '10px 16px', fontSize: '14px', background: '#666'}}>Cancel</button>
+                    <LoadingButton onClick={() => handleAssign(officer.id)} loading={assignLoading} 
+                      style={{flex: 1, padding: '12px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+                      onMouseEnter={(e) => !assignLoading && (e.target.style.background = '#4857A8')}
+                      onMouseLeave={(e) => !assignLoading && (e.target.style.background = '#27248C')}>Assign Officer</LoadingButton>
+                    <button onClick={() => {setShowAssignForm(null); setSelectedProject('');}} 
+                      style={{padding: '12px 20px', fontSize: '14px', fontWeight: '600', background: '#ffffff', color: '#27248C', border: '1px solid #C5CED7', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+                      onMouseEnter={(e) => {e.target.style.background = '#DFE8F0'; e.target.style.borderColor = '#27248C';}}
+                      onMouseLeave={(e) => {e.target.style.background = '#ffffff'; e.target.style.borderColor = '#C5CED7';}}>Cancel</button>
                   </div>
                 </div>
               ) : (
-                <button onClick={() => setShowAssignForm(officer.id)} className="btn" 
-                  style={{width: '100%', padding: '10px', fontSize: '14px', background: '#1E3A8A'}}>Assign to Project</button>
+                <button onClick={() => setShowAssignForm(officer.id)} 
+                  style={{width: '100%', padding: '12px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+                  onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+                  onMouseLeave={(e) => e.target.style.background = '#27248C'}>Assign to Project</button>
               )}
             </div>
           ))}
