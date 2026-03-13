@@ -186,9 +186,9 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
 
         <nav style={{flex: 1, padding: '8px 0'}}>
           <Link to="/supplier" onClick={() => setActiveTab('overview')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'overview' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'overview' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'overview' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'overview' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'overview' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'overview' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'overview' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -198,9 +198,9 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/supplier/quotes" onClick={() => setActiveTab('quotes')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'quotes' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'quotes' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'quotes' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'quotes' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'quotes' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'quotes' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'quotes' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -210,9 +210,9 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/supplier/history" onClick={() => setActiveTab('history')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'history' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'history' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'history' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'history' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'history' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'history' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'history' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -222,9 +222,9 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/supplier/analytics" onClick={() => setActiveTab('analytics')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'analytics' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'analytics' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'analytics' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'analytics' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'analytics' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'analytics' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'analytics' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -234,9 +234,9 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/supplier/profile" onClick={() => setActiveTab('profile')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'profile' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'profile' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'profile' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -246,9 +246,9 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/supplier/reports" onClick={() => setActiveTab('reports')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'reports' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'reports' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'reports' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -352,58 +352,58 @@ function Overview() {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Dashboard Overview</h2>
-        <p style={{fontSize: '14px', color: '#666', margin: 0}}>Quick insights into your quote performance</p>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Dashboard Overview</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Quick insights into your quote performance</p>
       </div>
 
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Available Opportunities</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{quoteRequests.length}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Available Opportunities</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{quoteRequests.length}</h3>
         </div>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Quotes Submitted</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.totalQuotes}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Quotes Submitted</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{metrics.totalQuotes}</h3>
         </div>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Quotes Selected</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.selectedQuotes}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Quotes Selected</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{metrics.selectedQuotes}</h3>
         </div>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.successRate}%</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{metrics.successRate}%</h3>
         </div>
       </div>
 
       <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px'}}>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Recent Quote Activity</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#27248C'}}>Recent Quote Activity</h3>
           {quotes.slice(0, 5).map((q, idx) => (
-            <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', marginBottom: '10px', borderLeft: '3px solid #1E3A8A'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>{q.project_title}</p>
-              <p style={{margin: 0, fontSize: '12px', color: '#666'}}>${parseFloat(q.quoted_amount).toLocaleString()} • {q.is_selected ? 'Selected' : 'Pending'} • {new Date(q.created_at).toLocaleDateString()}</p>
+            <div key={idx} style={{padding: '12px', background: '#DFE8F0', borderRadius: '8px', marginBottom: '10px', borderLeft: '3px solid #27248C'}}>
+              <p style={{margin: '0 0 4px 0', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{q.project_title}</p>
+              <p style={{margin: 0, fontSize: '12px', color: '#8391B2'}}>${parseFloat(q.quoted_amount).toLocaleString()} • {q.is_selected ? 'Selected' : 'Pending'} • {new Date(q.created_at).toLocaleDateString()}</p>
             </div>
           ))}
           {quotes.length === 0 && (
-            <p style={{color: '#666', textAlign: 'center', padding: '20px'}}>No quotes submitted yet. Browse opportunities to get started!</p>
+            <p style={{color: '#8391B2', textAlign: 'center', padding: '20px'}}>No quotes submitted yet. Browse opportunities to get started!</p>
           )}
         </div>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Quick Stats</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#27248C'}}>Quick Stats</h3>
           <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-            <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Avg Quote Amount</p>
-              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>
+            <div style={{padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
+              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#8391B2'}}>Avg Quote Amount</p>
+              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#27248C'}}>
                 ${metrics.totalQuotes > 0 ? Math.round(quotes.reduce((sum, q) => sum + parseFloat(q.quoted_amount), 0) / metrics.totalQuotes).toLocaleString() : '0'}
               </p>
             </div>
-            <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Active NGOs</p>
-              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>{new Set(quotes.map(q => q.ngo_name)).size}</p>
+            <div style={{padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
+              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#8391B2'}}>Active NGOs</p>
+              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#27248C'}}>{new Set(quotes.map(q => q.ngo_name)).size}</p>
             </div>
-            <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>This Month</p>
-              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>{quotes.filter(q => new Date(q.created_at).getMonth() === new Date().getMonth()).length} quotes</p>
+            <div style={{padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
+              <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#8391B2'}}>This Month</p>
+              <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#27248C'}}>{quotes.filter(q => new Date(q.created_at).getMonth() === new Date().getMonth()).length} quotes</p>
             </div>
           </div>
         </div>
