@@ -394,7 +394,7 @@ function Overview() {
             <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
               <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Avg Quote Amount</p>
               <p style={{margin: 0, fontSize: '18px', fontWeight: '700', color: '#000'}}>
-                ${totalQuotes > 0 ? Math.round(quotes.reduce((sum, q) => sum + parseFloat(q.quoted_amount), 0) / totalQuotes).toLocaleString() : '0'}
+                ${metrics.totalQuotes > 0 ? Math.round(quotes.reduce((sum, q) => sum + parseFloat(q.quoted_amount), 0) / metrics.totalQuotes).toLocaleString() : '0'}
               </p>
             </div>
             <div style={{padding: '12px', background: '#fafafa', borderRadius: '4px'}}>
