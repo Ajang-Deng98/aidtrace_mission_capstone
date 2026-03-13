@@ -143,63 +143,73 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/ngo/projects" onClick={() => setActiveTab('projects')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'projects' ? '#ffffff' : '#B3BEC7',
-            textDecoration: 'none', background: activeTab === 'projects' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', color: activeTab === 'projects' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'projects' ? 'rgba(255,255,255,0.15)' : 'transparent',
             borderLeft: activeTab === 'projects' ? '3px solid #ffffff' : '3px solid transparent',
-            fontWeight: activeTab === 'projects' ? '600' : '400', fontSize: '14px'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            fontWeight: activeTab === 'projects' ? '600' : '400', fontSize: '14px', borderRadius: '0 8px 8px 0', margin: '2px 8px 2px 0', transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {if(activeTab !== 'projects') e.currentTarget.style.background = 'rgba(255,255,255,0.05)';}}
+          onMouseLeave={(e) => {if(activeTab !== 'projects') e.currentTarget.style.background = 'transparent';}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
             My Projects
           </Link>
 
           <Link to="/ngo/suppliers" onClick={() => setActiveTab('suppliers')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'suppliers' ? '#ffffff' : '#B3BEC7',
-            textDecoration: 'none', background: activeTab === 'suppliers' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', color: activeTab === 'suppliers' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'suppliers' ? 'rgba(255,255,255,0.15)' : 'transparent',
             borderLeft: activeTab === 'suppliers' ? '3px solid #ffffff' : '3px solid transparent',
-            fontWeight: activeTab === 'suppliers' ? '600' : '400', fontSize: '14px'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            fontWeight: activeTab === 'suppliers' ? '600' : '400', fontSize: '14px', borderRadius: '0 8px 8px 0', margin: '2px 8px 2px 0', transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {if(activeTab !== 'suppliers') e.currentTarget.style.background = 'rgba(255,255,255,0.05)';}}
+          onMouseLeave={(e) => {if(activeTab !== 'suppliers') e.currentTarget.style.background = 'transparent';}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
             </svg>
             Suppliers
           </Link>
 
           <Link to="/ngo/field-officers" onClick={() => setActiveTab('officers')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'officers' ? '#ffffff' : '#B3BEC7',
-            textDecoration: 'none', background: activeTab === 'officers' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', color: activeTab === 'officers' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'officers' ? 'rgba(255,255,255,0.15)' : 'transparent',
             borderLeft: activeTab === 'officers' ? '3px solid #ffffff' : '3px solid transparent',
-            fontWeight: activeTab === 'officers' ? '600' : '400', fontSize: '14px'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            fontWeight: activeTab === 'officers' ? '600' : '400', fontSize: '14px', borderRadius: '0 8px 8px 0', margin: '2px 8px 2px 0', transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {if(activeTab !== 'officers') e.currentTarget.style.background = 'rgba(255,255,255,0.05)';}}
+          onMouseLeave={(e) => {if(activeTab !== 'officers') e.currentTarget.style.background = 'transparent';}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
             </svg>
-            {t.fieldOfficer}s
+            Field Officers
           </Link>
 
           <Link to="/ngo/beneficiaries" onClick={() => setActiveTab('beneficiaries')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#ffffff' : '#B3BEC7',
-            textDecoration: 'none', background: activeTab === 'beneficiaries' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', color: activeTab === 'beneficiaries' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'beneficiaries' ? 'rgba(255,255,255,0.15)' : 'transparent',
             borderLeft: activeTab === 'beneficiaries' ? '3px solid #ffffff' : '3px solid transparent',
-            fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px', borderRadius: '0 8px 8px 0', margin: '2px 8px 2px 0', transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {if(activeTab !== 'beneficiaries') e.currentTarget.style.background = 'rgba(255,255,255,0.05)';}}
+          onMouseLeave={(e) => {if(activeTab !== 'beneficiaries') e.currentTarget.style.background = 'transparent';}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63c-.37-.89-1.27-1.37-2.17-1.37-.83 0-1.58.34-2.12.89L12 12.5l-3.62-4.61C7.84 7.34 7.09 7 6.26 7c-.9 0-1.8.48-2.17 1.37L1.55 16H4v6h2v-6h2.5l2.5-3.2 2.5 3.2H16v6h4z"/>
             </svg>
-            {t.beneficiaries}
+            Beneficiaries
           </Link>
 
           <Link to="/ngo/reports" onClick={() => setActiveTab('reports')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#ffffff' : '#B3BEC7',
-            textDecoration: 'none', background: activeTab === 'reports' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', color: activeTab === 'reports' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'reports' ? 'rgba(255,255,255,0.15)' : 'transparent',
             borderLeft: activeTab === 'reports' ? '3px solid #ffffff' : '3px solid transparent',
-            fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px', borderRadius: '0 8px 8px 0', margin: '2px 8px 2px 0', transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {if(activeTab !== 'reports') e.currentTarget.style.background = 'rgba(255,255,255,0.05)';}}
+          onMouseLeave={(e) => {if(activeTab !== 'reports') e.currentTarget.style.background = 'transparent';}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
             </svg>
-            {t.viewReports}
+            View Reports
           </Link>
 
           <Link to="/ngo/profile" onClick={() => setActiveTab('profile')} style={{
