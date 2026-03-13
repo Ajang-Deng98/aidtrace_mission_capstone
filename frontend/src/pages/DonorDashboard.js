@@ -234,21 +234,21 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
       <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
         {/* Top Bar */}
         <div style={{
-          background: 'linear-gradient(135deg, #27248C 0%, #4857A8 100%)',
+          background: '#ffffff',
           padding: '16px 24px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
         }}>
           <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#ffffff', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.donor} {t.dashboard}</h1>
-            <p style={{margin: '2px 0 0 0', color: '#ffffff', fontSize: '13px', opacity: 0.9, fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.fundAndTrack} {t.projects}</p>
+            <h1 style={{margin: 0, fontSize: '22px', color: '#27248C', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.donor} {t.dashboard}</h1>
+            <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.fundAndTrack} {t.projects}</p>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
             <div style={{position: 'relative'}}>
-              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#ffffff', border: 'none', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '4px', color: '#27248C', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
                 <div style={{position: 'absolute', top: '40px', right: language === 'ar' ? 'auto' : '0', left: language === 'ar' ? '0' : 'auto', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
                   <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>{t.english}</button>
