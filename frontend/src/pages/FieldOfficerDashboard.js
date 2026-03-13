@@ -152,9 +152,9 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/beneficiaries" onClick={() => setActiveTab('beneficiaries')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'beneficiaries' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'beneficiaries' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'beneficiaries' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'beneficiaries' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -164,9 +164,9 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/distribute" onClick={() => setActiveTab('distribute')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'distribute' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'distribute' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'distribute' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'distribute' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'distribute' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'distribute' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'distribute' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -176,9 +176,9 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/confirmed" onClick={() => setActiveTab('confirmed')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'confirmed' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'confirmed' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'confirmed' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'confirmed' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'confirmed' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'confirmed' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'confirmed' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -188,9 +188,9 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/ready" onClick={() => setActiveTab('ready')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'ready' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'ready' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'ready' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'ready' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'ready' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'ready' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'ready' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -200,9 +200,9 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/profile" onClick={() => setActiveTab('profile')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'profile' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'profile' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'profile' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'profile' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -212,9 +212,9 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/reports" onClick={() => setActiveTab('reports')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#1E3A8A' : '#666',
-            textDecoration: 'none', background: activeTab === 'reports' ? '#f5f5f5' : 'transparent',
-            borderLeft: activeTab === 'reports' ? '3px solid #1E3A8A' : '3px solid transparent',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#ffffff' : '#B3BEC7',
+            textDecoration: 'none', background: activeTab === 'reports' ? 'rgba(255,255,255,0.1)' : 'transparent',
+            borderLeft: activeTab === 'reports' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -319,22 +319,22 @@ function Projects({ language }) {
   return (
     <div>
       <div style={{marginBottom: '24px'}}>
-        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>My Projects</h2>
-        <p style={{fontSize: '14px', color: '#666', margin: 0}}>Projects assigned to you through the quote system</p>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>My Projects</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Projects assigned to you through the quote system</p>
       </div>
 
       {assignments.length === 0 ? (
-        <div style={{background: '#ffffff', padding: '32px', borderRadius: '4px', border: '1px solid #e0e0e0', textAlign: 'center'}}>
-          <i className="fas fa-clipboard-list" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-          <h3 style={{fontSize: '16px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>No Projects Assigned</h3>
-          <p style={{fontSize: '14px', color: '#666', margin: 0}}>You don't have any project assignments yet. Projects are assigned through the NGO quote system.</p>
+        <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+          <i className="fas fa-clipboard-list" style={{fontSize: '48px', marginBottom: '16px', color: '#27248C'}}></i>
+          <h3 style={{fontSize: '16px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>No Projects Assigned</h3>
+          <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>You don't have any project assignments yet. Projects are assigned through the NGO quote system.</p>
         </div>
       ) : (
         <div style={{display: 'grid', gap: '16px'}}>
           {assignments.map(assignment => (
-            <div key={assignment.id} style={{background: '#ffffff', padding: '20px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
+            <div key={assignment.id} style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
               <div style={{marginBottom: '16px'}}>
-                <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>{assignment.project_title}</h3>
+                <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>{assignment.project_title}</h3>
                 <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
                   <span style={{padding: '4px 10px', background: '#e0e0e0', color: '#666', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>{assignment.project_category}</span>
                   <span style={{padding: '4px 10px', background: assignment.confirmed ? '#d4edda' : '#fff3cd', color: assignment.confirmed ? '#155724' : '#856404', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>
@@ -344,20 +344,20 @@ function Projects({ language }) {
                 </div>
               </div>
               
-              <div style={{background: '#fafafa', padding: '14px', borderRadius: '4px', marginBottom: '16px'}}>
+              <div style={{background: '#DFE8F0', padding: '14px', borderRadius: '8px', marginBottom: '16px'}}>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '13px'}}>
-                  <div><span style={{color: '#666'}}>NGO:</span> <span style={{color: '#000', fontWeight: '500'}}>{assignment.ngo_name}</span></div>
-                  <div><span style={{color: '#666'}}>Location:</span> <span style={{color: '#000', fontWeight: '500'}}>{assignment.project_location}</span></div>
-                  <div><span style={{color: '#666'}}>Budget:</span> <span style={{color: '#000', fontWeight: '500'}}>${parseFloat(assignment.budget_amount).toLocaleString()}</span></div>
-                  <div><span style={{color: '#666'}}>Beneficiaries:</span> <span style={{color: '#000', fontWeight: '500'}}>{assignment.target_beneficiaries}</span></div>
+                  <div><span style={{color: '#8391B2'}}>NGO:</span> <span style={{color: '#27248C', fontWeight: '500'}}>{assignment.ngo_name}</span></div>
+                  <div><span style={{color: '#8391B2'}}>Location:</span> <span style={{color: '#27248C', fontWeight: '500'}}>{assignment.project_location}</span></div>
+                  <div><span style={{color: '#8391B2'}}>Budget:</span> <span style={{color: '#27248C', fontWeight: '500'}}>${parseFloat(assignment.budget_amount).toLocaleString()}</span></div>
+                  <div><span style={{color: '#8391B2'}}>Beneficiaries:</span> <span style={{color: '#27248C', fontWeight: '500'}}>{assignment.target_beneficiaries}</span></div>
                 </div>
                 {assignment.supplier_info && (
-                  <div style={{marginTop: '12px', padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                    <p style={{margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600', color: '#000'}}>Selected Supplier</p>
+                  <div style={{marginTop: '12px', padding: '12px', background: '#ffffff', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Selected Supplier</p>
                     <div style={{display: 'grid', gap: '4px', fontSize: '13px'}}>
-                      <div><span style={{color: '#666'}}>Name:</span> <span style={{color: '#000'}}>{assignment.supplier_info.name}</span></div>
-                      <div><span style={{color: '#666'}}>Contact:</span> <span style={{color: '#000'}}>{assignment.supplier_info.contact}</span></div>
-                      <div><span style={{color: '#666'}}>Amount:</span> <span style={{color: '#000', fontWeight: '500'}}>${parseFloat(assignment.supplier_info.quoted_amount).toLocaleString()}</span></div>
+                      <div><span style={{color: '#8391B2'}}>Name:</span> <span style={{color: '#27248C'}}>{assignment.supplier_info.name}</span></div>
+                      <div><span style={{color: '#8391B2'}}>Contact:</span> <span style={{color: '#27248C'}}>{assignment.supplier_info.contact}</span></div>
+                      <div><span style={{color: '#8391B2'}}>Amount:</span> <span style={{color: '#27248C', fontWeight: '500'}}>${parseFloat(assignment.supplier_info.quoted_amount).toLocaleString()}</span></div>
                     </div>
                     {assignment.delivery_info && (
                       <div style={{marginTop: '8px', padding: '10px', background: '#ffffff', borderRadius: '3px', border: '1px solid #e0e0e0'}}>
@@ -373,13 +373,13 @@ function Projects({ language }) {
               </div>
               
               {!assignment.confirmed && assignment.status === 'SUPPLIER_DELIVERED' && (
-                <div style={{padding: '16px', background: '#ffffff', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>Final Confirmation Required</h4>
-                  <p style={{margin: '0 0 12px 0', fontSize: '13px', color: '#666'}}>The supplier has delivered items to you. Please provide final confirmation to make this project ready for distribution.</p>
+                <div style={{padding: '16px', background: '#ffffff', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>Final Confirmation Required</h4>
+                  <p style={{margin: '0 0 12px 0', fontSize: '13px', color: '#8391B2'}}>The supplier has delivered items to you. Please provide final confirmation to make this project ready for distribution.</p>
                   <LoadingButton 
                     onClick={() => handleConfirmAssignment(assignment.id)}
                     loading={confirmLoading}
-                    style={{padding: '8px 16px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}
+                    style={{padding: '8px 16px', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}
                   >
                     Confirm Final Receipt
                   </LoadingButton>
@@ -387,9 +387,9 @@ function Projects({ language }) {
               )}
               
               {assignment.confirmed && (
-                <div style={{padding: '16px', background: '#ffffff', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#000', margin: '0 0 8px 0'}}>✓ Assignment Confirmed</h4>
-                  <p style={{margin: '0', fontSize: '13px', color: '#666'}}>This project is ready for distribution. You can now register beneficiaries and distribute aid.</p>
+                <div style={{padding: '16px', background: '#ffffff', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                  <h4 style={{fontSize: '15px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>✓ Assignment Confirmed</h4>
+                  <p style={{margin: '0', fontSize: '13px', color: '#8391B2'}}>This project is ready for distribution. You can now register beneficiaries and distribute aid.</p>
                 </div>
               )}
             </div>
