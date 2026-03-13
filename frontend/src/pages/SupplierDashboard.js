@@ -175,7 +175,7 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
         height: '100vh',
         zIndex: 1000
       }}>
-        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px'}}>
+        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent'}}>
           <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '40px', width: 'auto'}} />
         </div>
 

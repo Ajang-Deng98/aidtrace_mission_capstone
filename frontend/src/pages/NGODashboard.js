@@ -108,7 +108,7 @@ function NGODashboard({ language = 'en', changeLanguage }) {
         left: language === 'ar' ? 'auto' : '0',
         right: language === 'ar' ? '0' : 'auto'
       }}>
-        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px'}}>
+        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '12px'}}>
           <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '40px', width: 'auto'}} />
         </div>
 
