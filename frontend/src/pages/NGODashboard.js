@@ -109,7 +109,6 @@ function NGODashboard({ language = 'en', changeLanguage }) {
       }}>
         <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px'}}>
           <img src="/logo_horizontal.svg" alt="AidTrace" style={{height: '40px', width: 'auto'}} />
-          <p style={{margin: 0, fontSize: '11px', color: '#B3BEC7', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>NGO Portal</p>
         </div>
 
         <div style={{padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
