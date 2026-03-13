@@ -509,73 +509,98 @@ function Beneficiaries({ language }) {
 
   return (
     <div>
-      <h2>Beneficiaries</h2>
-      <p style={{color: '#666', marginBottom: '15px'}}>Register and manage project beneficiaries</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Beneficiaries</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Register and manage project beneficiaries</p>
+      </div>
 
-      <div className="card" style={{marginBottom: '15px'}}>
-        <div className="form-group">
-          <label>Select Project</label>
-          <select value={selectedProject} onChange={(e) => setSelectedProject(e.target.value)}>
-            <option value="">Select Project</option>
-            {assignments.map(a => (
-              <option key={a.project} value={a.project}>{a.project_title}</option>
-            ))}
-          </select>
-        </div>
+      <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px'}}>
+        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+        <select 
+          value={selectedProject} 
+          onChange={(e) => setSelectedProject(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '10px 12px',
+            border: '1px solid #C5CED7',
+            borderRadius: '8px',
+            fontSize: '14px',
+            color: '#27248C',
+            background: '#ffffff',
+            cursor: 'pointer'
+          }}
+        >
+          <option value="">Select Project</option>
+          {assignments.map(a => (
+            <option key={a.project} value={a.project}>{a.project_title}</option>
+          ))}
+        </select>
       </div>
 
       {selectedProject && (
-        <>
-          <div className="card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-              <h3>Registered Beneficiaries</h3>
-              <div style={{ fontSize: '14px', color: '#666' }}>
-                Total: {beneficiaries.length} | Showing: {filteredBeneficiaries.length}
-              </div>
+        <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: 0}}>Registered Beneficiaries</h3>
+            <div style={{ fontSize: '13px', color: '#8391B2' }}>
+              Total: {beneficiaries.length} | Showing: {filteredBeneficiaries.length}
             </div>
-            
-            {beneficiaries.length > 0 && (
+          </div>
+          
+          {beneficiaries.length > 0 && (
+            <div style={{marginBottom: '20px'}}>
               <SearchBar 
                 searchData={searchData}
                 onSearch={handleSearch}
                 placeholder="Search beneficiaries by name, phone, or status..."
               />
-            )}
-            
-            {filteredBeneficiaries.length === 0 && beneficiaries.length > 0 ? (
-              <p style={{color: '#666'}}>No beneficiaries match your search.</p>
-            ) : filteredBeneficiaries.length === 0 ? (
-              <p style={{color: '#666'}}>No beneficiaries registered yet.</p>
-            ) : (
-              <table className="table">
+            </div>
+          )}
+          
+          {filteredBeneficiaries.length === 0 && beneficiaries.length > 0 ? (
+            <div style={{textAlign: 'center', padding: '40px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#C5CED7"/>
+              </svg>
+              <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries match your search.</p>
+            </div>
+          ) : filteredBeneficiaries.length === 0 ? (
+            <div style={{textAlign: 'center', padding: '40px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#C5CED7"/>
+              </svg>
+              <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries registered yet.</p>
+            </div>
+          ) : (
+            <div style={{overflowX: 'auto'}}>
+              <table style={{width: '100%', borderCollapse: 'collapse'}}>
                 <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Phone Number</th>
-                    <th>Face Verified</th>
-                    <th>Registered Date</th>
+                  <tr style={{borderBottom: '2px solid #DFE8F0'}}>
+                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Name</th>
+                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Phone Number</th>
+                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Face Verified</th>
+                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Registered Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredBeneficiaries.map((b, idx) => (
-                    <tr key={idx}>
-                      <td>{b.name}</td>
-                      <td>{b.phone_number}</td>
-                      <td>
+                    <tr key={idx} style={{borderBottom: '1px solid #DFE8F0'}}>
+                      <td style={{padding: '12px', fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{b.name}</td>
+                      <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{b.phone_number}</td>
+                      <td style={{padding: '12px'}}>
                         {b.face_verified ? (
-                          <span style={{color: '#22C55E', fontWeight: '600', fontSize: '13px'}}>✓ Verified</span>
+                          <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>✓ Verified</span>
                         ) : (
-                          <span style={{color: '#dc3545', fontSize: '13px'}}>✗ Not Verified</span>
+                          <span style={{padding: '4px 10px', background: '#FEE2E2', color: '#991B1B', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>✗ Not Verified</span>
                         )}
                       </td>
-                      <td>{new Date(b.created_at).toLocaleDateString()}</td>
+                      <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{new Date(b.created_at).toLocaleDateString()}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            )}
-          </div>
-        </>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
@@ -762,55 +787,89 @@ function Distribution({ language }) {
 
   return (
     <div>
-      <h2>Distribute Aid</h2>
-      <p style={{color: '#666', marginBottom: '15px'}}>Verify beneficiaries and distribute aid items</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Distribute Aid</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Verify beneficiaries and distribute aid items</p>
+      </div>
 
-      <div className="card" style={{marginBottom: '15px'}}>
-        <div className="form-group">
-          <label>Select Project</label>
-          <select value={selectedProject} onChange={(e) => setSelectedProject(e.target.value)}>
-            <option value="">Select Project</option>
-            {assignments.map(a => (
-              <option key={a.project} value={a.project}>{a.project_title}</option>
-            ))}
-          </select>
-        </div>
+      <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px'}}>
+        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+        <select 
+          value={selectedProject} 
+          onChange={(e) => setSelectedProject(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '10px 12px',
+            border: '1px solid #C5CED7',
+            borderRadius: '8px',
+            fontSize: '14px',
+            color: '#27248C',
+            background: '#ffffff',
+            cursor: 'pointer'
+          }}
+        >
+          <option value="">Select Project</option>
+          {assignments.map(a => (
+            <option key={a.project} value={a.project}>{a.project_title}</option>
+          ))}
+        </select>
       </div>
 
       {selectedProject && step === 1 && (
-        <div className="card">
-          <h3>Step 1: Search & Select Beneficiary</h3>
-          <p style={{color: '#666', marginBottom: '15px'}}>Search for beneficiaries ready to receive aid</p>
+        <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>Step 1: Search & Select Beneficiary</h3>
+          <p style={{color: '#8391B2', marginBottom: '20px', fontSize: '14px'}}>Search for beneficiaries ready to receive aid</p>
           
           {allBeneficiaries.length > 0 ? (
             <>
-              <SearchBar 
-                searchData={searchData}
-                onSearch={handleSearch}
-                placeholder="Search beneficiaries by name, phone, or verification status..."
-              />
+              <div style={{marginBottom: '20px'}}>
+                <SearchBar 
+                  searchData={searchData}
+                  onSearch={handleSearch}
+                  placeholder="Search beneficiaries by name, phone, or verification status..."
+                />
+              </div>
               
-              <div style={{marginTop: '15px'}}>
-                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
-                  <h4 style={{fontSize: '14px', margin: 0}}>Available Beneficiaries:</h4>
-                  <span style={{fontSize: '13px', color: '#666'}}>Showing {beneficiaries.length} of {allBeneficiaries.length}</span>
+              <div>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
+                  <h4 style={{fontSize: '14px', fontWeight: '600', color: '#27248C', margin: 0}}>Available Beneficiaries</h4>
+                  <span style={{fontSize: '13px', color: '#8391B2'}}>Showing {beneficiaries.length} of {allBeneficiaries.length}</span>
                 </div>
                 {beneficiaries.map(b => (
-                  <div key={b.id} style={{padding: '12px', borderBottom: '1px solid #e0e0e0', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <div key={b.id} style={{padding: '16px', borderBottom: '1px solid #DFE8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <div>
-                      <p style={{margin: 0, fontWeight: '600'}}>{b.name}</p>
-                      <p style={{margin: '2px 0 0 0', fontSize: '13px', color: '#666'}}>{b.phone_number}</p>
-                      <span style={{fontSize: '12px', color: b.face_verified ? '#22C55E' : '#dc3545'}}>
+                      <p style={{margin: 0, fontWeight: '600', fontSize: '15px', color: '#27248C'}}>{b.name}</p>
+                      <p style={{margin: '4px 0 0 0', fontSize: '13px', color: '#8391B2'}}>{b.phone_number}</p>
+                      <span style={{fontSize: '12px', padding: '4px 8px', borderRadius: '6px', marginTop: '4px', display: 'inline-block', background: b.face_verified ? '#D1FAE5' : '#FEE2E2', color: b.face_verified ? '#065F46' : '#991B1B', fontWeight: '600'}}>
                         {b.face_verified ? '✓ Face Verified' : '✗ Not Verified'}
                       </span>
                     </div>
-                    <button onClick={() => handleSelectBeneficiary(b)} className="btn" style={{padding: '6px 12px', fontSize: '13px'}}>Select</button>
+                    <button 
+                      onClick={() => handleSelectBeneficiary(b)} 
+                      style={{
+                        padding: '8px 16px', 
+                        fontSize: '13px', 
+                        fontWeight: '600', 
+                        background: '#27248C', 
+                        color: '#ffffff', 
+                        border: 'none', 
+                        borderRadius: '8px', 
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Select
+                    </button>
                   </div>
                 ))}
               </div>
             </>
           ) : (
-            <p style={{color: '#666'}}>No beneficiaries available for distribution in this project.</p>
+            <div style={{textAlign: 'center', padding: '40px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#C5CED7"/>
+              </svg>
+              <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries available for distribution in this project.</p>
+            </div>
           )}
         </div>
       )}
@@ -1025,77 +1084,106 @@ function ConfirmedBeneficiaries({ language }) {
 
   return (
     <div>
-      <h2>Confirmed Beneficiaries</h2>
-      <p style={{color: '#666', marginBottom: '15px'}}>View beneficiaries who have received and confirmed aid</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Confirmed Beneficiaries</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View beneficiaries who have received and confirmed aid</p>
+      </div>
 
-      <div className="card" style={{marginBottom: '15px'}}>
-        <div className="form-group">
-          <label>Select Project</label>
-          <select value={selectedProject} onChange={(e) => setSelectedProject(e.target.value)}>
-            <option value="">Select Project</option>
-            {assignments.map(a => (
-              <option key={a.project} value={a.project}>{a.project_title}</option>
-            ))}
-          </select>
-        </div>
+      <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px'}}>
+        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+        <select 
+          value={selectedProject} 
+          onChange={(e) => setSelectedProject(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '10px 12px',
+            border: '1px solid #C5CED7',
+            borderRadius: '8px',
+            fontSize: '14px',
+            color: '#27248C',
+            background: '#ffffff',
+            cursor: 'pointer'
+          }}
+        >
+          <option value="">Select Project</option>
+          {assignments.map(a => (
+            <option key={a.project} value={a.project}>{a.project_title}</option>
+          ))}
+        </select>
       </div>
 
       {selectedProject && (
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-            <h3>Confirmed Beneficiaries</h3>
-            <div style={{ fontSize: '14px', color: '#666' }}>
+        <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: 0}}>Confirmed Beneficiaries</h3>
+            <div style={{ fontSize: '13px', color: '#8391B2' }}>
               Total: {confirmedBeneficiaries.length} | Showing: {filteredConfirmed.length}
             </div>
           </div>
           
           {filteredConfirmed.length === 0 && confirmedBeneficiaries.length > 0 ? (
             <>
-              <SearchBar 
-                searchData={searchData}
-                onSearch={handleSearch}
-                placeholder="Search confirmed beneficiaries by name or phone..."
-              />
-              <p style={{color: '#666'}}>No confirmed beneficiaries match your search.</p>
-            </>
-          ) : filteredConfirmed.length === 0 ? (
-            <p style={{color: '#666'}}>No confirmed beneficiaries yet.</p>
-          ) : (
-            <>
-              <div style={{marginBottom: '15px', padding: '10px', background: '#f0f9ff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
-                <p style={{margin: 0, fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>✓ Total Confirmed: {confirmedBeneficiaries.length}</p>
-              </div>
-              
-              {confirmedBeneficiaries.length > 0 && (
+              <div style={{marginBottom: '20px'}}>
                 <SearchBar 
                   searchData={searchData}
                   onSearch={handleSearch}
                   placeholder="Search confirmed beneficiaries by name or phone..."
                 />
+              </div>
+              <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#C5CED7"/>
+                </svg>
+                <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No confirmed beneficiaries match your search.</p>
+              </div>
+            </>
+          ) : filteredConfirmed.length === 0 ? (
+            <div style={{textAlign: 'center', padding: '40px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#C5CED7"/>
+              </svg>
+              <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No confirmed beneficiaries yet.</p>
+            </div>
+          ) : (
+            <>
+              <div style={{marginBottom: '20px', padding: '12px 16px', background: '#D1FAE5', borderRadius: '8px', border: '1px solid #A7F3D0'}}>
+                <p style={{margin: 0, fontSize: '14px', color: '#065F46', fontWeight: '600'}}>✓ Total Confirmed: {confirmedBeneficiaries.length}</p>
+              </div>
+              
+              {confirmedBeneficiaries.length > 0 && (
+                <div style={{marginBottom: '20px'}}>
+                  <SearchBar 
+                    searchData={searchData}
+                    onSearch={handleSearch}
+                    placeholder="Search confirmed beneficiaries by name or phone..."
+                  />
+                </div>
               )}
               
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Phone Number</th>
-                    <th>Registered Date</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredConfirmed.map((b, idx) => (
-                    <tr key={idx}>
-                      <td>{b.name}</td>
-                      <td>{b.phone_number}</td>
-                      <td>{new Date(b.created_at).toLocaleDateString()}</td>
-                      <td>
-                        <span style={{color: '#1E3A8A', fontWeight: '600', fontSize: '13px', background: '#f0f9ff', padding: '4px 8px', borderRadius: '4px'}}>✓ Received & Confirmed</span>
-                      </td>
+              <div style={{overflowX: 'auto'}}>
+                <table style={{width: '100%', borderCollapse: 'collapse'}}>
+                  <thead>
+                    <tr style={{borderBottom: '2px solid #DFE8F0'}}>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Name</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Phone Number</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Registered Date</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filteredConfirmed.map((b, idx) => (
+                      <tr key={idx} style={{borderBottom: '1px solid #DFE8F0'}}>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{b.name}</td>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{b.phone_number}</td>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{new Date(b.created_at).toLocaleDateString()}</td>
+                        <td style={{padding: '12px'}}>
+                          <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>✓ Received & Confirmed</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </>
           )}
         </div>
@@ -1159,85 +1247,114 @@ function ReadyToReceive({ language }) {
 
   return (
     <div>
-      <h2>Ready to Receive Aid</h2>
-      <p style={{color: '#666', marginBottom: '15px'}}>View all registered beneficiaries ready to receive aid</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Ready to Receive Aid</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View all registered beneficiaries ready to receive aid</p>
+      </div>
 
-      <div className="card" style={{marginBottom: '15px'}}>
-        <div className="form-group">
-          <label>Select Project</label>
-          <select value={selectedProject} onChange={(e) => setSelectedProject(e.target.value)}>
-            <option value="">Select Project</option>
-            {assignments.map(a => (
-              <option key={a.project} value={a.project}>{a.project_title}</option>
-            ))}
-          </select>
-        </div>
+      <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '20px'}}>
+        <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Select Project</label>
+        <select 
+          value={selectedProject} 
+          onChange={(e) => setSelectedProject(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '10px 12px',
+            border: '1px solid #C5CED7',
+            borderRadius: '8px',
+            fontSize: '14px',
+            color: '#27248C',
+            background: '#ffffff',
+            cursor: 'pointer'
+          }}
+        >
+          <option value="">Select Project</option>
+          {assignments.map(a => (
+            <option key={a.project} value={a.project}>{a.project_title}</option>
+          ))}
+        </select>
       </div>
 
       {selectedProject && (
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-            <h3>Beneficiaries Ready to Receive</h3>
-            <div style={{ fontSize: '14px', color: '#666' }}>
+        <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: 0}}>Beneficiaries Ready to Receive</h3>
+            <div style={{ fontSize: '13px', color: '#8391B2' }}>
               Total: {readyBeneficiaries.length} | Showing: {filteredReady.length}
             </div>
           </div>
           
           {filteredReady.length === 0 && readyBeneficiaries.length > 0 ? (
             <>
-              <SearchBar 
-                searchData={searchData}
-                onSearch={handleSearch}
-                placeholder="Search ready beneficiaries by name, phone, or verification status..."
-              />
-              <p style={{color: '#666'}}>No beneficiaries match your search.</p>
-            </>
-          ) : filteredReady.length === 0 ? (
-            <p style={{color: '#666'}}>No beneficiaries ready to receive aid.</p>
-          ) : (
-            <>
-              <div style={{marginBottom: '15px', padding: '10px', background: '#f5f5f5', borderRadius: '4px', border: '1px solid #000000'}}>
-                <p style={{margin: 0, fontSize: '14px', color: '#000000', fontWeight: '600'}}>Total Ready: {readyBeneficiaries.length}</p>
-              </div>
-              
-              {readyBeneficiaries.length > 0 && (
+              <div style={{marginBottom: '20px'}}>
                 <SearchBar 
                   searchData={searchData}
                   onSearch={handleSearch}
                   placeholder="Search ready beneficiaries by name, phone, or verification status..."
                 />
+              </div>
+              <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                  <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" fill="#C5CED7"/>
+                </svg>
+                <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries match your search.</p>
+              </div>
+            </>
+          ) : filteredReady.length === 0 ? (
+            <div style={{textAlign: 'center', padding: '40px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" fill="#C5CED7"/>
+              </svg>
+              <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries ready to receive aid.</p>
+            </div>
+          ) : (
+            <>
+              <div style={{marginBottom: '20px', padding: '12px 16px', background: '#FEF3C7', borderRadius: '8px', border: '1px solid #FDE68A'}}>
+                <p style={{margin: 0, fontSize: '14px', color: '#92400E', fontWeight: '600'}}>Total Ready: {readyBeneficiaries.length}</p>
+              </div>
+              
+              {readyBeneficiaries.length > 0 && (
+                <div style={{marginBottom: '20px'}}>
+                  <SearchBar 
+                    searchData={searchData}
+                    onSearch={handleSearch}
+                    placeholder="Search ready beneficiaries by name, phone, or verification status..."
+                  />
+                </div>
               )}
               
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Phone Number</th>
-                    <th>Face Verified</th>
-                    <th>Registered Date</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredReady.map((b, idx) => (
-                    <tr key={idx}>
-                      <td>{b.name}</td>
-                      <td>{b.phone_number}</td>
-                      <td>
-                        {b.face_verified ? (
-                          <span style={{color: '#22C55E', fontWeight: '600', fontSize: '13px'}}>Verified</span>
-                        ) : (
-                          <span style={{color: '#dc3545', fontSize: '13px'}}>Not Verified</span>
-                        )}
-                      </td>
-                      <td>{new Date(b.created_at).toLocaleDateString()}</td>
-                      <td>
-                        <span style={{color: '#000000', fontWeight: '600', fontSize: '13px', background: '#f5f5f5', padding: '4px 8px', borderRadius: '4px'}}>Ready to Receive</span>
-                      </td>
+              <div style={{overflowX: 'auto'}}>
+                <table style={{width: '100%', borderCollapse: 'collapse'}}>
+                  <thead>
+                    <tr style={{borderBottom: '2px solid #DFE8F0'}}>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Name</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Phone Number</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Face Verified</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Registered Date</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filteredReady.map((b, idx) => (
+                      <tr key={idx} style={{borderBottom: '1px solid #DFE8F0'}}>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{b.name}</td>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{b.phone_number}</td>
+                        <td style={{padding: '12px'}}>
+                          {b.face_verified ? (
+                            <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>Verified</span>
+                          ) : (
+                            <span style={{padding: '4px 10px', background: '#FEE2E2', color: '#991B1B', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>Not Verified</span>
+                          )}
+                        </td>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{new Date(b.created_at).toLocaleDateString()}</td>
+                        <td style={{padding: '12px'}}>
+                          <span style={{padding: '4px 10px', background: '#FEF3C7', color: '#92400E', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>Ready to Receive</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </>
           )}
         </div>
@@ -1301,95 +1418,176 @@ function ProfileSettings({ language }) {
 
   return (
     <div>
-      <h2>Profile & Settings</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>Manage your account settings and preferences</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Profile & Settings</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Manage your account settings and preferences</p>
+      </div>
 
-      <div style={{borderBottom: '1px solid #e0e0e0', marginBottom: '20px'}}>
-        <div style={{display: 'flex', gap: '30px'}}>
+      <div style={{borderBottom: '2px solid #DFE8F0', marginBottom: '24px'}}>
+        <div style={{display: 'flex', gap: '32px'}}>
           <button onClick={() => setActiveTab('profile')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'profile' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'profile' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'profile' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'profile' ? '3px solid #27248C' : '3px solid transparent',
+            transition: 'all 0.2s'
           }}>Profile Information</button>
           <button onClick={() => setActiveTab('preferences')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'preferences' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'preferences' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'preferences' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'preferences' ? '3px solid #27248C' : '3px solid transparent',
+            transition: 'all 0.2s'
           }}>Preferences</button>
           <button onClick={() => setActiveTab('activity')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'activity' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'activity' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'activity' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'activity' ? '3px solid #27248C' : '3px solid transparent',
+            transition: 'all 0.2s'
           }}>Activity Log</button>
         </div>
       </div>
 
       {activeTab === 'profile' && (
-        <div className="card">
-          <h3>Profile Information</h3>
+        <div style={{background: '#ffffff', padding: '24px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Profile Information</h3>
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Name</label>
-              <input type="text" value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Name</label>
+              <input 
+                type="text" 
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})} 
+                required 
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  border: '1px solid #C5CED7',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  color: '#27248C'
+                }}
+              />
             </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input type="email" value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})} required />
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Email</label>
+              <input 
+                type="email" 
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})} 
+                required 
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  border: '1px solid #C5CED7',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  color: '#27248C'
+                }}
+              />
             </div>
-            <div className="form-group">
-              <label>Contact</label>
-              <input type="text" value={formData.contact}
-                onChange={(e) => setFormData({...formData, contact: e.target.value})} />
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Contact</label>
+              <input 
+                type="text" 
+                value={formData.contact}
+                onChange={(e) => setFormData({...formData, contact: e.target.value})} 
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  border: '1px solid #C5CED7',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  color: '#27248C'
+                }}
+              />
             </div>
-            <div className="form-group">
-              <label>Role</label>
-              <input type="text" value={user.role} disabled style={{background: '#f5f5f5', color: '#666'}} />
+            <div style={{marginBottom: '24px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Role</label>
+              <input 
+                type="text" 
+                value={user.role} 
+                disabled 
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  border: '1px solid #C5CED7',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  background: '#DFE8F0', 
+                  color: '#8391B2'
+                }} 
+              />
             </div>
-            <button type="submit" className="btn">Save Changes</button>
+            <button 
+              type="submit" 
+              style={{
+                padding: '10px 24px',
+                background: '#27248C',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              Save Changes
+            </button>
           </form>
         </div>
       )}
 
       {activeTab === 'preferences' && (
-        <div className="card">
-          <h3>Notification Preferences</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
-              <input type="checkbox" checked={notifications.emailNotifications}
+        <div style={{background: '#ffffff', padding: '24px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Notification Preferences</h3>
+          <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
+              <input 
+                type="checkbox" 
+                checked={notifications.emailNotifications}
                 onChange={() => handleNotificationChange('emailNotifications')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Email Notifications</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} 
+              />
+              <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>Email Notifications</span>
             </label>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
-              <input type="checkbox" checked={notifications.projectUpdates}
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
+              <input 
+                type="checkbox" 
+                checked={notifications.projectUpdates}
                 onChange={() => handleNotificationChange('projectUpdates')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Project Updates</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} 
+              />
+              <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>Project Updates</span>
             </label>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
-              <input type="checkbox" checked={notifications.monthlyReports}
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: '#DFE8F0', borderRadius: '8px'}}>
+              <input 
+                type="checkbox" 
+                checked={notifications.monthlyReports}
                 onChange={() => handleNotificationChange('monthlyReports')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Monthly Reports</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} 
+              />
+              <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>Monthly Reports</span>
             </label>
           </div>
         </div>
       )}
 
       {activeTab === 'activity' && (
-        <div className="card">
-          <h3>Recent Activity</h3>
+        <div style={{background: '#ffffff', padding: '24px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Recent Activity</h3>
           {activities.length === 0 ? (
-            <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+            <div style={{textAlign: 'center', padding: '40px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" fill="#C5CED7"/>
+              </svg>
+              <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No activity data available</p>
+            </div>
           ) : (
-            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
               {activities.map((activity, idx) => (
-                <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', borderLeft: '3px solid #1E3A8A'}}>
-                  <p style={{margin: '0 0 4px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>{activity.action}</p>
-                  <p style={{margin: '0 0 4px 0', fontSize: '13px', color: '#666'}}>{activity.details}</p>
-                  <p style={{margin: 0, fontSize: '12px', color: '#999'}}>{new Date(activity.created_at).toLocaleString()}</p>
+                <div key={idx} style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', borderLeft: '4px solid #27248C'}}>
+                  <p style={{margin: '0 0 6px 0', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{activity.action}</p>
+                  <p style={{margin: '0 0 6px 0', fontSize: '13px', color: '#8391B2'}}>{activity.details}</p>
+                  <p style={{margin: 0, fontSize: '12px', color: '#8391B2'}}>{new Date(activity.created_at).toLocaleString()}</p>
                 </div>
               ))}
             </div>
@@ -1426,49 +1624,92 @@ function PublicReports({ language }) {
     }
   };
 
-  if (loading) return <div><h2>Public Reports</h2><div className="card"><p>Loading...</p></div></div>;
+  if (loading) return (
+    <div>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Public Reports</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View all submitted public reports</p>
+      </div>
+      <div style={{background: '#ffffff', padding: '40px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+        <p style={{color: '#8391B2', fontSize: '14px'}}>Loading...</p>
+      </div>
+    </div>
+  );
   
   if (error) return (
     <div>
-      <h2>Public Reports</h2>
-      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
-        <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
-        <button onClick={loadReports} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Public Reports</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View all submitted public reports</p>
+      </div>
+      <div style={{background: '#ffffff', padding: '40px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="#C5CED7"/>
+        </svg>
+        <p style={{color: '#991B1B', marginBottom: '16px', fontSize: '14px', fontWeight: '600'}}>{error}</p>
+        <button 
+          onClick={loadReports} 
+          style={{
+            padding: '10px 24px',
+            background: '#27248C',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontWeight: '600',
+            cursor: 'pointer'
+          }}
+        >
+          Retry
+        </button>
       </div>
     </div>
   );
 
   return (
     <div>
-      <h2>Public Reports</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>View all submitted public reports</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Public Reports</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>View all submitted public reports</p>
+      </div>
       
       {reports.length === 0 ? (
-        <div className="card"><p>No reports submitted yet.</p></div>
+        <div style={{background: '#ffffff', padding: '40px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="#C5CED7"/>
+          </svg>
+          <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No reports submitted yet.</p>
+        </div>
       ) : (
-        <div className="card">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Location</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reports.map(report => (
-                <tr key={report.id}>
-                  <td><span className="badge badge-info">{report.report_type}</span></td>
-                  <td>{report.description.substring(0, 100)}...</td>
-                  <td>{report.location || 'N/A'}</td>
-                  <td>{new Date(report.created_at).toLocaleDateString()}</td>
-                  <td><span className="badge badge-success">Published</span></td>
+        <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <div style={{overflowX: 'auto'}}>
+            <table style={{width: '100%', borderCollapse: 'collapse'}}>
+              <thead>
+                <tr style={{borderBottom: '2px solid #DFE8F0'}}>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Type</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Description</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Location</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Date</th>
+                  <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#27248C'}}>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {reports.map(report => (
+                  <tr key={report.id} style={{borderBottom: '1px solid #DFE8F0'}}>
+                    <td style={{padding: '12px'}}>
+                      <span style={{padding: '4px 10px', background: '#DBEAFE', color: '#1E40AF', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>{report.report_type}</span>
+                    </td>
+                    <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{report.description.substring(0, 100)}...</td>
+                    <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{report.location || 'N/A'}</td>
+                    <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{new Date(report.created_at).toLocaleDateString()}</td>
+                    <td style={{padding: '12px'}}>
+                      <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>Published</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
