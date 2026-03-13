@@ -406,40 +406,80 @@ function Dashboard() {
         </div>
       </div>
       
-      <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7'}}>
-        <h3 style={{marginBottom: '16px', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>{t.recentProjects}</h3>
+      <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px'}}>
+        <h3 style={{margin: '0 0 24px 0', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>{t.recentProjects}</h3>
         {stats.projects.length === 0 ? (
           <div style={{textAlign: 'center', padding: '48px 20px'}}>
-            <i className="fas fa-briefcase" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-            <p style={{fontSize: '16px', color: '#000', fontWeight: '600', marginBottom: '8px'}}>{t.noProjectsYet}</p>
-            <p style={{fontSize: '14px', color: '#666', margin: 0}}>{t.createFirstProject}</p>
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="#27248C" style={{marginBottom: '16px'}}>
+              <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+            </svg>
+            <p style={{fontSize: '16px', color: '#27248C', fontWeight: '600', marginBottom: '8px'}}>{t.noProjectsYet}</p>
+            <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>{t.createFirstProject}</p>
           </div>
         ) : (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>{t.title}</th>
-                <th>{t.status}</th>
-                <th>{t.approval}</th>
-                <th>{t.location}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stats.projects.slice(0, 5).map(project => (
-                <tr key={project.id}>
-                  <td style={{fontWeight: '600'}}>{project.title}</td>
-                  <td><span className="badge badge-info">{project.status.replace(/_/g, ' ')}</span></td>
-                  <td>
-                    {project.is_approved ? 
-                      <span className="badge badge-success">{t.approved}</span> : 
-                      <span className="badge badge-warning">{t.pending}</span>
-                    }
-                  </td>
-                  <td>{project.location}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div style={{display: 'grid', gap: '16px'}}>
+            {stats.projects.slice(0, 5).map(project => (
+              <div key={project.id} 
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #C5CED7',
+                  borderRadius: '12px',
+                  padding: '20px',
+                  transition: 'all 0.2s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateX(4px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)';
+                  e.currentTarget.style.borderColor = '#27248C';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateX(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = '#C5CED7';
+                }}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px'}}>
+                  <div style={{flex: 1}}>
+                    <h4 style={{margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600', color: '#27248C'}}>{project.title}</h4>
+                    <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
+                      <span style={{
+                        padding: '4px 12px',
+                        background: '#DFE8F0',
+                        color: '#27248C',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}>{project.status.replace(/_/g, ' ')}</span>
+                      {project.is_approved ? 
+                        <span style={{
+                          padding: '4px 12px',
+                          background: '#22C55E',
+                          color: '#ffffff',
+                          borderRadius: '6px',
+                          fontSize: '12px',
+                          fontWeight: '600'
+                        }}>✓ {t.approved}</span> : 
+                        <span style={{
+                          padding: '4px 12px',
+                          background: '#FFA500',
+                          color: '#ffffff',
+                          borderRadius: '6px',
+                          fontSize: '12px',
+                          fontWeight: '600'
+                        }}>⏱ {t.pending}</span>
+                      }
+                    </div>
+                  </div>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '6px', color: '#8391B2', fontSize: '13px', marginLeft: '16px'}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <span style={{fontWeight: '500'}}>{project.location}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
