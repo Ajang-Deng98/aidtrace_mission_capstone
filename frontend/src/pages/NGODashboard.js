@@ -887,75 +887,82 @@ function Projects() {
 
   return (
     <div>
-      <h2>{t.myProjectsTitle}</h2>
-      <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>{t.viewManageProjects}</p>
+      <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>{t.myProjectsTitle}</h2>
+      <p style={{color: '#8391B2', marginBottom: '32px', fontSize: '14px'}}>{t.viewManageProjects}</p>
       
       {projects.length === 0 ? (
-        <div className="card" style={{textAlign: 'center', padding: '64px 20px'}}>
-          <i className="fas fa-briefcase" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-          <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Projects Yet</h3>
-          <p style={{fontSize: '14px', color: '#666', marginBottom: '24px'}}>You haven't created any projects yet. Start by creating your first project.</p>
+        <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '64px 20px'}}>
+          <i className="fas fa-briefcase" style={{fontSize: '64px', marginBottom: '16px', color: '#27248C'}}></i>
+          <h3 style={{fontSize: '20px', color: '#27248C', margin: '0 0 8px 0', fontWeight: '600'}}>No Projects Yet</h3>
+          <p style={{fontSize: '14px', color: '#8391B2', marginBottom: '24px'}}>You haven't created any projects yet. Start by creating your first project.</p>
           <Link to="/ngo/create-project">
-            <button className="btn" style={{padding: '12px 24px', fontSize: '15px'}}>Create Your First Project</button>
+            <button style={{padding: '12px 32px', fontSize: '15px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+              onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+              onMouseLeave={(e) => e.target.style.background = '#27248C'}>Create Your First Project</button>
           </Link>
         </div>
       ) : (
         <div className="grid">
           {projects.map(project => (
-            <div key={project.id} className="card" 
+            <div key={project.id} 
               style={{
-                border: '1px solid #e0e0e0',
+                background: '#ffffff',
+                borderRadius: '12px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                padding: '24px',
                 transition: 'all 0.2s ease',
                 cursor: 'pointer'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                e.currentTarget.style.borderColor = '#1E3A8A';
+                e.currentTarget.style.boxShadow = '0 8px 16px rgba(39,36,140,0.15)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.borderColor = '#e0e0e0';
+                e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
               }}>
               <div style={{marginBottom: '16px'}}>
-                <h3 style={{color: '#1E3A8A', margin: '0 0 12px 0', fontSize: '18px', fontWeight: '600'}}>{project.title}</h3>
+                <h3 style={{color: '#27248C', margin: '0 0 12px 0', fontSize: '18px', fontWeight: '600'}}>{project.title}</h3>
                 <div style={{display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap'}}>
                   <span className="badge badge-info" style={{fontSize: '12px'}}>{project.category}</span>
                   {project.is_approved ? 
                     <span className="badge badge-success" style={{fontSize: '12px'}}>Approved</span> : 
                     <span className="badge badge-warning" style={{fontSize: '12px'}}>Pending Approval</span>
                   }
-                  <span className="badge" style={{background: '#e0e0e0', color: '#666', fontSize: '12px'}}>{project.status.replace(/_/g, ' ')}</span>
+                  <span className="badge" style={{background: '#DFE8F0', color: '#8391B2', fontSize: '12px'}}>{project.status.replace(/_/g, ' ')}</span>
                 </div>
               </div>
               
-              <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', marginBottom: '16px', fontSize: '13px'}}>
-                <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                  <strong style={{color: '#000'}}>Location:</strong> 
-                  <span>{project.location}</span>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px', fontSize: '13px'}}>
+                <p style={{margin: '8px 0', color: '#8391B2', display: 'flex', justifyContent: 'space-between'}}>
+                  <strong style={{color: '#27248C'}}>Location:</strong> 
+                  <span style={{color: '#27248C'}}>{project.location}</span>
                 </p>
-                <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                  <strong style={{color: '#000'}}>Budget:</strong> 
-                  <span>${parseFloat(project.budget_amount || 0).toLocaleString()}</span>
+                <p style={{margin: '8px 0', color: '#8391B2', display: 'flex', justifyContent: 'space-between'}}>
+                  <strong style={{color: '#27248C'}}>Budget:</strong> 
+                  <span style={{color: '#27248C'}}>${parseFloat(project.budget_amount || 0).toLocaleString()}</span>
                 </p>
-                <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                  <strong style={{color: '#000'}}>Duration:</strong> 
-                  <span>{project.duration_months} months</span>
+                <p style={{margin: '8px 0', color: '#8391B2', display: 'flex', justifyContent: 'space-between'}}>
+                  <strong style={{color: '#27248C'}}>Duration:</strong> 
+                  <span style={{color: '#27248C'}}>{project.duration_months} months</span>
                 </p>
-                <p style={{margin: '6px 0', color: '#666', display: 'flex', justifyContent: 'space-between'}}>
-                  <strong style={{color: '#000'}}>Beneficiaries:</strong> 
-                  <span>{project.target_beneficiaries?.toLocaleString()}</span>
+                <p style={{margin: '8px 0', color: '#8391B2', display: 'flex', justifyContent: 'space-between'}}>
+                  <strong style={{color: '#27248C'}}>Beneficiaries:</strong> 
+                  <span style={{color: '#27248C'}}>{project.target_beneficiaries?.toLocaleString()}</span>
                 </p>
               </div>
               
               <div style={{display: 'flex', gap: '8px'}}>
-                <button onClick={() => navigate(`/ngo/project/${project.id}`)} className="btn" 
-                  style={{flex: 1, padding: '10px', fontSize: '14px'}}>View Details</button>
+                <button onClick={() => navigate(`/ngo/project/${project.id}`)} 
+                  style={{flex: 1, padding: '12px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+                  onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+                  onMouseLeave={(e) => e.target.style.background = '#27248C'}>View Details</button>
                 
                 {(project.status === 'FUNDED' || project.status === 'CREATED') && (
-                  <button onClick={() => navigate(`/ngo/suppliers/create?project=${project.id}`)} className="btn" 
-                    style={{padding: '10px 16px', fontSize: '14px', background: '#1E3A8A', whiteSpace: 'nowrap'}}>{t.getSupplier}</button>
+                  <button onClick={() => navigate(`/ngo/suppliers/create?project=${project.id}`)} 
+                    style={{padding: '12px 20px', fontSize: '14px', fontWeight: '600', background: '#4857A8', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap'}}
+                    onMouseEnter={(e) => e.target.style.background = '#27248C'}
+                    onMouseLeave={(e) => e.target.style.background = '#4857A8'}>{t.getSupplier}</button>
                 )}
               </div>
             </div>
@@ -1012,98 +1019,122 @@ function ProfileSettings() {
 
   return (
     <div>
-      <h2>Profile & Settings</h2>
-      <p style={{color: '#666', marginBottom: '12px', fontSize: '14px'}}>Manage your account settings and preferences</p>
+      <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>Profile & Settings</h2>
+      <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>Manage your account settings and preferences</p>
 
-      <div style={{borderBottom: '1px solid #e0e0e0', marginBottom: '20px'}}>
-        <div style={{display: 'flex', gap: '30px'}}>
+      <div style={{borderBottom: '2px solid #C5CED7', marginBottom: '32px'}}>
+        <div style={{display: 'flex', gap: '32px'}}>
           <button onClick={() => setActiveTab('profile')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'profile' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'profile' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', fontWeight: '600',
+            color: activeTab === 'profile' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'profile' ? '3px solid #27248C' : '3px solid transparent',
+            transition: 'all 0.2s'
           }}>Profile Information</button>
           <button onClick={() => setActiveTab('preferences')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'preferences' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'preferences' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', fontWeight: '600',
+            color: activeTab === 'preferences' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'preferences' ? '3px solid #27248C' : '3px solid transparent',
+            transition: 'all 0.2s'
           }}>Preferences</button>
           <button onClick={() => setActiveTab('activity')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'activity' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'activity' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', fontWeight: '600',
+            color: activeTab === 'activity' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'activity' ? '3px solid #27248C' : '3px solid transparent',
+            transition: 'all 0.2s'
           }}>Activity Log</button>
         </div>
       </div>
 
       {activeTab === 'profile' && (
-        <div className="card">
-          <h3>Profile Information</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>Profile Information</h3>
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Name</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Name</label>
               <input type="text" value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                required />
             </div>
-            <div className="form-group">
-              <label>Email</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Email</label>
               <input type="email" value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})} required />
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                required />
             </div>
-            <div className="form-group">
-              <label>Contact</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Contact</label>
               <input type="text" value={formData.contact}
-                onChange={(e) => setFormData({...formData, contact: e.target.value})} />
+                onChange={(e) => setFormData({...formData, contact: e.target.value})}
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'} />
             </div>
-            <div className="form-group">
-              <label>Role</label>
-              <input type="text" value={user.role} disabled style={{background: '#f5f5f5', color: '#666'}} />
+            <div style={{marginBottom: '24px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Role</label>
+              <input type="text" value={user.role} disabled 
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', background: '#DFE8F0', color: '#8391B2'}} />
             </div>
-            <button type="submit" className="btn">Save Changes</button>
+            <button type="submit" 
+              style={{padding: '12px 32px', fontSize: '15px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+              onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+              onMouseLeave={(e) => e.target.style.background = '#27248C'}>Save Changes</button>
           </form>
         </div>
       )}
 
       {activeTab === 'preferences' && (
-        <div className="card">
-          <h3>Notification Preferences</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>Notification Preferences</h3>
+          <div style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '16px', background: '#DFE8F0', borderRadius: '8px', transition: 'all 0.2s'}}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#C5CED7'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#DFE8F0'}>
               <input type="checkbox" checked={notifications.emailNotifications}
                 onChange={() => handleNotificationChange('emailNotifications')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Email Notifications</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} />
+              <span style={{fontSize: '15px', fontWeight: '500', color: '#27248C'}}>Email Notifications</span>
             </label>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '16px', background: '#DFE8F0', borderRadius: '8px', transition: 'all 0.2s'}}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#C5CED7'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#DFE8F0'}>
               <input type="checkbox" checked={notifications.projectUpdates}
                 onChange={() => handleNotificationChange('projectUpdates')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Project Updates</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} />
+              <span style={{fontSize: '15px', fontWeight: '500', color: '#27248C'}}>Project Updates</span>
             </label>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '16px', background: '#DFE8F0', borderRadius: '8px', transition: 'all 0.2s'}}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#C5CED7'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#DFE8F0'}>
               <input type="checkbox" checked={notifications.monthlyReports}
                 onChange={() => handleNotificationChange('monthlyReports')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Monthly Reports</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} />
+              <span style={{fontSize: '15px', fontWeight: '500', color: '#27248C'}}>Monthly Reports</span>
             </label>
           </div>
         </div>
       )}
 
       {activeTab === 'activity' && (
-        <div className="card">
-          <h3>Recent Activity</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px'}}>
+          <h3 style={{margin: '0 0 24px 0', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>Recent Activity</h3>
           {activities.length === 0 ? (
-            <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+            <p style={{color: '#8391B2', fontSize: '14px'}}>No activity data available</p>
           ) : (
             <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
               {activities.map((activity, idx) => (
-                <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px'}}>
-                    <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#000'}}>{activity.action}</p>
-                    <span style={{fontSize: '12px', color: '#666'}}>{new Date(activity.created_at).toLocaleString()}</span>
+                <div key={idx} style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', border: 'none'}}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px'}}>
+                    <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#27248C'}}>{activity.action}</p>
+                    <span style={{fontSize: '12px', color: '#8391B2'}}>{new Date(activity.created_at).toLocaleString()}</span>
                   </div>
                   {activity.details && (
-                    <p style={{margin: '4px 0 0 0', fontSize: '13px', color: '#666'}}>{activity.details}</p>
+                    <p style={{margin: '4px 0 0 0', fontSize: '14px', color: '#8391B2'}}>{activity.details}</p>
                   )}
                 </div>
               ))}
