@@ -62,8 +62,8 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
         height: '100vh',
         zIndex: 1000
       }}>
-        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'}}>
-          <h1 style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.5px'}}>AidTrace</h1>
+        <div style={{padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px'}}>
+          <img src="/logo.svg" alt="AidTrace" style={{height: '40px', width: 'auto'}} />
           <p style={{margin: 0, fontSize: '11px', color: '#B3BEC7', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px'}}>Supplier Portal</p>
         </div>
 
