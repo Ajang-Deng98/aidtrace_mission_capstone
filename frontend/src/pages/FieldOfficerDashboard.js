@@ -79,7 +79,7 @@ class DistributionService {
 class ProfileService {
   static async loadActivities() {
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:8000/api/activity-log/', {
+    const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/activity-log/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     return await response.json();

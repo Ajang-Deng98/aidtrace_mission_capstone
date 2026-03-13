@@ -1046,7 +1046,7 @@ function ProfileSettings() {
   const loadActivities = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8000/api/activity-log/', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/activity-log/`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -2080,7 +2080,7 @@ function QuoteDetails() {
                             e.stopPropagation();
                             try {
                               const token = localStorage.getItem('token');
-                              const response = await fetch(`http://localhost:8000/api/ngo/download-quote/${quote.id}/`, {
+                              const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/ngo/download-quote/${quote.id}/`, {
                                 headers: { 'Authorization': `Bearer ${token}` }
                               });
                               if (!response.ok) throw new Error('Download failed');
@@ -2311,7 +2311,7 @@ function ProjectDetails() {
   const handleDownloadReport = async (fundingId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8000/api/donor/funding-report/${fundingId}/`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/donor/funding-report/${fundingId}/`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!response.ok) throw new Error('Download failed');
@@ -2414,7 +2414,7 @@ function ProjectDetails() {
                 </div>
                 <button onClick={async () => {
                   const token = localStorage.getItem('token');
-                  const response = await fetch(`http://localhost:8000/api/project/${project.id}/document/4/`, {
+                  const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${project.id}/document/4/`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                   });
                   if (!response.ok) throw new Error('Download failed');
@@ -2442,7 +2442,7 @@ function ProjectDetails() {
                 </div>
                 <button onClick={async () => {
                   const token = localStorage.getItem('token');
-                  const response = await fetch(`http://localhost:8000/api/project/${project.id}/document/1/`, {
+                  const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${project.id}/document/1/`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                   });
                   if (!response.ok) throw new Error('Download failed');
@@ -2470,7 +2470,7 @@ function ProjectDetails() {
                 </div>
                 <button onClick={async () => {
                   const token = localStorage.getItem('token');
-                  const response = await fetch(`http://localhost:8000/api/project/${project.id}/document/2/`, {
+                  const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${project.id}/document/2/`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                   });
                   if (!response.ok) throw new Error('Download failed');
@@ -2498,7 +2498,7 @@ function ProjectDetails() {
                 </div>
                 <button onClick={async () => {
                   const token = localStorage.getItem('token');
-                  const response = await fetch(`http://localhost:8000/api/project/${project.id}/document/3/`, {
+                  const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${project.id}/document/3/`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                   });
                   if (!response.ok) throw new Error('Download failed');
@@ -3583,7 +3583,7 @@ function PublicReports() {
 
   const loadReports = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/public-reports/list/');
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/public-reports/list/`);
       const data = await response.json();
       setReports(data);
       setLoading(false);

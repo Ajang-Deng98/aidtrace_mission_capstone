@@ -99,7 +99,7 @@ class AnalyticsService {
 class ProfileService {
   static async loadActivities() {
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:8000/api/activity-log/', {
+    const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/activity-log/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     return await response.json();
@@ -126,10 +126,6 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [allSearchData, setAllSearchData] = useState([]);
-
-  useEffect(() => {
-    loadSearchData();
-  }, []);
 
   const loadSearchData = async () => {
     try {

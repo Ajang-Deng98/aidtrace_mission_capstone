@@ -15,39 +15,17 @@ class AnalyticsService {
       donorAPI.getProjects()
     ]);
     
-    const fundingsList = await this.fetchUserFundings(funded.data);
-    
     return {
       fundedProjects: funded.data,
-      allProjects: all.data,
-      fundings: fundingsList
+      allProjects: all.data
     };
   }
   
-  static async fetchUserFundings(projects) {
-    const userId = JSON.parse(localStorage.getItem('user')).id;
-    const fundingsList = [];
-    
-    await Promise.all(projects.map(async (project) => {
-      try {
-        const details = await donorAPI.getProjectDetails(project.id);
-        if (details.data.fundings) {
-          const userFundings = details.data.fundings.filter(f => f.donor === userId);
-          fundingsList.push(...userFundings);
-        }
-      } catch (err) {
-        console.error(`Error loading project ${project.id}:`, err);
-      }
-    }));
-    
-    return fundingsList;
-  }
-  
-  static calculateMetrics(fundedProjects, fundings) {
+  static calculateMetrics(fundedProjects) {
     return {
       totalFunded: fundedProjects.length,
-      totalDonated: fundings.reduce((sum, f) => sum + parseFloat(f.amount), 0),
-      blockchainProofs: fundings.length,
+      totalDonated: fundedProjects.reduce((sum, p) => sum + parseFloat(p.budget_amount || 0), 0),
+      blockchainProofs: fundedProjects.filter(p => p.blockchain_tx).length,
       categoriesSupported: [...new Set(fundedProjects.map(p => p.category))].length
     };
   }
@@ -91,7 +69,8 @@ class ProjectService {
   
   static async loadProjectBeneficiaries(projectId) {
     const token = localStorage.getItem('token');
-    const response = await fetch(`http://localhost:8000/api/ngo/project/${projectId}/beneficiaries/`, {
+    const baseUrl = (process.env.REACT_APP_API_URL || 'http://localhost:8000/api');
+    const response = await fetch(`${baseUrl}/ngo/project/${projectId}/beneficiaries/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (response.ok) {
@@ -113,7 +92,8 @@ class ProjectService {
 class ProfileService {
   static async loadActivities() {
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:8000/api/activity-log/', {
+    const baseUrl = (process.env.REACT_APP_API_URL || 'http://localhost:8000/api');
+    const response = await fetch(`${baseUrl}/activity-log/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     return await response.json();
@@ -141,10 +121,6 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
   const [activeTab, setActiveTab] = useState('analytics');
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [allSearchData, setAllSearchData] = useState([]);
-
-  useEffect(() => {
-    loadSearchData();
-  }, []);
 
   const loadSearchData = async () => {
     try {
@@ -460,7 +436,7 @@ function Analytics({ language = 'en' }) {
   
   if (!data) return null;
 
-  const metrics = AnalyticsService.calculateMetrics(data.fundedProjects, data.fundings);
+  const metrics = AnalyticsService.calculateMetrics(data.fundedProjects);
   const categoryData = AnalyticsService.groupByCategory(data.fundedProjects);
   const statusData = AnalyticsService.groupByStatus(data.fundedProjects);
 
@@ -836,7 +812,7 @@ function AllProjects({ language = 'en' }) {
                       onClick={async () => {
                         try {
                           const token = localStorage.getItem('token');
-                          const response = await fetch(`http://localhost:8000/api/project/${viewingProject.id}/document/1/`, {
+                          const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${viewingProject.id}/document/1/`, {
                             headers: { 'Authorization': `Bearer ${token}` }
                           });
                           if (!response.ok) throw new Error('Download failed');
@@ -868,7 +844,7 @@ function AllProjects({ language = 'en' }) {
                       onClick={async () => {
                         try {
                           const token = localStorage.getItem('token');
-                          const response = await fetch(`http://localhost:8000/api/project/${viewingProject.id}/document/2/`, {
+                          const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${viewingProject.id}/document/2/`, {
                             headers: { 'Authorization': `Bearer ${token}` }
                           });
                           if (!response.ok) throw new Error('Download failed');
@@ -900,7 +876,7 @@ function AllProjects({ language = 'en' }) {
                       onClick={async () => {
                         try {
                           const token = localStorage.getItem('token');
-                          const response = await fetch(`http://localhost:8000/api/project/${viewingProject.id}/document/3/`, {
+                          const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${viewingProject.id}/document/3/`, {
                             headers: { 'Authorization': `Bearer ${token}` }
                           });
                           if (!response.ok) throw new Error('Download failed');
@@ -932,7 +908,7 @@ function AllProjects({ language = 'en' }) {
                       onClick={async () => {
                         try {
                           const token = localStorage.getItem('token');
-                          const response = await fetch(`http://localhost:8000/api/project/${viewingProject.id}/document/4/`, {
+                          const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${viewingProject.id}/document/4/`, {
                             headers: { 'Authorization': `Bearer ${token}` }
                           });
                           if (!response.ok) throw new Error('Download failed');
@@ -1222,7 +1198,7 @@ function ProjectDetails({ language = 'en' }) {
                   onClick={async () => {
                     try {
                       const token = localStorage.getItem('token');
-                      const response = await fetch(`http://localhost:8000/api/project/${details.project.id}/document/1/`, {
+                      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${details.project.id}/document/1/`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                       });
                       if (!response.ok) throw new Error('Download failed');
@@ -1254,7 +1230,7 @@ function ProjectDetails({ language = 'en' }) {
                   onClick={async () => {
                     try {
                       const token = localStorage.getItem('token');
-                      const response = await fetch(`http://localhost:8000/api/project/${details.project.id}/document/2/`, {
+                      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${details.project.id}/document/2/`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                       });
                       if (!response.ok) throw new Error('Download failed');
@@ -1286,7 +1262,7 @@ function ProjectDetails({ language = 'en' }) {
                   onClick={async () => {
                     try {
                       const token = localStorage.getItem('token');
-                      const response = await fetch(`http://localhost:8000/api/project/${details.project.id}/document/3/`, {
+                      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/project/${details.project.id}/document/3/`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                       });
                       if (!response.ok) throw new Error('Download failed');
@@ -1382,7 +1358,7 @@ function ProjectDetails({ language = 'en' }) {
                   onClick={async () => {
                     try {
                       const token = localStorage.getItem('token');
-                      const response = await fetch(`http://localhost:8000/api/donor/funding-report/${funding.id}/`, {
+                      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000/api'}/donor/funding-report/${funding.id}/`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                       });
                       if (!response.ok) throw new Error('Download failed');
