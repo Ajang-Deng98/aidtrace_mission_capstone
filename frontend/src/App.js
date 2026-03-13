@@ -14,10 +14,7 @@ import SupplierDashboard from './pages/SupplierDashboard';
 import FieldOfficerDashboard from './pages/FieldOfficerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
-import './styles/humanitarian-theme.css';
-import './styles/global-responsive.css';
-import './styles/dashboard-colors.css';
-import './styles/clean-design.css';
+import './styles/main.css';
 
 function App() {
   const [language, setLanguage] = React.useState(localStorage.getItem('language') || 'en');
