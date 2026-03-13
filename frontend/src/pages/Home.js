@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { translations } from '../translations';
 import './Home.css';
-import '../styles/responsive.css';
 
 function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
   const t = translations[language] || translations['en'];
