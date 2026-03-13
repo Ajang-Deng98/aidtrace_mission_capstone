@@ -1,20 +1,14 @@
 /* Clean Modern Design System */
 
 :root {
-  /* Primary Colors - Blue 60% (Trust & Reliability) */
-  --primary: #2563EB;
-  --primary-dark: #1D4ED8;
+  /* Primary Colors - Blue (Trust & Reliability) */
+  --primary: #1E3A8A;
+  --primary-dark: #1E40AF;
   --primary-light: #3B82F6;
   
-  /* Secondary Colors - Green 30% (Growth & Nature) */
-  --secondary: #10B981;
-  --secondary-dark: #059669;
-  --secondary-light: #34D399;
-  
-  /* Accent Colors - Orange/Red 10% (Action & Optimism) */
-  --accent: #EF4444;
-  --accent-orange: #F97316;
-  --accent-yellow: #F59E0B;
+  /* Accent Colors - Teal (Innovation & Growth) */
+  --accent: #0EA5A4;
+  --accent-light: #14B8B7;
   
   /* Neutral Colors */
   --gray-50: #F9FAFB;
@@ -67,46 +61,30 @@ button:hover, .btn:hover {
   transform: translateY(-1px) !important;
 }
 
-/* Primary Button - Blue 60% */
+/* Primary Button - Blue Accent */
+button[type="submit"],
 .btn-primary,
 button.btn-primary-cta {
-  background: var(--primary) !important;
-  color: white !important;
-  border: none !important;
-}
-
-.btn-primary:hover {
-  background: var(--primary-dark) !important;
-  transform: translateY(-2px) !important;
-}
-
-/* Secondary Button - Green 30% */
-.btn-secondary,
-button[style*="background: '#000000'"] {
-  background: var(--secondary) !important;
-  color: white !important;
-  border: none !important;
-}
-
-.btn-secondary:hover {
-  background: var(--secondary-dark) !important;
-  transform: translateY(-2px) !important;
-}
-
-/* Action Button - Red 10% (Donations, CTAs) */
-button[type="submit"],
-.btn-action,
-.btn-donate {
-  background: var(--accent) !important;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
   color: white !important;
   border: none !important;
 }
 
 button[type="submit"]:hover,
-.btn-action:hover,
-.btn-donate:hover {
-  background: #DC2626 !important;
-  transform: translateY(-2px) !important;
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%) !important;
+}
+
+/* Secondary Button - Clean Gray */
+.btn-secondary,
+button[style*="background: '#000000'"] {
+  background: var(--gray-800) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-secondary:hover {
+  background: var(--gray-700) !important;
 }
 
 /* Outline Button */
@@ -122,15 +100,11 @@ button[type="submit"]:hover,
   color: var(--primary) !important;
 }
 
-/* Success Button - Green */
+/* Success Button */
 .btn-success {
-  background: var(--secondary) !important;
+  background: linear-gradient(135deg, var(--success) 0%, #059669 100%) !important;
   color: white !important;
   border: none !important;
-}
-
-.btn-success:hover {
-  background: var(--secondary-dark) !important;
 }
 
 /* Clean Sidebar Design */
@@ -156,13 +130,13 @@ div[style*="width: '240px'"] button:hover {
   color: var(--primary) !important;
 }
 
-/* Active Sidebar Item - Blue 60% */
+/* Active Sidebar Item */
 div[style*="width: '220px'"] button[style*="background: '#1E40AF'"],
 div[style*="width: '220px'"] button[style*="background: 'rgba(255,255,255,0.1)"],
 div[style*="width: '240px'"] button[style*="background: '#1E40AF'"] {
-  background: var(--primary) !important;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
   color: white !important;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2) !important;
 }
 
 /* Stat Cards - Clean Design */
@@ -182,15 +156,7 @@ div[style*="width: '240px'"] button[style*="background: '#1E40AF'"] {
   left: 0;
   width: 4px;
   height: 100%;
-  background: var(--primary);
-}
-
-.stat-card.green-accent::before {
-  background: var(--secondary);
-}
-
-.stat-card.orange-accent::before {
-  background: var(--accent-orange);
+  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
 }
 
 .stat-card h3 {
@@ -210,7 +176,7 @@ div[style*="width: '240px'"] button[style*="background: '#1E40AF'"] {
 }
 
 .table th {
-  background: var(--primary) !important;
+  background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%) !important;
   color: white !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
@@ -293,20 +259,20 @@ div[style*="position: fixed"][style*="z-index: 1000"] > div {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 
-/* Progress Bars - Blue 60% */
+/* Progress Bars */
 div[style*="background: '#1E3A8A'"][style*="height: '8px'"],
 div[style*="background: '#1E3A8A'"][style*="height: '6px'"] {
-  background: var(--primary) !important;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%) !important;
   border-radius: 4px !important;
 }
 
-/* Icons with Background - Blue 60% */
+/* Icons with Background */
 div[style*="borderRadius: '50%'"][style*="background"],
 div[style*="borderRadius: '12px'"][style*="width: '40px'"],
 div[style*="borderRadius: '12px'"][style*="width: '48px'"],
 div[style*="borderRadius: '12px'"][style*="width: '56px'"] {
-  background: var(--primary) !important;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2) !important;
 }
 
 /* Links */
@@ -393,7 +359,6 @@ hr {
 
 /* Text Colors */
 .text-primary { color: var(--primary) !important; }
-.text-secondary { color: var(--secondary) !important; }
 .text-accent { color: var(--accent) !important; }
 .text-success { color: var(--success) !important; }
 .text-warning { color: var(--warning) !important; }
