@@ -4,7 +4,24 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 const api = axios.create({
   baseURL: API_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.code === 'ECONNABORTED') {
+      console.error('Request timeout');
+    }
+    if (!error.response) {
+      console.error('Network error - Backend may not be running');
+    }
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');

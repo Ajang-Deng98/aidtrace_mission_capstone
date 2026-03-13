@@ -19,7 +19,8 @@ function NGODashboard({ language = 'en', changeLanguage }) {
   const [allSearchData, setAllSearchData] = useState([]);
 
   useEffect(() => {
-    loadSearchData();
+    // Only load search data when user actually searches, not on mount
+    // loadSearchData();
   }, []);
 
   const loadSearchData = async () => {
