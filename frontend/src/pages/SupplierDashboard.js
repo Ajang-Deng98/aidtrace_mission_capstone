@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
-import { supplierAPI } from '../services/api';
+import { supplierAPI, publicAPI } from '../services/api';
 import { translations } from '../translations';
 import { useNotification } from '../components/NotificationProvider';
 import SearchBar from '../components/SearchBar';
@@ -114,8 +114,8 @@ class ProfileService {
 
 class ReportsService {
   static async loadPublicReports() {
-    const response = await fetch('http://localhost:8000/api/public-reports/list/');
-    return await response.json();
+    const response = await publicAPI.getReports();
+    return response.data;
   }
 }
 

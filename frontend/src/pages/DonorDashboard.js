@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { donorAPI } from '../services/api';
+import { donorAPI, publicAPI } from '../services/api';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { translations } from '../translations';
 import { useNotification } from '../components/NotificationProvider';
@@ -129,8 +129,8 @@ class ProfileService {
 // Reports Service
 class ReportsService {
   static async loadPublicReports() {
-    const response = await fetch('http://localhost:8000/api/public-reports/list/');
-    return await response.json();
+    const response = await publicAPI.getReports();
+    return response.data;
   }
 }
 
@@ -168,8 +168,8 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
       });
       
       // Load reports
-      const reportsRes = await fetch('http://localhost:8000/api/public-reports/list/');
-      const reports = await reportsRes.json();
+      const reportsRes = await publicAPI.getReports();
+      const reports = reportsRes.data;
       
       reports.forEach(report => {
         searchData.push({
