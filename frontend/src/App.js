@@ -13,7 +13,6 @@ import NGODashboard from './pages/NGODashboard';
 import SupplierDashboard from './pages/SupplierDashboard';
 import FieldOfficerDashboard from './pages/FieldOfficerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
-import './styles/canva-dashboard.css';
 import './App.css';
 
 function App() {

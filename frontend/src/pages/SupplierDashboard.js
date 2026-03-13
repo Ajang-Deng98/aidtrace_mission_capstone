@@ -181,7 +181,7 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
 
         <div style={{padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
           <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#ffffff'}}>{user.name}</p>
-          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#B3BEC7'}}>Supplier</p>
+          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#ffffff'}}>Supplier</p>
         </div>
 
         <nav style={{flex: 1, padding: '8px 0'}}>
