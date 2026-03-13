@@ -3136,21 +3136,28 @@ function Beneficiaries() {
 
   return (
     <div>
-      <h2>Beneficiaries</h2>
-      <p style={{color: '#666', marginBottom: '15px'}}>Register and manage project beneficiaries</p>
+      <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>Beneficiaries</h2>
+      <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>Register and manage project beneficiaries</p>
       
-      <button onClick={() => setShowForm(!showForm)} className="btn" style={{marginBottom: '15px'}}>
+      <button onClick={() => setShowForm(!showForm)} 
+        style={{marginBottom: '24px', padding: '12px 24px', fontSize: '15px', fontWeight: '600', background: showForm ? '#8391B2' : '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+        onMouseEnter={(e) => e.target.style.background = showForm ? '#8391B2' : '#4857A8'}
+        onMouseLeave={(e) => e.target.style.background = showForm ? '#8391B2' : '#27248C'}>
         {showForm ? 'Cancel' : 'Register New Beneficiary'}
       </button>
       
       {showForm && (
-        <div className="card" style={{marginBottom: '15px', border: '1px solid #1E3A8A'}}>
-          <h3 style={{fontSize: '16px', marginBottom: '15px'}}>Register Beneficiary</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px', marginBottom: '24px'}}>
+          <h3 style={{fontSize: '18px', marginBottom: '24px', color: '#27248C', fontWeight: '600'}}>Register Beneficiary</h3>
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Project</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Project</label>
               <select value={formData.project_id}
-                onChange={(e) => setFormData({...formData, project_id: e.target.value})} required>
+                onChange={(e) => setFormData({...formData, project_id: e.target.value})}
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s', background: '#ffffff'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                required>
                 <option value="">Select Project</option>
                 {projects.map(p => (
                   <option key={p.id} value={p.id}>{p.title}</option>
@@ -3158,31 +3165,41 @@ function Beneficiaries() {
               </select>
             </div>
             
-            <div className="form-group">
-              <label>Beneficiary Name</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Beneficiary Name</label>
               <input type="text" value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                required />
             </div>
             
-            <div className="form-group">
-              <label>Phone Number</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Phone Number</label>
               <input type="text" value={formData.phone_number}
                 onChange={(e) => setFormData({...formData, phone_number: e.target.value})}
-                placeholder="+211XXXXXXXXX" required />
+                placeholder="+211XXXXXXXXX"
+                style={{width: '100%', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', transition: 'all 0.2s'}}
+                onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                onBlur={(e) => e.target.style.borderColor = '#C5CED7'}
+                required />
             </div>
             
-            <div className="form-group">
-              <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '14px'}}>Face Photo (Required)</label>
-              <div style={{border: '2px dashed #1E3A8A', borderRadius: '8px', padding: '20px', textAlign: 'center', background: '#f8f9fa'}}>
+            <div style={{marginBottom: '24px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '14px', color: '#27248C'}}>Face Photo (Required)</label>
+              <div style={{border: '2px dashed #C5CED7', borderRadius: '12px', padding: '32px', textAlign: 'center', background: '#DFE8F0', transition: 'all 0.2s'}}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#27248C'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = '#C5CED7'}>
                 {facePreview ? (
                   <div>
-                    <img src={facePreview} alt="Face preview" style={{maxWidth: '200px', maxHeight: '200px', borderRadius: '8px', marginBottom: '10px'}} />
-                    <p style={{margin: '10px 0 0 0', fontSize: '13px', color: '#22C55E', fontWeight: '600'}}>✓ Face photo uploaded</p>
+                    <img src={facePreview} alt="Face preview" style={{maxWidth: '200px', maxHeight: '200px', borderRadius: '12px', marginBottom: '16px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)'}} />
+                    <p style={{margin: '0', fontSize: '14px', color: '#22C55E', fontWeight: '600'}}>✓ Face photo uploaded</p>
                   </div>
                 ) : (
                   <div>
-                    <i className="fas fa-camera" style={{fontSize: '48px', color: '#1E3A8A', marginBottom: '10px'}}></i>
-                    <p style={{margin: '0 0 10px 0', fontSize: '14px', color: '#666'}}>Upload beneficiary face photo</p>
+                    <i className="fas fa-camera" style={{fontSize: '48px', color: '#27248C', marginBottom: '16px'}}></i>
+                    <p style={{margin: '0 0 16px 0', fontSize: '14px', color: '#8391B2'}}>Upload beneficiary face photo</p>
                   </div>
                 )}
                 <input 
@@ -3195,30 +3212,35 @@ function Beneficiaries() {
                 />
                 <label htmlFor="faceUpload" style={{
                   display: 'inline-block',
-                  padding: '10px 20px',
-                  background: '#1E3A8A',
+                  padding: '12px 24px',
+                  background: '#27248C',
                   color: '#fff',
-                  borderRadius: '4px',
+                  borderRadius: '8px',
                   cursor: 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
-                  marginTop: '10px'
-                }}>
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+                onMouseLeave={(e) => e.target.style.background = '#27248C'}>
                   {facePreview ? 'Change Photo' : 'Choose Photo'}
                 </label>
               </div>
-              <small style={{color: '#666', fontSize: '12px', display: 'block', marginTop: '8px'}}>This photo will be used for facial recognition during aid distribution</small>
+              <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '8px'}}>This photo will be used for facial recognition during aid distribution</small>
             </div>
             
-            <LoadingButton type="submit" loading={registerLoading} className="btn" style={{width: '100%', padding: '12px', fontSize: '15px'}}>Register Beneficiary</LoadingButton>
+            <LoadingButton type="submit" loading={registerLoading} 
+              style={{width: '100%', padding: '14px', fontSize: '15px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+              onMouseEnter={(e) => !registerLoading && (e.target.style.background = '#4857A8')}
+              onMouseLeave={(e) => !registerLoading && (e.target.style.background = '#27248C')}>Register Beneficiary</LoadingButton>
           </form>
         </div>
       )}
       
-      <div className="card">
-        <h3>Registered Beneficiaries</h3>
+      <div style={{background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px'}}>
+        <h3 style={{margin: '0 0 24px 0', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>Registered Beneficiaries</h3>
         {beneficiaries.length === 0 ? (
-          <p style={{color: '#666'}}>No beneficiaries registered yet.</p>
+          <p style={{color: '#8391B2', textAlign: 'center', padding: '32px 0'}}>No beneficiaries registered yet.</p>
         ) : (
           <table className="table">
             <thead>
