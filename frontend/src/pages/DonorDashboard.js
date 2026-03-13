@@ -1671,160 +1671,180 @@ function ProfileSettings({ language = 'en' }) {
 
   return (
     <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
-      <h2>{t.profileSettings}</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>{t.manageAccountSettings}</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>{t.profileSettings}</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>{t.manageAccountSettings}</p>
+      </div>
 
-      <div style={{display: 'flex', gap: '10px', marginBottom: '20px', borderBottom: '1px solid #e0e0e0'}}>
-        <button
-          onClick={() => setActiveSection('profile')}
-          style={{
-            padding: '10px 20px',
-            background: 'transparent',
-            border: 'none',
-            borderBottom: activeSection === 'profile' ? '2px solid #1E3A8A' : '2px solid transparent',
-            color: activeSection === 'profile' ? '#1E3A8A' : '#666',
-            fontWeight: activeSection === 'profile' ? '600' : '400',
-            fontSize: '14px',
-            cursor: 'pointer'
-          }}
-        >
-          {t.profileInformation}
-        </button>
-        <button
-          onClick={() => setActiveSection('preferences')}
-          style={{
-            padding: '10px 20px',
-            background: 'transparent',
-            border: 'none',
-            borderBottom: activeSection === 'preferences' ? '2px solid #1E3A8A' : '2px solid transparent',
-            color: activeSection === 'preferences' ? '#1E3A8A' : '#666',
-            fontWeight: activeSection === 'preferences' ? '600' : '400',
-            fontSize: '14px',
-            cursor: 'pointer'
-          }}
-        >
-          {t.preferences}
-        </button>
-        <button
-          onClick={() => setActiveSection('activity')}
-          style={{
-            padding: '10px 20px',
-            background: 'transparent',
-            border: 'none',
-            borderBottom: activeSection === 'activity' ? '2px solid #1E3A8A' : '2px solid transparent',
-            color: activeSection === 'activity' ? '#1E3A8A' : '#666',
-            fontWeight: activeSection === 'activity' ? '600' : '400',
-            fontSize: '14px',
-            cursor: 'pointer'
-          }}
-        >
-          {t.activityLog}
-        </button>
+      <div style={{borderBottom: '2px solid #C5CED7', marginBottom: '24px'}}>
+        <div style={{display: 'flex', gap: '32px'}}>
+          <button
+            onClick={() => setActiveSection('profile')}
+            style={{
+              padding: '12px 0',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: activeSection === 'profile' ? '3px solid #27248C' : '3px solid transparent',
+              color: activeSection === 'profile' ? '#27248C' : '#8391B2',
+              fontWeight: '600',
+              fontSize: '14px',
+              cursor: 'pointer',
+              marginBottom: '-2px',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            {t.profileInformation}
+          </button>
+          <button
+            onClick={() => setActiveSection('preferences')}
+            style={{
+              padding: '12px 0',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: activeSection === 'preferences' ? '3px solid #27248C' : '3px solid transparent',
+              color: activeSection === 'preferences' ? '#27248C' : '#8391B2',
+              fontWeight: '600',
+              fontSize: '14px',
+              cursor: 'pointer',
+              marginBottom: '-2px',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            {t.preferences}
+          </button>
+          <button
+            onClick={() => setActiveSection('activity')}
+            style={{
+              padding: '12px 0',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: activeSection === 'activity' ? '3px solid #27248C' : '3px solid transparent',
+              color: activeSection === 'activity' ? '#27248C' : '#8391B2',
+              fontWeight: '600',
+              fontSize: '14px',
+              cursor: 'pointer',
+              marginBottom: '-2px',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            {t.activityLog}
+          </button>
+        </div>
       </div>
 
       {activeSection === 'profile' && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{fontSize: '16px', marginBottom: '15px'}}>{t.profileInformation}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>{t.profileInformation}</h3>
           <form onSubmit={handleProfileUpdate}>
-            <div className="form-group">
-              <label>{t.fullName}</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.fullName}</label>
               <input
                 type="text"
                 value={profileData.name}
                 onChange={(e) => setProfileData({...profileData, name: e.target.value})}
-                style={{fontSize: '14px'}}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}}
               />
             </div>
-            <div className="form-group">
-              <label>{t.emailAddress}</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.emailAddress}</label>
               <input
                 type="email"
                 value={profileData.email}
                 onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                style={{fontSize: '14px'}}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}}
               />
             </div>
-            <div className="form-group">
-              <label>{t.contactNumber}</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.contactNumber}</label>
               <input
                 type="text"
                 value={profileData.contact}
                 onChange={(e) => setProfileData({...profileData, contact: e.target.value})}
                 placeholder="+211XXXXXXXXX"
-                style={{fontSize: '14px'}}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}}
               />
             </div>
-            <div className="form-group">
-              <label>{t.role}</label>
+            <div style={{marginBottom: '24px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{t.role}</label>
               <input
                 type="text"
                 value={t.donor}
                 disabled
-                style={{fontSize: '14px', background: '#f5f5f5'}}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', background: '#DFE8F0', color: '#8391B2'}}
               />
             </div>
-            <button type="submit" className="btn" style={{fontSize: '14px'}}>{t.updateProfile}</button>
+            <button type="submit" style={{padding: '12px 24px', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>{t.updateProfile}</button>
           </form>
         </div>
       )}
 
       {activeSection === 'preferences' && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{fontSize: '16px', marginBottom: '15px'}}>Notification Preferences</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Notification Preferences</h3>
           <form onSubmit={handlePreferencesUpdate}>
-            <div style={{marginBottom: '15px'}}>
-              <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px'}}>
+              <label style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', background: '#DFE8F0', borderRadius: '8px', cursor: 'pointer'}}>
                 <input
                   type="checkbox"
                   checked={preferences.emailNotifications}
                   onChange={(e) => setPreferences({...preferences, emailNotifications: e.target.checked})}
-                  style={{width: '18px', height: '18px'}}
+                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}}
                 />
-                <span style={{fontSize: '14px'}}>Email notifications for project updates</span>
+                <div>
+                  <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Email notifications for project updates</span>
+                  <span style={{fontSize: '12px', color: '#8391B2'}}>Get notified when your funded projects are updated</span>
+                </div>
               </label>
-            </div>
-            <div style={{marginBottom: '15px'}}>
-              <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+              <label style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', background: '#DFE8F0', borderRadius: '8px', cursor: 'pointer'}}>
                 <input
                   type="checkbox"
                   checked={preferences.projectUpdates}
                   onChange={(e) => setPreferences({...preferences, projectUpdates: e.target.checked})}
-                  style={{width: '18px', height: '18px'}}
+                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}}
                 />
-                <span style={{fontSize: '14px'}}>Real-time updates on funded projects</span>
+                <div>
+                  <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Real-time updates on funded projects</span>
+                  <span style={{fontSize: '12px', color: '#8391B2'}}>Receive instant notifications about project milestones</span>
+                </div>
               </label>
-            </div>
-            <div style={{marginBottom: '15px'}}>
-              <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+              <label style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', background: '#DFE8F0', borderRadius: '8px', cursor: 'pointer'}}>
                 <input
                   type="checkbox"
                   checked={preferences.monthlyReports}
                   onChange={(e) => setPreferences({...preferences, monthlyReports: e.target.checked})}
-                  style={{width: '18px', height: '18px'}}
+                  style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}}
                 />
-                <span style={{fontSize: '14px'}}>Monthly impact reports</span>
+                <div>
+                  <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Monthly impact reports</span>
+                  <span style={{fontSize: '12px', color: '#8391B2'}}>Receive comprehensive monthly summaries of your impact</span>
+                </div>
               </label>
             </div>
-            <button type="submit" className="btn" style={{fontSize: '14px'}}>Save Preferences</button>
+            <button type="submit" style={{padding: '12px 24px', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Save Preferences</button>
           </form>
         </div>
       )}
 
       {activeSection === 'activity' && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{fontSize: '16px', marginBottom: '15px'}}>Recent Activity</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Recent Activity</h3>
           {activities.length === 0 ? (
-            <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+            <div style={{textAlign: 'center', padding: '40px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" fill="#C5CED7"/>
+              </svg>
+              <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>No activity data available</p>
+            </div>
           ) : (
             <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
               {activities.map((activity, idx) => (
-                <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px'}}>
-                    <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#000'}}>{activity.action}</p>
-                    <span style={{fontSize: '12px', color: '#666'}}>{new Date(activity.created_at).toLocaleString()}</span>
+                <div key={idx} style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', borderLeft: '4px solid #27248C'}}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px'}}>
+                    <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{activity.action}</p>
+                    <span style={{fontSize: '12px', color: '#8391B2'}}>{new Date(activity.created_at).toLocaleString()}</span>
                   </div>
                   {activity.details && (
-                    <p style={{margin: '4px 0 0 0', fontSize: '13px', color: '#666'}}>{activity.details}</p>
+                    <p style={{margin: 0, fontSize: '13px', color: '#8391B2'}}>{activity.details}</p>
                   )}
                 </div>
               ))}

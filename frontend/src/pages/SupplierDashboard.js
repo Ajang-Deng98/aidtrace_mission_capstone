@@ -687,95 +687,121 @@ function ProfileSettings() {
 
   return (
     <div>
-      <h2>Profile & Settings</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>Manage your account settings and preferences</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Profile & Settings</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Manage your account settings and preferences</p>
+      </div>
 
-      <div style={{borderBottom: '1px solid #e0e0e0', marginBottom: '20px'}}>
-        <div style={{display: 'flex', gap: '30px'}}>
+      <div style={{borderBottom: '2px solid #C5CED7', marginBottom: '24px'}}>
+        <div style={{display: 'flex', gap: '32px'}}>
           <button onClick={() => setActiveTab('profile')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'profile' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'profile' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'profile' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'profile' ? '3px solid #27248C' : '3px solid transparent',
+            marginBottom: '-2px', transition: 'all 0.2s ease'
           }}>Profile Information</button>
           <button onClick={() => setActiveTab('preferences')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'preferences' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'preferences' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'preferences' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'preferences' ? '3px solid #27248C' : '3px solid transparent',
+            marginBottom: '-2px', transition: 'all 0.2s ease'
           }}>Preferences</button>
           <button onClick={() => setActiveTab('activity')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'activity' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'activity' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'activity' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'activity' ? '3px solid #27248C' : '3px solid transparent',
+            marginBottom: '-2px', transition: 'all 0.2s ease'
           }}>Activity Log</button>
         </div>
       </div>
 
       {activeTab === 'profile' && (
-        <div className="card">
-          <h3>Profile Information</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Profile Information</h3>
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Name</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Name</label>
               <input type="text" value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}}
+                required />
             </div>
-            <div className="form-group">
-              <label>Email</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Email</label>
               <input type="email" value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})} required />
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}}
+                required />
             </div>
-            <div className="form-group">
-              <label>Contact</label>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Contact</label>
               <input type="text" value={formData.contact}
-                onChange={(e) => setFormData({...formData, contact: e.target.value})} />
+                onChange={(e) => setFormData({...formData, contact: e.target.value})}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#27248C'}} />
             </div>
-            <div className="form-group">
-              <label>Role</label>
-              <input type="text" value={user.role} disabled style={{background: '#f5f5f5', color: '#666'}} />
+            <div style={{marginBottom: '24px'}}>
+              <label style={{display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Role</label>
+              <input type="text" value={user.role}
+                style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', background: '#DFE8F0', color: '#8391B2'}}
+                disabled />
             </div>
-            <button type="submit" className="btn">Save Changes</button>
+            <button type="submit" style={{padding: '12px 24px', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Save Changes</button>
           </form>
         </div>
       )}
 
       {activeTab === 'preferences' && (
-        <div className="card">
-          <h3>Notification Preferences</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Notification Preferences</h3>
+          <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', background: '#DFE8F0', borderRadius: '8px', cursor: 'pointer'}}>
               <input type="checkbox" checked={notifications.emailNotifications}
                 onChange={() => handleNotificationChange('emailNotifications')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Email Notifications</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} />
+              <div>
+                <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Email Notifications</span>
+                <span style={{fontSize: '12px', color: '#8391B2'}}>Receive email updates about your quotes</span>
+              </div>
             </label>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', background: '#DFE8F0', borderRadius: '8px', cursor: 'pointer'}}>
               <input type="checkbox" checked={notifications.projectUpdates}
                 onChange={() => handleNotificationChange('projectUpdates')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Project Updates</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} />
+              <div>
+                <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Project Updates</span>
+                <span style={{fontSize: '12px', color: '#8391B2'}}>Get notified when projects are updated</span>
+              </div>
             </label>
-            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+            <label style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', background: '#DFE8F0', borderRadius: '8px', cursor: 'pointer'}}>
               <input type="checkbox" checked={notifications.monthlyReports}
                 onChange={() => handleNotificationChange('monthlyReports')}
-                style={{width: '18px', height: '18px', cursor: 'pointer'}} />
-              <span style={{fontSize: '14px'}}>Monthly Reports</span>
+                style={{width: '20px', height: '20px', cursor: 'pointer', accentColor: '#27248C'}} />
+              <div>
+                <span style={{fontSize: '14px', fontWeight: '600', color: '#27248C', display: 'block'}}>Monthly Reports</span>
+                <span style={{fontSize: '12px', color: '#8391B2'}}>Receive monthly performance summaries</span>
+              </div>
             </label>
           </div>
         </div>
       )}
 
       {activeTab === 'activity' && (
-        <div className="card">
-          <h3>Recent Activity</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 20px 0'}}>Recent Activity</h3>
           {activities.length === 0 ? (
-            <p style={{color: '#666', fontSize: '14px'}}>No activity data available</p>
+            <div style={{textAlign: 'center', padding: '40px 20px'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" fill="#C5CED7"/>
+              </svg>
+              <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>No activity data available</p>
+            </div>
           ) : (
-            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
               {activities.map((activity, idx) => (
-                <div key={idx} style={{padding: '12px', background: '#fafafa', borderRadius: '4px', borderLeft: '3px solid #1E3A8A'}}>
-                  <p style={{margin: '0 0 4px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>{activity.action}</p>
-                  <p style={{margin: '0 0 4px 0', fontSize: '13px', color: '#666'}}>{activity.details}</p>
-                  <p style={{margin: 0, fontSize: '12px', color: '#999'}}>{new Date(activity.created_at).toLocaleString()}</p>
+                <div key={idx} style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', borderLeft: '4px solid #27248C'}}>
+                  <p style={{margin: '0 0 6px 0', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>{activity.action}</p>
+                  <p style={{margin: '0 0 6px 0', fontSize: '13px', color: '#8391B2'}}>{activity.details}</p>
+                  <p style={{margin: 0, fontSize: '12px', color: '#8391B2'}}>{new Date(activity.created_at).toLocaleString()}</p>
                 </div>
               ))}
             </div>
@@ -832,20 +858,24 @@ function SupplierQuoteManagement() {
 
   return (
     <div>
-      <h2>Quote Opportunities</h2>
-      <p style={{color: '#666', marginBottom: '20px'}}>Browse and submit quotes for NGO projects</p>
+      <div style={{marginBottom: '24px'}}>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Quote Opportunities</h2>
+        <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Browse and submit quotes for NGO projects</p>
+      </div>
 
-      <div style={{borderBottom: '1px solid #e0e0e0', marginBottom: '20px'}}>
-        <div style={{display: 'flex', gap: '30px'}}>
+      <div style={{borderBottom: '2px solid #C5CED7', marginBottom: '24px'}}>
+        <div style={{display: 'flex', gap: '32px'}}>
           <button onClick={() => setActiveTab('available')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'available' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'available' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'available' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'available' ? '3px solid #27248C' : '3px solid transparent',
+            marginBottom: '-2px', transition: 'all 0.2s ease'
           }}>Available Requests ({quoteRequests.length})</button>
           <button onClick={() => setActiveTab('submitted')} style={{
-            background: 'none', border: 'none', padding: '10px 0', fontSize: '14px', fontWeight: '600',
-            color: activeTab === 'submitted' ? '#1E3A8A' : '#666', cursor: 'pointer',
-            borderBottom: activeTab === 'submitted' ? '2px solid #1E3A8A' : '2px solid transparent'
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '14px', fontWeight: '600',
+            color: activeTab === 'submitted' ? '#27248C' : '#8391B2', cursor: 'pointer',
+            borderBottom: activeTab === 'submitted' ? '3px solid #27248C' : '3px solid transparent',
+            marginBottom: '-2px', transition: 'all 0.2s ease'
           }}>My Quotes ({myQuotes.length})</button>
         </div>
       </div>
@@ -853,41 +883,60 @@ function SupplierQuoteManagement() {
       {activeTab === 'available' && (
         <div>
           {quoteRequests.length === 0 ? (
-            <div className="card" style={{textAlign: 'center', padding: '40px'}}>
-              <h3>No Quote Requests Available</h3>
-              <p style={{color: '#666'}}>Check back later for new opportunities from NGOs</p>
+            <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '48px 24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zM5 4v3H3v12h18V7h-2V4H5zm12 1v2H7V5h10z" fill="#C5CED7"/>
+              </svg>
+              <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>No Quote Requests Available</h3>
+              <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Check back later for new opportunities from NGOs</p>
             </div>
           ) : (
-            <div className="grid">
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '20px'}}>
               {quoteRequests.map(request => (
-                <div key={request.id} className="card" style={{border: '1px solid #e0e0e0'}}>
-                  <div style={{marginBottom: '15px'}}>
-                    <h3 style={{color: '#1E3A8A', margin: '0 0 8px 0', fontSize: '18px'}}>{request.project_title}</h3>
-                    <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
-                      <span className={`badge ${request.status === 'OPEN' ? 'badge-success' : 'badge-warning'}`}>
+                <div key={request.id} style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+                  <div style={{marginBottom: '16px'}}>
+                    <h3 style={{color: '#27248C', margin: '0 0 10px 0', fontSize: '17px', fontWeight: '600'}}>{request.project_title}</h3>
+                    <div style={{display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap'}}>
+                      <span style={{
+                        padding: '4px 10px',
+                        background: request.status === 'OPEN' ? '#D1FAE5' : '#FEF3C7',
+                        color: request.status === 'OPEN' ? '#065F46' : '#92400E',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}>
                         {request.status}
                       </span>
-                      <span className="badge" style={{background: '#f0f0f0', color: '#666'}}>
+                      <span style={{padding: '4px 10px', background: '#DFE8F0', color: '#27248C', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>
                         {request.ngo_name}
                       </span>
                     </div>
                   </div>
                   
-                  <div style={{background: '#fafafa', padding: '12px', borderRadius: '4px', marginBottom: '15px', fontSize: '14px'}}>
-                    <p style={{margin: '4px 0', color: '#666'}}><strong>Location:</strong> {request.project_location}</p>
-                    <p style={{margin: '4px 0', color: '#666'}}><strong>Delivery Date:</strong> {request.delivery_date}</p>
-                    <p style={{margin: '4px 0', color: '#666'}}><strong>Quotes:</strong> {request.quotes_count || 0} submitted</p>
+                  <div style={{background: '#DFE8F0', padding: '14px', borderRadius: '8px', marginBottom: '16px'}}>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#27248C'}}><strong>Location:</strong> <span style={{color: '#8391B2'}}>{request.project_location}</span></p>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#27248C'}}><strong>Delivery Date:</strong> <span style={{color: '#8391B2'}}>{request.delivery_date}</span></p>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#27248C'}}><strong>Quotes:</strong> <span style={{color: '#8391B2'}}>{request.quotes_count || 0} submitted</span></p>
                     {request.blockchain_tx && (
-                      <p style={{margin: '4px 0', color: '#666'}}><strong>Blockchain TX:</strong> 
-                        <code style={{fontSize: '11px', marginLeft: '5px', background: '#f0f0f0', padding: '2px 4px', borderRadius: '2px'}}>
-                          {request.blockchain_tx}
+                      <p style={{margin: 0, fontSize: '13px', color: '#27248C'}}><strong>Blockchain TX:</strong> 
+                        <code style={{fontSize: '11px', marginLeft: '6px', background: '#ffffff', padding: '3px 6px', borderRadius: '4px', color: '#8391B2', border: '1px solid #C5CED7'}}>
+                          {request.blockchain_tx.substring(0, 12)}...
                         </code>
                       </p>
                     )}
                   </div>
                   
-                  <button onClick={() => navigate(`/supplier/quotes/${request.id}`)} className="btn" 
-                    style={{width: '100%', padding: '10px', fontSize: '14px'}}>
+                  <button onClick={() => navigate(`/supplier/quotes/${request.id}`)} style={{
+                    width: '100%',
+                    padding: '12px',
+                    background: '#27248C',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}>
                     {request.has_submitted_quote ? 'View My Quote' : 'Submit Quote'}
                   </button>
                 </div>
@@ -900,41 +949,71 @@ function SupplierQuoteManagement() {
       {activeTab === 'submitted' && (
         <div>
           {myQuotes.length === 0 ? (
-            <div className="card" style={{textAlign: 'center', padding: '40px'}}>
-              <h3>No Quotes Submitted</h3>
-              <p style={{color: '#666'}}>Submit your first quote to start bidding on projects</p>
-              <button onClick={() => setActiveTab('available')} className="btn">Browse Opportunities</button>
+            <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '48px 24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="#C5CED7"/>
+              </svg>
+              <h3 style={{fontSize: '17px', fontWeight: '600', color: '#27248C', margin: '0 0 8px 0'}}>No Quotes Submitted</h3>
+              <p style={{fontSize: '14px', color: '#8391B2', margin: '0 0 20px 0'}}>Submit your first quote to start bidding on projects</p>
+              <button onClick={() => setActiveTab('available')} style={{
+                padding: '12px 24px',
+                background: '#27248C',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}>Browse Opportunities</button>
             </div>
           ) : (
-            <div className="grid">
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '20px'}}>
               {myQuotes.map(quote => (
-                <div key={quote.id} className="card" style={{border: '1px solid #e0e0e0'}}>
-                  <div style={{marginBottom: '15px'}}>
-                    <h3 style={{color: '#1E3A8A', margin: '0 0 8px 0', fontSize: '18px'}}>{quote.project_title}</h3>
-                    <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
-                      <span className="badge badge-info">${parseFloat(quote.quoted_amount).toLocaleString()}</span>
-                      <span className={`badge ${quote.is_selected ? 'badge-success' : 'badge-warning'}`}>
+                <div key={quote.id} style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+                  <div style={{marginBottom: '16px'}}>
+                    <h3 style={{color: '#27248C', margin: '0 0 10px 0', fontSize: '17px', fontWeight: '600'}}>{quote.project_title}</h3>
+                    <div style={{display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap'}}>
+                      <span style={{padding: '4px 10px', background: '#DBEAFE', color: '#1E40AF', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>
+                        ${parseFloat(quote.quoted_amount).toLocaleString()}
+                      </span>
+                      <span style={{
+                        padding: '4px 10px',
+                        background: quote.is_selected ? '#D1FAE5' : '#FEF3C7',
+                        color: quote.is_selected ? '#065F46' : '#92400E',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}>
                         {quote.is_selected ? 'Selected' : 'Pending'}
                       </span>
                     </div>
                   </div>
                   
-                  <div style={{background: '#fafafa', padding: '12px', borderRadius: '4px', marginBottom: '15px', fontSize: '14px'}}>
-                    <p style={{margin: '4px 0', color: '#666'}}><strong>NGO:</strong> {quote.ngo_name}</p>
-                    <p style={{margin: '4px 0', color: '#666'}}><strong>Submitted:</strong> {new Date(quote.created_at).toLocaleDateString()}</p>
-                    <p style={{margin: '4px 0', color: '#666'}}><strong>Terms:</strong> {quote.delivery_terms.substring(0, 50)}...</p>
+                  <div style={{background: '#DFE8F0', padding: '14px', borderRadius: '8px', marginBottom: '16px'}}>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#27248C'}}><strong>NGO:</strong> <span style={{color: '#8391B2'}}>{quote.ngo_name}</span></p>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#27248C'}}><strong>Submitted:</strong> <span style={{color: '#8391B2'}}>{new Date(quote.created_at).toLocaleDateString()}</span></p>
+                    <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#27248C'}}><strong>Terms:</strong> <span style={{color: '#8391B2'}}>{quote.delivery_terms.substring(0, 50)}...</span></p>
                     {quote.blockchain_tx && (
-                      <div style={{marginTop: '8px', padding: '8px', background: '#f0f9ff', borderRadius: '3px', border: '1px solid #1E3A8A'}}>
-                        <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Hash:</p>
-                        <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#ffffff', padding: '4px 6px', borderRadius: '2px', border: '1px solid #e0e0e0', display: 'block'}}>
+                      <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '6px', border: '1px solid #C5CED7'}}>
+                        <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#27248C', fontWeight: '600'}}>✓ Blockchain Hash:</p>
+                        <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#8391B2', display: 'block'}}>
                           {quote.blockchain_tx}
                         </code>
                       </div>
                     )}
                   </div>
                   
-                  <button onClick={() => navigate(`/supplier/quotes/${quote.quote_request_id}`)} className="btn" 
-                    style={{width: '100%', padding: '10px', fontSize: '14px'}}>View Details</button>
+                  <button onClick={() => navigate(`/supplier/quotes/${quote.quote_request_id}`)} style={{
+                    width: '100%',
+                    padding: '12px',
+                    background: '#27248C',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}>View Details</button>
                 </div>
               ))}
             </div>
