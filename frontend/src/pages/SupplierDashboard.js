@@ -450,12 +450,12 @@ function DeliveryHistory() {
 
   return (
     <div>
-      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Delivery History</h2>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Delivery History</h2>
       <p style={{color: '#666', marginBottom: '20px', fontSize: '14px'}}>Complete record of all confirmed deliveries</p>
 
       {deliveries.length === 0 ? (
         <div className="card" style={{textAlign: 'center', padding: '48px 20px', border: '1px solid #e0e0e0'}}>
-          <i className="fas fa-box" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
+          <i className="fas fa-box" style={{fontSize: '48px', marginBottom: '16px', color: '#27248C'}}></i>
           <h3 style={{fontSize: '18px', color: '#000', margin: '0 0 8px 0'}}>No delivery history yet</h3>
           <p style={{fontSize: '14px', color: '#666', margin: 0}}>Your confirmed deliveries will appear here</p>
         </div>
@@ -479,7 +479,7 @@ function DeliveryHistory() {
                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
                   <td style={{padding: '12px 16px', fontWeight: '600', fontSize: '14px', color: '#000'}}>{delivery.project_title}</td>
                   <td style={{padding: '12px 16px', fontSize: '14px', color: '#666'}}>{delivery.ngo_name}</td>
-                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(delivery.quoted_amount).toLocaleString()}</td>
+                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#27248C', fontWeight: '600'}}>${parseFloat(delivery.quoted_amount).toLocaleString()}</td>
                   <td style={{padding: '12px 16px', fontSize: '14px', color: '#666'}}>{new Date(delivery.created_at).toLocaleDateString()}</td>
                   <td style={{padding: '12px 16px'}}>
                     <span style={{padding: '4px 10px', background: '#22C55E', color: '#fff', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>
@@ -555,7 +555,7 @@ function Analytics() {
 
   return (
     <div>
-      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Analytics & Reports</h2>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#27248C', margin: '0 0 6px 0'}}>Analytics & Reports</h2>
       <p style={{color: '#666', marginBottom: '20px', fontSize: '14px'}}>Performance insights and delivery statistics</p>
 
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
@@ -573,13 +573,13 @@ function Analytics() {
         </div>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
           <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.successRate}%</h3>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{metrics.successRate}%</h3>
         </div>
       </div>
 
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Quotes by Location</h3>
+          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#27248C'}}>Quotes by Location</h3>
           {Object.keys(locationData).length === 0 ? (
             <p style={{color: '#666', textAlign: 'center', padding: '20px'}}>No location data available</p>
           ) : (
@@ -587,14 +587,14 @@ function Analytics() {
               {Object.entries(locationData).map(([loc, count], idx) => (
                 <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#fafafa', borderRadius: '4px'}}>
                   <span style={{fontSize: '14px', color: '#000'}}>{loc}</span>
-                  <span style={{fontSize: '14px', fontWeight: '700', color: '#1E3A8A'}}>{count}</span>
+                  <span style={{fontSize: '14px', fontWeight: '700', color: '#27248C'}}>{count}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
         <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Quotes by NGO</h3>
+          <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#27248C'}}>Quotes by NGO</h3>
           {Object.keys(ngoData).length === 0 ? (
             <p style={{color: '#666', textAlign: 'center', padding: '20px'}}>No NGO data available</p>
           ) : (
@@ -602,7 +602,7 @@ function Analytics() {
               {Object.entries(ngoData).map(([ngo, count], idx) => (
                 <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#fafafa', borderRadius: '4px'}}>
                   <span style={{fontSize: '14px', color: '#000'}}>{ngo}</span>
-                  <span style={{fontSize: '14px', fontWeight: '700', color: '#1E3A8A'}}>{count}</span>
+                  <span style={{fontSize: '14px', fontWeight: '700', color: '#27248C'}}>{count}</span>
                 </div>
               ))}
             </div>
@@ -611,7 +611,7 @@ function Analytics() {
       </div>
 
       <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
-        <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Performance Metrics</h3>
+        <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#27248C'}}>Performance Metrics</h3>
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px'}}>
           <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
             <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Avg Response Time</p>
@@ -1053,9 +1053,9 @@ function DeliveryConfirmationForm({ selectionId, onDeliveryConfirmed }) {
 
   if (confirmed) {
     return (
-      <div style={{background: '#f0f9ff', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
-        <h4 style={{color: '#1E3A8A', marginBottom: '10px'}}>✓ Delivery Confirmed</h4>
-        <p style={{margin: 0, color: '#1E3A8A'}}>Items delivered to field officer. Awaiting field officer final confirmation for project completion.</p>
+      <div style={{background: '#f0f9ff', padding: '15px', borderRadius: '4px', border: '1px solid #27248C'}}>
+        <h4 style={{color: '#27248C', marginBottom: '10px'}}>✓ Delivery Confirmed</h4>
+        <p style={{margin: 0, color: '#27248C'}}>Items delivered to field officer. Awaiting field officer final confirmation for project completion.</p>
       </div>
     );
   }
@@ -1081,7 +1081,7 @@ function DeliveryConfirmationForm({ selectionId, onDeliveryConfirmed }) {
         </div>
         
         <LoadingButton type="submit" loading={loading} className="btn" 
-          style={{background: '#1E3A8A', padding: '10px 20px'}}>
+          style={{background: '#27248C', padding: '10px 20px'}}>
           Confirm Delivery
         </LoadingButton>
       </form>
@@ -1228,7 +1228,7 @@ function SupplierQuoteDetails() {
           <div className="card" style={{marginBottom: '15px'}}>
             <h4>Competition</h4>
             <div style={{textAlign: 'center', padding: '20px'}}>
-              <div style={{fontSize: '32px', fontWeight: '700', color: '#1E3A8A', marginBottom: '5px'}}>
+              <div style={{fontSize: '32px', fontWeight: '700', color: '#27248C', marginBottom: '5px'}}>
                 {request.quotes_count || 0}
               </div>
               <p style={{margin: 0, color: '#666', fontSize: '14px'}}>Quotes Submitted</p>
@@ -1253,12 +1253,12 @@ function SupplierQuoteDetails() {
       </div>
 
       {hasSubmitted && myQuote && myQuote.is_selected && !deliveryConfirmed ? (
-        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
-          <h3 style={{color: '#1E3A8A'}}><i className="fas fa-trophy" style={{marginRight: '8px'}}></i>Your Quote Was Selected!</h3>
+        <div className="card" style={{border: '2px solid #27248C', background: '#f0f9ff'}}>
+          <h3 style={{color: '#27248C'}}><i className="fas fa-trophy" style={{marginRight: '8px'}}></i>Your Quote Was Selected!</h3>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
             <div>
               <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Selected Quote</p>
-              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
+              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#27248C'}}>
                 ${parseFloat(myQuote.quoted_amount).toLocaleString()}
               </p>
             </div>
@@ -1275,12 +1275,12 @@ function SupplierQuoteDetails() {
           <DeliveryConfirmationForm selectionId={myQuote.selection_id} onDeliveryConfirmed={handleDeliveryConfirmed} />
         </div>
       ) : hasSubmitted && myQuote && myQuote.is_selected && deliveryConfirmed ? (
-        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
-          <h3 style={{color: '#1E3A8A'}}>✓ Delivery Confirmed - Awaiting Final Confirmation</h3>
+        <div className="card" style={{border: '2px solid #27248C', background: '#f0f9ff'}}>
+          <h3 style={{color: '#27248C'}}>✓ Delivery Confirmed - Awaiting Final Confirmation</h3>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
             <div>
               <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Delivered Amount</p>
-              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
+              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#27248C'}}>
                 ${parseFloat(myQuote.quoted_amount).toLocaleString()}
               </p>
             </div>
@@ -1294,24 +1294,24 @@ function SupplierQuoteDetails() {
             </div>
           </div>
           
-          <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
-            <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>✓ Items delivered to field officer</p>
+          <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #27248C'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#27248C', fontWeight: '600'}}>✓ Items delivered to field officer</p>
             <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#666'}}>Waiting for field officer final confirmation to complete the project.</p>
             {myQuote?.delivery_blockchain_tx && (
               <div style={{marginTop: '10px', padding: '8px', background: '#f5f5f5', borderRadius: '4px'}}>
                 <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Delivery Blockchain TX:</p>
-                <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#1E3A8A'}}>{myQuote.delivery_blockchain_tx}</code>
+                <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#27248C'}}>{myQuote.delivery_blockchain_tx}</code>
               </div>
             )}
           </div>
         </div>
       ) : hasSubmitted && myQuote ? (
-        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
-          <h3 style={{color: '#1E3A8A'}}>Your Quote Submitted</h3>
+        <div className="card" style={{border: '2px solid #27248C', background: '#f0f9ff'}}>
+          <h3 style={{color: '#27248C'}}>Your Quote Submitted</h3>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
             <div>
               <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Your Quote</p>
-              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
+              <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#27248C'}}>
                 ${parseFloat(myQuote.quoted_amount).toLocaleString()}
               </p>
             </div>
@@ -1327,12 +1327,12 @@ function SupplierQuoteDetails() {
             </div>
           </div>
           
-          <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+          <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #27248C'}}>
             <p><strong>Delivery Terms:</strong> {myQuote.delivery_terms}</p>
             <p><strong>Your Signature:</strong> {myQuote.signature}</p>
             {myQuote.blockchain_tx && (
-              <div style={{marginTop: '12px', padding: '10px', background: '#f0f9ff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
-                <p style={{margin: '0 0 6px 0', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
+              <div style={{marginTop: '12px', padding: '10px', background: '#f0f9ff', borderRadius: '4px', border: '1px solid #27248C'}}>
+                <p style={{margin: '0 0 6px 0', fontSize: '14px', color: '#27248C', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
                 <code style={{fontSize: '12px', wordBreak: 'break-all', color: '#000', background: '#ffffff', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>
                   {myQuote.blockchain_tx}
                 </code>
