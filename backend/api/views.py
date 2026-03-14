@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
+import os
 from .models import *
 from .serializers import *
 
@@ -26,7 +27,8 @@ def forgot_password(request):
         user = User.objects.get(email=email)
         token = PasswordResetToken.objects.create(user=user)
         
-        reset_link = f"http://localhost:3000/reset-password/{token.token}"
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        reset_link = f"{frontend_url}/reset-password/{token.token}"
         send_mail(
             'AidTrace - Password Reset',
             f'Click this link to reset your password: {reset_link}\n\nThis link expires in 24 hours.',

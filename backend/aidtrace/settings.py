@@ -101,6 +101,12 @@ CORS_ALLOWED_ORIGINS = [
     'https://aidtrace-southsudan.vercel.app',
     'http://localhost:3000',
     'http://localhost:5173',
+    'http://127.0.0.1:3000',
+]
+
+# Allow all Vercel preview deployment URLs
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^https://aidtrace-southsudan.*\.vercel\.app$',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False  # Set to False for security
