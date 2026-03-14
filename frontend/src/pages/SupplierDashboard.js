@@ -177,7 +177,7 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
 
         <div style={{padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
           <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#ffffff'}}>{user.name}</p>
-          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#ffffff'}}>Supplier</p>
+          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#B3BEC7'}}>Supplier</p>
         </div>
 
         <nav style={{flex: 1, padding: '8px 0'}}>
@@ -432,14 +432,14 @@ function DeliveryHistory() {
     }
   };
 
-  if (loading) return <div><h2>Delivery History</h2><div className="card"><p>Loading...</p></div></div>;
+  if (loading) return <div><h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Delivery History</h2><div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}><p style={{color: '#8391B2', margin: 0}}>Loading...</p></div></div>;
   
   if (error) return (
     <div>
-      <h2>Delivery History</h2>
-      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Delivery History</h2>
+      <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '32px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
         <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
-        <button onClick={loadDeliveries} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+        <button onClick={loadDeliveries} style={{padding: '10px 20px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Retry</button>
       </div>
     </div>
   );
@@ -447,16 +447,16 @@ function DeliveryHistory() {
   return (
     <div>
       <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Delivery History</h2>
-      <p style={{color: '#666', marginBottom: '20px', fontSize: '14px'}}>Complete record of all confirmed deliveries</p>
+      <p style={{color: '#8391B2', marginBottom: '20px', fontSize: '14px'}}>Complete record of all confirmed deliveries</p>
 
       {deliveries.length === 0 ? (
-        <div className="card" style={{textAlign: 'center', padding: '48px 20px', border: '1px solid #e0e0e0'}}>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '48px 20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
           <i className="fas fa-box" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-          <h3 style={{fontSize: '18px', color: '#000', margin: '0 0 8px 0'}}>No delivery history yet</h3>
-          <p style={{fontSize: '14px', color: '#666', margin: 0}}>Your confirmed deliveries will appear here</p>
+          <h3 style={{fontSize: '18px', color: '#1E3A8A', margin: '0 0 8px 0'}}>No delivery history yet</h3>
+          <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Your confirmed deliveries will appear here</p>
         </div>
       ) : (
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           <table className="table" style={{border: 'none'}}>
             <thead>
               <tr>
@@ -473,10 +473,10 @@ function DeliveryHistory() {
                 <tr key={delivery.id} style={{cursor: 'pointer', transition: 'background 0.2s ease'}} 
                   onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'} 
                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
-                  <td style={{padding: '12px 16px', fontWeight: '600', fontSize: '14px', color: '#000'}}>{delivery.project_title}</td>
-                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#666'}}>{delivery.ngo_name}</td>
+                  <td style={{padding: '12px 16px', fontWeight: '600', fontSize: '14px', color: '#1E3A8A'}}>{delivery.project_title}</td>
+                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#8391B2'}}>{delivery.ngo_name}</td>
                   <td style={{padding: '12px 16px', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(delivery.quoted_amount).toLocaleString()}</td>
-                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#666'}}>{new Date(delivery.created_at).toLocaleDateString()}</td>
+                  <td style={{padding: '12px 16px', fontSize: '14px', color: '#8391B2'}}>{new Date(delivery.created_at).toLocaleDateString()}</td>
                   <td style={{padding: '12px 16px'}}>
                     <span style={{padding: '4px 10px', background: '#22C55E', color: '#fff', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>
                       ✓ Delivered
@@ -524,14 +524,14 @@ function Analytics() {
     }
   };
 
-  if (loading) return <div><h2>Analytics</h2><div className="card"><p>Loading...</p></div></div>;
+  if (loading) return <div><h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Analytics & Reports</h2><div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}><p style={{color: '#8391B2', margin: 0}}>Loading...</p></div></div>;
   
   if (error) return (
     <div>
-      <h2>Analytics</h2>
-      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Analytics & Reports</h2>
+      <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '32px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
         <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
-        <button onClick={loadAnalytics} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+        <button onClick={loadAnalytics} style={{padding: '10px 20px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Retry</button>
       </div>
     </div>
   );
@@ -552,52 +552,52 @@ function Analytics() {
   return (
     <div>
       <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Analytics & Reports</h2>
-      <p style={{color: '#666', marginBottom: '20px', fontSize: '14px'}}>Performance insights and delivery statistics</p>
+      <p style={{color: '#8391B2', marginBottom: '20px', fontSize: '14px'}}>Performance insights and delivery statistics</p>
 
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Total Quotes</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.totalQuotes}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Total Quotes</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.totalQuotes}</h3>
         </div>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Selected</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.selectedQuotes}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Selected</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.selectedQuotes}</h3>
         </div>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Delivered</p>
-          <h3 style={{margin: 0, fontSize: '32px', color: '#000', fontWeight: '700'}}>{metrics.deliveredQuotes}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Delivered</p>
+          <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.deliveredQuotes}</h3>
         </div>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px', textAlign: 'center'}}>
-          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#666', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
+          <p style={{margin: '0 0 8px 0', fontSize: '12px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Win Rate</p>
           <h3 style={{margin: 0, fontSize: '32px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.successRate}%</h3>
         </div>
       </div>
 
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Quotes by Location</h3>
           {Object.keys(locationData).length === 0 ? (
-            <p style={{color: '#666', textAlign: 'center', padding: '20px'}}>No location data available</p>
+            <p style={{color: '#8391B2', textAlign: 'center', padding: '20px'}}>No location data available</p>
           ) : (
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
               {Object.entries(locationData).map(([loc, count], idx) => (
-                <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#fafafa', borderRadius: '4px'}}>
-                  <span style={{fontSize: '14px', color: '#000'}}>{loc}</span>
+                <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#DFE8F0', borderRadius: '8px'}}>
+                  <span style={{fontSize: '14px', color: '#1E3A8A'}}>{loc}</span>
                   <span style={{fontSize: '14px', fontWeight: '700', color: '#1E3A8A'}}>{count}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
-        <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Quotes by NGO</h3>
           {Object.keys(ngoData).length === 0 ? (
-            <p style={{color: '#666', textAlign: 'center', padding: '20px'}}>No NGO data available</p>
+            <p style={{color: '#8391B2', textAlign: 'center', padding: '20px'}}>No NGO data available</p>
           ) : (
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
               {Object.entries(ngoData).map(([ngo, count], idx) => (
-                <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#fafafa', borderRadius: '4px'}}>
-                  <span style={{fontSize: '14px', color: '#000'}}>{ngo}</span>
+                <div key={idx} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#DFE8F0', borderRadius: '8px'}}>
+                  <span style={{fontSize: '14px', color: '#1E3A8A'}}>{ngo}</span>
                   <span style={{fontSize: '14px', fontWeight: '700', color: '#1E3A8A'}}>{count}</span>
                 </div>
               ))}
@@ -606,22 +606,22 @@ function Analytics() {
         </div>
       </div>
 
-      <div style={{background: '#ffffff', border: '1px solid #e0e0e0', padding: '20px', borderRadius: '4px'}}>
+      <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
         <h3 style={{margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600', color: '#1E3A8A'}}>Performance Metrics</h3>
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px'}}>
-          <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
-            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Avg Response Time</p>
-            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>{avgResponseTime} {avgResponseTime === 1 ? 'day' : 'days'}</p>
+          <div style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', textAlign: 'center'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#8391B2'}}>Avg Response Time</p>
+            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#1E3A8A'}}>{avgResponseTime} {avgResponseTime === 1 ? 'day' : 'days'}</p>
           </div>
-          <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
-            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Delivery Rate</p>
-            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>
+          <div style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', textAlign: 'center'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#8391B2'}}>Delivery Rate</p>
+            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#1E3A8A'}}>
               {metrics.selectedQuotes > 0 ? Math.round((metrics.deliveredQuotes / metrics.selectedQuotes) * 100) : 0}%
             </p>
           </div>
-          <div style={{padding: '16px', background: '#fafafa', borderRadius: '4px', textAlign: 'center'}}>
-            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#666'}}>Total Items Quoted</p>
-            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#000'}}>{totalItems}</p>
+          <div style={{padding: '16px', background: '#DFE8F0', borderRadius: '8px', textAlign: 'center'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#8391B2'}}>Total Items Quoted</p>
+            <p style={{margin: 0, fontSize: '24px', fontWeight: '700', color: '#1E3A8A'}}>{totalItems}</p>
           </div>
         </div>
       </div>
@@ -840,14 +840,14 @@ function SupplierQuoteManagement() {
     }
   };
 
-  if (loading) return <div><h2>Quote Opportunities</h2><div className="card"><p>Loading...</p></div></div>;
+  if (loading) return <div><h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Quote Opportunities</h2><div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}><p style={{color: '#8391B2', margin: 0}}>Loading...</p></div></div>;
   
   if (error) return (
     <div>
-      <h2>Quote Opportunities</h2>
-      <div className="card" style={{padding: '32px', textAlign: 'center'}}>
+      <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Quote Opportunities</h2>
+      <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '32px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center'}}>
         <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
-        <button onClick={loadData} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+        <button onClick={loadData} style={{padding: '10px 20px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Retry</button>
       </div>
     </div>
   );
@@ -1049,31 +1049,33 @@ function DeliveryConfirmationForm({ selectionId, onDeliveryConfirmed }) {
 
   if (confirmed) {
     return (
-      <div style={{background: '#f0f9ff', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
-        <h4 style={{color: '#1E3A8A', marginBottom: '10px'}}>✓ Delivery Confirmed</h4>
-        <p style={{margin: 0, color: '#1E3A8A'}}>Items delivered to field officer. Awaiting field officer final confirmation for project completion.</p>
+      <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+        <h4 style={{color: '#1E3A8A', margin: '0 0 8px 0', fontSize: '14px', fontWeight: '600'}}>✓ Delivery Confirmed</h4>
+        <p style={{margin: 0, color: '#8391B2', fontSize: '14px'}}>Items delivered to field officer. Awaiting field officer final confirmation for project completion.</p>
       </div>
     );
   }
 
   return (
-    <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #000000'}}>
-      <h4 style={{color: '#000000', marginBottom: '15px'}}>Confirm Delivery to Field Officer</h4>
+    <div style={{background: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+      <h4 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '15px', fontWeight: '600'}}>Confirm Delivery to Field Officer</h4>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Delivery Signature</label>
+        <div style={{marginBottom: '16px'}}>
+          <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Delivery Signature</label>
           <input type="text" value={formData.delivery_signature}
             onChange={(e) => setFormData({...formData, delivery_signature: e.target.value})}
-            placeholder="Enter your delivery confirmation signature" required />
-          <small style={{color: '#666'}}>This confirms you have delivered items to the field officer</small>
+            placeholder="Enter your delivery confirmation signature" required
+            style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box'}} />
+          <small style={{color: '#8391B2', fontSize: '12px'}}>This confirms you have delivered items to the field officer</small>
         </div>
         
-        <div className="form-group">
-          <label>Delivery Notes (Optional)</label>
+        <div style={{marginBottom: '16px'}}>
+          <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Delivery Notes (Optional)</label>
           <textarea value={formData.delivery_notes}
             onChange={(e) => setFormData({...formData, delivery_notes: e.target.value})}
             placeholder="Any additional notes about the delivery"
-            rows="3" />
+            rows="3"
+            style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box', resize: 'vertical'}} />
         </div>
         
         <LoadingButton type="submit" loading={loading} className="btn" 
@@ -1177,40 +1179,42 @@ function SupplierQuoteDetails() {
     }
   };
 
-  if (loading) return <div><h2>Quote Details</h2><div className="card"><p>Loading...</p></div></div>;
-  if (!request) return <div><h2>Quote Details</h2><div className="card"><p>Quote request not found.</p></div></div>;
+  if (loading) return <div><h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Quote Details</h2><div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}><p style={{color: '#8391B2', margin: 0}}>Loading...</p></div></div>;
+  if (!request) return <div><h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Quote Details</h2><div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}><p style={{color: '#8391B2', margin: 0}}>Quote request not found.</p></div></div>;
 
   return (
     <div>
       <div style={{marginBottom: '20px'}}>
-        <button onClick={() => navigate('/supplier/quotes')} className="btn" 
-          style={{background: '#666', marginBottom: '10px'}}>← Back to Quotes</button>
-        <h2>Quote Opportunity</h2>
-        <p style={{color: '#666', margin: 0}}>Review project details and submit your competitive quote</p>
+        <button onClick={() => navigate('/supplier/quotes')} style={{
+          background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px',
+          padding: '10px 20px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', marginBottom: '16px'
+        }}>← Back to Quotes</button>
+        <h2 style={{fontSize: '20px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 6px 0'}}>Quote Opportunity</h2>
+        <p style={{color: '#8391B2', margin: 0, fontSize: '14px'}}>Review project details and submit your competitive quote</p>
       </div>
 
       <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', marginBottom: '20px'}}>
-        <div className="card">
-          <h3>{request.project_title}</h3>
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>{request.project_title}</h3>
           
-          <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', marginBottom: '15px'}}>
-            <h4>Project Details</h4>
-            <p><strong>NGO:</strong> {request.ngo_name}</p>
-            <p><strong>Location:</strong> {request.project_location}</p>
-            <p><strong>Delivery Date:</strong> {request.delivery_date}</p>
+          <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px'}}>
+            <h4 style={{fontSize: '14px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 12px 0'}}>Project Details</h4>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>NGO:</strong> <span style={{color: '#8391B2'}}>{request.ngo_name}</span></p>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>Location:</strong> <span style={{color: '#8391B2'}}>{request.project_location}</span></p>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>Delivery Date:</strong> <span style={{color: '#8391B2'}}>{request.delivery_date}</span></p>
             {request.additional_requirements && (
-              <p><strong>Requirements:</strong> {request.additional_requirements}</p>
+              <p style={{margin: 0, fontSize: '13px', color: '#1E3A8A'}}><strong>Requirements:</strong> <span style={{color: '#8391B2'}}>{request.additional_requirements}</span></p>
             )}
           </div>
           
-          <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px'}}>
-            <h4>Required Items</h4>
+          <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px'}}>
+            <h4 style={{fontSize: '14px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 12px 0'}}>Required Items</h4>
             {Array.isArray(request.items) ? (
               <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px'}}>
                 {request.items.map((item, idx) => (
-                  <div key={idx} style={{background: 'white', padding: '10px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                    <p style={{margin: '0 0 5px 0', fontWeight: '600'}}>{item.name}</p>
-                    <p style={{margin: 0, color: '#666', fontSize: '14px'}}>Qty: {item.quantity}</p>
+                  <div key={idx} style={{background: '#ffffff', padding: '10px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                    <p style={{margin: '0 0 4px 0', fontWeight: '600', fontSize: '14px', color: '#1E3A8A'}}>{item.name}</p>
+                    <p style={{margin: 0, color: '#8391B2', fontSize: '13px'}}>Qty: {item.quantity}</p>
                   </div>
                 ))}
               </div>
@@ -1221,25 +1225,25 @@ function SupplierQuoteDetails() {
         </div>
         
         <div>
-          <div className="card" style={{marginBottom: '15px'}}>
-            <h4>Competition</h4>
+          <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '16px'}}>
+            <h4 style={{fontSize: '14px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 16px 0'}}>Competition</h4>
             <div style={{textAlign: 'center', padding: '20px'}}>
               <div style={{fontSize: '32px', fontWeight: '700', color: '#1E3A8A', marginBottom: '5px'}}>
                 {request.quotes_count || 0}
               </div>
-              <p style={{margin: 0, color: '#666', fontSize: '14px'}}>Quotes Submitted</p>
+              <p style={{margin: 0, color: '#8391B2', fontSize: '14px'}}>Quotes Submitted</p>
             </div>
           </div>
           
-          <div className="card">
-            <h4>Status</h4>
+          <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <h4 style={{fontSize: '14px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 12px 0'}}>Status</h4>
             <span className={`badge ${request.status === 'OPEN' ? 'badge-success' : 'badge-warning'}`} 
               style={{fontSize: '14px', padding: '8px 12px'}}>{request.status}</span>
-            <p style={{margin: '10px 0 0 0', fontSize: '14px', color: '#666'}}>Posted: {new Date(request.created_at).toLocaleDateString()}</p>
+            <p style={{margin: '10px 0 0 0', fontSize: '14px', color: '#8391B2'}}>Posted: {new Date(request.created_at).toLocaleDateString()}</p>
             {request.blockchain_tx && (
               <div style={{marginTop: '10px'}}>
-                <p style={{margin: '0 0 5px 0', fontSize: '12px', color: '#666'}}>Blockchain TX:</p>
-                <code style={{fontSize: '11px', wordBreak: 'break-all', background: '#f0f0f0', padding: '4px 6px', borderRadius: '2px', display: 'block'}}>
+                <p style={{margin: '0 0 5px 0', fontSize: '12px', color: '#8391B2'}}>Blockchain TX:</p>
+                <code style={{fontSize: '11px', wordBreak: 'break-all', background: '#DFE8F0', padding: '4px 6px', borderRadius: '4px', display: 'block', color: '#8391B2'}}>
                   {request.blockchain_tx}
                 </code>
               </div>
@@ -1249,50 +1253,50 @@ function SupplierQuoteDetails() {
       </div>
 
       {hasSubmitted && myQuote && myQuote.is_selected && !deliveryConfirmed ? (
-        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
-          <h3 style={{color: '#1E3A8A'}}><i className="fas fa-trophy" style={{marginRight: '8px'}}></i>Your Quote Was Selected!</h3>
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
+        <div style={{background: '#f0f9ff', border: '2px solid #1E3A8A', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600'}}><i className="fas fa-trophy" style={{marginRight: '8px'}}></i>Your Quote Was Selected!</h3>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '16px'}}>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Selected Quote</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Selected Quote</p>
               <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
                 ${parseFloat(myQuote.quoted_amount).toLocaleString()}
               </p>
             </div>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Status</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Status</p>
               <span className="badge badge-success">Selected</span>
             </div>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Next Step</p>
-              <p style={{margin: 0, fontSize: '14px', color: '#666'}}>Deliver to Field Officer</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Next Step</p>
+              <p style={{margin: 0, fontSize: '14px', color: '#8391B2'}}>Deliver to Field Officer</p>
             </div>
           </div>
           
           <DeliveryConfirmationForm selectionId={myQuote.selection_id} onDeliveryConfirmed={handleDeliveryConfirmed} />
         </div>
       ) : hasSubmitted && myQuote && myQuote.is_selected && deliveryConfirmed ? (
-        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
-          <h3 style={{color: '#1E3A8A'}}>✓ Delivery Confirmed - Awaiting Final Confirmation</h3>
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
+        <div style={{background: '#f0f9ff', border: '2px solid #1E3A8A', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600'}}>✓ Delivery Confirmed - Awaiting Final Confirmation</h3>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '16px'}}>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Delivered Amount</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Delivered Amount</p>
               <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
                 ${parseFloat(myQuote.quoted_amount).toLocaleString()}
               </p>
             </div>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Status</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Status</p>
               <span className="badge badge-warning">Delivered</span>
             </div>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Next Step</p>
-              <p style={{margin: 0, fontSize: '14px', color: '#666'}}>Field Officer Confirmation</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Next Step</p>
+              <p style={{margin: 0, fontSize: '14px', color: '#8391B2'}}>Field Officer Confirmation</p>
             </div>
           </div>
           
-          <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+          <div style={{background: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
             <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>✓ Items delivered to field officer</p>
-            <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#666'}}>Waiting for field officer final confirmation to complete the project.</p>
+            <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#8391B2'}}>Waiting for field officer final confirmation to complete the project.</p>
             {myQuote?.delivery_blockchain_tx && (
               <div style={{marginTop: '10px', padding: '8px', background: '#f5f5f5', borderRadius: '4px'}}>
                 <p style={{margin: '0 0 4px 0', fontSize: '12px', color: '#666'}}>Delivery Blockchain TX:</p>
@@ -1302,150 +1306,164 @@ function SupplierQuoteDetails() {
           </div>
         </div>
       ) : hasSubmitted && myQuote ? (
-        <div className="card" style={{border: '2px solid #1E3A8A', background: '#f0f9ff'}}>
-          <h3 style={{color: '#1E3A8A'}}>Your Quote Submitted</h3>
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px'}}>
+        <div style={{background: '#f0f9ff', border: '2px solid #1E3A8A', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600'}}>Your Quote Submitted</h3>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '16px'}}>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Your Quote</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Your Quote</p>
               <p style={{margin: 0, fontSize: '20px', fontWeight: '700', color: '#1E3A8A'}}>
                 ${parseFloat(myQuote.quoted_amount).toLocaleString()}
               </p>
             </div>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Status</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Status</p>
               <span className={`badge ${myQuote.is_selected ? 'badge-success' : 'badge-warning'}`}>
                 {myQuote.is_selected ? 'Selected' : 'Under Review'}
               </span>
             </div>
             <div>
-              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#666'}}>Submitted</p>
-              <p style={{margin: 0, fontSize: '14px', color: '#666'}}>{new Date(myQuote.created_at).toLocaleDateString()}</p>
+              <p style={{margin: '0 0 5px 0', fontSize: '14px', color: '#8391B2'}}>Submitted</p>
+              <p style={{margin: 0, fontSize: '14px', color: '#8391B2'}}>{new Date(myQuote.created_at).toLocaleDateString()}</p>
             </div>
           </div>
           
-          <div style={{background: 'white', padding: '15px', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
-            <p><strong>Delivery Terms:</strong> {myQuote.delivery_terms}</p>
-            <p><strong>Your Signature:</strong> {myQuote.signature}</p>
+          <div style={{background: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>Delivery Terms:</strong> <span style={{color: '#8391B2'}}>{myQuote.delivery_terms}</span></p>
+            <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>Your Signature:</strong> <span style={{color: '#8391B2'}}>{myQuote.signature}</span></p>
             {myQuote.blockchain_tx && (
-              <div style={{marginTop: '12px', padding: '10px', background: '#f0f9ff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+              <div style={{marginTop: '12px', padding: '10px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
                 <p style={{margin: '0 0 6px 0', fontSize: '14px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
-                <code style={{fontSize: '12px', wordBreak: 'break-all', color: '#000', background: '#ffffff', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>
+                <code style={{fontSize: '12px', wordBreak: 'break-all', color: '#8391B2', background: '#ffffff', padding: '6px 8px', borderRadius: '6px', border: '1px solid #C5CED7', display: 'block'}}>
                   {myQuote.blockchain_tx}
                 </code>
-                <p style={{margin: '6px 0 0 0', fontSize: '12px', color: '#666'}}>Your quote is permanently recorded on the Sepolia blockchain</p>
+                <p style={{margin: '6px 0 0 0', fontSize: '12px', color: '#8391B2'}}>Your quote is permanently recorded on the Sepolia blockchain</p>
               </div>
             )}
           </div>
         </div>
       ) : request.status === 'OPEN' ? (
-        <div className="card">
+        <div style={{background: '#ffffff', border: '1px solid #C5CED7', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           {!showQuoteForm ? (
             <div style={{textAlign: 'center', padding: '30px'}}>
-              <h3>Submit Your Competitive Quote</h3>
-              <p style={{color: '#666', marginBottom: '20px'}}>Provide your best quote for this project opportunity</p>
-              <button onClick={() => setShowQuoteForm(true)} className="btn" 
-                style={{padding: '12px 30px', fontSize: '16px'}}>Submit Quote</button>
+              <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>Submit Your Competitive Quote</h3>
+              <p style={{color: '#8391B2', marginBottom: '20px', fontSize: '14px'}}>Provide your best quote for this project opportunity</p>
+              <button onClick={() => setShowQuoteForm(true)} style={{
+                padding: '12px 30px', fontSize: '16px', background: '#1E3A8A', color: '#ffffff',
+                border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer'
+              }}>Submit Quote</button>
             </div>
           ) : (
             <div>
-              <h3>Submit Your Quote</h3>
+              <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 20px 0'}}>Submit Your Quote</h3>
               <form onSubmit={handleSubmitQuote}>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
-                  <div className="form-group">
-                    <label>Your Quote Amount (USD) *</label>
+                  <div style={{marginBottom: '16px'}}>
+                    <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Your Quote Amount (USD) *</label>
                     <input type="number" step="0.01" value={quoteData.quoted_amount}
                       onChange={(e) => setQuoteData({...quoteData, quoted_amount: e.target.value})}
-                      placeholder="Enter your competitive quote" required />
+                      placeholder="Enter your competitive quote" required
+                      style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box'}} />
                   </div>
                   
-                  <div className="form-group">
-                    <label>Delivery Timeline *</label>
+                  <div style={{marginBottom: '16px'}}>
+                    <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Delivery Timeline *</label>
                     <input type="text" value={quoteData.delivery_timeline}
                       onChange={(e) => setQuoteData({...quoteData, delivery_timeline: e.target.value})}
-                      placeholder="e.g., 7-10 business days" required />
-                    <small style={{color: '#666'}}>Required by: {request.delivery_date}</small>
+                      placeholder="e.g., 7-10 business days" required
+                      style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box'}} />
+                    <small style={{color: '#8391B2', fontSize: '12px'}}>Required by: {request.delivery_date}</small>
                   </div>
                 </div>
                 
-                <div className="form-group">
-                  <label>Delivery Terms & Conditions *</label>
+                <div style={{marginBottom: '16px'}}>
+                  <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Delivery Terms & Conditions *</label>
                   <textarea value={quoteData.delivery_terms}
                     onChange={(e) => setQuoteData({...quoteData, delivery_terms: e.target.value})}
                     placeholder="Describe your delivery method, logistics, and any special conditions"
-                    rows="3" required />
+                    rows="3" required
+                    style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box', resize: 'vertical'}} />
                 </div>
                 
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
-                  <div className="form-group">
-                    <label>Payment Terms</label>
+                  <div style={{marginBottom: '16px'}}>
+                    <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Payment Terms</label>
                     <input type="text" value={quoteData.payment_terms}
                       onChange={(e) => setQuoteData({...quoteData, payment_terms: e.target.value})}
-                      placeholder="e.g., 30% advance, 70% on delivery" />
+                      placeholder="e.g., 30% advance, 70% on delivery"
+                      style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box'}} />
                   </div>
                   
-                  <div className="form-group">
-                    <label>Warranty Period</label>
+                  <div style={{marginBottom: '16px'}}>
+                    <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Warranty Period</label>
                     <input type="text" value={quoteData.warranty_period}
                       onChange={(e) => setQuoteData({...quoteData, warranty_period: e.target.value})}
-                      placeholder="e.g., 12 months warranty" />
+                      placeholder="e.g., 12 months warranty"
+                      style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box'}} />
                   </div>
                 </div>
                 
-                <div className="form-group">
-                  <label>Quality Certifications</label>
+                <div style={{marginBottom: '16px'}}>
+                  <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Quality Certifications</label>
                   <input type="text" value={quoteData.quality_certifications}
                     onChange={(e) => setQuoteData({...quoteData, quality_certifications: e.target.value})}
-                    placeholder="e.g., ISO 9001, FDA approved, CE certified" />
-                  <small style={{color: '#666'}}>List any relevant quality certifications or standards</small>
+                    placeholder="e.g., ISO 9001, FDA approved, CE certified"
+                    style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box'}} />
+                  <small style={{color: '#8391B2', fontSize: '12px'}}>List any relevant quality certifications or standards</small>
                 </div>
                 
-                <div className="form-group">
-                  <label>Technical Specifications</label>
+                <div style={{marginBottom: '16px'}}>
+                  <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Technical Specifications</label>
                   <textarea value={quoteData.technical_specifications}
                     onChange={(e) => setQuoteData({...quoteData, technical_specifications: e.target.value})}
                     placeholder="Detailed specifications of items you will supply"
-                    rows="3" />
+                    rows="3"
+                    style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box', resize: 'vertical'}} />
                 </div>
                 
-                <div className="form-group">
-                  <label>Company Experience</label>
+                <div style={{marginBottom: '16px'}}>
+                  <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Company Experience</label>
                   <textarea value={quoteData.supplier_experience}
                     onChange={(e) => setQuoteData({...quoteData, supplier_experience: e.target.value})}
                     placeholder="Brief description of your company's experience in similar projects"
-                    rows="2" />
+                    rows="2"
+                    style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box', resize: 'vertical'}} />
                 </div>
                 
-                <div className="form-group">
-                  <label>References</label>
+                <div style={{marginBottom: '16px'}}>
+                  <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>References</label>
                   <textarea value={quoteData.references}
                     onChange={(e) => setQuoteData({...quoteData, references: e.target.value})}
                     placeholder="Previous clients or projects (optional)"
-                    rows="2" />
+                    rows="2"
+                    style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box', resize: 'vertical'}} />
                 </div>
                 
-                <div className="form-group">
-                  <label>Your Digital Signature *</label>
+                <div style={{marginBottom: '20px'}}>
+                  <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Your Digital Signature *</label>
                   <input type="text" value={quoteData.supplier_signature}
                     onChange={(e) => setQuoteData({...quoteData, supplier_signature: e.target.value})}
-                    placeholder="Enter your digital signature" required />
-                  <small style={{color: '#666'}}>This signature will be permanently recorded on the blockchain</small>
+                    placeholder="Enter your digital signature" required
+                    style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box'}} />
+                  <small style={{color: '#8391B2', fontSize: '12px'}}>This signature will be permanently recorded on the blockchain</small>
                 </div>
                 
                 <div style={{display: 'flex', gap: '10px'}}>
                   <LoadingButton type="submit" loading={submitQuoteLoading} className="btn" style={{flex: 1, padding: '12px', fontSize: '15px'}}>
                     Submit Quote
                   </LoadingButton>
-                  <button type="button" onClick={() => setShowQuoteForm(false)} className="btn" 
-                    style={{background: '#666', padding: '12px 20px', fontSize: '15px'}}>Cancel</button>
+                  <button type="button" onClick={() => setShowQuoteForm(false)} style={{
+                    background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px',
+                    padding: '12px 20px', fontSize: '15px', fontWeight: '600', cursor: 'pointer'
+                  }}>Cancel</button>
                 </div>
               </form>
             </div>
           )}
         </div>
       ) : (
-        <div className="card" style={{background: '#f5f5f5', border: '1px solid #000000'}}>
-          <h3 style={{color: '#000000'}}>Quote Request Closed</h3>
-          <p style={{margin: 0, color: '#000000'}}>This quote request is no longer accepting submissions.</p>
+        <div style={{background: '#f0f9ff', border: '2px solid #1E3A8A', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '17px', fontWeight: '600'}}>Quote Request Closed</h3>
+          <p style={{margin: 0, color: '#8391B2', fontSize: '14px'}}>This quote request is no longer accepting submissions.</p>
         </div>
       )}
     </div>

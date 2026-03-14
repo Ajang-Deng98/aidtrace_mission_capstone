@@ -246,11 +246,11 @@ function NGODashboard({ language = 'en', changeLanguage }) {
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
             <div style={{position: 'relative'}}>
-              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '4px', color: '#27248C', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '8px', color: '#27248C', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
-                <div style={{position: 'absolute', top: '40px', right: language === 'ar' ? 'auto' : '0', left: language === 'ar' ? '0' : 'auto', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
-                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
-                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>                </div>
+                <div style={{position: 'absolute', top: '40px', right: language === 'ar' ? 'auto' : '0', left: language === 'ar' ? '0' : 'auto', background: '#ffffff', border: '1px solid #C5CED7', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
+                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#DFE8F0' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>English</button>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#DFE8F0' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>العربية</button>                </div>
               )}
             </div>
           </div>
@@ -302,17 +302,17 @@ function Dashboard() {
         
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '100px'}}></div>
+            <div key={i} style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '100px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}></div>
           ))}
         </div>
         
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
           {[1, 2].map(i => (
-            <div key={i} className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '300px'}}></div>
+            <div key={i} style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '300px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}></div>
           ))}
         </div>
         
-        <div className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '200px'}}></div>
+        <div style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '200px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}></div>
       </div>
     );
   }
@@ -338,39 +338,39 @@ function Dashboard() {
       <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>Monitor your projects and field operations</p>
       
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
-        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7', transition: 'all 0.2s ease', cursor: 'pointer'}}
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}}
           onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)'; e.currentTarget.style.borderColor = '#27248C';}}
-          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#C5CED7';}}>
+          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)'; e.currentTarget.style.borderColor = '#C5CED7';}}>
           <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{stats.total_projects}</h3>
           <p style={{margin: 0, color: '#8391B2', fontSize: '14px', fontWeight: '500'}}>{t.totalProjects}</p>
         </div>
-        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7', transition: 'all 0.2s ease', cursor: 'pointer'}}
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}}
           onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)'; e.currentTarget.style.borderColor = '#27248C';}}
-          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#C5CED7';}}>
+          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)'; e.currentTarget.style.borderColor = '#C5CED7';}}>
           <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{stats.funded_projects}</h3>
           <p style={{margin: 0, color: '#8391B2', fontSize: '14px', fontWeight: '500'}}>{t.fundedProjects}</p>
         </div>
-        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7', transition: 'all 0.2s ease', cursor: 'pointer'}}
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}}
           onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)'; e.currentTarget.style.borderColor = '#27248C';}}
-          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#C5CED7';}}>
+          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)'; e.currentTarget.style.borderColor = '#C5CED7';}}>
           <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{stats.field_officers}</h3>
           <p style={{margin: 0, color: '#8391B2', fontSize: '14px', fontWeight: '500'}}>{t.fieldOfficers}</p>
         </div>
-        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7', transition: 'all 0.2s ease', cursor: 'pointer'}}
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}}
           onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(39,36,140,0.1)'; e.currentTarget.style.borderColor = '#27248C';}}
-          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#C5CED7';}}>
+          onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)'; e.currentTarget.style.borderColor = '#C5CED7';}}>
           <h3 style={{margin: '0 0 8px 0', fontSize: '32px', color: '#27248C', fontWeight: '700'}}>{stats.projects.filter(p => p.is_approved).length}</h3>
           <p style={{margin: 0, color: '#8391B2', fontSize: '14px', fontWeight: '500'}}>{t.approvedProjects}</p>
         </div>
       </div>
 
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
-        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px'}}>
           <h3 style={{marginBottom: '16px', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>{t.projectsByStatus}</h3>
           {projectStatusData.length === 0 ? (
             <div style={{textAlign: 'center', padding: '48px 20px'}}>
               <i className="fas fa-chart-bar" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-              <p style={{fontSize: '14px', color: '#666', margin: 0}}>{t.noProjectDataAvailable}</p>
+              <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>{t.noProjectDataAvailable}</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
@@ -385,12 +385,12 @@ function Dashboard() {
           )}
         </div>
 
-        <div className="card" style={{background: '#ffffff', border: '1px solid #C5CED7'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px'}}>
           <h3 style={{marginBottom: '16px', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>{t.projectApprovalStatus}</h3>
           {approvalData.every(d => d.value === 0) ? (
             <div style={{textAlign: 'center', padding: '48px 20px'}}>
               <i className="fas fa-clipboard-list" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-              <p style={{fontSize: '14px', color: '#666', margin: 0}}>{t.noApprovalDataAvailable}</p>
+              <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>{t.noApprovalDataAvailable}</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
@@ -453,16 +453,16 @@ function Dashboard() {
                       {project.is_approved ? 
                         <span style={{
                           padding: '4px 12px',
-                          background: '#22C55E',
-                          color: '#ffffff',
+                          background: '#D1FAE5',
+                          color: '#065F46',
                           borderRadius: '6px',
                           fontSize: '12px',
                           fontWeight: '600'
                         }}>✓ {t.approved}</span> : 
                         <span style={{
                           padding: '4px 12px',
-                          background: '#FFA500',
-                          color: '#ffffff',
+                          background: '#FEF3C7',
+                          color: '#92400E',
                           borderRadius: '6px',
                           fontSize: '12px',
                           fontWeight: '600'
@@ -599,7 +599,7 @@ function CreateProject() {
       <div>
         <h2>Create New Project</h2>
         <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>Submit a new humanitarian aid project for approval</p>
-        <div className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '600px'}}></div>
+        <div style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '600px', borderRadius: '12px', border: '1px solid #C5CED7'}}></div>
       </div>
     );
   }
@@ -793,14 +793,14 @@ function CreateProject() {
 
         <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Supporting Documents (Optional)</h3>
-            <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#666'}}>Upload up to 3 relevant documents (proposals, budgets, permits, etc.)</p>
+            <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#8391B2'}}>Upload up to 3 relevant documents (proposals, budgets, permits, etc.)</p>
             
             {documents.map((doc, index) => (
               <div key={index} style={{marginBottom: '16px'}}>
-                <label style={{display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#000'}}>Document {index + 1}</label>
+                <label style={{display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#27248C'}}>Document {index + 1}</label>
                 {!doc.preview ? (
-                  <div style={{border: '2px dashed #e0e0e0', borderRadius: '6px', padding: '20px', textAlign: 'center', background: '#ffffff'}}>
-                    <i className="fas fa-file-alt" style={{fontSize: '32px', color: '#1E3A8A', marginBottom: '8px'}}></i>
+                  <div style={{border: '2px dashed #C5CED7', borderRadius: '8px', padding: '20px', textAlign: 'center', background: '#DFE8F0'}}>
+                    <i className="fas fa-file-alt" style={{fontSize: '32px', color: '#27248C', marginBottom: '8px'}}></i>
                     <input 
                       type="file" 
                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
@@ -811,30 +811,30 @@ function CreateProject() {
                     <label htmlFor={`doc${index}`} style={{
                       display: 'inline-block',
                       padding: '8px 16px',
-                      background: '#1E3A8A',
-                      color: '#fff',
-                      borderRadius: '4px',
+                      background: '#27248C',
+                      color: '#ffffff',
+                      borderRadius: '8px',
                       cursor: 'pointer',
                       fontSize: '13px',
                       fontWeight: '600'
                     }}>
                       Choose File
                     </label>
-                    <p style={{margin: '8px 0 0 0', fontSize: '11px', color: '#666'}}>PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
+                    <p style={{margin: '8px 0 0 0', fontSize: '11px', color: '#8391B2'}}>PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
                   </div>
                 ) : (
-                  <div style={{border: '1px solid #1E3A8A', borderRadius: '6px', padding: '12px', background: '#f0f9ff', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                  <div style={{border: '1px solid #27248C', borderRadius: '8px', padding: '12px', background: '#DFE8F0', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                      <i className="fas fa-file-alt" style={{fontSize: '24px', color: '#1E3A8A'}}></i>
+                      <i className="fas fa-file-alt" style={{fontSize: '24px', color: '#27248C'}}></i>
                       <div>
-                        <p style={{margin: 0, fontSize: '13px', fontWeight: '600', color: '#000'}}>{doc.name}</p>
-                        <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#666'}}>Document uploaded</p>
+                        <p style={{margin: 0, fontSize: '13px', fontWeight: '600', color: '#27248C'}}>{doc.name}</p>
+                        <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#8391B2'}}>Document uploaded</p>
                       </div>
                     </div>
                     <button 
                       type="button"
                       onClick={() => removeDocument(index)}
-                      style={{background: '#dc3545', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontWeight: '600'}}
+                      style={{background: '#dc3545', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: '600'}}
                     >
                       Remove
                     </button>
@@ -846,11 +846,11 @@ function CreateProject() {
           
         <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
           <h3 style={{margin: '0 0 24px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Beneficiaries (Optional)</h3>
-            <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#666'}}>Upload beneficiaries list with photos (ZIP file containing CSV + photos)</p>
+            <p style={{margin: '0 0 16px 0', fontSize: '13px', color: '#8391B2'}}>Upload beneficiaries list with photos (ZIP file containing CSV + photos)</p>
             
             {!beneficiariesPreview ? (
-              <div style={{border: '2px dashed #1E3A8A', borderRadius: '6px', padding: '20px', textAlign: 'center', background: '#ffffff'}}>
-                <i className="fas fa-file-archive" style={{fontSize: '32px', color: '#1E3A8A', marginBottom: '8px'}}></i>
+              <div style={{border: '2px dashed #27248C', borderRadius: '8px', padding: '20px', textAlign: 'center', background: '#DFE8F0'}}>
+                <i className="fas fa-file-archive" style={{fontSize: '32px', color: '#27248C', marginBottom: '8px'}}></i>
                 <input 
                   type="file" 
                   accept=".zip"
@@ -861,30 +861,30 @@ function CreateProject() {
                 <label htmlFor="beneficiariesUpload" style={{
                   display: 'inline-block',
                   padding: '8px 16px',
-                  background: '#1E3A8A',
-                  color: '#fff',
-                  borderRadius: '4px',
+                  background: '#27248C',
+                  color: '#ffffff',
+                  borderRadius: '8px',
                   cursor: 'pointer',
                   fontSize: '13px',
                   fontWeight: '600'
                 }}>
                   Choose ZIP File
                 </label>
-                <p style={{margin: '8px 0 0 0', fontSize: '11px', color: '#666'}}>ZIP file with beneficiaries.csv and photos/ folder</p>
+                <p style={{margin: '8px 0 0 0', fontSize: '11px', color: '#8391B2'}}>ZIP file with beneficiaries.csv and photos/ folder</p>
               </div>
             ) : (
-              <div style={{border: '1px solid #1E3A8A', borderRadius: '6px', padding: '12px', background: '#f0f9ff', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div style={{border: '1px solid #27248C', borderRadius: '8px', padding: '12px', background: '#DFE8F0', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                  <i className="fas fa-file-archive" style={{fontSize: '24px', color: '#1E3A8A'}}></i>
+                  <i className="fas fa-file-archive" style={{fontSize: '24px', color: '#27248C'}}></i>
                   <div>
-                    <p style={{margin: 0, fontSize: '13px', fontWeight: '600', color: '#000'}}>{beneficiariesPreview}</p>
-                    <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#666'}}>Beneficiaries file ready to upload</p>
+                    <p style={{margin: 0, fontSize: '13px', fontWeight: '600', color: '#27248C'}}>{beneficiariesPreview}</p>
+                    <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#8391B2'}}>Beneficiaries file ready to upload</p>
                   </div>
                 </div>
                 <button 
                   type="button"
                   onClick={() => {setBeneficiariesFile(null); setBeneficiariesPreview(null);}}
-                  style={{background: '#dc3545', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontWeight: '600'}}
+                  style={{background: '#dc3545', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: '600'}}
                 >
                   Remove
                 </button>
@@ -928,7 +928,7 @@ function Projects() {
         <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>View and manage all your projects</p>
         <div className="grid">
           {[1, 2, 3].map(i => (
-            <div key={i} className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '250px'}}></div>
+            <div key={i} style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '250px', borderRadius: '12px', border: '1px solid #C5CED7'}}></div>
           ))}
         </div>
       </div>
@@ -974,12 +974,12 @@ function Projects() {
               <div style={{marginBottom: '16px'}}>
                 <h3 style={{color: '#27248C', margin: '0 0 12px 0', fontSize: '18px', fontWeight: '600'}}>{project.title}</h3>
                 <div style={{display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap'}}>
-                  <span className="badge badge-info" style={{fontSize: '12px'}}>{project.category}</span>
+                  <span style={{padding: '4px 10px', background: '#DFE8F0', color: '#27248C', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>{project.category}</span>
                   {project.is_approved ? 
-                    <span className="badge badge-success" style={{fontSize: '12px'}}>Approved</span> : 
-                    <span className="badge badge-warning" style={{fontSize: '12px'}}>Pending Approval</span>
+                    <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>Approved</span> : 
+                    <span style={{padding: '4px 10px', background: '#FEF3C7', color: '#92400E', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>Pending Approval</span>
                   }
-                  <span className="badge" style={{background: '#DFE8F0', color: '#8391B2', fontSize: '12px'}}>{project.status.replace(/_/g, ' ')}</span>
+                  <span style={{padding: '4px 10px', background: '#DFE8F0', color: '#8391B2', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>{project.status.replace(/_/g, ' ')}</span>
                 </div>
               </div>
               
@@ -1232,7 +1232,7 @@ function SuppliersUnified() {
         <p style={{color: '#666', marginBottom: '24px', fontSize: '14px'}}>Manage supplier quotes and partnerships</p>
         <div className="grid">
           {[1, 2, 3].map(i => (
-            <div key={i} className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '220px'}}></div>
+            <div key={i} style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '220px', borderRadius: '12px', border: '1px solid #C5CED7'}}></div>
           ))}
         </div>
       </div>
@@ -1243,20 +1243,20 @@ function SuppliersUnified() {
     <div>
       <div style={{marginBottom: '24px'}}>
         <h2 style={{fontSize: '24px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>{t.suppliers}</h2>
-        <p style={{color: '#666', margin: 0, fontSize: '14px'}}>{t.manageSupplierQuotes}</p>
+        <p style={{color: '#8391B2', margin: 0, fontSize: '14px'}}>{t.manageSupplierQuotes}</p>
       </div>
 
-      <div style={{borderBottom: '2px solid #e0e0e0', marginBottom: '24px'}}>
+      <div style={{borderBottom: '2px solid #C5CED7', marginBottom: '24px'}}>
         <div style={{display: 'flex', gap: '32px'}}>
           <button onClick={() => setActiveTab('quotes')} style={{
             background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', fontWeight: '600',
-            color: activeTab === 'quotes' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            color: activeTab === 'quotes' ? '#1E3A8A' : '#8391B2', cursor: 'pointer',
             borderBottom: activeTab === 'quotes' ? '3px solid #1E3A8A' : '3px solid transparent',
             transition: 'all 0.2s ease'
           }}>{t.quoteRequests} ({quoteRequests.length})</button>
           <button onClick={() => setActiveTab('suppliers')} style={{
             background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', fontWeight: '600',
-            color: activeTab === 'suppliers' ? '#1E3A8A' : '#666', cursor: 'pointer',
+            color: activeTab === 'suppliers' ? '#1E3A8A' : '#8391B2', cursor: 'pointer',
             borderBottom: activeTab === 'suppliers' ? '3px solid #1E3A8A' : '3px solid transparent',
             transition: 'all 0.2s ease'
           }}>{t.allSuppliers} ({suppliers.length})</button>
@@ -1375,20 +1375,16 @@ function SuppliersUnified() {
       ) : (
         <div>
           {suppliers.length === 0 ? (
-            <div className="card" style={{textAlign: 'center', padding: '64px 20px', border: '1px solid #e0e0e0'}}>
+            <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '64px 20px'}}>
               <i className="fas fa-truck" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-              <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>No Suppliers Available</h3>
-              <p style={{fontSize: '14px', color: '#666', margin: 0}}>Suppliers will appear here once they register in the system</p>
+              <h3 style={{fontSize: '20px', color: '#27248C', margin: '0 0 8px 0'}}>No Suppliers Available</h3>
+              <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>Suppliers will appear here once they register in the system</p>
             </div>
           ) : (
             <>
               <div className="grid">
                 {suppliers.map(supplier => (
-                  <div key={supplier.id} className="card" 
-                    style={{
-                      border: '1px solid #e0e0e0',
-                      transition: 'all 0.2s ease'
-                    }}
+              <div key={supplier.id} style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', transition: 'all 0.2s ease'}}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateY(-4px)';
                       e.currentTarget.style.boxShadow = '0 4px 12px rgba(30,58,138,0.15)';
@@ -1396,27 +1392,27 @@ function SuppliersUnified() {
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = 'none';
-                      e.currentTarget.style.borderColor = '#e0e0e0';
+                      e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+                      e.currentTarget.style.borderColor = '#C5CED7';
                     }}>
                     <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px'}}>
                       <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '20px', fontWeight: '700'}}>
                         {supplier.name.charAt(0).toUpperCase()}
                       </div>
                       <div style={{flex: 1}}>
-                        <h3 style={{margin: '0 0 4px 0', fontSize: '18px', color: '#000', fontWeight: '600'}}>{supplier.name}</h3>
-                        <span className="badge badge-success" style={{fontSize: '11px'}}>Active</span>
+                        <h3 style={{margin: '0 0 4px 0', fontSize: '18px', color: '#1E3A8A', fontWeight: '600'}}>{supplier.name}</h3>
+                        <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', borderRadius: '6px', fontSize: '11px', fontWeight: '600'}}>Active</span>
                       </div>
                     </div>
                     
-                    <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', fontSize: '13px'}}>
-                      <p style={{margin: '6px 0', color: '#666', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', fontSize: '13px'}}>
+                      <p style={{margin: '6px 0', color: '#8391B2', display: 'flex', alignItems: 'center', gap: '8px'}}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{color: '#1E3A8A'}}>
                           <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                         </svg>
                         <span>{supplier.email}</span>
                       </p>
-                      <p style={{margin: '6px 0', color: '#666', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                      <p style={{margin: '6px 0', color: '#8391B2', display: 'flex', alignItems: 'center', gap: '8px'}}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{color: '#1E3A8A'}}>
                           <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                         </svg>
@@ -1427,9 +1423,9 @@ function SuppliersUnified() {
                 ))}
               </div>
               
-              <div className="card" style={{marginTop: '24px', background: '#f0f9ff', border: '1px solid #1E3A8A'}}>
-                <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '18px'}}>How to Work with Suppliers</h3>
-                <ol style={{color: '#666', lineHeight: '1.8', margin: 0, paddingLeft: '20px', fontSize: '14px'}}>
+              <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginTop: '24px'}}>
+                <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>How to Work with Suppliers</h3>
+                <ol style={{color: '#8391B2', lineHeight: '1.8', margin: 0, paddingLeft: '20px', fontSize: '14px'}}>
                   <li>Create a funded project</li>
                   <li>Click "Get Supplier" to create a quote request</li>
                   <li>Suppliers will submit competitive quotes</li>
@@ -1907,7 +1903,7 @@ function QuoteDetails() {
       <div>
         <h2>Quote Request Details</h2>
         <p style={{color: '#666', marginBottom: '24px'}}>Review and select supplier quotes</p>
-        <div className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '400px'}}></div>
+        <div style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '400px', borderRadius: '12px', border: '1px solid #C5CED7'}}></div>
       </div>
     );
   }
@@ -1916,10 +1912,10 @@ function QuoteDetails() {
     return (
       <div>
         <h2>Quote Request Details</h2>
-        <div className="card" style={{textAlign: 'center', padding: '64px 20px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '64px 20px'}}>
           <i className="fas fa-file-invoice" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-          <h3 style={{fontSize: '20px', color: '#000', margin: '0 0 8px 0'}}>Quote Request Not Found</h3>
-          <p style={{fontSize: '14px', color: '#666', margin: 0}}>The quote request you're looking for doesn't exist</p>
+          <h3 style={{fontSize: '20px', color: '#27248C', margin: '0 0 8px 0'}}>Quote Request Not Found</h3>
+          <p style={{fontSize: '14px', color: '#8391B2', margin: 0}}>The quote request you're looking for doesn't exist</p>
         </div>
       </div>
     );
@@ -1940,98 +1936,103 @@ function QuoteDetails() {
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
           <div>
             <h2 style={{margin: '0 0 4px 0', fontSize: '20px', fontWeight: '600'}}>{t.quoteRequestDetails}</h2>
-            <p style={{color: '#666', margin: 0, fontSize: '13px'}}>{t.reviewSelectQuotes}</p>
+            <p style={{color: '#8391B2', margin: 0, fontSize: '13px'}}>{t.reviewSelectQuotes}</p>
           </div>
           {(request.status === 'OPEN' || request.status === 'SELECTED') && (
-            <button onClick={() => setShowCloseConfirm(true)} className="btn" 
-              style={{background: '#dc3545', padding: '8px 16px', fontSize: '13px'}}>{t.closeRequest}</button>
+            <button onClick={() => setShowCloseConfirm(true)} 
+              style={{background: '#dc3545', color: '#ffffff', border: 'none', padding: '8px 16px', fontSize: '13px', fontWeight: '600', borderRadius: '8px', cursor: 'pointer'}}>{t.closeRequest}</button>
           )}
         </div>
       </div>
 
-      <div className="card" style={{marginBottom: '24px', border: '1px solid #e0e0e0'}}>
-        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0'}}>
-          <h3 style={{margin: 0, fontSize: '18px', fontWeight: '600', color: '#000'}}>{request.project_title}</h3>
-          <span className={`badge ${request.status === 'OPEN' ? 'badge-success' : request.status === 'CLOSED' ? 'badge-warning' : 'badge-info'}`} 
-            style={{fontSize: '12px', padding: '4px 12px'}}>{request.status.replace(/_/g, ' ')}</span>
+      <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #C5CED7'}}>
+          <h3 style={{margin: 0, fontSize: '18px', fontWeight: '600', color: '#27248C'}}>{request.project_title}</h3>
+          <span style={{
+            padding: '4px 12px', fontSize: '12px', fontWeight: '600', borderRadius: '6px',
+            background: request.status === 'OPEN' ? '#D1FAE5' : request.status === 'CLOSED' ? '#FEF3C7' : '#DFE8F0',
+            color: request.status === 'OPEN' ? '#065F46' : request.status === 'CLOSED' ? '#92400E' : '#1E3A8A'
+          }}>{request.status.replace(/_/g, ' ')}</span>
         </div>
         
         <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px'}}>
           <div>
-            <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '16px', border: '1px solid #e0e0e0'}}>
-              <h4 style={{margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>Request Details</h4>
+            <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px', border: '1px solid #C5CED7'}}>
+              <h4 style={{margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Request Details</h4>
               <div style={{display: 'grid', gap: '10px', fontSize: '13px'}}>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                  <span style={{color: '#666'}}>Delivery Location:</span>
-                  <span style={{color: '#000'}}>{request.delivery_location}</span>
+                  <span style={{color: '#8391B2'}}>Delivery Location:</span>
+                  <span style={{color: '#1E3A8A', fontWeight: '500'}}>{request.delivery_location}</span>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                  <span style={{color: '#666'}}>Delivery Date:</span>
-                  <span style={{color: '#000'}}>{request.delivery_date}</span>
+                  <span style={{color: '#8391B2'}}>Delivery Date:</span>
+                  <span style={{color: '#1E3A8A', fontWeight: '500'}}>{request.delivery_date}</span>
                 </div>
-                <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid #e0e0e0'}}>
-                  <span style={{color: '#666'}}>Proposed Budget:</span>
-                  <span style={{color: '#000', fontWeight: '600', fontSize: '15px'}}>${parseFloat(request.proposed_budget || 0).toLocaleString()}</span>
+                <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid #C5CED7'}}>
+                  <span style={{color: '#8391B2'}}>Proposed Budget:</span>
+                  <span style={{color: '#1E3A8A', fontWeight: '600', fontSize: '15px'}}>${parseFloat(request.proposed_budget || 0).toLocaleString()}</span>
                 </div>
                 {request.additional_requirements && (
-                  <div style={{paddingTop: '8px', borderTop: '1px solid #e0e0e0'}}>
-                    <span style={{color: '#666', display: 'block', marginBottom: '6px'}}>Requirements:</span>
-                    <p style={{margin: 0, color: '#000', fontSize: '13px', lineHeight: '1.5'}}>{request.additional_requirements}</p>
+                  <div style={{paddingTop: '8px', borderTop: '1px solid #C5CED7'}}>
+                    <span style={{color: '#8391B2', display: 'block', marginBottom: '6px'}}>Requirements:</span>
+                    <p style={{margin: 0, color: '#1E3A8A', fontSize: '13px', lineHeight: '1.5'}}>{request.additional_requirements}</p>
                   </div>
                 )}
               </div>
             </div>
             
-            <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-              <h4 style={{margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>Required Items</h4>
+            <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+              <h4 style={{margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Required Items</h4>
               {Array.isArray(request.items) ? (
                 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '10px'}}>
                   {request.items.map((item, idx) => (
-                    <div key={idx} style={{background: '#ffffff', padding: '12px', borderRadius: '6px', border: '1px solid #e0e0e0', textAlign: 'center'}}>
-                      <p style={{margin: '0 0 4px 0', fontWeight: '600', fontSize: '13px', color: '#000'}}>{item.name}</p>
-                      <p style={{margin: 0, color: '#666', fontSize: '12px'}}>Qty: {item.quantity}</p>
+                    <div key={idx} style={{background: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid #C5CED7', textAlign: 'center'}}>
+                      <p style={{margin: '0 0 4px 0', fontWeight: '600', fontSize: '13px', color: '#27248C'}}>{item.name}</p>
+                      <p style={{margin: 0, color: '#8391B2', fontSize: '12px'}}>Qty: {item.quantity}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p style={{margin: 0, color: '#666', fontSize: '13px'}}>{typeof request.items === 'string' ? request.items : JSON.stringify(request.items)}</p>
+                <p style={{margin: 0, color: '#8391B2', fontSize: '13px'}}>{typeof request.items === 'string' ? request.items : JSON.stringify(request.items)}</p>
               )}
             </div>
           </div>
           
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-            <h4 style={{margin: '0 0 16px 0', fontSize: '14px', fontWeight: '600', color: '#000'}}>Request Info</h4>
+          <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+            <h4 style={{margin: '0 0 16px 0', fontSize: '14px', fontWeight: '600', color: '#27248C'}}>Request Info</h4>
             <div style={{fontSize: '13px'}}>
               <div style={{marginBottom: '16px'}}>
-                <p style={{margin: '0 0 4px 0', color: '#666'}}>Created</p>
-                <p style={{margin: 0, color: '#000', fontWeight: '600'}}>{new Date(request.created_at).toLocaleDateString()}</p>
+                <p style={{margin: '0 0 4px 0', color: '#8391B2'}}>Created</p>
+                <p style={{margin: 0, color: '#27248C', fontWeight: '600'}}>{new Date(request.created_at).toLocaleDateString()}</p>
               </div>
               
               <div>
-                <p style={{margin: '0 0 4px 0', color: '#666'}}>Total Quotes</p>
-                <p style={{margin: 0, color: '#000', fontSize: '24px', fontWeight: '600'}}>{quotes.length}</p>
+                <p style={{margin: '0 0 4px 0', color: '#8391B2'}}>Total Quotes</p>
+                <p style={{margin: 0, color: '#27248C', fontSize: '24px', fontWeight: '600'}}>{quotes.length}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="card">
-        <h3 style={{margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600', color: '#000'}}>Supplier Quotes ({quotes.length})</h3>
+      <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px'}}>
+        <h3 style={{margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600', color: '#27248C'}}>Supplier Quotes ({quotes.length})</h3>
         {quotes.length === 0 ? (
           <div style={{textAlign: 'center', padding: '48px 20px'}}>
             <i className="fas fa-file-invoice" style={{fontSize: '48px', marginBottom: '12px', color: '#1E3A8A'}}></i>
-            <h3 style={{fontSize: '16px', color: '#000', margin: '0 0 8px 0'}}>No Quotes Received Yet</h3>
-            <p style={{fontSize: '13px', color: '#666', margin: 0}}>Suppliers can view and submit quotes for this request</p>
+            <h3 style={{fontSize: '16px', color: '#27248C', margin: '0 0 8px 0'}}>No Quotes Received Yet</h3>
+            <p style={{fontSize: '13px', color: '#8391B2', margin: 0}}>Suppliers can view and submit quotes for this request</p>
           </div>
         ) : (
           <div>
             <div style={{display: 'grid', gap: '16px', marginBottom: '24px'}}>
               {quotes.map(quote => (
-                <div key={quote.id} className="card" 
-                  style={{
-                    border: selectedQuote?.id === quote.id ? '2px solid #1E3A8A' : quote.is_selected ? '2px solid #22C55E' : '1px solid #e0e0e0',
-                    background: selectedQuote?.id === quote.id ? '#f8f9fa' : quote.is_selected ? '#f8f9fa' : 'white',
+                <div key={quote.id} style={{
+                    background: selectedQuote?.id === quote.id ? '#DFE8F0' : quote.is_selected ? '#D1FAE5' : '#ffffff',
+                    borderRadius: '12px',
+                    border: selectedQuote?.id === quote.id ? '2px solid #1E3A8A' : quote.is_selected ? '2px solid #065F46' : '1px solid #C5CED7',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                    padding: '20px',
                     transition: 'all 0.2s ease'
                   }}
                   onMouseEnter={(e) => {
@@ -2042,35 +2043,35 @@ function QuoteDetails() {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.boxShadow = 'none';
                   }}>
-                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0'}}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #C5CED7'}}>
                     <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                      <div style={{width: '40px', height: '40px', borderRadius: '50%', background: quote.is_selected ? '#22C55E' : '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '16px', fontWeight: '600'}}>
+                      <div style={{width: '40px', height: '40px', borderRadius: '50%', background: quote.is_selected ? '#065F46' : '#1E3A8A', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '16px', fontWeight: '600'}}>
                         {quote.supplier_name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <h4 style={{margin: '0 0 4px 0', color: '#000', fontSize: '15px', fontWeight: '600'}}>{quote.supplier_name}</h4>
-                        <p style={{margin: 0, fontSize: '12px', color: '#666'}}>Submitted: {new Date(quote.created_at).toLocaleDateString()}</p>
+                        <h4 style={{margin: '0 0 4px 0', color: '#27248C', fontSize: '15px', fontWeight: '600'}}>{quote.supplier_name}</h4>
+                        <p style={{margin: 0, fontSize: '12px', color: '#8391B2'}}>Submitted: {new Date(quote.created_at).toLocaleDateString()}</p>
                       </div>
                     </div>
                     <div style={{display: 'flex', gap: '16px', alignItems: 'center'}}>
                       <div style={{textAlign: 'right'}}>
-                        <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#666'}}>Quote Amount</p>
-                        <span style={{fontSize: '20px', fontWeight: '600', color: '#000'}}>
+                        <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2'}}>Quote Amount</p>
+                        <span style={{fontSize: '20px', fontWeight: '600', color: '#27248C'}}>
                           ${parseFloat(quote.quoted_amount).toLocaleString()}
                         </span>
                       </div>
                       {request.status === 'OPEN' && !quote.is_selected && !request.has_selection && (
-                        <button onClick={() => setSelectedQuote(quote)} className="btn" 
+                        <button onClick={() => setSelectedQuote(quote)} 
                           style={{
-                            padding: '8px 16px', 
-                            fontSize: '13px',
-                            background: selectedQuote?.id === quote.id ? '#22C55E' : '#1E3A8A'
+                            padding: '8px 16px', fontSize: '13px', fontWeight: '600', border: 'none', borderRadius: '8px', cursor: 'pointer',
+                            background: selectedQuote?.id === quote.id ? '#065F46' : '#1E3A8A',
+                            color: '#ffffff'
                           }}>
                           {selectedQuote?.id === quote.id ? '✓ Selected' : 'Select'}
                         </button>
                       )}
                       {quote.is_selected && (
-                        <span style={{padding: '8px 16px', fontSize: '13px', background: '#22C55E', color: 'white', borderRadius: '4px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px'}}>
+                        <span style={{padding: '8px 16px', fontSize: '13px', background: '#D1FAE5', color: '#065F46', borderRadius: '8px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px'}}>
                           <span>✓</span> Selected
                         </span>
                       )}
@@ -2111,62 +2112,62 @@ function QuoteDetails() {
                   </div>
                   
                   <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px'}}>
-                    <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                      <h5 style={{margin: '0 0 10px 0', fontSize: '13px', color: '#000', fontWeight: '600'}}>Delivery & Terms</h5>
+                    <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                      <h5 style={{margin: '0 0 10px 0', fontSize: '13px', color: '#27248C', fontWeight: '600'}}>Delivery & Terms</h5>
                       <div style={{fontSize: '12px', display: 'grid', gap: '8px'}}>
                         <div>
-                          <span style={{color: '#666', display: 'block', marginBottom: '2px'}}>Delivery Terms</span>
-                          <p style={{margin: 0, color: '#000'}}>{quote.delivery_terms}</p>
+                          <span style={{color: '#8391B2', display: 'block', marginBottom: '2px'}}>Delivery Terms</span>
+                          <p style={{margin: 0, color: '#27248C'}}>{quote.delivery_terms}</p>
                         </div>
                         <div>
-                          <span style={{color: '#666', display: 'block', marginBottom: '2px'}}>Timeline</span>
-                          <p style={{margin: 0, color: '#000'}}>{quote.delivery_timeline || 'Not specified'}</p>
+                          <span style={{color: '#8391B2', display: 'block', marginBottom: '2px'}}>Timeline</span>
+                          <p style={{margin: 0, color: '#27248C'}}>{quote.delivery_timeline || 'Not specified'}</p>
                         </div>
                         <div>
-                          <span style={{color: '#666', display: 'block', marginBottom: '2px'}}>Payment Terms</span>
-                          <p style={{margin: 0, color: '#000'}}>{quote.payment_terms || 'Not specified'}</p>
+                          <span style={{color: '#8391B2', display: 'block', marginBottom: '2px'}}>Payment Terms</span>
+                          <p style={{margin: 0, color: '#27248C'}}>{quote.payment_terms || 'Not specified'}</p>
                         </div>
                         <div>
-                          <span style={{color: '#666', display: 'block', marginBottom: '2px'}}>Warranty</span>
-                          <p style={{margin: 0, color: '#000'}}>{quote.warranty_period || 'Not specified'}</p>
+                          <span style={{color: '#8391B2', display: 'block', marginBottom: '2px'}}>Warranty</span>
+                          <p style={{margin: 0, color: '#27248C'}}>{quote.warranty_period || 'Not specified'}</p>
                         </div>
                       </div>
                     </div>
                     
-                    <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                      <h5 style={{margin: '0 0 10px 0', fontSize: '13px', color: '#000', fontWeight: '600'}}>Supplier Details</h5>
+                    <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                      <h5 style={{margin: '0 0 10px 0', fontSize: '13px', color: '#27248C', fontWeight: '600'}}>Supplier Details</h5>
                       <div style={{fontSize: '12px', display: 'grid', gap: '8px'}}>
                         <div>
-                          <span style={{color: '#666', display: 'block', marginBottom: '2px'}}>Contact</span>
-                          <p style={{margin: 0, color: '#000'}}>{quote.supplier_contact}</p>
+                          <span style={{color: '#8391B2', display: 'block', marginBottom: '2px'}}>Contact</span>
+                          <p style={{margin: 0, color: '#27248C'}}>{quote.supplier_contact}</p>
                         </div>
                         <div>
-                          <span style={{color: '#666', display: 'block', marginBottom: '2px'}}>Experience</span>
-                          <p style={{margin: 0, color: '#000'}}>{quote.supplier_experience || 'Not provided'}</p>
+                          <span style={{color: '#8391B2', display: 'block', marginBottom: '2px'}}>Experience</span>
+                          <p style={{margin: 0, color: '#27248C'}}>{quote.supplier_experience || 'Not provided'}</p>
                         </div>
                         <div>
-                          <span style={{color: '#666', display: 'block', marginBottom: '2px'}}>Certifications</span>
-                          <p style={{margin: 0, color: '#000'}}>{quote.quality_certifications || 'None specified'}</p>
+                          <span style={{color: '#8391B2', display: 'block', marginBottom: '2px'}}>Certifications</span>
+                          <p style={{margin: 0, color: '#27248C'}}>{quote.quality_certifications || 'None specified'}</p>
                         </div>
                         <div>
-                          <span style={{color: '#666', display: 'block', marginBottom: '2px'}}>References</span>
-                          <p style={{margin: 0, color: '#000'}}>{quote.references || 'Not provided'}</p>
+                          <span style={{color: '#8391B2', display: 'block', marginBottom: '2px'}}>References</span>
+                          <p style={{margin: 0, color: '#27248C'}}>{quote.references || 'Not provided'}</p>
                         </div>
                       </div>
                     </div>
                   </div>
                   
                   {quote.technical_specifications && (
-                    <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', marginBottom: '12px', border: '1px solid #e0e0e0'}}>
-                      <span style={{color: '#666', fontSize: '12px', display: 'block', marginBottom: '6px'}}>Technical Specifications</span>
-                      <p style={{margin: 0, color: '#000', fontSize: '12px', lineHeight: '1.5'}}>{quote.technical_specifications}</p>
+                    <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', marginBottom: '12px', border: '1px solid #C5CED7'}}>
+                      <span style={{color: '#8391B2', fontSize: '12px', display: 'block', marginBottom: '6px'}}>Technical Specifications</span>
+                      <p style={{margin: 0, color: '#27248C', fontSize: '12px', lineHeight: '1.5'}}>{quote.technical_specifications}</p>
                     </div>
                   )}
                   
                   {quote.blockchain_tx && (
-                    <div style={{background: '#fafafa', padding: '12px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                      <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#666'}}>✓ Blockchain Verified</p>
-                      <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#666', display: 'block', lineHeight: '1.4'}}>{quote.blockchain_tx}</code>
+                    <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                      <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#8391B2'}}>✓ Blockchain Verified</p>
+                      <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#8391B2', display: 'block', lineHeight: '1.4'}}>{quote.blockchain_tx}</code>
                     </div>
                   )}
                 </div>
@@ -2174,46 +2175,46 @@ function QuoteDetails() {
             </div>
 
             {selectedQuote && request.status === 'OPEN' && (
-              <div className="card" style={{border: '1px solid #e0e0e0', background: '#fafafa'}}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #e0e0e0'}}>
-                  <div style={{width: '40px', height: '40px', borderRadius: '50%', background: '#22C55E', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '20px'}}>✓</div>
+              <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginTop: '16px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #C5CED7'}}>
+                  <div style={{width: '40px', height: '40px', borderRadius: '50%', background: '#065F46', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '20px'}}>✓</div>
                   <div>
-                    <h4 style={{margin: '0 0 4px 0', color: '#000', fontSize: '16px', fontWeight: '600'}}>{t.confirmQuoteSelection}</h4>
-                    <p style={{margin: 0, fontSize: '13px', color: '#666'}}>{t.selecting} <strong>{selectedQuote.supplier_name}</strong> {t.for} <strong>${parseFloat(selectedQuote.quoted_amount).toLocaleString()}</strong></p>
+                    <h4 style={{margin: '0 0 4px 0', color: '#27248C', fontSize: '16px', fontWeight: '600'}}>{t.confirmQuoteSelection}</h4>
+                    <p style={{margin: 0, fontSize: '13px', color: '#8391B2'}}>{t.selecting} <strong>{selectedQuote.supplier_name}</strong> {t.for} <strong>${parseFloat(selectedQuote.quoted_amount).toLocaleString()}</strong></p>
                   </div>
                 </div>
                 
-                <div style={{background: '#ffffff', padding: '16px', borderRadius: '6px', marginBottom: '16px', border: '1px solid #e0e0e0'}}>
-                  <div className="form-group">
-                    <label style={{fontSize: '13px', fontWeight: '600', color: '#000'}}>{t.assignFieldOfficer}</label>
+                <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px', border: '1px solid #C5CED7'}}>
+                  <div style={{marginBottom: '16px'}}>
+                    <label style={{display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#27248C'}}>{t.assignFieldOfficer}</label>
                     <select value={selectedFieldOfficer}
                       onChange={(e) => setSelectedFieldOfficer(e.target.value)} 
-                      style={{fontSize: '13px', padding: '10px'}}
+                      style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '13px', outline: 'none', background: '#ffffff'}}
                       required>
                       <option value="">{t.selectFieldOfficer}</option>
                       {fieldOfficers.map(officer => (
                         <option key={officer.id} value={officer.id}>{officer.name}</option>
                       ))}
                     </select>
-                    <small style={{color: '#666', fontSize: '12px'}}>{t.fieldOfficerWillOversee}</small>
+                    <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '4px'}}>{t.fieldOfficerWillOversee}</small>
                   </div>
                   
-                  <div className="form-group">
-                    <label style={{fontSize: '13px', fontWeight: '600', color: '#000'}}>{t.yourDigitalSignature}</label>
+                  <div>
+                    <label style={{display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#27248C'}}>{t.yourDigitalSignature}</label>
                     <input type="text" value={ngoSignature}
                       onChange={(e) => setNgoSignature(e.target.value)}
                       placeholder={t.enterYourSignature}
-                      style={{fontSize: '13px', padding: '10px'}}
+                      style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '13px', outline: 'none', boxSizing: 'border-box'}}
                       required />
-                    <small style={{color: '#666', fontSize: '12px'}}>{t.signatureRecordedBlockchain}</small>
+                    <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '4px'}}>{t.signatureRecordedBlockchain}</small>
                   </div>
                 </div>
                 
                 <div style={{display: 'flex', gap: '12px'}}>
-                  <LoadingButton onClick={handleSelectQuote} loading={selectLoading} className="btn" 
-                    style={{flex: 1, background: '#22C55E', padding: '10px', fontSize: '14px'}}>{t.confirmSelection}</LoadingButton>
-                  <button onClick={() => {setSelectedQuote(null); setSelectedFieldOfficer(''); setNgoSignature('');}} className="btn" 
-                    style={{background: '#666', padding: '10px 20px', fontSize: '14px'}}>{t.cancel}</button>
+                  <LoadingButton onClick={handleSelectQuote} loading={selectLoading} 
+                    style={{flex: 1, background: '#065F46', color: '#ffffff', border: 'none', padding: '10px', fontSize: '14px', fontWeight: '600', borderRadius: '8px', cursor: 'pointer'}}>{t.confirmSelection}</LoadingButton>
+                  <button onClick={() => {setSelectedQuote(null); setSelectedFieldOfficer(''); setNgoSignature('');}} 
+                    style={{background: '#8391B2', color: '#ffffff', border: 'none', padding: '10px 20px', fontSize: '14px', fontWeight: '600', borderRadius: '8px', cursor: 'pointer'}}>{t.cancel}</button>
                 </div>
               </div>
             )}
@@ -2330,86 +2331,86 @@ function ProjectDetails() {
     }
   };
 
-  if (!details) return <div><h2>Project Details</h2><div className="card"><p>Loading...</p></div></div>;
+  if (!details) return <div><h2>Project Details</h2><div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '24px'}}><p>Loading...</p></div></div>;
   
   const project = details.project;
 
   return (
     <div>
-      <h2 style={{margin: '0 0 6px 0', fontSize: '20px', fontWeight: '600', color: '#000'}}>Project Details</h2>
-      <p style={{color: '#666', marginBottom: '20px', fontSize: '13px'}}>Manage project lifecycle and assignments</p>
+      <h2 style={{margin: '0 0 6px 0', fontSize: '20px', fontWeight: '600', color: '#27248C'}}>Project Details</h2>
+      <p style={{color: '#8391B2', marginBottom: '20px', fontSize: '13px'}}>Manage project lifecycle and assignments</p>
       
-      <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
+      <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
         <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '20px', fontWeight: '600'}}>
           {project.title}
         </h3>
         
         <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', marginBottom: '16px'}}>
           <div>
-            <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Description</p>
-            <p style={{margin: '0', color: '#000', lineHeight: '1.6', fontSize: '14px'}}>{project.description}</p>
+            <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Description</p>
+            <p style={{margin: '0', color: '#1E3A8A', lineHeight: '1.6', fontSize: '14px'}}>{project.description}</p>
           </div>
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '4px', border: '1px solid #e0e0e0', fontSize: '13px'}}>
+          <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7', fontSize: '13px'}}>
             <div style={{marginBottom: '10px', display: 'flex', justifyContent: 'space-between'}}>
-              <span style={{color: '#666'}}>Category:</span>
-              <span style={{color: '#000', fontWeight: '500'}}>{project.category}</span>
+              <span style={{color: '#8391B2'}}>Category:</span>
+              <span style={{color: '#1E3A8A', fontWeight: '500'}}>{project.category}</span>
             </div>
             <div style={{marginBottom: '10px', display: 'flex', justifyContent: 'space-between'}}>
-              <span style={{color: '#666'}}>Location:</span>
-              <span style={{color: '#000', fontWeight: '500'}}>{project.location}</span>
+              <span style={{color: '#8391B2'}}>Location:</span>
+              <span style={{color: '#1E3A8A', fontWeight: '500'}}>{project.location}</span>
             </div>
             <div style={{marginBottom: '10px', display: 'flex', justifyContent: 'space-between'}}>
-              <span style={{color: '#666'}}>Budget:</span>
-              <span style={{color: '#000', fontWeight: '500'}}>${parseFloat(project.budget_amount || 0).toLocaleString()}</span>
+              <span style={{color: '#8391B2'}}>Budget:</span>
+              <span style={{color: '#1E3A8A', fontWeight: '500'}}>${parseFloat(project.budget_amount || 0).toLocaleString()}</span>
             </div>
             <div style={{marginBottom: '10px', display: 'flex', justifyContent: 'space-between'}}>
-              <span style={{color: '#666'}}>Duration:</span>
-              <span style={{color: '#000', fontWeight: '500'}}>{project.duration_months} months</span>
+              <span style={{color: '#8391B2'}}>Duration:</span>
+              <span style={{color: '#1E3A8A', fontWeight: '500'}}>{project.duration_months} months</span>
             </div>
             <div style={{marginBottom: '10px', display: 'flex', justifyContent: 'space-between'}}>
-              <span style={{color: '#666'}}>Beneficiaries:</span>
-              <span style={{color: '#000', fontWeight: '500'}}>{project.target_beneficiaries?.toLocaleString()}</span>
+              <span style={{color: '#8391B2'}}>Beneficiaries:</span>
+              <span style={{color: '#1E3A8A', fontWeight: '500'}}>{project.target_beneficiaries?.toLocaleString()}</span>
             </div>
-            <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid #e0e0e0'}}>
-              <span style={{color: '#666'}}>Period:</span>
-              <span style={{color: '#000', fontWeight: '500', fontSize: '12px'}}>{project.start_date} to {project.end_date}</span>
+            <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid #C5CED7'}}>
+              <span style={{color: '#8391B2'}}>Period:</span>
+              <span style={{color: '#1E3A8A', fontWeight: '500', fontSize: '12px'}}>{project.start_date} to {project.end_date}</span>
             </div>
           </div>
         </div>
         
-        <div style={{padding: '12px 16px', background: '#fafafa', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
+        <div style={{padding: '12px 16px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
           <div style={{display: 'flex', gap: '20px', alignItems: 'center', flexWrap: 'wrap', fontSize: '13px'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <span style={{color: '#666', fontWeight: '500'}}>Status:</span>
-              <span className="badge badge-info" style={{fontSize: '12px', padding: '4px 10px'}}>{project.status.replace(/_/g, ' ')}</span>
+              <span style={{color: '#8391B2', fontWeight: '500'}}>Status:</span>
+              <span style={{padding: '4px 10px', background: '#DFE8F0', color: '#1E3A8A', borderRadius: '6px', fontSize: '12px', fontWeight: '600', border: '1px solid #C5CED7'}}>{project.status.replace(/_/g, ' ')}</span>
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <span style={{color: '#666', fontWeight: '500'}}>Items:</span>
-              <span style={{color: '#000'}}>{JSON.parse(JSON.stringify(project.required_items)).join(', ')}</span>
+              <span style={{color: '#8391B2', fontWeight: '500'}}>Items:</span>
+              <span style={{color: '#1E3A8A'}}>{JSON.parse(JSON.stringify(project.required_items)).join(', ')}</span>
             </div>
           </div>
           {project.blockchain_tx && (
-            <div style={{marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #e0e0e0'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#666', fontWeight: '600'}}>Blockchain Verification</p>
-              <code style={{fontSize: '11px', color: '#000', wordBreak: 'break-all', display: 'block', lineHeight: '1.4'}}>{project.blockchain_tx}</code>
+            <div style={{marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #C5CED7'}}>
+              <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600'}}>Blockchain Verification</p>
+              <code style={{fontSize: '11px', color: '#1E3A8A', wordBreak: 'break-all', display: 'block', lineHeight: '1.4'}}>{project.blockchain_tx}</code>
             </div>
           )}
         </div>
       </div>
       
       {(details.project.document1_name || details.project.document2_name || details.project.document3_name || details.project.beneficiaries_csv_name) && (
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-          <h3 style={{color: '#000', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>Project Documents</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>Project Documents</h3>
           <div style={{display: 'grid', gap: '12px'}}>
             {details.project.beneficiaries_csv_name && (
-              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#f0f9ff', borderRadius: '6px', border: '1px solid #1E3A8A'}}>
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1E3A8A">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#27248C">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
                   </svg>
                   <div>
-                    <span style={{fontSize: '14px', color: '#000', fontWeight: '600', display: 'block'}}>{details.project.beneficiaries_csv_name}</span>
-                    <span style={{fontSize: '12px', color: '#666'}}>Beneficiaries List</span>
+                    <span style={{fontSize: '14px', color: '#27248C', fontWeight: '600', display: 'block'}}>{details.project.beneficiaries_csv_name}</span>
+                    <span style={{fontSize: '12px', color: '#8391B2'}}>Beneficiaries List</span>
                   </div>
                 </div>
                 <button onClick={async () => {
@@ -2427,18 +2428,18 @@ function ProjectDetails() {
                   a.click();
                   window.URL.revokeObjectURL(url);
                   document.body.removeChild(a);
-                }} className="btn" style={{padding: '8px 16px', fontSize: '13px', background: '#1E3A8A'}}>
+                }} style={{padding: '8px 16px', fontSize: '13px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>
                   Download CSV
                 </button>
               </div>
             )}
             {details.project.document1_name && (
-              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1E3A8A">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#27248C">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
                   </svg>
-                  <span style={{fontSize: '14px', color: '#000', fontWeight: '500'}}>{details.project.document1_name}</span>
+                  <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{details.project.document1_name}</span>
                 </div>
                 <button onClick={async () => {
                   const token = localStorage.getItem('token');
@@ -2455,18 +2456,18 @@ function ProjectDetails() {
                   a.click();
                   window.URL.revokeObjectURL(url);
                   document.body.removeChild(a);
-                }} className="btn" style={{padding: '8px 16px', fontSize: '13px', background: '#1E3A8A'}}>
+                }} style={{padding: '8px 16px', fontSize: '13px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>
                   Download
                 </button>
               </div>
             )}
             {details.project.document2_name && (
-              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1E3A8A">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#27248C">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
                   </svg>
-                  <span style={{fontSize: '14px', color: '#000', fontWeight: '500'}}>{details.project.document2_name}</span>
+                  <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{details.project.document2_name}</span>
                 </div>
                 <button onClick={async () => {
                   const token = localStorage.getItem('token');
@@ -2483,18 +2484,18 @@ function ProjectDetails() {
                   a.click();
                   window.URL.revokeObjectURL(url);
                   document.body.removeChild(a);
-                }} className="btn" style={{padding: '8px 16px', fontSize: '13px', background: '#1E3A8A'}}>
+                }} style={{padding: '8px 16px', fontSize: '13px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>
                   Download
                 </button>
               </div>
             )}
             {details.project.document3_name && (
-              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#fafafa', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#1E3A8A">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#27248C">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
                   </svg>
-                  <span style={{fontSize: '14px', color: '#000', fontWeight: '500'}}>{details.project.document3_name}</span>
+                  <span style={{fontSize: '14px', color: '#27248C', fontWeight: '500'}}>{details.project.document3_name}</span>
                 </div>
                 <button onClick={async () => {
                   const token = localStorage.getItem('token');
@@ -2511,7 +2512,7 @@ function ProjectDetails() {
                   a.click();
                   window.URL.revokeObjectURL(url);
                   document.body.removeChild(a);
-                }} className="btn" style={{padding: '8px 16px', fontSize: '13px', background: '#1E3A8A'}}>
+                }} style={{padding: '8px 16px', fontSize: '13px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>
                   Download
                 </button>
               </div>
@@ -2521,65 +2522,67 @@ function ProjectDetails() {
       )}
       
       {pendingFunding && (
-        <div className="card" style={{border: '1px solid #1E3A8A', padding: '20px'}}>
-          <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>
             Pending Funding Confirmation
           </h3>
-          <div style={{background: '#fafafa', padding: '16px', borderRadius: '4px', marginBottom: '16px', border: '1px solid #e0e0e0'}}>
+          <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px', border: '1px solid #C5CED7'}}>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px'}}>
               <div>
-                <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Donor</p>
-                <p style={{margin: 0, fontSize: '16px', fontWeight: '600', color: '#000'}}>{pendingFunding.donor_name}</p>
+                <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Donor</p>
+                <p style={{margin: 0, fontSize: '16px', fontWeight: '600', color: '#27248C'}}>{pendingFunding.donor_name}</p>
               </div>
               <div>
-                <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Amount</p>
-                <p style={{margin: 0, fontSize: '16px', fontWeight: '600', color: '#1E3A8A'}}>${parseFloat(pendingFunding.amount).toLocaleString()}</p>
+                <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Amount</p>
+                <p style={{margin: 0, fontSize: '16px', fontWeight: '600', color: '#27248C'}}>${parseFloat(pendingFunding.amount).toLocaleString()}</p>
               </div>
             </div>
             <div style={{marginBottom: '16px'}}>
-              <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Donor Signature</p>
-              <code style={{background: '#ffffff', padding: '10px 12px', borderRadius: '4px', display: 'block', fontSize: '13px', color: '#000', border: '1px solid #e0e0e0', wordBreak: 'break-all'}}>{pendingFunding.donor_signature}</code>
+              <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Donor Signature</p>
+              <code style={{background: '#ffffff', padding: '10px 12px', borderRadius: '8px', display: 'block', fontSize: '13px', color: '#27248C', border: '1px solid #C5CED7', wordBreak: 'break-all'}}>{pendingFunding.donor_signature}</code>
             </div>
             {pendingFunding.blockchain_tx && (
               <div>
-                <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Verification</p>
-                <code style={{background: '#ffffff', padding: '10px 12px', borderRadius: '4px', display: 'block', fontSize: '11px', color: '#666', border: '1px solid #e0e0e0', wordBreak: 'break-all', lineHeight: '1.5'}}>{pendingFunding.blockchain_tx}</code>
-                <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Donor funding permanently recorded on Sepolia blockchain</p>
+                <p style={{margin: '0 0 6px 0', fontSize: '11px', color: '#27248C', fontWeight: '600'}}>✓ Blockchain Verification</p>
+                <code style={{background: '#ffffff', padding: '10px 12px', borderRadius: '8px', display: 'block', fontSize: '11px', color: '#8391B2', border: '1px solid #C5CED7', wordBreak: 'break-all', lineHeight: '1.5'}}>{pendingFunding.blockchain_tx}</code>
+                <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#8391B2'}}>Donor funding permanently recorded on Sepolia blockchain</p>
               </div>
             )}
           </div>
           
-          <div className="form-group" style={{marginBottom: '16px'}}>
-            <label style={{fontSize: '13px', fontWeight: '600', color: '#000'}}>Your Digital Signature</label>
+          <div style={{marginBottom: '16px'}}>
+            <label style={{display: 'block', fontSize: '13px', fontWeight: '600', color: '#27248C', marginBottom: '8px'}}>Your Digital Signature</label>
             <input type="text" value={ngoSignature}
               onChange={(e) => setNgoSignature(e.target.value)}
               placeholder="Enter your signature"
-              style={{fontSize: '13px', padding: '10px'}} />
-            <small style={{color: '#666', fontSize: '11px', display: 'block', marginTop: '4px'}}>This signature will be recorded on the blockchain</small>
+              style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '13px', outline: 'none', boxSizing: 'border-box'}}
+              onFocus={(e) => e.target.style.borderColor = '#27248C'}
+              onBlur={(e) => e.target.style.borderColor = '#C5CED7'} />
+            <small style={{color: '#8391B2', fontSize: '11px', display: 'block', marginTop: '4px'}}>This signature will be recorded on the blockchain</small>
           </div>
-          <LoadingButton onClick={handleConfirmFunding} loading={confirmLoading} className="btn" style={{padding: '10px 20px', fontSize: '14px', fontWeight: '600'}}>Confirm Funding</LoadingButton>
+          <LoadingButton onClick={handleConfirmFunding} loading={confirmLoading} style={{padding: '10px 20px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>Confirm Funding</LoadingButton>
         </div>
       )}
       
       {details.fundings && details.fundings.length > 0 && details.fundings.some(f => f.ngo_signature) && (
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-          <h3 style={{color: '#000', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>Confirmed Funding</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>Confirmed Funding</h3>
           {details.fundings.filter(f => f.ngo_signature).map((funding, idx) => (
-            <div key={idx} style={{background: '#fafafa', padding: '16px', borderRadius: '4px', marginBottom: idx < details.fundings.filter(f => f.ngo_signature).length - 1 ? '12px' : '0', border: '1px solid #e0e0e0'}}>
+            <div key={idx} style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: idx < details.fundings.filter(f => f.ngo_signature).length - 1 ? '12px' : '0', border: '1px solid #C5CED7'}}>
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px'}}>
                 <div>
-                  <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Donor</p>
-                  <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#000'}}>{funding.donor_name}</p>
+                  <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Donor</p>
+                  <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#27248C'}}>{funding.donor_name}</p>
                 </div>
                 <div style={{textAlign: 'right'}}>
-                  <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Amount</p>
-                  <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#1E3A8A'}}>${parseFloat(funding.amount).toLocaleString()}</p>
+                  <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Amount</p>
+                  <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#27248C'}}>${parseFloat(funding.amount).toLocaleString()}</p>
                 </div>
               </div>
               <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
-                <span style={{padding: '4px 10px', background: '#22C55E', color: '#fff', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>✓ Confirmed</span>
-                <button onClick={() => handleDownloadReport(funding.id)} className="btn" 
-                  style={{padding: '6px 14px', fontSize: '12px', background: '#1E3A8A', display: 'flex', alignItems: 'center', gap: '6px'}}>
+                <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', borderRadius: '6px', fontSize: '11px', fontWeight: '600'}}>✓ Confirmed</span>
+                <button onClick={() => handleDownloadReport(funding.id)}
+                  style={{padding: '6px 14px', fontSize: '12px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'}}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
                   </svg>
@@ -2592,61 +2595,74 @@ function ProjectDetails() {
       )}
       
       {project.status === 'FUNDED' && (
-        <div className="card" style={{border: '2px solid #1E3A8A'}}>
-          <h3 style={{color: '#1E3A8A', borderBottom: '2px solid #1E3A8A', paddingBottom: '10px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 12px 0', fontSize: '18px', fontWeight: '600', paddingBottom: '10px', borderBottom: '1px solid #C5CED7'}}>
             Get Supplier
           </h3>
-          <p>This project is funded and ready for supplier quotes.</p>
-          <button onClick={() => navigate(`/ngo/suppliers/create?project=${project.id}`)} className="btn" 
-            style={{marginTop: '15px', background: '#1E3A8A'}}>Get Supplier</button>
+          <p style={{color: '#8391B2', fontSize: '14px', margin: '0 0 16px 0'}}>This project is funded and ready for supplier quotes.</p>
+          <button onClick={() => navigate(`/ngo/suppliers/create?project=${project.id}`)}
+            style={{padding: '10px 20px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+            onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+            onMouseLeave={(e) => e.target.style.background = '#27248C'}>Get Supplier</button>
         </div>
       )}
       
       {project.status === 'SUPPLIER_CONFIRMED' && (
-        <div className="card" style={{border: '2px solid #000000'}}>
-          <h3 style={{color: '#000000', borderBottom: '2px solid #000000', paddingBottom: '10px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 12px 0', fontSize: '18px', fontWeight: '600', paddingBottom: '10px', borderBottom: '1px solid #C5CED7'}}>
             Assign Field Officer
           </h3>
           {!showOfficerSelect ? (
-            <button onClick={() => setShowOfficerSelect(true)} className="btn" style={{marginTop: '15px'}}>Select Field Officer</button>
+            <button onClick={() => setShowOfficerSelect(true)}
+              style={{padding: '10px 20px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+              onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+              onMouseLeave={(e) => e.target.style.background = '#27248C'}>Select Field Officer</button>
           ) : (
-            <div style={{marginTop: '15px'}}>
-              <div className="form-group">
-                <label>Select Field Officer</label>
-                <select value={selectedOfficer} onChange={(e) => setSelectedOfficer(e.target.value)}>
+            <div style={{marginTop: '8px'}}>
+              <div style={{marginBottom: '16px'}}>
+                <label style={{display: 'block', fontSize: '14px', fontWeight: '600', color: '#27248C', marginBottom: '8px'}}>Select Field Officer</label>
+                <select value={selectedOfficer} onChange={(e) => setSelectedOfficer(e.target.value)}
+                  style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', outline: 'none', background: '#ffffff'}}
+                  onFocus={(e) => e.target.style.borderColor = '#27248C'}
+                  onBlur={(e) => e.target.style.borderColor = '#C5CED7'}>
                   <option value="">Choose a field officer</option>
                   {fieldOfficers.map(o => (
                     <option key={o.id} value={o.id}>{o.name}</option>
                   ))}
                 </select>
               </div>
-              <button onClick={handleAssignOfficer} className="btn">Assign</button>
+              <button onClick={handleAssignOfficer}
+                style={{padding: '10px 20px', fontSize: '14px', fontWeight: '600', background: '#27248C', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s'}}
+                onMouseEnter={(e) => e.target.style.background = '#4857A8'}
+                onMouseLeave={(e) => e.target.style.background = '#27248C'}>Assign</button>
             </div>
           )}
         </div>
       )}
       
       {details.supplier_assignments.length > 0 && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{color: '#000', margin: '0 0 10px 0', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0', fontSize: '16px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 16px 0', paddingBottom: '8px', borderBottom: '1px solid #C5CED7', fontSize: '18px', fontWeight: '600'}}>
             Supplier Information
           </h3>
           {details.supplier_assignments.map((assignment, idx) => (
-            <div key={idx} style={{marginTop: '15px'}}>
-              <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', marginBottom: '10px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '5px 0', fontSize: '14px'}}><strong>Supplier:</strong> <span style={{color: '#666'}}>{assignment.supplier_name}</span></p>
-                <p style={{margin: '5px 0', fontSize: '14px'}}><strong>Items:</strong> <span style={{color: '#666'}}>{JSON.stringify(assignment.items)}</span></p>
-                <p style={{margin: '5px 0', fontSize: '14px'}}><strong>Status:</strong> {assignment.confirmed ? 
-                  <span style={{background: '#f5f5f5', color: '#666', padding: '3px 8px', borderRadius: '3px', fontSize: '12px', border: '1px solid #e0e0e0'}}>Confirmed</span> : 
-                  <span style={{background: '#f5f5f5', color: '#666', padding: '3px 8px', borderRadius: '3px', fontSize: '12px', border: '1px solid #e0e0e0'}}>Pending</span>
-                }</p>
+            <div key={idx} style={{marginTop: idx > 0 ? '16px' : '0'}}>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '10px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '6px 0', fontSize: '14px', color: '#8391B2'}}><strong style={{color: '#27248C'}}>Supplier:</strong> {assignment.supplier_name}</p>
+                <p style={{margin: '6px 0', fontSize: '14px', color: '#8391B2'}}><strong style={{color: '#27248C'}}>Items:</strong> {JSON.stringify(assignment.items)}</p>
+                <p style={{margin: '6px 0', fontSize: '14px', color: '#8391B2'}}><strong style={{color: '#27248C'}}>Status:</strong>{' '}
+                  {assignment.confirmed ?
+                    <span style={{background: '#D1FAE5', color: '#065F46', padding: '3px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>Confirmed</span> :
+                    <span style={{background: '#FEF3C7', color: '#92400E', padding: '3px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>Pending</span>
+                  }
+                </p>
               </div>
               {assignment.confirmed && (
-                <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                  <p style={{margin: '5px 0', fontSize: '13px'}}><strong>Digital Signature:</strong></p>
-                  <code style={{background: 'white', padding: '5px 10px', borderRadius: '3px', display: 'block', fontSize: '12px', color: '#666', border: '1px solid #e0e0e0'}}>{assignment.signature}</code>
-                  <p style={{margin: '10px 0 5px 0', fontSize: '13px'}}><strong>Blockchain TX:</strong></p>
-                  <code style={{background: 'white', padding: '5px 10px', borderRadius: '3px', display: 'block', wordBreak: 'break-all', fontSize: '11px', color: '#666', border: '1px solid #e0e0e0'}}>{assignment.blockchain_tx}</code>
+                <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                  <p style={{margin: '0 0 6px 0', fontSize: '13px', color: '#27248C', fontWeight: '600'}}>Digital Signature:</p>
+                  <code style={{background: '#ffffff', padding: '6px 10px', borderRadius: '6px', display: 'block', fontSize: '12px', color: '#8391B2', border: '1px solid #C5CED7'}}>{assignment.signature}</code>
+                  <p style={{margin: '12px 0 6px 0', fontSize: '13px', color: '#27248C', fontWeight: '600'}}>Blockchain TX:</p>
+                  <code style={{background: '#ffffff', padding: '6px 10px', borderRadius: '6px', display: 'block', wordBreak: 'break-all', fontSize: '11px', color: '#8391B2', border: '1px solid #C5CED7'}}>{assignment.blockchain_tx}</code>
                 </div>
               )}
             </div>
@@ -2655,25 +2671,27 @@ function ProjectDetails() {
       )}
       
       {details.field_officer_assignments.length > 0 && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{color: '#000', margin: '0 0 10px 0', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0', fontSize: '16px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 16px 0', paddingBottom: '8px', borderBottom: '1px solid #C5CED7', fontSize: '18px', fontWeight: '600'}}>
             Field Officer Information
           </h3>
           {details.field_officer_assignments.map((assignment, idx) => (
-            <div key={idx} style={{marginTop: '15px'}}>
-              <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', marginBottom: '10px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '5px 0', fontSize: '14px'}}><strong>Field Officer:</strong> <span style={{color: '#666'}}>{assignment.field_officer_name}</span></p>
-                <p style={{margin: '5px 0', fontSize: '14px'}}><strong>Status:</strong> {assignment.confirmed ? 
-                  <span style={{background: '#f5f5f5', color: '#666', padding: '3px 8px', borderRadius: '3px', fontSize: '12px', border: '1px solid #e0e0e0'}}>Confirmed</span> : 
-                  <span style={{background: '#f5f5f5', color: '#666', padding: '3px 8px', borderRadius: '3px', fontSize: '12px', border: '1px solid #e0e0e0'}}>Pending</span>
-                }</p>
+            <div key={idx} style={{marginTop: idx > 0 ? '16px' : '0'}}>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '10px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '6px 0', fontSize: '14px', color: '#8391B2'}}><strong style={{color: '#27248C'}}>Field Officer:</strong> {assignment.field_officer_name}</p>
+                <p style={{margin: '6px 0', fontSize: '14px', color: '#8391B2'}}><strong style={{color: '#27248C'}}>Status:</strong>{' '}
+                  {assignment.confirmed ?
+                    <span style={{background: '#D1FAE5', color: '#065F46', padding: '3px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>Confirmed</span> :
+                    <span style={{background: '#FEF3C7', color: '#92400E', padding: '3px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>Pending</span>
+                  }
+                </p>
               </div>
               {assignment.confirmed && (
-                <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                  <p style={{margin: '5px 0', fontSize: '13px'}}><strong>Digital Signature:</strong></p>
-                  <code style={{background: 'white', padding: '5px 10px', borderRadius: '3px', display: 'block', fontSize: '12px', color: '#666', border: '1px solid #e0e0e0'}}>{assignment.signature}</code>
-                  <p style={{margin: '10px 0 5px 0', fontSize: '13px'}}><strong>Blockchain TX:</strong></p>
-                  <code style={{background: 'white', padding: '5px 10px', borderRadius: '3px', display: 'block', wordBreak: 'break-all', fontSize: '11px', color: '#666', border: '1px solid #e0e0e0'}}>{assignment.blockchain_tx}</code>
+                <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                  <p style={{margin: '0 0 6px 0', fontSize: '13px', color: '#27248C', fontWeight: '600'}}>Digital Signature:</p>
+                  <code style={{background: '#ffffff', padding: '6px 10px', borderRadius: '6px', display: 'block', fontSize: '12px', color: '#8391B2', border: '1px solid #C5CED7'}}>{assignment.signature}</code>
+                  <p style={{margin: '12px 0 6px 0', fontSize: '13px', color: '#27248C', fontWeight: '600'}}>Blockchain TX:</p>
+                  <code style={{background: '#ffffff', padding: '6px 10px', borderRadius: '6px', display: 'block', wordBreak: 'break-all', fontSize: '11px', color: '#8391B2', border: '1px solid #C5CED7'}}>{assignment.blockchain_tx}</code>
                 </div>
               )}
             </div>
@@ -2682,29 +2700,29 @@ function ProjectDetails() {
       )}
       
       {details.distributions.length > 0 && (
-        <div className="card" style={{border: '2px solid #1E3A8A'}}>
-          <h3 style={{color: '#1E3A8A', borderBottom: '2px solid #1E3A8A', paddingBottom: '10px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 12px 0', paddingBottom: '10px', borderBottom: '1px solid #C5CED7', fontSize: '18px', fontWeight: '600'}}>
             Distribution Progress
           </h3>
-          <div style={{background: '#f0f9ff', padding: '15px', borderRadius: '4px', marginTop: '15px'}}>
-            <p style={{margin: '5px 0', fontSize: '18px'}}><strong>Total Distributions:</strong> {details.distributions.length}</p>
-            <p style={{margin: '10px 0 5px 0', color: '#666'}}>Aid has been successfully distributed to beneficiaries</p>
+          <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px', border: '1px solid #C5CED7'}}>
+            <p style={{margin: '0 0 6px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>Total Distributions: {details.distributions.length}</p>
+            <p style={{margin: 0, color: '#8391B2', fontSize: '14px'}}>Aid has been successfully distributed to beneficiaries</p>
           </div>
-          <div style={{marginTop: '15px'}}>
-            <table className="table">
+          <div style={{overflowX: 'auto'}}>
+            <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '14px'}}>
               <thead>
-                <tr>
-                  <th>Beneficiary</th>
-                  <th>Field Officer</th>
-                  <th>Date</th>
+                <tr style={{background: '#DFE8F0'}}>
+                  <th style={{padding: '12px 16px', textAlign: 'left', color: '#27248C', fontWeight: '600', borderBottom: '1px solid #C5CED7'}}>Beneficiary</th>
+                  <th style={{padding: '12px 16px', textAlign: 'left', color: '#27248C', fontWeight: '600', borderBottom: '1px solid #C5CED7'}}>Field Officer</th>
+                  <th style={{padding: '12px 16px', textAlign: 'left', color: '#27248C', fontWeight: '600', borderBottom: '1px solid #C5CED7'}}>Date</th>
                 </tr>
               </thead>
               <tbody>
                 {details.distributions.map((dist, idx) => (
-                  <tr key={idx}>
-                    <td>{dist.beneficiary_name}</td>
-                    <td>{dist.field_officer}</td>
-                    <td>{new Date(dist.created_at).toLocaleDateString()}</td>
+                  <tr key={idx} style={{borderBottom: '1px solid #C5CED7', background: idx % 2 === 0 ? '#ffffff' : '#DFE8F0'}}>
+                    <td style={{padding: '12px 16px', color: '#27248C'}}>{dist.beneficiary_name}</td>
+                    <td style={{padding: '12px 16px', color: '#8391B2'}}>{dist.field_officer}</td>
+                    <td style={{padding: '12px 16px', color: '#8391B2'}}>{new Date(dist.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -2714,8 +2732,8 @@ function ProjectDetails() {
       )}
       
       {workflowStatus && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{color: '#000', margin: '0 0 15px 0', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0', fontSize: '16px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#27248C', margin: '0 0 16px 0', paddingBottom: '8px', borderBottom: '1px solid #C5CED7', fontSize: '18px', fontWeight: '600'}}>
             Complete Project Workflow
           </h3>
           
@@ -2996,11 +3014,11 @@ function FieldOfficers() {
   if (loading) {
     return (
       <div>
-        <h2>Field Officers</h2>
-        <p style={{color: '#666', marginBottom: '24px'}}>Manage field officers for project operations</p>
+        <h2 style={{margin: '0 0 8px 0', fontSize: '24px', fontWeight: '600', color: '#27248C'}}>Field Officers</h2>
+        <p style={{color: '#8391B2', marginBottom: '24px', fontSize: '14px'}}>Manage field officers for project operations</p>
         <div className="grid">
           {[1, 2, 3].map(i => (
-            <div key={i} className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '200px'}}></div>
+            <div key={i} style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '200px', borderRadius: '12px', border: '1px solid #C5CED7'}}></div>
           ))}
         </div>
       </div>
@@ -3116,7 +3134,7 @@ function FieldOfficers() {
                 </div>
                 <div style={{flex: 1}}>
                   <h3 style={{margin: '0 0 4px 0', fontSize: '18px', color: '#27248C', fontWeight: '600'}}>{officer.name}</h3>
-                  <span className="badge badge-success" style={{fontSize: '11px'}}>Active</span>
+                  <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', borderRadius: '6px', fontSize: '11px', fontWeight: '600'}}>Active</span>
                 </div>
               </div>
               

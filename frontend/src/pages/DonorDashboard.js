@@ -350,11 +350,11 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
             <div style={{position: 'relative'}}>
-              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '4px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
+              <button onClick={() => setShowLangMenu(!showLangMenu)} style={{padding: '8px 16px', background: '#DFE8F0', border: '1px solid #C5CED7', borderRadius: '8px', color: '#1E3A8A', fontSize: '13px', fontWeight: '500', cursor: 'pointer'}}>{language.toUpperCase()}</button>
               {showLangMenu && (
-                <div style={{position: 'absolute', top: '40px', right: language === 'ar' ? 'auto' : '0', left: language === 'ar' ? '0' : 'auto', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
-                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>{t.english}</button>
-                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#f3f4f6' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px'}}>{t.arabic}</button>
+                <div style={{position: 'absolute', top: '40px', right: language === 'ar' ? 'auto' : '0', left: language === 'ar' ? '0' : 'auto', background: '#ffffff', border: '1px solid #C5CED7', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', minWidth: '100px', zIndex: 1000}}>
+                  <button onClick={() => {changeLanguage('en'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'en' ? '#DFE8F0' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px', color: '#1E3A8A'}}>{t.english}</button>
+                  <button onClick={() => {changeLanguage('ar'); setShowLangMenu(false);}} style={{width: '100%', padding: '8px 12px', background: language === 'ar' ? '#DFE8F0' : '#ffffff', border: 'none', textAlign: 'left', cursor: 'pointer', fontSize: '13px', color: '#1E3A8A'}}>{t.arabic}</button>
                 </div>
               )}
             </div>
@@ -412,9 +412,9 @@ function Analytics({ language = 'en' }) {
         <h2>{t.analyticsDashboard}</h2>
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
           {[1,2,3,4].map(i => (
-            <div key={i} className="card" style={{border: '1px solid #e0e0e0', textAlign: 'center', padding: '24px 16px', background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite'}}>
-              <div style={{height: '12px', background: '#e0e0e0', borderRadius: '4px', marginBottom: '8px', width: '60%', margin: '0 auto 8px'}}></div>
-              <div style={{height: '36px', background: '#e0e0e0', borderRadius: '4px', width: '80%', margin: '0 auto'}}></div>
+            <div key={i} style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '24px 16px'}}>
+              <div style={{height: '12px', background: '#C5CED7', borderRadius: '4px', marginBottom: '8px', width: '60%', margin: '0 auto 8px'}}></div>
+              <div style={{height: '36px', background: '#C5CED7', borderRadius: '4px', width: '80%', margin: '0 auto'}}></div>
             </div>
           ))}
         </div>
@@ -426,9 +426,9 @@ function Analytics({ language = 'en' }) {
     return (
       <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
         <h2>{t.analyticsDashboard}</h2>
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '32px', textAlign: 'center'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px', textAlign: 'center'}}>
           <p style={{color: '#dc3545', marginBottom: '16px'}}>{error}</p>
-          <button onClick={loadData} className="btn" style={{padding: '10px 20px'}}>Retry</button>
+          <button onClick={loadData} style={{padding: '10px 20px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}>Retry</button>
         </div>
       </div>
     );
@@ -440,36 +440,36 @@ function Analytics({ language = 'en' }) {
   const categoryData = AnalyticsService.groupByCategory(data.fundedProjects);
   const statusData = AnalyticsService.groupByStatus(data.fundedProjects);
 
-  const COLORS = ['#1E3A8A', '#000000', '#ffffff', '#666'];
+  const COLORS = ['#1E3A8A', '#8391B2', '#C5CED7', '#DFE8F0'];
 
   return (
     <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.analyticsDashboard}</h2>
-      <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.overviewFundingImpact}</p>
+      <p style={{color: '#8391B2', marginBottom: '15px', fontSize: '14px'}}>{t.overviewFundingImpact}</p>
 
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px'}}>
-        <div className="card" style={{border: '2px solid #1E3A8A', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(28,171,226,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-          <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t.totalDonated}</p>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '2px solid #1E3A8A', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(30,58,138,0.15)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';}}>
+          <p style={{margin: '0 0 4px 0', color: '#8391B2', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t.totalDonated}</p>
           <h3 style={{margin: '0', fontSize: '36px', color: '#1E3A8A', fontWeight: '700'}}>${metrics.totalDonated.toLocaleString()}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-          <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t.fundedProjects}</p>
-          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{metrics.totalFunded}</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';}}>
+          <p style={{margin: '0 0 4px 0', color: '#8391B2', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t.fundedProjects}</p>
+          <h3 style={{margin: '0', fontSize: '36px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.totalFunded}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-          <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Blockchain Proofs</p>
-          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{metrics.blockchainProofs}</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';}}>
+          <p style={{margin: '0 0 4px 0', color: '#8391B2', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Blockchain Proofs</p>
+          <h3 style={{margin: '0', fontSize: '36px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.blockchainProofs}</h3>
         </div>
-        <div className="card" style={{border: '1px solid #e0e0e0', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-          <p style={{margin: '0 0 4px 0', color: '#666', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Categories Supported</p>
-          <h3 style={{margin: '0', fontSize: '36px', color: '#000', fontWeight: '700'}}>{metrics.categoriesSupported}</h3>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', padding: '24px 16px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';}}>
+          <p style={{margin: '0 0 4px 0', color: '#8391B2', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Categories Supported</p>
+          <h3 style={{margin: '0', fontSize: '36px', color: '#1E3A8A', fontWeight: '700'}}>{metrics.categoriesSupported}</h3>
         </div>
       </div>
 
       {metrics.totalFunded > 0 ? (
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
-          <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-            <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600'}}>{t.projectsByCategory}</h3>
+          <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px'}}>
+            <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600', color: '#1E3A8A'}}>{t.projectsByCategory}</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={categoryData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" />
@@ -481,8 +481,8 @@ function Analytics({ language = 'en' }) {
             </ResponsiveContainer>
           </div>
 
-          <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-            <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600'}}>{t.projectStatusDistribution}</h3>
+          <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px'}}>
+            <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600', color: '#1E3A8A'}}>{t.projectStatusDistribution}</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={statusData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" />
@@ -495,15 +495,15 @@ function Analytics({ language = 'en' }) {
           </div>
         </div>
       ) : (
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '48px 24px', textAlign: 'center', marginBottom: '24px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '48px 24px', textAlign: 'center', marginBottom: '24px'}}>
           <i className="fas fa-chart-bar" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-          <h3 style={{fontSize: '18px', marginBottom: '8px', color: '#000'}}>No Data Yet</h3>
-          <p style={{color: '#666', fontSize: '14px', marginBottom: '16px'}}>Fund your first project to see analytics</p>
+          <h3 style={{fontSize: '18px', marginBottom: '8px', color: '#1E3A8A'}}>No Data Yet</h3>
+          <p style={{color: '#8391B2', fontSize: '14px', marginBottom: '16px'}}>Fund your first project to see analytics</p>
         </div>
       )}
 
-      <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-        <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600'}}>{t.recentFundedProjects}</h3>
+      <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px'}}>
+        <h3 style={{fontSize: '16px', marginBottom: '16px', fontWeight: '600', color: '#1E3A8A'}}>{t.recentFundedProjects}</h3>
         {data.fundedProjects.length === 0 ? (
           <div style={{padding: '32px 16px', textAlign: 'center'}}>
             <i className="fas fa-briefcase" style={{fontSize: '48px', marginBottom: '16px', color: '#1E3A8A'}}></i>
@@ -521,11 +521,11 @@ function Analytics({ language = 'en' }) {
             </thead>
             <tbody>
               {data.fundedProjects.slice(0, 5).map(project => (
-                <tr key={project.id} style={{cursor: 'pointer', transition: 'background 0.2s ease'}} onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
-                  <td style={{padding: '12px 16px', fontWeight: '500'}}>{project.title}</td>
-                  <td style={{padding: '12px 16px'}}><span className="badge badge-info">{project.category}</span></td>
-                  <td style={{padding: '12px 16px', color: '#666'}}>{project.location}</td>
-                  <td style={{padding: '12px 16px'}}><span className="badge badge-success">{project.status}</span></td>
+                <tr key={project.id} style={{cursor: 'pointer', transition: 'background 0.2s ease'}} onMouseEnter={(e) => e.currentTarget.style.background = '#DFE8F0'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+                  <td style={{padding: '12px 16px', fontWeight: '500', color: '#1E3A8A'}}>{project.title}</td>
+                  <td style={{padding: '12px 16px'}}><span style={{padding: '4px 10px', background: '#DFE8F0', color: '#1E3A8A', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>{project.category}</span></td>
+                  <td style={{padding: '12px 16px', color: '#8391B2'}}>{project.location}</td>
+                  <td style={{padding: '12px 16px'}}><span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>{project.status}</span></td>
                 </tr>
               ))}
             </tbody>
@@ -611,11 +611,11 @@ function AllProjects({ language = 'en' }) {
         <h2>{t.availableProjects}</h2>
         <div className="grid">
           {[1,2,3].map(i => (
-            <div key={i} className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-              <div style={{height: '20px', background: '#e0e0e0', borderRadius: '4px', marginBottom: '12px', width: '70%'}}></div>
-              <div style={{height: '12px', background: '#f0f0f0', borderRadius: '4px', marginBottom: '8px'}}></div>
-              <div style={{height: '12px', background: '#f0f0f0', borderRadius: '4px', marginBottom: '8px', width: '90%'}}></div>
-              <div style={{height: '12px', background: '#f0f0f0', borderRadius: '4px', width: '60%'}}></div>
+            <div key={i} style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px'}}>
+              <div style={{height: '20px', background: '#DFE8F0', borderRadius: '4px', marginBottom: '12px', width: '70%'}}></div>
+              <div style={{height: '12px', background: '#DFE8F0', borderRadius: '4px', marginBottom: '8px'}}></div>
+              <div style={{height: '12px', background: '#DFE8F0', borderRadius: '4px', marginBottom: '8px', width: '90%'}}></div>
+              <div style={{height: '12px', background: '#DFE8F0', borderRadius: '4px', width: '60%'}}></div>
             </div>
           ))}
         </div>
@@ -626,77 +626,77 @@ function AllProjects({ language = 'en' }) {
   return (
     <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.pendingProjects}</h2>
-      <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.projectsWaitingFunding}</p>
+      <p style={{color: '#8391B2', marginBottom: '15px', fontSize: '14px'}}>{t.projectsWaitingFunding}</p>
       
       {selectedProject && (
-        <div className="card" style={{background: '#f8f9fa', border: '2px solid #1E3A8A', marginBottom: '24px', padding: '24px'}}>
-          <h3 style={{marginBottom: '16px', fontSize: '20px', fontWeight: '600'}}>{t.fundProject}: {selectedProject.title}</h3>
-          <div style={{background: 'white', padding: '20px', borderRadius: '6px', marginBottom: '20px', border: '1px solid #e0e0e0'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '2px solid #1E3A8A', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '24px', padding: '24px'}}>
+          <h3 style={{marginBottom: '16px', fontSize: '20px', fontWeight: '600', color: '#1E3A8A'}}>{t.fundProject}: {selectedProject.title}</h3>
+          <div style={{background: '#DFE8F0', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid #C5CED7'}}>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
-              <p style={{margin: '0', fontSize: '14px'}}><strong>{t.category}:</strong> <span style={{color: '#666'}}>{selectedProject.category}</span></p>
-              <p style={{margin: '0', fontSize: '14px'}}><strong>{t.location}:</strong> <span style={{color: '#666'}}>{selectedProject.location}</span></p>
-              <p style={{margin: '0', fontSize: '14px'}}><strong>{t.budgetNeeded}:</strong> <span style={{color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(selectedProject.budget_amount || 0).toLocaleString()}</span></p>
-              <p style={{margin: '0', fontSize: '14px'}}><strong>{t.targetBeneficiaries}:</strong> <span style={{color: '#666'}}>{selectedProject.target_beneficiaries?.toLocaleString()}</span></p>
-              <p style={{margin: '0', fontSize: '14px'}}><strong>{t.duration}:</strong> <span style={{color: '#666'}}>{selectedProject.duration_months} {t.months}</span></p>
+              <p style={{margin: '0', fontSize: '14px', color: '#1E3A8A'}}><strong>{t.category}:</strong> <span style={{color: '#8391B2'}}>{selectedProject.category}</span></p>
+              <p style={{margin: '0', fontSize: '14px', color: '#1E3A8A'}}><strong>{t.location}:</strong> <span style={{color: '#8391B2'}}>{selectedProject.location}</span></p>
+              <p style={{margin: '0', fontSize: '14px', color: '#1E3A8A'}}><strong>{t.budgetNeeded}:</strong> <span style={{color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(selectedProject.budget_amount || 0).toLocaleString()}</span></p>
+              <p style={{margin: '0', fontSize: '14px', color: '#1E3A8A'}}><strong>{t.targetBeneficiaries}:</strong> <span style={{color: '#8391B2'}}>{selectedProject.target_beneficiaries?.toLocaleString()}</span></p>
+              <p style={{margin: '0', fontSize: '14px', color: '#1E3A8A'}}><strong>{t.duration}:</strong> <span style={{color: '#8391B2'}}>{selectedProject.duration_months} {t.months}</span></p>
             </div>
           </div>
           
-          <div className="form-group">
-            <label style={{fontSize: '14px', fontWeight: '600', marginBottom: '8px'}}>{t.fundingAmount}</label>
+          <div style={{marginBottom: '16px'}}>
+            <label style={{display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#1E3A8A'}}>{t.fundingAmount}</label>
             <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder={t.enterAmount}
-              style={{fontSize: '16px', padding: '12px 16px', border: '2px solid #e0e0e0', borderRadius: '6px'}}
+              style={{width: '100%', fontSize: '16px', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', boxSizing: 'border-box'}}
             />
           </div>
           
-          <div className="form-group">
-            <label style={{fontSize: '14px', fontWeight: '600', marginBottom: '8px'}}>{t.yourDigitalSignature}</label>
+          <div style={{marginBottom: '16px'}}>
+            <label style={{display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#1E3A8A'}}>{t.yourDigitalSignature}</label>
             <input
               type="text"
               value={signature}
               onChange={(e) => setSignature(e.target.value)}
               placeholder={t.enterSignature}
-              style={{fontSize: '16px', padding: '12px 16px', border: '2px solid #e0e0e0', borderRadius: '6px'}}
+              style={{width: '100%', fontSize: '16px', padding: '12px 16px', border: '1px solid #C5CED7', borderRadius: '8px', boxSizing: 'border-box'}}
             />
-            <small style={{color: '#666', fontSize: '12px', display: 'block', marginTop: '4px'}}>{t.signatureRecordedBlockchain}</small>
+            <small style={{color: '#8391B2', fontSize: '12px', display: 'block', marginTop: '4px'}}>{t.signatureRecordedBlockchain}</small>
           </div>
           
           <div style={{display: 'flex', gap: '12px', marginTop: '20px'}}>
-            <LoadingButton onClick={handleFund} loading={fundLoading} className="btn" style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600'}}>{t.confirmFunding}</LoadingButton>
-            <button onClick={() => {setSelectedProject(null); setAmount(''); setSignature('');}} className="btn" style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600', background: '#6c757d'}} disabled={fundLoading}>{t.cancel}</button>
+            <LoadingButton onClick={handleFund} loading={fundLoading} style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>{t.confirmFunding}</LoadingButton>
+            <button onClick={() => {setSelectedProject(null); setAmount(''); setSignature('');}} style={{flex: 1, padding: '14px', fontSize: '15px', fontWeight: '600', background: '#8391B2', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}} disabled={fundLoading}>{t.cancel}</button>
           </div>
         </div>
       )}
       
       {projects.length === 0 ? (
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '64px 24px', textAlign: 'center'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '64px 24px', textAlign: 'center'}}>
           <svg width="80" height="80" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 20px'}}>
             <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" fill="#1E3A8A"/>
           </svg>
-          <h3 style={{fontSize: '20px', marginBottom: '8px', color: '#000'}}>{t.noPendingProjects}</h3>
-          <p style={{color: '#666', fontSize: '14px'}}>{t.allProjectsFunded}</p>
+          <h3 style={{fontSize: '20px', marginBottom: '8px', color: '#1E3A8A'}}>{t.noPendingProjects}</h3>
+          <p style={{color: '#8391B2', fontSize: '14px'}}>{t.allProjectsFunded}</p>
         </div>
       ) : (
         <div className="grid">
           {projects.map(project => (
-            <div key={project.id} className="card" style={{border: '1px solid #e0e0e0', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
+            <div key={project.id} style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';}}>
               <div style={{borderBottom: '3px solid #1E3A8A', paddingBottom: '12px', marginBottom: '16px'}}>
-                <h3 style={{color: '#000', marginBottom: '8px', fontSize: '18px', fontWeight: '600'}}>{project.title}</h3>
-                <span className="badge badge-info">{project.category}</span>
+                <h3 style={{color: '#1E3A8A', marginBottom: '8px', fontSize: '18px', fontWeight: '600'}}>{project.title}</h3>
+                <span style={{padding: '4px 10px', background: '#DFE8F0', color: '#1E3A8A', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>{project.category}</span>
               </div>
               
-              <p style={{color: '#666', marginBottom: '16px', lineHeight: '1.6', fontSize: '14px'}}>
+              <p style={{color: '#8391B2', marginBottom: '16px', lineHeight: '1.6', fontSize: '14px'}}>
                 {project.description.substring(0, 120)}...
               </p>
               
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', marginBottom: '16px'}}>
-                <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.location}:</strong> <span style={{color: '#666'}}>{project.location}</span></p>
-                <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.budget}:</strong> <span style={{color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(project.budget_amount || 0).toLocaleString()}</span></p>
-                <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.duration}:</strong> <span style={{color: '#666'}}>{project.duration_months} {t.months}</span></p>
-                <p style={{margin: '0', fontSize: '13px'}}><strong>{t.beneficiaries}:</strong> <span style={{color: '#666'}}>{project.target_beneficiaries?.toLocaleString()}</span></p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px'}}>
+                <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>{t.location}:</strong> <span style={{color: '#8391B2'}}>{project.location}</span></p>
+                <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>{t.budget}:</strong> <span style={{color: '#1E3A8A', fontWeight: '600'}}>${parseFloat(project.budget_amount || 0).toLocaleString()}</span></p>
+                <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>{t.duration}:</strong> <span style={{color: '#8391B2'}}>{project.duration_months} {t.months}</span></p>
+                <p style={{margin: '0', fontSize: '13px', color: '#1E3A8A'}}><strong>{t.beneficiaries}:</strong> <span style={{color: '#8391B2'}}>{project.target_beneficiaries?.toLocaleString()}</span></p>
               </div>
               
               <div style={{display: 'flex', gap: '8px'}}>
@@ -760,52 +760,52 @@ function AllProjects({ language = 'en' }) {
 
       {viewingProject && (
         <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', overflowY: 'auto'}}>
-          <div style={{background: '#fff', padding: '32px', borderRadius: '8px', maxWidth: '900px', width: '100%', maxHeight: '90vh', overflowY: 'auto'}}>
+          <div style={{background: '#ffffff', padding: '32px', borderRadius: '12px', maxWidth: '900px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 8px 32px rgba(0,0,0,0.2)'}}>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #1E3A8A'}}>
               <div>
-                <h3 style={{margin: '0 0 8px 0', color: '#000', fontSize: '24px', fontWeight: '700'}}>{viewingProject.title}</h3>
-                <span className="badge badge-info">{viewingProject.category}</span>
+                <h3 style={{margin: '0 0 8px 0', color: '#1E3A8A', fontSize: '24px', fontWeight: '700'}}>{viewingProject.title}</h3>
+                <span style={{padding: '4px 10px', background: '#DFE8F0', color: '#1E3A8A', borderRadius: '6px', fontSize: '12px', fontWeight: '600'}}>{viewingProject.category}</span>
               </div>
-              <button onClick={() => {setViewingProject(null); setBeneficiaries([]);}} style={{background: 'none', border: 'none', fontSize: '28px', cursor: 'pointer', color: '#999', lineHeight: 1, padding: 0, width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '4px', transition: 'all 0.2s'}} onMouseEnter={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.color = '#000';}} onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#999';}}>&times;</button>
+              <button onClick={() => {setViewingProject(null); setBeneficiaries([]);}} style={{background: 'none', border: 'none', fontSize: '28px', cursor: 'pointer', color: '#8391B2', lineHeight: 1, padding: 0, width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', transition: 'all 0.2s'}} onMouseEnter={(e) => {e.target.style.background = '#DFE8F0'; e.target.style.color = '#1E3A8A';}} onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#8391B2';}}>&times;</button>
             </div>
             
             <div style={{marginBottom: '24px'}}>
-              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Description</p>
-              <div style={{background: '#f8f9fa', padding: '20px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: 0, fontSize: '15px', color: '#333', lineHeight: '1.8'}}>{viewingProject.description}</p>
+              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Description</p>
+              <div style={{background: '#DFE8F0', padding: '20px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', lineHeight: '1.8'}}>{viewingProject.description}</p>
               </div>
             </div>
             
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px'}}>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Location</p>
-                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.location}</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Location</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{viewingProject.location}</p>
               </div>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Budget</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Budget</p>
                 <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '700'}}>${parseFloat(viewingProject.budget_amount || 0).toLocaleString()}</p>
               </div>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Duration</p>
-                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.duration_months} months</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Duration</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{viewingProject.duration_months} months</p>
               </div>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Beneficiaries</p>
-                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.target_beneficiaries?.toLocaleString()}</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Beneficiaries</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{viewingProject.target_beneficiaries?.toLocaleString()}</p>
               </div>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>Start Date</p>
-                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.start_date}</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>Start Date</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{viewingProject.start_date}</p>
               </div>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase'}}>End Date</p>
-                <p style={{margin: 0, fontSize: '16px', color: '#000', fontWeight: '600'}}>{viewingProject.end_date}</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase'}}>End Date</p>
+                <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{viewingProject.end_date}</p>
               </div>
             </div>
 
             {(viewingProject.document1_name || viewingProject.document2_name || viewingProject.document3_name || viewingProject.beneficiaries_csv_name) && (
-              <div style={{marginBottom: '24px', padding: '20px', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #e0e0e0'}}>
-                <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#000'}}>📄 Project Documents</h4>
+              <div style={{marginBottom: '24px', padding: '20px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#1E3A8A'}}>📄 Project Documents</h4>
                 <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
                   {viewingProject.document1_name && (
                     <button
@@ -941,34 +941,34 @@ function AllProjects({ language = 'en' }) {
 
             {beneficiaries.length > 0 && (
               <div style={{marginBottom: '24px'}}>
-                <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#000'}}>👥 Beneficiaries ({beneficiaries.length})</h4>
-                <div style={{maxHeight: '300px', overflowY: 'auto', border: '1px solid #e0e0e0', borderRadius: '6px'}}>
+                <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#1E3A8A'}}>👥 Beneficiaries ({beneficiaries.length})</h4>
+                <div style={{maxHeight: '300px', overflowY: 'auto', border: '1px solid #C5CED7', borderRadius: '8px'}}>
                   <table style={{width: '100%', borderCollapse: 'collapse'}}>
-                    <thead style={{position: 'sticky', top: 0, background: '#f8f9fa', borderBottom: '2px solid #e0e0e0'}}>
+                    <thead style={{position: 'sticky', top: 0, background: '#DFE8F0', borderBottom: '2px solid #C5CED7'}}>
                       <tr>
-                        <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#666'}}>Name</th>
-                        <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#666'}}>Phone</th>
-                        <th style={{padding: '12px', textAlign: 'center', fontSize: '13px', fontWeight: '600', color: '#666'}}>Photo</th>
-                        <th style={{padding: '12px', textAlign: 'center', fontSize: '13px', fontWeight: '600', color: '#666'}}>Status</th>
+                        <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#8391B2'}}>Name</th>
+                        <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#8391B2'}}>Phone</th>
+                        <th style={{padding: '12px', textAlign: 'center', fontSize: '13px', fontWeight: '600', color: '#8391B2'}}>Photo</th>
+                        <th style={{padding: '12px', textAlign: 'center', fontSize: '13px', fontWeight: '600', color: '#8391B2'}}>Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       {beneficiaries.map((ben, idx) => (
-                        <tr key={ben.id} style={{borderBottom: '1px solid #f0f0f0', background: idx % 2 === 0 ? '#ffffff' : '#fafafa'}}>
-                          <td style={{padding: '12px', fontSize: '14px', color: '#000'}}>{ben.name}</td>
-                          <td style={{padding: '12px', fontSize: '14px', color: '#666'}}>{ben.phone_number}</td>
+                        <tr key={ben.id} style={{borderBottom: '1px solid #DFE8F0', background: idx % 2 === 0 ? '#ffffff' : '#F7FAFC'}}>
+                          <td style={{padding: '12px', fontSize: '14px', color: '#1E3A8A'}}>{ben.name}</td>
+                          <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{ben.phone_number}</td>
                           <td style={{padding: '12px', textAlign: 'center'}}>
                             {ben.face_photo ? (
-                              <span style={{color: '#22C55E', fontSize: '18px'}}>✓</span>
+                              <span style={{color: '#065F46', fontSize: '18px'}}>✓</span>
                             ) : (
-                              <span style={{color: '#999', fontSize: '18px'}}>-</span>
+                              <span style={{color: '#8391B2', fontSize: '18px'}}>-</span>
                             )}
                           </td>
                           <td style={{padding: '12px', textAlign: 'center'}}>
                             {ben.confirmed ? (
-                              <span style={{padding: '4px 8px', background: '#22C55E', color: '#fff', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>Received</span>
+                              <span style={{padding: '4px 8px', background: '#D1FAE5', color: '#065F46', borderRadius: '6px', fontSize: '11px', fontWeight: '600'}}>Received</span>
                             ) : (
-                              <span style={{padding: '4px 8px', background: '#f0f0f0', color: '#666', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>Pending</span>
+                              <span style={{padding: '4px 8px', background: '#DFE8F0', color: '#1E3A8A', borderRadius: '6px', fontSize: '11px', fontWeight: '600'}}>Pending</span>
                             )}
                           </td>
                         </tr>
@@ -979,9 +979,9 @@ function AllProjects({ language = 'en' }) {
               </div>
             )}
             
-            <div style={{display: 'flex', gap: '12px', paddingTop: '16px', borderTop: '1px solid #e0e0e0'}}>
-              <button onClick={() => {setViewingProject(null); setBeneficiaries([]); setSelectedProject(viewingProject);}} className="btn" style={{flex: 1, padding: '12px 24px', fontSize: '14px', fontWeight: '600'}}>Fund This Project</button>
-              <button onClick={() => {setViewingProject(null); setBeneficiaries([]);}} className="btn" style={{flex: 1, padding: '12px 24px', fontSize: '14px', fontWeight: '600', background: '#6c757d'}}>{t.close}</button>
+            <div style={{display: 'flex', gap: '12px', paddingTop: '16px', borderTop: '1px solid #C5CED7'}}>
+              <button onClick={() => {setViewingProject(null); setBeneficiaries([]); setSelectedProject(viewingProject);}} style={{flex: 1, padding: '12px 24px', fontSize: '14px', fontWeight: '600', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>Fund This Project</button>
+              <button onClick={() => {setViewingProject(null); setBeneficiaries([]);}} style={{flex: 1, padding: '12px 24px', fontSize: '14px', fontWeight: '600', background: '#8391B2', color: '#ffffff', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>{t.close}</button>
             </div>
           </div>
         </div>
@@ -1021,10 +1021,10 @@ function FundedProjects({ language = 'en' }) {
         <h2>{t.myFundedProjects}</h2>
         <div className="grid">
           {[1,2,3].map(i => (
-            <div key={i} className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-              <div style={{height: '16px', background: '#e0e0e0', borderRadius: '4px', marginBottom: '12px', width: '60%'}}></div>
-              <div style={{height: '12px', background: '#f0f0f0', borderRadius: '4px', marginBottom: '8px'}}></div>
-              <div style={{height: '12px', background: '#f0f0f0', borderRadius: '4px', width: '80%'}}></div>
+            <div key={i} style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px'}}>
+              <div style={{height: '16px', background: '#DFE8F0', borderRadius: '4px', marginBottom: '12px', width: '60%'}}></div>
+              <div style={{height: '12px', background: '#DFE8F0', borderRadius: '4px', marginBottom: '8px'}}></div>
+              <div style={{height: '12px', background: '#DFE8F0', borderRadius: '4px', width: '80%'}}></div>
             </div>
           ))}
         </div>
@@ -1035,13 +1035,13 @@ function FundedProjects({ language = 'en' }) {
   return (
     <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.fundedProjects}</h2>
-      <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.trackFullLifecycle}</p>
+      <p style={{color: '#8391B2', marginBottom: '15px', fontSize: '14px'}}>{t.trackFullLifecycle}</p>
       
       {projects.length === 0 ? (
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '64px 24px', textAlign: 'center'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '64px 24px', textAlign: 'center'}}>
           <i className="fas fa-hand-holding-usd" style={{fontSize: '64px', marginBottom: '16px', color: '#1E3A8A'}}></i>
-          <h3 style={{fontSize: '20px', marginBottom: '8px', color: '#000'}}>{t.noFundedProjectsYet}</h3>
-          <p style={{color: '#666', fontSize: '14px', marginBottom: '24px'}}>{t.noFundedProjectsDesc}</p>
+          <h3 style={{fontSize: '20px', marginBottom: '8px', color: '#1E3A8A'}}>{t.noFundedProjectsYet}</h3>
+          <p style={{color: '#8391B2', fontSize: '14px', marginBottom: '24px'}}>{t.noFundedProjectsDesc}</p>
           <Link to="/donor/projects">
             <button 
               className="btn" 
@@ -1075,16 +1075,16 @@ function FundedProjects({ language = 'en' }) {
       ) : (
         <div className="grid">
           {projects.map(project => (
-            <div key={project.id} className="card" style={{border: '1px solid #e0e0e0', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-              <h3 style={{color: '#000', marginBottom: '12px', fontSize: '18px', fontWeight: '600'}}>{project.title}</h3>
+            <div key={project.id} style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', transition: 'all 0.2s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';}}>
+              <h3 style={{color: '#1E3A8A', marginBottom: '12px', fontSize: '18px', fontWeight: '600'}}>{project.title}</h3>
               
-              <div style={{background: '#fafafa', padding: '16px', borderRadius: '6px', marginBottom: '16px'}}>
-                <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.location}:</strong> <span style={{color: '#666'}}>{project.location}</span></p>
-                <p style={{margin: '0 0 8px 0', fontSize: '13px'}}><strong>{t.category}:</strong> <span style={{color: '#666'}}>{project.category}</span></p>
-                <p style={{margin: '0', fontSize: '13px'}}><strong>{t.beneficiaries}:</strong> <span style={{color: '#666'}}>{project.target_beneficiaries?.toLocaleString()}</span></p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: '16px'}}>
+                <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>{t.location}:</strong> <span style={{color: '#8391B2'}}>{project.location}</span></p>
+                <p style={{margin: '0 0 8px 0', fontSize: '13px', color: '#1E3A8A'}}><strong>{t.category}:</strong> <span style={{color: '#8391B2'}}>{project.category}</span></p>
+                <p style={{margin: '0', fontSize: '13px', color: '#1E3A8A'}}><strong>{t.beneficiaries}:</strong> <span style={{color: '#8391B2'}}>{project.target_beneficiaries?.toLocaleString()}</span></p>
               </div>
               
-              <div style={{padding: '12px', background: '#f0f9ff', borderRadius: '6px', border: '1px solid #1E3A8A', marginBottom: '16px'}}>
+              <div style={{padding: '12px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7', marginBottom: '16px'}}>
                 <p style={{margin: '0', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>{t.status}: {project.status.replace(/_/g, ' ')}</p>
               </div>
               
@@ -1158,7 +1158,7 @@ function ProjectDetails({ language = 'en' }) {
     return (
       <div>
         <h2>{t.projectDetails}</h2>
-        <div className="card">
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '24px'}}>
           <p>{t.loadingProjectDetails}</p>
         </div>
       </div>
@@ -1169,7 +1169,7 @@ function ProjectDetails({ language = 'en' }) {
     return (
       <div>
         <h2>{t.projectDetails}</h2>
-        <div className="card">
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '24px'}}>
           <p>{t.projectNotFound}</p>
         </div>
       </div>
@@ -1179,19 +1179,19 @@ function ProjectDetails({ language = 'en' }) {
   return (
     <div style={{fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>
       <h2>{t.projectFullLifecycle}</h2>
-      <p style={{color: '#666', marginBottom: '15px', fontSize: '14px'}}>{t.completeTransparency}</p>
+      <p style={{color: '#8391B2', marginBottom: '15px', fontSize: '14px'}}>{t.completeTransparency}</p>
       
       {/* Project Information */}
-      <div className="card" style={{border: '1px solid #e0e0e0', padding: '32px'}}>
+      <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '32px', marginBottom: '24px'}}>
         <div style={{marginBottom: '24px'}}>
-          <h3 style={{color: '#000', margin: '0 0 8px 0', fontSize: '28px', fontWeight: '700'}}>{details.project.title}</h3>
-          <p style={{margin: 0, color: '#666', fontSize: '15px', lineHeight: '1.6'}}>{details.project.description}</p>
+          <h3 style={{color: '#1E3A8A', margin: '0 0 8px 0', fontSize: '28px', fontWeight: '700'}}>{details.project.title}</h3>
+          <p style={{margin: 0, color: '#8391B2', fontSize: '15px', lineHeight: '1.6'}}>{details.project.description}</p>
         </div>
         
         {/* Project Documents */}
         {(details.project.document1_name || details.project.document2_name || details.project.document3_name) && (
-          <div style={{marginBottom: '24px', padding: '20px', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #e0e0e0'}}>
-            <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#000'}}>📄 Project Documents</h4>
+          <div style={{marginBottom: '24px', padding: '20px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+            <h4 style={{margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#1E3A8A'}}>📄 Project Documents</h4>
             <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
               {details.project.document1_name && (
                 <button
@@ -1293,42 +1293,42 @@ function ProjectDetails({ language = 'en' }) {
           </div>
         )}
         
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px', padding: '24px 0', borderTop: '1px solid #e0e0e0', borderBottom: '1px solid #e0e0e0'}}>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px', padding: '24px 0', borderTop: '1px solid #C5CED7', borderBottom: '1px solid #C5CED7'}}>
           <div>
-            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Category</p>
-            <p style={{margin: 0, fontSize: '15px', color: '#000', fontWeight: '600'}}>{details.project.category}</p>
+            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Category</p>
+            <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', fontWeight: '600'}}>{details.project.category}</p>
           </div>
           <div>
-            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Location</p>
-            <p style={{margin: 0, fontSize: '15px', color: '#000', fontWeight: '600'}}>{details.project.location}</p>
+            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Location</p>
+            <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', fontWeight: '600'}}>{details.project.location}</p>
           </div>
           <div>
-            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Budget</p>
+            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Budget</p>
             <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', fontWeight: '700'}}>${parseFloat(details.project.budget_amount || 0).toLocaleString()}</p>
           </div>
           <div>
-            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Duration</p>
-            <p style={{margin: 0, fontSize: '15px', color: '#000', fontWeight: '600'}}>{details.project.duration_months} months</p>
+            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Duration</p>
+            <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', fontWeight: '600'}}>{details.project.duration_months} months</p>
           </div>
           <div>
-            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Beneficiaries</p>
-            <p style={{margin: 0, fontSize: '15px', color: '#000', fontWeight: '600'}}>{details.project.target_beneficiaries?.toLocaleString()}</p>
+            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Beneficiaries</p>
+            <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', fontWeight: '600'}}>{details.project.target_beneficiaries?.toLocaleString()}</p>
           </div>
           <div>
-            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Period</p>
-            <p style={{margin: 0, fontSize: '13px', color: '#000', fontWeight: '600'}}>{details.project.start_date} to {details.project.end_date}</p>
+            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Period</p>
+            <p style={{margin: 0, fontSize: '13px', color: '#1E3A8A', fontWeight: '600'}}>{details.project.start_date} to {details.project.end_date}</p>
           </div>
         </div>
         
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '24px'}}>
           <div>
-            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Current Status</p>
+            <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Current Status</p>
             <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '700'}}>{details.project.status.replace(/_/g, ' ')}</p>
           </div>
           {details.project.blockchain_tx && (
             <div style={{textAlign: 'right'}}>
-              <p style={{margin: '0 0 4px 0', fontSize: '10px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>✓ Blockchain Hash</p>
-              <code style={{fontSize: '11px', color: '#666', background: '#f5f5f5', padding: '4px 8px', borderRadius: '4px', wordBreak: 'break-all', display: 'block'}}>{details.project.blockchain_tx}</code>
+              <p style={{margin: '0 0 4px 0', fontSize: '10px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>✓ Blockchain Hash</p>
+              <code style={{fontSize: '11px', color: '#8391B2', background: '#DFE8F0', padding: '4px 8px', borderRadius: '8px', wordBreak: 'break-all', display: 'block'}}>{details.project.blockchain_tx}</code>
             </div>
           )}
         </div>
@@ -1336,24 +1336,24 @@ function ProjectDetails({ language = 'en' }) {
 
       {/* Funding Information */}
       {details.fundings && details.fundings.length > 0 && (
-        <div className="card" style={{border: '1px solid #e0e0e0', padding: '20px'}}>
-          <h3 style={{color: '#000', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#1E3A8A', margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600'}}>
             Confirmed Funding
           </h3>
           {details.fundings.filter(f => f.ngo_signature).map((funding, idx) => (
-            <div key={idx} style={{background: '#fafafa', padding: '16px', borderRadius: '4px', marginBottom: idx < details.fundings.filter(f => f.ngo_signature).length - 1 ? '12px' : '0', border: '1px solid #e0e0e0'}}>
+            <div key={idx} style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', marginBottom: idx < details.fundings.filter(f => f.ngo_signature).length - 1 ? '12px' : '0', border: '1px solid #C5CED7'}}>
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px'}}>
                 <div>
-                  <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Donor</p>
-                  <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#000'}}>{funding.donor_name}</p>
+                  <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Donor</p>
+                  <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#1E3A8A'}}>{funding.donor_name}</p>
                 </div>
                 <div style={{textAlign: 'right'}}>
-                  <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#666', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Amount</p>
+                  <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Amount</p>
                   <p style={{margin: 0, fontSize: '15px', fontWeight: '600', color: '#1E3A8A'}}>${parseFloat(funding.amount).toLocaleString()}</p>
                 </div>
               </div>
               <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
-                <span style={{padding: '4px 10px', background: '#22C55E', color: '#fff', borderRadius: '4px', fontSize: '11px', fontWeight: '600'}}>✓ Confirmed</span>
+                <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', borderRadius: '6px', fontSize: '11px', fontWeight: '600'}}>✓ Confirmed</span>
                 <button 
                   onClick={async () => {
                     try {
@@ -1375,8 +1375,7 @@ function ProjectDetails({ language = 'en' }) {
                       alert('Failed to download report');
                     }
                   }}
-                  className="btn" 
-                  style={{padding: '6px 14px', fontSize: '12px', background: '#1E3A8A', display: 'flex', alignItems: 'center', gap: '6px'}}>
+                  style={{padding: '6px 14px', fontSize: '12px', fontWeight: '600', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'}}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
                   </svg>
@@ -1390,33 +1389,33 @@ function ProjectDetails({ language = 'en' }) {
 
       {/* Supplier Information */}
       {details.supplier_assignments && details.supplier_assignments.length > 0 && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{color: '#000', borderBottom: '1px solid #e0e0e0', paddingBottom: '10px', fontSize: '16px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#1E3A8A', borderBottom: '1px solid #C5CED7', paddingBottom: '10px', fontSize: '16px', marginTop: 0}}>
             {t.step2SupplierConfirmation}
           </h3>
           {details.supplier_assignments.map((assignment, idx) => (
             <div key={idx} style={{marginTop: '15px'}}>
-              <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', marginBottom: '12px'}}>
-                <p style={{margin: '0 0 8px 0', fontSize: '14px'}}><strong>{t.supplier}:</strong> {assignment.supplier_name}</p>
-                <p style={{margin: '0', fontSize: '14px'}}><strong>{t.itemsAssigned}:</strong> {JSON.parse(JSON.stringify(assignment.items)).join(', ')}</p>
+              <div style={{background: '#DFE8F0', padding: '15px', borderRadius: '8px', marginBottom: '12px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 8px 0', fontSize: '14px', color: '#1E3A8A'}}><strong>{t.supplier}:</strong> {assignment.supplier_name}</p>
+                <p style={{margin: '0', fontSize: '14px', color: '#1E3A8A'}}><strong>{t.itemsAssigned}:</strong> {JSON.parse(JSON.stringify(assignment.items)).join(', ')}</p>
               </div>
               
               {assignment.confirmed ? (
                 <>
-                  <div style={{background: '#fafafa', padding: '12px', borderRadius: '4px', marginBottom: '12px'}}>
-                    <p style={{margin: '0 0 6px 0', fontSize: '13px', fontWeight: '600'}}>Digital Signature</p>
-                    <code style={{background: '#ffffff', padding: '8px 12px', borderRadius: '3px', display: 'block', fontSize: '13px', color: '#333', border: '1px solid #e0e0e0'}}>{assignment.signature}</code>
+                  <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', marginBottom: '12px', border: '1px solid #C5CED7'}}>
+                    <p style={{margin: '0 0 6px 0', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Digital Signature</p>
+                    <code style={{background: '#ffffff', padding: '8px 12px', borderRadius: '6px', display: 'block', fontSize: '13px', color: '#1E3A8A', border: '1px solid #C5CED7'}}>{assignment.signature}</code>
                   </div>
                   {assignment.blockchain_tx && (
-                    <div style={{background: '#fafafa', padding: '12px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                      <p style={{margin: '0 0 6px 0', fontSize: '13px', fontWeight: '600'}}>Blockchain Verified</p>
-                      <code style={{background: '#ffffff', padding: '8px 12px', borderRadius: '3px', display: 'block', wordBreak: 'break-all', fontSize: '11px', color: '#666', border: '1px solid #e0e0e0'}}>{assignment.blockchain_tx}</code>
+                    <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                      <p style={{margin: '0 0 6px 0', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Blockchain Verified</p>
+                      <code style={{background: '#ffffff', padding: '8px 12px', borderRadius: '6px', display: 'block', wordBreak: 'break-all', fontSize: '11px', color: '#8391B2', border: '1px solid #C5CED7'}}>{assignment.blockchain_tx}</code>
                     </div>
                   )}
                 </>
               ) : (
-                <div style={{background: '#f5f5f5', padding: '12px', borderRadius: '4px', border: '1px solid #e0e0e0'}}>
-                  <p style={{margin: '0', fontSize: '14px', color: '#666'}}>{t.waitingSupplierConfirm}</p>
+                <div style={{background: '#DFE8F0', padding: '12px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                  <p style={{margin: '0', fontSize: '14px', color: '#8391B2'}}>{t.waitingSupplierConfirm}</p>
                 </div>
               )}
             </div>
@@ -1428,30 +1427,30 @@ function ProjectDetails({ language = 'en' }) {
 
       {/* Distribution Progress */}
       {details.distributions && details.distributions.length > 0 && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{color: '#000', borderBottom: '1px solid #e0e0e0', paddingBottom: '10px', fontSize: '16px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#1E3A8A', borderBottom: '1px solid #C5CED7', paddingBottom: '10px', fontSize: '16px', marginTop: 0}}>
             {t.step4DistributionBeneficiaries}
           </h3>
-          <div style={{background: '#fafafa', padding: '15px', borderRadius: '4px', marginTop: '15px'}}>
-            <p style={{margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600'}}>{t.totalDistributions}: {details.distributions.length}</p>
-            <p style={{margin: '0', color: '#666', fontSize: '14px'}}>{t.aidDistributedSuccessfully}</p>
+          <div style={{background: '#DFE8F0', padding: '15px', borderRadius: '8px', marginTop: '15px', border: '1px solid #C5CED7'}}>
+            <p style={{margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600', color: '#1E3A8A'}}>{t.totalDistributions}: {details.distributions.length}</p>
+            <p style={{margin: '0', color: '#8391B2', fontSize: '14px'}}>{t.aidDistributedSuccessfully}</p>
           </div>
           
-          <div style={{marginTop: '15px'}}>
-            <table className="table">
-              <thead>
+          <div style={{marginTop: '15px', border: '1px solid #C5CED7', borderRadius: '8px', overflow: 'hidden'}}>
+            <table style={{width: '100%', borderCollapse: 'collapse'}}>
+              <thead style={{background: '#DFE8F0'}}>
                 <tr>
-                  <th>Beneficiary Name</th>
-                  <th>Field Officer</th>
-                  <th>Distribution Date</th>
+                  <th style={{padding: '12px 16px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#8391B2'}}>Beneficiary Name</th>
+                  <th style={{padding: '12px 16px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#8391B2'}}>Field Officer</th>
+                  <th style={{padding: '12px 16px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#8391B2'}}>Distribution Date</th>
                 </tr>
               </thead>
               <tbody>
                 {details.distributions.map((dist, idx) => (
-                  <tr key={idx}>
-                    <td>{dist.beneficiary_name}</td>
-                    <td>{dist.field_officer}</td>
-                    <td>{new Date(dist.created_at).toLocaleDateString()}</td>
+                  <tr key={idx} style={{borderTop: '1px solid #DFE8F0'}}>
+                    <td style={{padding: '12px 16px', fontSize: '14px', color: '#1E3A8A'}}>{dist.beneficiary_name}</td>
+                    <td style={{padding: '12px 16px', fontSize: '14px', color: '#8391B2'}}>{dist.field_officer}</td>
+                    <td style={{padding: '12px 16px', fontSize: '14px', color: '#8391B2'}}>{new Date(dist.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1462,15 +1461,15 @@ function ProjectDetails({ language = 'en' }) {
 
       {/* No Activity Yet */}
       {(!details.fundings || details.fundings.length === 0) && (
-        <div className="card" style={{background: '#fafafa', border: '1px solid #e0e0e0'}}>
-          <h3>{t.noActivityYet}</h3>
-          <p>{t.projectNoFunding}</p>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '24px', marginBottom: '24px'}}>
+          <h3 style={{color: '#1E3A8A', marginTop: 0}}>{t.noActivityYet}</h3>
+          <p style={{color: '#8391B2', margin: 0}}>{t.projectNoFunding}</p>
         </div>
       )}
       
       {workflowStatus && (
-        <div className="card" style={{border: '1px solid #e0e0e0'}}>
-          <h3 style={{color: '#000', margin: '0 0 15px 0', paddingBottom: '8px', borderBottom: '1px solid #e0e0e0', fontSize: '16px'}}>
+        <div style={{background: '#ffffff', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '20px', marginBottom: '24px'}}>
+          <h3 style={{color: '#1E3A8A', margin: '0 0 15px 0', paddingBottom: '8px', borderBottom: '1px solid #C5CED7', fontSize: '16px'}}>
             Complete Project Workflow
           </h3>
           
@@ -1508,47 +1507,47 @@ function ProjectDetails({ language = 'en' }) {
 
             {details.fundings && details.fundings.length > 0 && (
               <>
-                <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                <div style={{padding: '12px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                   <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Donor Funding</h4>
                   <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '13px'}}>
                     <div>
-                      <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Donor:</strong> {details.fundings[0].donor_name}</p>
-                      <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Amount:</strong> ${parseFloat(details.fundings[0].amount).toLocaleString()}</p>
-                      <p style={{margin: '0', color: '#666'}}><strong>Status:</strong> Funded</p>
+                      <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Donor:</strong> {details.fundings[0].donor_name}</p>
+                      <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Amount:</strong> ${parseFloat(details.fundings[0].amount).toLocaleString()}</p>
+                      <p style={{margin: '0', color: '#8391B2'}}><strong>Status:</strong> Funded</p>
                     </div>
                     <div>
-                      <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Signature:</strong></p>
-                      <code style={{fontSize: '11px', background: '#f5f5f5', padding: '2px 4px', borderRadius: '2px'}}>{details.fundings[0].donor_signature}</code>
+                      <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Signature:</strong></p>
+                      <code style={{fontSize: '11px', background: '#DFE8F0', padding: '2px 4px', borderRadius: '4px'}}>{details.fundings[0].donor_signature}</code>
                     </div>
                   </div>
                   {details.fundings[0].blockchain_tx && (
-                    <div style={{marginTop: '8px', padding: '8px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                    <div style={{marginTop: '8px', padding: '8px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                       <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Donor Transaction Hash:</p>
-                      <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{details.fundings[0].blockchain_tx}</code>
-                      <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Donor funding permanently recorded on Sepolia blockchain</p>
+                      <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#1E3A8A', background: '#DFE8F0', padding: '6px 8px', borderRadius: '6px', border: '1px solid #C5CED7', display: 'block'}}>{details.fundings[0].blockchain_tx}</code>
+                      <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#8391B2'}}>Donor funding permanently recorded on Sepolia blockchain</p>
                     </div>
                   )}
                 </div>
 
                 {details.fundings[0].ngo_signature && (
-                  <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                  <div style={{padding: '12px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                     <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ NGO Funding Confirmation</h4>
                     <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '13px'}}>
                       <div>
-                        <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>NGO:</strong> {details.project.ngo_name}</p>
-                        <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Status:</strong> Confirmed</p>
-                        <p style={{margin: '0', color: '#666'}}><strong>Amount:</strong> ${parseFloat(details.fundings[0].amount).toLocaleString()}</p>
+                        <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>NGO:</strong> {details.project.ngo_name}</p>
+                        <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Status:</strong> Confirmed</p>
+                        <p style={{margin: '0', color: '#8391B2'}}><strong>Amount:</strong> ${parseFloat(details.fundings[0].amount).toLocaleString()}</p>
                       </div>
                       <div>
-                        <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Signature:</strong></p>
-                        <code style={{fontSize: '11px', background: '#f5f5f5', padding: '2px 4px', borderRadius: '2px'}}>{details.fundings[0].ngo_signature}</code>
+                        <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Signature:</strong></p>
+                        <code style={{fontSize: '11px', background: '#DFE8F0', padding: '2px 4px', borderRadius: '4px'}}>{details.fundings[0].ngo_signature}</code>
                       </div>
                     </div>
                     {details.fundings[0].ngo_confirmation_tx && (
-                      <div style={{marginTop: '8px', padding: '8px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                      <div style={{marginTop: '8px', padding: '8px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                         <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ NGO Confirmation Hash:</p>
-                        <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{details.fundings[0].ngo_confirmation_tx}</code>
-                        <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>NGO confirmation permanently recorded on Sepolia blockchain</p>
+                        <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#1E3A8A', background: '#DFE8F0', padding: '6px 8px', borderRadius: '6px', border: '1px solid #C5CED7', display: 'block'}}>{details.fundings[0].ngo_confirmation_tx}</code>
+                        <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#8391B2'}}>NGO confirmation permanently recorded on Sepolia blockchain</p>
                       </div>
                     )}
                   </div>
@@ -1556,104 +1555,104 @@ function ProjectDetails({ language = 'en' }) {
               </>
             )}
             {workflowStatus.quote_request && (
-              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+              <div style={{padding: '12px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                 <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Quote Request Created by NGO</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '13px'}}>
                   <div>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Delivery Location:</strong> {workflowStatus.quote_request.delivery_location}</p>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Budget:</strong> ${parseFloat(workflowStatus.quote_request.proposed_budget).toLocaleString()}</p>
-                    <p style={{margin: '0', color: '#666'}}><strong>Created:</strong> {new Date(workflowStatus.quote_request.created_at).toLocaleDateString()}</p>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Delivery Location:</strong> {workflowStatus.quote_request.delivery_location}</p>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Budget:</strong> ${parseFloat(workflowStatus.quote_request.proposed_budget).toLocaleString()}</p>
+                    <p style={{margin: '0', color: '#8391B2'}}><strong>Created:</strong> {new Date(workflowStatus.quote_request.created_at).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Delivery Date:</strong> {workflowStatus.quote_request.delivery_date}</p>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Status:</strong> {workflowStatus.quote_request.status}</p>
-                    <p style={{margin: '0', color: '#666'}}><strong>Quotes Received:</strong> {workflowStatus.quote_request.quotes_count}</p>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Delivery Date:</strong> {workflowStatus.quote_request.delivery_date}</p>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Status:</strong> {workflowStatus.quote_request.status}</p>
+                    <p style={{margin: '0', color: '#8391B2'}}><strong>Quotes Received:</strong> {workflowStatus.quote_request.quotes_count}</p>
                   </div>
                 </div>
                 {workflowStatus.quote_request.blockchain_tx && (
-                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                     <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
-                    <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{workflowStatus.quote_request.blockchain_tx}</code>
-                    <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Quote request permanently recorded on Sepolia blockchain</p>
+                    <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#1E3A8A', background: '#DFE8F0', padding: '6px 8px', borderRadius: '6px', border: '1px solid #C5CED7', display: 'block'}}>{workflowStatus.quote_request.blockchain_tx}</code>
+                    <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#8391B2'}}>Quote request permanently recorded on Sepolia blockchain</p>
                   </div>
                 )}
               </div>
             )}
             
             {workflowStatus.quote_selection && (
-              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+              <div style={{padding: '12px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                 <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Quote Selected & Field Officer Assigned</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '13px'}}>
                   <div>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Supplier:</strong> {workflowStatus.quote_selection.supplier_name}</p>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Amount:</strong> ${parseFloat(workflowStatus.quote_selection.quoted_amount).toLocaleString()}</p>
-                    <p style={{margin: '0', color: '#666'}}><strong>Date:</strong> {new Date(workflowStatus.quote_selection.created_at).toLocaleDateString()}</p>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Supplier:</strong> {workflowStatus.quote_selection.supplier_name}</p>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Amount:</strong> ${parseFloat(workflowStatus.quote_selection.quoted_amount).toLocaleString()}</p>
+                    <p style={{margin: '0', color: '#8391B2'}}><strong>Date:</strong> {new Date(workflowStatus.quote_selection.created_at).toLocaleDateString()}</p>
                   </div>
                   <div>
                     {workflowStatus.field_officer_assignment && (
                       <>
-                        <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Field Officer:</strong> {workflowStatus.field_officer_assignment.field_officer_name}</p>
-                        <p style={{margin: '0', color: '#666'}}><strong>Status:</strong> {workflowStatus.field_officer_assignment.confirmed ? 'Confirmed' : 'Assigned'}</p>
+                        <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Field Officer:</strong> {workflowStatus.field_officer_assignment.field_officer_name}</p>
+                        <p style={{margin: '0', color: '#8391B2'}}><strong>Status:</strong> {workflowStatus.field_officer_assignment.confirmed ? 'Confirmed' : 'Assigned'}</p>
                       </>
                     )}
                   </div>
                 </div>
                 {workflowStatus.quote_selection.blockchain_tx && (
-                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                     <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
-                    <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{workflowStatus.quote_selection.blockchain_tx}</code>
-                    <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Quote selection permanently recorded on Sepolia blockchain</p>
+                    <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#1E3A8A', background: '#DFE8F0', padding: '6px 8px', borderRadius: '6px', border: '1px solid #C5CED7', display: 'block'}}>{workflowStatus.quote_selection.blockchain_tx}</code>
+                    <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#8391B2'}}>Quote selection permanently recorded on Sepolia blockchain</p>
                   </div>
                 )}
               </div>
             )}
             
             {workflowStatus.supplier_delivery && (
-              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+              <div style={{padding: '12px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                 <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>✓ Supplier Delivery Confirmed</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '13px'}}>
                   <div>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Supplier:</strong> {workflowStatus.supplier_delivery.supplier_name}</p>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Field Officer:</strong> {workflowStatus.supplier_delivery.field_officer_name}</p>
-                    <p style={{margin: '0', color: '#666'}}><strong>Delivered:</strong> {new Date(workflowStatus.supplier_delivery.created_at).toLocaleDateString()}</p>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Supplier:</strong> {workflowStatus.supplier_delivery.supplier_name}</p>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Field Officer:</strong> {workflowStatus.supplier_delivery.field_officer_name}</p>
+                    <p style={{margin: '0', color: '#8391B2'}}><strong>Delivered:</strong> {new Date(workflowStatus.supplier_delivery.created_at).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Signature:</strong></p>
-                    <code style={{fontSize: '11px', background: '#f5f5f5', padding: '2px 4px', borderRadius: '2px'}}>{workflowStatus.supplier_delivery.delivery_signature}</code>
+                    <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Signature:</strong></p>
+                    <code style={{fontSize: '11px', background: '#DFE8F0', padding: '2px 4px', borderRadius: '4px'}}>{workflowStatus.supplier_delivery.delivery_signature}</code>
                   </div>
                 </div>
                 {workflowStatus.supplier_delivery.blockchain_tx && (
-                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                  <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                     <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
-                    <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{workflowStatus.supplier_delivery.blockchain_tx}</code>
-                    <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Delivery confirmation permanently recorded on Sepolia blockchain</p>
+                    <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#1E3A8A', background: '#DFE8F0', padding: '6px 8px', borderRadius: '6px', border: '1px solid #C5CED7', display: 'block'}}>{workflowStatus.supplier_delivery.blockchain_tx}</code>
+                    <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#8391B2'}}>Delivery confirmation permanently recorded on Sepolia blockchain</p>
                   </div>
                 )}
               </div>
             )}
             
             {workflowStatus.field_officer_confirmation && (
-              <div style={{padding: '12px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+              <div style={{padding: '12px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                 <h4 style={{color: '#1E3A8A', margin: '0 0 10px 0', fontSize: '14px'}}>
                   {workflowStatus.field_officer_confirmation.confirmed ? '✓ Field Officer Final Confirmation - Ready for Distribution' : 'Awaiting Field Officer Final Confirmation'}
                 </h4>
                 <div style={{fontSize: '13px'}}>
-                  <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Field Officer:</strong> {workflowStatus.field_officer_confirmation.field_officer_name}</p>
+                  <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Field Officer:</strong> {workflowStatus.field_officer_confirmation.field_officer_name}</p>
                   {workflowStatus.field_officer_confirmation.confirmed ? (
                     <>
-                      <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Confirmed:</strong> {new Date(workflowStatus.field_officer_confirmation.confirmed_at).toLocaleDateString()}</p>
-                      <p style={{margin: '0 0 4px 0', color: '#666'}}><strong>Signature:</strong></p>
-                      <code style={{fontSize: '11px', background: '#f5f5f5', padding: '2px 4px', borderRadius: '2px'}}>{workflowStatus.field_officer_confirmation.signature}</code>
+                      <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Confirmed:</strong> {new Date(workflowStatus.field_officer_confirmation.confirmed_at).toLocaleDateString()}</p>
+                      <p style={{margin: '0 0 4px 0', color: '#8391B2'}}><strong>Signature:</strong></p>
+                      <code style={{fontSize: '11px', background: '#DFE8F0', padding: '2px 4px', borderRadius: '4px'}}>{workflowStatus.field_officer_confirmation.signature}</code>
                       {workflowStatus.field_officer_confirmation.blockchain_tx && (
-                        <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '4px', border: '1px solid #1E3A8A'}}>
+                        <div style={{marginTop: '10px', padding: '10px', background: '#ffffff', borderRadius: '8px', border: '1px solid #1E3A8A'}}>
                           <p style={{margin: '0 0 6px 0', fontSize: '12px', color: '#1E3A8A', fontWeight: '600'}}>✓ Blockchain Transaction Hash:</p>
-                          <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#000', background: '#f8f9fa', padding: '6px 8px', borderRadius: '3px', border: '1px solid #e0e0e0', display: 'block'}}>{workflowStatus.field_officer_confirmation.blockchain_tx}</code>
-                          <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#666'}}>Final confirmation permanently recorded on Sepolia blockchain</p>
+                          <code style={{fontSize: '11px', wordBreak: 'break-all', color: '#1E3A8A', background: '#DFE8F0', padding: '6px 8px', borderRadius: '6px', border: '1px solid #C5CED7', display: 'block'}}>{workflowStatus.field_officer_confirmation.blockchain_tx}</code>
+                          <p style={{margin: '6px 0 0 0', fontSize: '11px', color: '#8391B2'}}>Final confirmation permanently recorded on Sepolia blockchain</p>
                         </div>
                       )}
                     </>
                   ) : (
-                    <p style={{margin: '0', color: '#666'}}>Waiting for field officer to provide final confirmation after receiving delivery from supplier</p>
+                    <p style={{margin: '0', color: '#8391B2'}}>Waiting for field officer to provide final confirmation after receiving delivery from supplier</p>
                   )}
                 </div>
               </div>
@@ -1668,8 +1667,8 @@ function ProjectDetails({ language = 'en' }) {
                     <div style={{flex: 1}}>
                       <h4 style={{color: '#1E3A8A', margin: '0 0 12px 0', fontSize: '15px', fontWeight: '600'}}>Current Status</h4>
                       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <span style={{fontSize: '16px', fontWeight: '600', color: '#000000'}}>{workflowStatus.project_status.replace(/_/g, ' ')}</span>
-                        <span style={{fontSize: '13px', color: '#666'}}>Project ID: {workflowStatus.project_id}</span>
+                        <span style={{fontSize: '16px', fontWeight: '600', color: '#1E3A8A'}}>{workflowStatus.project_status.replace(/_/g, ' ')}</span>
+                        <span style={{fontSize: '13px', color: '#8391B2'}}>Project ID: {workflowStatus.project_id}</span>
                       </div>
                     </div>
                   </div>
@@ -1950,7 +1949,7 @@ function PublicReports({ language = 'en' }) {
         <p style={{color: '#8391B2', marginBottom: '32px', fontSize: '14px'}}>{t.viewAllSubmittedReports}</p>
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px'}}>
           {[1, 2, 3].map(i => (
-            <div key={i} className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '200px', border: '1px solid #e0e0e0'}}></div>
+            <div key={i} style={{background: 'linear-gradient(90deg, #DFE8F0 25%, #EBF0F5 50%, #DFE8F0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '200px', borderRadius: '12px', border: '1px solid #C5CED7'}}></div>
           ))}
         </div>
       </div>
@@ -2008,8 +2007,8 @@ function PublicReports({ language = 'en' }) {
                   }}>{report.report_type}</span>
                   <span style={{
                     padding: '4px 12px',
-                    background: '#22C55E',
-                    color: '#ffffff',
+                    background: '#D1FAE5',
+                    color: '#065F46',
                     borderRadius: '6px',
                     fontSize: '11px',
                     fontWeight: '600'
@@ -2095,7 +2094,7 @@ function PublicReports({ language = 'en' }) {
                   border: 'none', 
                   fontSize: '28px', 
                   cursor: 'pointer', 
-                  color: '#999',
+                  color: '#8391B2',
                   lineHeight: 1,
                   padding: 0,
                   width: '32px',
@@ -2103,35 +2102,35 @@ function PublicReports({ language = 'en' }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  borderRadius: '4px',
+                  borderRadius: '8px',
                   transition: 'all 0.2s'
                 }}
-                onMouseEnter={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.color = '#000';}}
-                onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#999';}}
+                onMouseEnter={(e) => {e.target.style.background = '#DFE8F0'; e.target.style.color = '#1E3A8A';}}
+                onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#8391B2';}}
               >&times;</button>
             </div>
             
             <div style={{marginBottom: '24px'}}>
-              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Report Description</p>
-              <div style={{background: '#f8f9fa', padding: '20px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: 0, fontSize: '15px', color: '#333', lineHeight: '1.8'}}>{selectedReport.description}</p>
+              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Report Description</p>
+              <div style={{background: '#DFE8F0', padding: '20px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', lineHeight: '1.8'}}>{selectedReport.description}</p>
               </div>
             </div>
             
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Location</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Location</p>
                 <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{selectedReport.location}</p>
               </div>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Submitted Date</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Submitted Date</p>
                 <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{new Date(selectedReport.created_at).toLocaleDateString()}</p>
               </div>
             </div>
             
             <div style={{marginBottom: '24px'}}>
-              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Contact Information</p>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Contact Information</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
                 <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', fontWeight: '600'}}>{selectedReport.contact_info}</p>
               </div>
             </div>

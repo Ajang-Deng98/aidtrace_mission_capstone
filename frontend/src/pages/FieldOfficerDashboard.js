@@ -123,12 +123,12 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
 
         <div style={{padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
           <p style={{margin: 0, fontSize: '14px', fontWeight: '600', color: '#ffffff'}}>{user.name}</p>
-          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#ffffff'}}>Field Officer</p>
+          <p style={{margin: '2px 0 0 0', fontSize: '11px', color: '#B3BEC7'}}>Field Officer</p>
         </div>
 
         <nav style={{flex: 1, padding: '8px 0'}}>
           <Link to="/field-officer/receipts" onClick={() => setActiveTab('receipts')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'receipts' ? '#ffffff' : '#B3BEC7',
             textDecoration: 'none', background: activeTab === 'receipts' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'receipts' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'receipts' ? '600' : '400', fontSize: '14px'
@@ -140,7 +140,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer" onClick={() => setActiveTab('projects')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'projects' ? '#ffffff' : '#B3BEC7',
             textDecoration: 'none', background: activeTab === 'projects' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'projects' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'projects' ? '600' : '400', fontSize: '14px'
@@ -152,7 +152,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/beneficiaries" onClick={() => setActiveTab('beneficiaries')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'beneficiaries' ? '#ffffff' : '#B3BEC7',
             textDecoration: 'none', background: activeTab === 'beneficiaries' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'beneficiaries' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'beneficiaries' ? '600' : '400', fontSize: '14px'
@@ -164,7 +164,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/distribute" onClick={() => setActiveTab('distribute')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'distribute' ? '#ffffff' : '#B3BEC7',
             textDecoration: 'none', background: activeTab === 'distribute' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'distribute' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'distribute' ? '600' : '400', fontSize: '14px'
@@ -176,7 +176,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/confirmed" onClick={() => setActiveTab('confirmed')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'confirmed' ? '#ffffff' : '#B3BEC7',
             textDecoration: 'none', background: activeTab === 'confirmed' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'confirmed' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'confirmed' ? '600' : '400', fontSize: '14px'
@@ -188,7 +188,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/ready" onClick={() => setActiveTab('ready')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'ready' ? '#ffffff' : '#B3BEC7',
             textDecoration: 'none', background: activeTab === 'ready' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'ready' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'ready' ? '600' : '400', fontSize: '14px'
@@ -200,7 +200,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/profile" onClick={() => setActiveTab('profile')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'profile' ? '#ffffff' : '#B3BEC7',
             textDecoration: 'none', background: activeTab === 'profile' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'profile' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'profile' ? '600' : '400', fontSize: '14px'
@@ -212,7 +212,7 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
           </Link>
 
           <Link to="/field-officer/reports" onClick={() => setActiveTab('reports')} style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: '#ffffff',
+            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: activeTab === 'reports' ? '#ffffff' : '#B3BEC7',
             textDecoration: 'none', background: activeTab === 'reports' ? 'rgba(255,255,255,0.1)' : 'transparent',
             borderLeft: activeTab === 'reports' ? '3px solid #ffffff' : '3px solid transparent',
             fontWeight: activeTab === 'reports' ? '600' : '400', fontSize: '14px'
@@ -314,7 +314,7 @@ function Projects({ language }) {
     }
   };
 
-  if (loading) return <div style={{padding: '20px'}}><p style={{color: '#6b7280'}}>Loading...</p></div>;
+  if (loading) return <div style={{padding: '20px'}}><p style={{color: '#8391B2'}}>Loading...</p></div>;
 
   return (
     <div>
@@ -336,11 +336,11 @@ function Projects({ language }) {
               <div style={{marginBottom: '16px'}}>
                 <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>{assignment.project_title}</h3>
                 <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
-                  <span style={{padding: '4px 10px', background: '#e0e0e0', color: '#666', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>{assignment.project_category}</span>
-                  <span style={{padding: '4px 10px', background: assignment.confirmed ? '#d4edda' : '#fff3cd', color: assignment.confirmed ? '#155724' : '#856404', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>
+                  <span style={{padding: '4px 10px', background: '#DFE8F0', color: '#1E3A8A', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>{assignment.project_category}</span>
+                  <span style={{padding: '4px 10px', background: assignment.confirmed ? '#D1FAE5' : '#FEF3C7', color: assignment.confirmed ? '#065F46' : '#92400E', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>
                     {assignment.confirmed ? '✓ Confirmed' : 'Pending'}
                   </span>
-                  <span style={{padding: '4px 10px', background: '#e0e0e0', color: '#666', fontSize: '12px', fontWeight: '500', borderRadius: '3px'}}>{assignment.status}</span>
+                  <span style={{padding: '4px 10px', background: '#DFE8F0', color: '#1E3A8A', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>{assignment.status}</span>
                 </div>
               </div>
               
@@ -360,11 +360,11 @@ function Projects({ language }) {
                       <div><span style={{color: '#8391B2'}}>Amount:</span> <span style={{color: '#1E3A8A', fontWeight: '500'}}>${parseFloat(assignment.supplier_info.quoted_amount).toLocaleString()}</span></div>
                     </div>
                     {assignment.delivery_info && (
-                      <div style={{marginTop: '8px', padding: '10px', background: '#ffffff', borderRadius: '3px', border: '1px solid #e0e0e0'}}>
-                        <p style={{margin: '0 0 4px 0', fontSize: '12px', fontWeight: '600', color: '#000'}}>✓ Delivered</p>
-                        <p style={{margin: '0', fontSize: '12px', color: '#666'}}>Date: {new Date(assignment.delivery_info.delivered_at).toLocaleDateString()}</p>
+                      <div style={{marginTop: '8px', padding: '10px', background: '#DFE8F0', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                        <p style={{margin: '0 0 4px 0', fontSize: '12px', fontWeight: '600', color: '#1E3A8A'}}>✓ Delivered</p>
+                        <p style={{margin: '0', fontSize: '12px', color: '#8391B2'}}>Date: {new Date(assignment.delivery_info.delivered_at).toLocaleDateString()}</p>
                         {assignment.delivery_info.delivery_notes && (
-                          <p style={{margin: '4px 0 0 0', fontSize: '12px', color: '#666'}}>Notes: {assignment.delivery_info.delivery_notes}</p>
+                          <p style={{margin: '4px 0 0 0', fontSize: '12px', color: '#8391B2'}}>Notes: {assignment.delivery_info.delivery_notes}</p>
                         )}
                       </div>
                     )}
@@ -875,10 +875,10 @@ function Distribution({ language }) {
       )}
 
       {step === 2 && selectedBeneficiary && (
-        <div className="card">
-          <h3>Step 2: Face Scan Verification</h3>
-          <p><strong>Beneficiary:</strong> {selectedBeneficiary.name}</p>
-          <p style={{color: '#666', fontSize: '13px', marginBottom: '15px'}}>Upload beneficiary's face photo for verification</p>
+        <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>Step 2: Face Scan Verification</h3>
+          <p style={{fontSize: '14px', color: '#1E3A8A', margin: '0 0 4px 0'}}><strong>Beneficiary:</strong> {selectedBeneficiary.name}</p>
+          <p style={{color: '#8391B2', fontSize: '13px', marginBottom: '16px'}}>Upload beneficiary's face photo for verification</p>
           
           <div style={{border: '2px dashed #1E3A8A', borderRadius: '8px', padding: '20px', textAlign: 'center', background: '#f8f9fa', marginBottom: '15px'}}>
             {cameraActive ? (
@@ -892,26 +892,14 @@ function Distribution({ language }) {
                 <canvas ref={canvasRef} style={{display: 'none'}} />
                 <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
                   <button onClick={capturePhoto} style={{
-                    padding: '10px 20px',
-                    background: '#22C55E',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    fontWeight: '600'
+                    padding: '10px 20px', background: '#22C55E', color: '#fff',
+                    border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '14px', fontWeight: '600'
                   }}>
                     <i className="fas fa-camera" style={{marginRight: '8px'}}></i>Capture Photo
                   </button>
                   <button onClick={stopCamera} style={{
-                    padding: '10px 20px',
-                    background: '#dc3545',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    fontWeight: '600'
+                    padding: '10px 20px', background: '#dc3545', color: '#fff',
+                    border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '14px', fontWeight: '600'
                   }}>
                     ✕ Cancel
                   </button>
@@ -935,14 +923,14 @@ function Distribution({ language }) {
                   />
                 </div>
                 <p style={{margin: '15px 0', fontSize: '16px', color: '#22C55E', fontWeight: '700'}}>✓ Face Captured Successfully!</p>
-                <p style={{margin: '10px 0', fontSize: '13px', color: '#666'}}>Review the photo above. Click Retake if you want to capture again.</p>
+                <p style={{margin: '10px 0', fontSize: '13px', color: '#8391B2'}}>Review the photo above. Click Retake if you want to capture again.</p>
                 <button onClick={() => {setFaceScanPreview(null); setFaceScanImage(null);}} style={{
                   display: 'inline-block',
                   padding: '10px 20px',
                   background: '#1E3A8A',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: '4px',
+                  borderRadius: '8px',
                   cursor: 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
@@ -954,14 +942,14 @@ function Distribution({ language }) {
             ) : (
               <div>
                 <i className="fas fa-camera" style={{fontSize: '48px', color: '#1E3A8A', marginBottom: '10px'}}></i>
-                <p style={{margin: '0 0 10px 0', fontSize: '14px', color: '#666'}}>Scan face for verification</p>
+                <p style={{margin: '0 0 10px 0', fontSize: '14px', color: '#8391B2'}}>Scan face for verification</p>
                 <button onClick={startCamera} style={{
                   display: 'inline-block',
                   padding: '10px 20px',
                   background: '#1E3A8A',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: '4px',
+                  borderRadius: '8px',
                   cursor: 'pointer',
                   fontSize: '14px',
                   fontWeight: '600',
@@ -975,14 +963,12 @@ function Distribution({ language }) {
           
           {faceMatchResult && (
             <div style={{
-              padding: '12px',
-              borderRadius: '4px',
-              marginBottom: '15px',
-              background: faceVerified ? '#d4edda' : '#f8d7da',
-              border: `1px solid ${faceVerified ? '#c3e6cb' : '#f5c6cb'}`,
-              color: faceVerified ? '#155724' : '#721c24'
+              padding: '12px 16px', borderRadius: '8px', marginBottom: '16px',
+              background: faceVerified ? '#D1FAE5' : '#FEE2E2',
+              border: `1px solid ${faceVerified ? '#A7F3D0' : '#FECACA'}`,
+              color: faceVerified ? '#065F46' : '#991B1B'
             }}>
-              <p style={{margin: '0 0 5px 0', fontWeight: '600', fontSize: '14px'}}>
+              <p style={{margin: '0 0 4px 0', fontWeight: '600', fontSize: '14px'}}>
                 {faceVerified ? '✓ Face Match Verified' : '✗ Face Match Failed'}
               </p>
               <p style={{margin: 0, fontSize: '12px'}}>
@@ -995,7 +981,7 @@ function Distribution({ language }) {
             onClick={handleFaceScanConfirm} 
             loading={faceVerifying}
             disabled={!faceScanPreview || faceVerifying}
-            className="btn"
+            style={{padding: '10px 24px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}
           >
             {faceVerifying ? 'Verifying Face...' : 'Verify Face'}
           </LoadingButton>
@@ -1003,22 +989,27 @@ function Distribution({ language }) {
       )}
 
       {step === 3 && selectedBeneficiary && (
-        <div className="card">
-          <h3>Step 3: OTP Verification</h3>
-          <p><strong>Beneficiary:</strong> {selectedBeneficiary.name}</p>
-          <p><strong>Phone:</strong> {selectedBeneficiary.phone_number}</p>
-          <LoadingButton onClick={handleSendOTP} loading={sendOtpLoading} className="btn">Send OTP</LoadingButton>
+        <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: '0 0 8px 0'}}>Step 3: OTP Verification</h3>
+          <p style={{fontSize: '14px', color: '#1E3A8A', margin: '0 0 4px 0'}}><strong>Beneficiary:</strong> {selectedBeneficiary.name}</p>
+          <p style={{fontSize: '14px', color: '#1E3A8A', margin: '0 0 16px 0'}}><strong>Phone:</strong> {selectedBeneficiary.phone_number}</p>
+          <LoadingButton onClick={handleSendOTP} loading={sendOtpLoading}
+            style={{padding: '10px 24px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}
+          >Send OTP</LoadingButton>
 
           {sentOtp && (
-            <div style={{marginTop: '15px'}}>
-              <p style={{background: '#d4edda', padding: '10px', borderRadius: '3px', fontSize: '13px', color: '#155724'}}>
+            <div style={{marginTop: '16px'}}>
+              <p style={{background: '#D1FAE5', padding: '12px 16px', borderRadius: '8px', fontSize: '13px', color: '#065F46', border: '1px solid #A7F3D0', margin: '0 0 16px 0'}}>
                 OTP has been sent to the beneficiary's phone
               </p>
-              <div className="form-group">
-                <label>Enter OTP Code</label>
-                <input type="text" value={otpCode} onChange={(e) => setOtpCode(e.target.value)} placeholder="Enter 6-digit code" />
+              <div style={{marginBottom: '16px'}}>
+                <label style={{display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: '600', color: '#1E3A8A'}}>Enter OTP Code</label>
+                <input type="text" value={otpCode} onChange={(e) => setOtpCode(e.target.value)} placeholder="Enter 6-digit code"
+                  style={{width: '100%', padding: '10px 12px', border: '1px solid #C5CED7', borderRadius: '8px', fontSize: '14px', color: '#1E3A8A', boxSizing: 'border-box'}} />
               </div>
-              <LoadingButton onClick={handleVerifyOTP} loading={verifyOtpLoading} className="btn">Verify OTP & Complete Distribution</LoadingButton>
+              <LoadingButton onClick={handleVerifyOTP} loading={verifyOtpLoading}
+                style={{padding: '10px 24px', background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer'}}
+              >Verify OTP & Complete Distribution</LoadingButton>
             </div>
           )}
         </div>
@@ -1632,7 +1623,7 @@ function PublicReports({ language }) {
         <p style={{color: '#8391B2', marginBottom: '32px', fontSize: '14px'}}>View all submitted public reports</p>
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px'}}>
           {[1, 2, 3].map(i => (
-            <div key={i} className="card" style={{background: 'linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%)', backgroundSize: '200% 100%', animation: 'loading 1.5s infinite', minHeight: '200px', border: '1px solid #e0e0e0'}}></div>
+            <div key={i} style={{background: '#DFE8F0', borderRadius: '12px', minHeight: '200px', border: '1px solid #C5CED7'}}></div>
           ))}
         </div>
       </div>
@@ -1777,7 +1768,7 @@ function PublicReports({ language }) {
                   border: 'none', 
                   fontSize: '28px', 
                   cursor: 'pointer', 
-                  color: '#999',
+                  color: '#8391B2',
                   lineHeight: 1,
                   padding: 0,
                   width: '32px',
@@ -1788,32 +1779,32 @@ function PublicReports({ language }) {
                   borderRadius: '4px',
                   transition: 'all 0.2s'
                 }}
-                onMouseEnter={(e) => {e.target.style.background = '#f5f5f5'; e.target.style.color = '#000';}}
-                onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#999';}}
+                onMouseEnter={(e) => {e.target.style.background = '#DFE8F0'; e.target.style.color = '#1E3A8A';}}
+                onMouseLeave={(e) => {e.target.style.background = 'none'; e.target.style.color = '#8391B2';}}
               >&times;</button>
             </div>
             
             <div style={{marginBottom: '24px'}}>
-              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Report Description</p>
-              <div style={{background: '#f8f9fa', padding: '20px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: 0, fontSize: '15px', color: '#333', lineHeight: '1.8'}}>{selectedReport.description}</p>
+              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Report Description</p>
+              <div style={{background: '#DFE8F0', padding: '20px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', lineHeight: '1.8'}}>{selectedReport.description}</p>
               </div>
             </div>
             
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px'}}>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Location</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Location</p>
                 <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{selectedReport.location}</p>
               </div>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
-                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Submitted Date</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
+                <p style={{margin: '0 0 4px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Submitted Date</p>
                 <p style={{margin: 0, fontSize: '16px', color: '#1E3A8A', fontWeight: '600'}}>{new Date(selectedReport.created_at).toLocaleDateString()}</p>
               </div>
             </div>
             
             <div style={{marginBottom: '24px'}}>
-              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Contact Information</p>
-              <div style={{background: '#f8f9fa', padding: '16px', borderRadius: '6px', border: '1px solid #e0e0e0'}}>
+              <p style={{margin: '0 0 8px 0', fontSize: '11px', color: '#8391B2', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Contact Information</p>
+              <div style={{background: '#DFE8F0', padding: '16px', borderRadius: '8px', border: '1px solid #C5CED7'}}>
                 <p style={{margin: 0, fontSize: '15px', color: '#1E3A8A', fontWeight: '600'}}>{selectedReport.contact_info}</p>
               </div>
             </div>
