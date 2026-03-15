@@ -160,15 +160,20 @@ Donor funds the project
 
 ## Screenshots
 
-| Screen | Path |
-|---|---|
-| Login Interface | `docs/screenshots/login.png` |
-| Donor Dashboard | `docs/screenshots/donor.png` |
-| NGO Project Management | `docs/screenshots/ngo.png` |
-| Field Officer Verification | `docs/screenshots/field_officer.png` |
-| Public Transparency Reports | `docs/screenshots/public_report.png` |
+### Login Interface
+![Login Interface](doc/login.png)
 
-> Place screenshots inside `docs/screenshots/` to display them here.
+### Donor Dashboard
+![Donor Dashboard](doc/donor.png)
+
+### NGO Project Management
+![NGO Dashboard](doc/ngo.png)
+
+### Field Officer Verification
+![Field Officer Dashboard](doc/fieldofficer.png)
+
+### Public Transparency Reports
+![Public Report](doc/public%20report.png)
 
 ---
 
