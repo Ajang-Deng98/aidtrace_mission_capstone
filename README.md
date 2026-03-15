@@ -350,14 +350,14 @@ AidTrace enforces a strict 10-stage project lifecycle. Each stage requires confi
 |---|---|---|
 | 1 | Project Created | NGO |
 | 2 | Pending Funding | Donor |
-| 3 | Fully Funded | System (on-chain) |
+| 3 | Fully Funded | System |
 | 4 | Quote Request Sent | NGO |
 | 5 | Supplier Quote Selected | NGO |
 | 6 | Supplier Confirmation | Supplier |
 | 7 | Field Officer Verification | Field Officer |
 | 8 | Ready for Distribution | System |
 | 9 | Aid Distribution in Progress | Field Officer |
-| 10 | Project Completed | System (on-chain) |
+| 10 | Project Completed | System |
 
 ---
 
