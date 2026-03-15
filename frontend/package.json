@@ -16,6 +16,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:unit": "react-scripts test --testPathPattern=unit --watchAll=false",
+    "test:integration": "react-scripts test --testPathPattern=integration --watchAll=false",
+    "test:all": "react-scripts test --watchAll=false",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:system": "cypress run --spec cypress/e2e/system.cy.js",
+    "cypress:security": "cypress run --spec cypress/e2e/security.cy.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -40,6 +47,8 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "autoprefixer": "^10.4.18",
+    "axios-mock-adapter": "^2.1.0",
+    "cypress": "^15.12.0",
     "postcss": "^8.4.35",
     "react-scripts": "5.0.1",
     "tailwindcss": "^3.4.1"
