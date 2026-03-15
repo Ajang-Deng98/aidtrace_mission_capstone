@@ -23,8 +23,17 @@ This approach reduces the risk of corruption, mismanagement, and fraudulent repo
 
 ---
 
+## Demo Video
+
+[![AidTrace Demo](https://img.youtube.com/vi/J8uIfkVVmC0/maxresdefault.jpg)](https://youtu.be/J8uIfkVVmC0)
+
+> Watch the full platform walkthrough — donor funding, NGO project management, supplier quotes, field officer biometric verification, and blockchain transparency.
+
+---
+
 ## Table of Contents
 
+- [Demo Video](#demo-video)
 - [System Overview](#system-overview)
 - [Key Features](#key-features)
 - [System Architecture](#system-architecture)
