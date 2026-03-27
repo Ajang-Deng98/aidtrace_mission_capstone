@@ -429,8 +429,11 @@ function Home({ language = 'en', changeLanguage, theme, toggleTheme }) {
               <p style={{color: '#9ca3af', fontSize: '15px', lineHeight: '1.7'}}>{t.techDesc}</p>
             </div>
           </div>
-          <div style={{borderTop: '1px solid #374151', paddingTop: '24px', textAlign: 'center'}}>
+          <div style={{borderTop: '1px solid #374151', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px'}}>
             <p style={{color: '#6b7280', fontSize: '15px', margin: 0}}>&copy; 2026 AidTrace. {t.allRightsReserved}</p>
+            <Link to="/privacy" style={{color: '#9ca3af', fontSize: '14px', textDecoration: 'none', transition: 'color 0.2s'}}
+              onMouseOver={(e) => e.target.style.color = '#1CABE2'}
+              onMouseOut={(e) => e.target.style.color = '#9ca3af'}>Privacy Policy</Link>
           </div>
         </div>
       </footer>

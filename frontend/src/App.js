@@ -13,6 +13,7 @@ import NGODashboard from './pages/NGODashboard';
 import SupplierDashboard from './pages/SupplierDashboard';
 import FieldOfficerDashboard from './pages/FieldOfficerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import './App.css';
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/public-report" element={<PublicReport language={language} changeLanguage={changeLanguage} />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           
           <Route path="/donor/*" element={
             <ProtectedRoute allowedRoles={['DONOR']}>
