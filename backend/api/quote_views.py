@@ -3,10 +3,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
+import os
 from .models import *
 from .serializers import *
 from .auth import require_auth
 from .blockchain import blockchain_service
+from .views import send_email
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -52,12 +54,22 @@ def create_quote_request(request):
             # Update project status
             project.status = 'QUOTE_REQUESTED'
             project.save()
-            
+
         except Exception as e:
             print(f"Blockchain quote request failed: {e}")
             import traceback
             print(traceback.format_exc())
-        
+
+        # Email 4: Notify all approved suppliers a new quote request is available
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        suppliers = User.objects.filter(role='SUPPLIER', is_approved=True)
+        for supplier in suppliers:
+            send_email(
+                'AidTrace - New Supply Quote Request Available',
+                f'Dear {supplier.name},\n\nA new supply quote request is available for your submission.\n\nProject: {project.title}\nNGO: {ngo.name}\nDelivery Location: {quote_request.delivery_location}\nDelivery Date: {quote_request.delivery_date}\nBudget: ${quote_request.proposed_budget}\n\nLog in to your dashboard to view the details and submit your quote:\n{frontend_url}/login\n\nThe AidTrace Team',
+                supplier.email
+            )
+
         return JsonResponse({
             'message': 'Quote request created successfully and recorded on blockchain',
             'quote_request': {
@@ -214,12 +226,20 @@ def select_quote(request):
             # Close the quote request
             quote_request.status = 'SELECTED'
             quote_request.save()
-            
+
         except Exception as e:
             print(f"Blockchain quote selection failed: {e}")
             import traceback
             print(traceback.format_exc())
-        
+
+        # Email 5: Notify the selected supplier their quote was chosen
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        send_email(
+            'AidTrace - Your Quote Has Been Selected',
+            f'Dear {quote.supplier.name},\n\nCongratulations! Your quote has been selected by {ngo.name}.\n\nProject: {quote_request.project.title}\nYour Quoted Amount: ${quote.quoted_amount}\nDelivery Location: {quote_request.delivery_location}\nDelivery Date: {quote_request.delivery_date}\n\nPlease log in to your dashboard to proceed with the delivery confirmation:\n{frontend_url}/login\n\nThe AidTrace Team',
+            quote.supplier.email
+        )
+
         return JsonResponse({
             'message': 'Quote selected and field officer assigned successfully',
             'selection': {

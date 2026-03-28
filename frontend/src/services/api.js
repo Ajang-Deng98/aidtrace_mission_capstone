@@ -102,6 +102,7 @@ export const fieldOfficerAPI = {
   mockFaceScan: () => api.post('/field-officer/face-scan/'),
   verifyFace: (data) => api.post('/field-officer/verify-face/', data),
   sendOTP: (data) => api.post('/field-officer/send-otp/', data),
+  bulkSendOTP: (projectId) => api.post('/field-officer/bulk-send-otp/', { project_id: projectId }),
   verifyOTP: (data) => api.post('/field-officer/verify-otp/', data),
   getDistributions: (params) => api.get('/field-officer/distributions/', { params }),
 };

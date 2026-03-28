@@ -34,7 +34,7 @@ function SearchBar({ onSearch, searchData = [], placeholder = "Search..." }) {
     setSearchQuery('');
     setSearchResults([]);
     setShowSearchResults(false);
-    if (onSearch) onSearch([]);
+    if (onSearch) onSearch(null);
   };
 
   return (

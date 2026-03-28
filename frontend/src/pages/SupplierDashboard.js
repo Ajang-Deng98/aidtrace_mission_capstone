@@ -126,6 +126,7 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [allSearchData, setAllSearchData] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const loadSearchData = async () => {
     try {
@@ -161,7 +162,8 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
 
   return (
     <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0'}}>
-      <div style={{
+      {sidebarOpen && <div className="sidebar-overlay active" onClick={()=>setSidebarOpen(false)} />}
+      <div className={`dash-sidebar${sidebarOpen?' open':''}`} style={{
         width: '220px',
         background: '#1E3A8A',
         borderRight: 'none',
@@ -266,11 +268,16 @@ function SupplierDashboard({ language = 'en', changeLanguage }) {
         </div>
       </div>
 
-      <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
+      <div className="dash-content" style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
         <div style={{background: '#ffffff', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}>
-          <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#1E3A8A', fontWeight: '600'}}>{t.supplier} {t.dashboard}</h1>
-            <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px'}}>Submit competitive quotes for NGO projects</p>
+          <div style={{display:'flex',alignItems:'center'}}>
+            <button className="dash-hamburger" onClick={()=>setSidebarOpen(!sidebarOpen)} aria-label="Menu">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div className="dash-topbar-title">
+              <h1 style={{margin: 0, fontSize: '22px', color: '#1E3A8A', fontWeight: '600'}}>{t.supplier} {t.dashboard}</h1>
+              <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px'}}>Submit competitive quotes for NGO projects</p>
+            </div>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
@@ -657,7 +664,7 @@ function ProfileSettings() {
     try {
       setLoading(true);
       const data = await ProfileService.loadActivities();
-      setActivities(data);
+      setActivities(Array.isArray(data) ? data : []);
       setError(null);
     } catch (err) {
       console.error('Error loading activities:', err);
@@ -1448,13 +1455,23 @@ function SupplierQuoteDetails() {
                 </div>
                 
                 <div style={{display: 'flex', gap: '10px'}}>
-                  <LoadingButton type="submit" loading={submitQuoteLoading} className="btn" style={{flex: 1, padding: '12px', fontSize: '15px'}}>
+                  <LoadingButton type="submit" loading={submitQuoteLoading}
+                    style={{
+                      flex: 1, padding: '12px', fontSize: '15px', fontWeight: '600',
+                      background: '#1E3A8A', color: '#ffffff', border: 'none',
+                      borderRadius: '8px', cursor: 'pointer'
+                    }}>
                     Submit Quote
                   </LoadingButton>
                   <button type="button" onClick={() => setShowQuoteForm(false)} style={{
-                    background: '#1E3A8A', color: '#ffffff', border: 'none', borderRadius: '8px',
-                    padding: '12px 20px', fontSize: '15px', fontWeight: '600', cursor: 'pointer'
-                  }}>Cancel</button>
+                    background: '#ffffff', color: '#1E3A8A', border: '1px solid #C5CED7',
+                    borderRadius: '8px', padding: '12px 20px', fontSize: '15px',
+                    fontWeight: '600', cursor: 'pointer'
+                  }}
+                  onMouseOver={(e) => { e.target.style.background = '#DFE8F0'; e.target.style.borderColor = '#1E3A8A'; }}
+                  onMouseOut={(e) => { e.target.style.background = '#ffffff'; e.target.style.borderColor = '#C5CED7'; }}>
+                    Cancel
+                  </button>
                 </div>
               </form>
             </div>

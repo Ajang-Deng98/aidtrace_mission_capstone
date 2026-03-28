@@ -27,7 +27,7 @@ const Notification = ({ message, type = 'success', onClose, duration = 5000 }) =
     switch (type) {
       case 'success':
         return {
-          background: 'linear-gradient(135deg, #1CABE2 0%, #0891b2 100%)',
+          background: 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)',
           icon: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
@@ -68,12 +68,8 @@ const Notification = ({ message, type = 'success', onClose, duration = 5000 }) =
 
   return (
     <div style={{
-      position: 'fixed',
-      top: '20px',
-      left: '50%',
-      transform: `translateX(-50%) ${isAnimating ? 'translateY(0)' : 'translateY(-100px)'}`,
-      zIndex: 9999,
       opacity: isAnimating ? 1 : 0,
+      transform: isAnimating ? 'translateY(0)' : 'translateY(-20px)',
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       maxWidth: '400px',
       minWidth: '300px'

@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -65,11 +66,11 @@ body {
   font-size: 0.65rem;
 }
 
-h1 { font-size: 1.3rem !important; }
-h2 { font-size: 1.1rem !important; }
-h3 { font-size: 0.95rem !important; }
-h4 { font-size: 0.85rem !important; }
-h5, h6 { font-size: 0.78rem !important; }
+h1 { font-size: 1.3rem; }
+h2 { font-size: 1.1rem; }
+h3 { font-size: 0.95rem; }
+h4 { font-size: 0.85rem; }
+h5, h6 { font-size: 0.78rem; }
 p, span, label, input, select, textarea, button, a, td, th, li, small {
   font-size: inherit;
 }

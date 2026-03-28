@@ -4,6 +4,14 @@ import { fieldOfficerAPI, publicAPI } from '../services/api';
 import { translations } from '../translations';
 import { useNotification } from '../components/NotificationProvider';
 import SearchBar from '../components/SearchBar';
+import OfflineBanner from '../components/OfflineBanner';
+import {
+  saveAssignments, getAssignments,
+  saveBeneficiaries, getBeneficiariesByProject, addBeneficiaryLocally,
+  saveOfflineOTPs, getOfflineOTP,
+  queueDistribution, queueBeneficiary, queueConfirmation,
+  markBeneficiaryConfirmed
+} from '../utils/offlineDB';
 import SupplierReceipt from '../components/SupplierReceipt';
 import LoadingButton from '../components/LoadingButton';
 import { extractFaceDescriptorFromBase64 } from '../utils/faceRecognition';
@@ -11,12 +19,24 @@ import { extractFaceDescriptorFromBase64 } from '../utils/faceRecognition';
 // Field Officer Services
 class AssignmentService {
   static async loadAssignments() {
-    const response = await fieldOfficerAPI.getAssignments();
-    return response.data;
+    try {
+      const response = await fieldOfficerAPI.getAssignments();
+      await saveAssignments(response.data);
+      return response.data;
+    } catch (err) {
+      // Offline fallback — return cached data
+      const cached = await getAssignments();
+      if (cached.length > 0) return cached;
+      throw err;
+    }
   }
   
   static async confirmAssignment(assignmentId) {
     const signature = `field_officer_confirmation_${assignmentId}_${Date.now()}`;
+    if (!navigator.onLine) {
+      await queueConfirmation({ assignment_id: assignmentId, signature });
+      return { offline: true };
+    }
     return await fieldOfficerAPI.confirmAssignment({
       assignment_id: assignmentId,
       signature: signature
@@ -30,16 +50,33 @@ class AssignmentService {
 
 class BeneficiaryService {
   static async loadAllBeneficiaries(projectId) {
-    const response = await fieldOfficerAPI.getAllBeneficiaries({ project_id: projectId });
-    return response.data;
+    try {
+      const response = await fieldOfficerAPI.getAllBeneficiaries({ project_id: projectId });
+      await saveBeneficiaries(response.data);
+      return response.data;
+    } catch (err) {
+      const cached = await getBeneficiariesByProject(projectId);
+      if (cached.length > 0) return cached;
+      throw err;
+    }
   }
   
   static async loadConfirmedBeneficiaries(projectId) {
-    const response = await fieldOfficerAPI.getConfirmedBeneficiaries({ project_id: projectId });
-    return response.data;
+    try {
+      const response = await fieldOfficerAPI.getConfirmedBeneficiaries({ project_id: projectId });
+      return response.data;
+    } catch (err) {
+      const cached = await getBeneficiariesByProject(projectId);
+      return cached.filter(b => b.confirmed === true);
+    }
   }
   
   static async registerBeneficiary(beneficiaryData) {
+    if (!navigator.onLine) {
+      const local = await addBeneficiaryLocally(beneficiaryData);
+      await queueBeneficiary(beneficiaryData);
+      return { offline: true, data: local };
+    }
     return await fieldOfficerAPI.addBeneficiary(beneficiaryData);
   }
   
@@ -64,10 +101,25 @@ class BeneficiaryService {
 
 class DistributionService {
   static async sendOTP(phoneNumber) {
+    if (!navigator.onLine) {
+      const offlineOTP = await getOfflineOTP(phoneNumber);
+      if (offlineOTP) return { offline: true, otp: offlineOTP.otp_code };
+      throw new Error('No offline OTP available for this beneficiary');
+    }
     return await fieldOfficerAPI.sendOTP({ phone_number: phoneNumber });
   }
   
   static async verifyOTP(verificationData) {
+    if (!navigator.onLine) {
+      const offlineOTP = await getOfflineOTP(verificationData.phone_number);
+      const expectedCode = offlineOTP ? offlineOTP.otp_code : null;
+      if (!expectedCode || verificationData.code !== String(expectedCode)) {
+        throw new Error('Invalid OTP');
+      }
+      await queueDistribution(verificationData);
+      await markBeneficiaryConfirmed(verificationData.beneficiary_id);
+      return { offline: true };
+    }
     return await fieldOfficerAPI.verifyOTP(verificationData);
   }
   
@@ -111,9 +163,12 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
     navigate('/');
   };
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0'}}>
-      <div style={{
+      {sidebarOpen && <div className="sidebar-overlay active" onClick={()=>setSidebarOpen(false)} />}
+      <div className={`dash-sidebar${sidebarOpen?' open':''}`} style={{
         width: '220px', background: '#1E3A8A', borderRight: 'none',
         display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', zIndex: 1000
       }}>
@@ -236,11 +291,17 @@ function FieldOfficerDashboard({ language = 'en', changeLanguage }) {
         </div>
       </div>
 
-      <div style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
+      <div className="dash-content" style={{marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
+        <OfflineBanner />
         <div style={{background: '#ffffff', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}>
-          <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#1E3A8A', fontWeight: '600'}}>{t.fieldOfficerDashboard}</h1>
-            <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px'}}>{t.manageDistribution}</p>
+          <div style={{display:'flex',alignItems:'center'}}>
+            <button className="dash-hamburger" onClick={()=>setSidebarOpen(!sidebarOpen)} aria-label="Menu">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div className="dash-topbar-title">
+              <h1 style={{margin: 0, fontSize: '22px', color: '#1E3A8A', fontWeight: '600'}}>{t.fieldOfficerDashboard}</h1>
+              <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px'}}>{t.manageDistribution}</p>
+            </div>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
@@ -399,8 +460,14 @@ function Projects({ language }) {
     </div>
   );
 }
-
 function Beneficiaries({ language }) {
+    // Fix: Add allBeneficiaries state and handleSelectBeneficiary function
+    const [allBeneficiaries, setAllBeneficiaries] = useState([]);
+    const handleSelectBeneficiary = (beneficiary) => {
+      // You can implement selection logic here if needed
+      // For now, just show a notification or set a selected state if required
+      showSuccess(`Selected beneficiary: ${beneficiary.name}`);
+    };
   const [assignments, setAssignments] = useState([]);
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState([]);
@@ -441,6 +508,7 @@ function Beneficiaries({ language }) {
       setLoading(true);
       const data = await BeneficiaryService.loadAllBeneficiaries(selectedProject);
       setBeneficiaries(data);
+      setAllBeneficiaries(data); // Fix: keep allBeneficiaries in sync
     } catch (err) {
       console.error('Error loading beneficiaries:', err);
       showError('Failed to load beneficiaries');
@@ -450,10 +518,8 @@ function Beneficiaries({ language }) {
   };
 
   const handleSearch = (results) => {
-    setFilteredBeneficiaries(results.length > 0 ? results : beneficiaries);
+    setFilteredBeneficiaries(results && results.length > 0 ? results : beneficiaries);
   };
-
-  const searchData = BeneficiaryService.prepareSearchData(beneficiaries);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -491,8 +557,12 @@ function Beneficiaries({ language }) {
         face_photo: facePreview,
         face_descriptor: JSON.stringify(faceDescriptor)
       };
-      await BeneficiaryService.registerBeneficiary(beneficiaryData);
-      showSuccess('Beneficiary registered successfully with face recognition!');
+      const result = await BeneficiaryService.registerBeneficiary(beneficiaryData);
+      showSuccess(
+        result?.offline
+          ? 'Beneficiary saved offline and will sync when connected.'
+          : 'Beneficiary registered successfully with face recognition!'
+      );
       setTimeout(() => {
         setFormData({ name: '', phone_number: '' });
         setFaceImage(null);
@@ -537,71 +607,75 @@ function Beneficiaries({ language }) {
         </select>
       </div>
 
-      {selectedProject && (
-        <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: 0}}>Registered Beneficiaries</h3>
-            <div style={{ fontSize: '13px', color: '#8391B2' }}>
-              Total: {beneficiaries.length} | Showing: {filteredBeneficiaries.length}
+      {selectedProject && (() => {
+        const searchData = BeneficiaryService.prepareSearchData(allBeneficiaries, 'Ready to Receive').map(b => ({
+          ...b,
+          onClick: () => handleSelectBeneficiary(b)
+        }));
+        return (
+          <div style={{background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #C5CED7', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{fontSize: '17px', fontWeight: '600', color: '#1E3A8A', margin: 0}}>Registered Beneficiaries</h3>
+              <div style={{ fontSize: '13px', color: '#8391B2' }}>
+                Total: {beneficiaries.length} | Showing: {filteredBeneficiaries.length}
+              </div>
             </div>
-          </div>
-          
-          {beneficiaries.length > 0 && (
-            <div style={{marginBottom: '20px'}}>
-              <SearchBar 
-                searchData={searchData}
-                onSearch={handleSearch}
-                placeholder="Search beneficiaries by name, phone, or status..."
-              />
-            </div>
-          )}
-          
-          {filteredBeneficiaries.length === 0 && beneficiaries.length > 0 ? (
-            <div style={{textAlign: 'center', padding: '40px 20px'}}>
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#C5CED7"/>
-              </svg>
-              <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries match your search.</p>
-            </div>
-          ) : filteredBeneficiaries.length === 0 ? (
-            <div style={{textAlign: 'center', padding: '40px 20px'}}>
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#C5CED7"/>
-              </svg>
-              <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries registered yet.</p>
-            </div>
-          ) : (
-            <div style={{overflowX: 'auto'}}>
-              <table style={{width: '100%', borderCollapse: 'collapse'}}>
-                <thead>
-                  <tr style={{borderBottom: '2px solid #DFE8F0'}}>
-                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Name</th>
-                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Phone Number</th>
-                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Face Verified</th>
-                    <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Registered Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredBeneficiaries.map((b, idx) => (
-                    <tr key={idx} style={{borderBottom: '1px solid #DFE8F0'}}>
-                      <td style={{padding: '12px', fontSize: '14px', color: '#1E3A8A', fontWeight: '500'}}>{b.name}</td>
-                      <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{b.phone_number}</td>
-                      <td style={{padding: '12px'}}>
-                        {b.face_verified ? (
-                          <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>✓ Verified</span>
-                        ) : (
-                          <span style={{padding: '4px 10px', background: '#FEE2E2', color: '#991B1B', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>✗ Not Verified</span>
-                        )}
-                      </td>
-                      <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{new Date(b.created_at).toLocaleDateString()}</td>
+            {beneficiaries.length > 0 && (
+              <div style={{marginBottom: '20px'}}>
+                <SearchBar 
+                  searchData={searchData}
+                  onSearch={handleSearch}
+                  placeholder="Search beneficiaries by name, phone, or status..."
+                />
+              </div>
+            )}
+            {filteredBeneficiaries.length === 0 && beneficiaries.length > 0 ? (
+              <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#C5CED7"/>
+                </svg>
+                <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries match your search.</p>
+              </div>
+            ) : filteredBeneficiaries.length === 0 ? (
+              <div style={{textAlign: 'center', padding: '40px 20px'}}>
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" style={{margin: '0 auto 16px'}}>
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#C5CED7"/>
+                </svg>
+                <p style={{color: '#8391B2', fontSize: '14px', margin: 0}}>No beneficiaries registered yet.</p>
+              </div>
+            ) : (
+              <div style={{overflowX: 'auto'}}>
+                <table style={{width: '100%', borderCollapse: 'collapse'}}>
+                  <thead>
+                    <tr style={{borderBottom: '2px solid #DFE8F0'}}>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Name</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Phone Number</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Face Verified</th>
+                      <th style={{padding: '12px', textAlign: 'left', fontSize: '13px', fontWeight: '600', color: '#1E3A8A'}}>Registered Date</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      )}
+                  </thead>
+                  <tbody>
+                    {filteredBeneficiaries.map((b, idx) => (
+                      <tr key={idx} style={{borderBottom: '1px solid #DFE8F0'}}>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#1E3A8A', fontWeight: '500'}}>{b.name}</td>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{b.phone_number}</td>
+                        <td style={{padding: '12px'}}>
+                          {b.face_verified ? (
+                            <span style={{padding: '4px 10px', background: '#D1FAE5', color: '#065F46', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>✓ Verified</span>
+                          ) : (
+                            <span style={{padding: '4px 10px', background: '#FEE2E2', color: '#991B1B', fontSize: '12px', fontWeight: '600', borderRadius: '6px'}}>✗ Not Verified</span>
+                          )}
+                        </td>
+                        <td style={{padding: '12px', fontSize: '14px', color: '#8391B2'}}>{new Date(b.created_at).toLocaleDateString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -667,7 +741,7 @@ function Distribution({ language }) {
   };
 
   const handleSearch = (results) => {
-    setBeneficiaries(results.length > 0 ? results : allBeneficiaries);
+    setBeneficiaries(results && results.length > 0 ? results : allBeneficiaries);
   };
 
   const searchData = BeneficiaryService.prepareSearchData(allBeneficiaries, 'Ready to Receive').map(b => ({
@@ -740,13 +814,17 @@ function Distribution({ language }) {
   const handleSendOTP = async () => {
     setSendOtpLoading(true);
     try {
-      await DistributionService.sendOTP(selectedBeneficiary.phone_number);
-      showSuccess('OTP sent to beneficiary phone');
+      const result = await DistributionService.sendOTP(selectedBeneficiary.phone_number);
+      if (result?.offline) {
+        showSuccess(`Offline mode — use pre-generated OTP: ${result.otp}`);
+      } else {
+        showSuccess('OTP sent to beneficiary phone');
+      }
       setTimeout(() => {
         setSentOtp('sent');
       }, 50);
     } catch (err) {
-      showError('Failed to send OTP');
+      showError(err.message || 'Failed to send OTP');
     } finally {
       setSendOtpLoading(false);
     }
@@ -755,7 +833,7 @@ function Distribution({ language }) {
   const handleVerifyOTP = async () => {
     setVerifyOtpLoading(true);
     try {
-      await DistributionService.verifyOTP({
+      const result = await DistributionService.verifyOTP({
         phone_number: selectedBeneficiary.phone_number,
         code: otpCode,
         beneficiary_id: selectedBeneficiary.id,
@@ -763,7 +841,11 @@ function Distribution({ language }) {
         face_scan_photo: faceScanPreview,
         face_match_verified: faceVerified
       });
-      showSuccess('Distribution completed successfully! Beneficiary received aid.');
+      showSuccess(
+        result?.offline
+          ? 'Distribution recorded offline and will sync when connected.'
+          : 'Distribution completed successfully! Beneficiary received aid.'
+      );
       setTimeout(() => {
         setStep(1);
         setSelectedBeneficiary(null);
@@ -1065,7 +1147,7 @@ function ConfirmedBeneficiaries({ language }) {
   };
 
   const handleSearch = (results) => {
-    setFilteredConfirmed(results.length > 0 ? results : confirmedBeneficiaries);
+    setFilteredConfirmed(results && results.length > 0 ? results : confirmedBeneficiaries);
   };
 
   const searchData = BeneficiaryService.prepareSearchData(confirmedBeneficiaries, 'Confirmed').map(b => ({
@@ -1231,7 +1313,7 @@ function ReadyToReceive({ language }) {
   };
 
   const handleSearch = (results) => {
-    setFilteredReady(results.length > 0 ? results : readyBeneficiaries);
+    setFilteredReady(results && results.length > 0 ? results : readyBeneficiaries);
   };
 
   const searchData = BeneficiaryService.prepareSearchData(readyBeneficiaries, 'Ready to Receive');
@@ -1383,7 +1465,7 @@ function ProfileSettings({ language }) {
     try {
       setLoading(true);
       const data = await ProfileService.loadActivities();
-      setActivities(data);
+      setActivities(Array.isArray(data) ? data : []);
       setError(null);
     } catch (err) {
       console.error('Error loading activities:', err);

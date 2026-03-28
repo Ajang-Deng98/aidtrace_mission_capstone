@@ -28,6 +28,7 @@ function App() {
     }
   }, [language]);
 
+
   const changeLanguage = (lang) => {
     setLanguage(lang);
   };
@@ -64,31 +65,26 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/public-report" element={<PublicReport language={language} changeLanguage={changeLanguage} />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
-          
           <Route path="/donor/*" element={
             <ProtectedRoute allowedRoles={['DONOR']}>
               <DonorDashboard language={language} changeLanguage={changeLanguage} />
             </ProtectedRoute>
           } />
-          
           <Route path="/ngo/*" element={
             <ProtectedRoute allowedRoles={['NGO']}>
               <NGODashboard language={language} changeLanguage={changeLanguage} />
             </ProtectedRoute>
           } />
-          
           <Route path="/supplier/*" element={
             <ProtectedRoute allowedRoles={['SUPPLIER']}>
               <SupplierDashboard language={language} changeLanguage={changeLanguage} />
             </ProtectedRoute>
           } />
-          
           <Route path="/field-officer/*" element={
             <ProtectedRoute allowedRoles={['FIELD_OFFICER']}>
               <FieldOfficerDashboard language={language} changeLanguage={changeLanguage} />
             </ProtectedRoute>
           } />
-          
           <Route path="/admin/*" element={
             <ProtectedRoute allowedRoles={['ADMIN']}>
               <AdminDashboard language={language} changeLanguage={changeLanguage} />

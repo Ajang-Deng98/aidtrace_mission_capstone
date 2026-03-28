@@ -3,10 +3,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
+import os
 from .models import *
 from .serializers import *
 from .auth import require_auth
 from .blockchain import blockchain_service
+from .views import send_email
 
 @require_http_methods(["GET"])
 @require_auth(['SUPPLIER'])
@@ -149,10 +151,18 @@ def submit_quote(request):
             if SupplierQuote.objects.filter(quote_request=quote_request).count() == 1:
                 quote_request.project.status = 'QUOTES_RECEIVED'
                 quote_request.project.save()
-            
+
         except Exception as e:
             print(f"Blockchain quote submission failed: {e}")
-        
+
+        # Notify NGO that a supplier has submitted a quote
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        send_email(
+            'AidTrace - New Supplier Quote Submitted',
+            f'Dear {quote_request.ngo.name},\n\nA supplier has submitted a quote for your project.\n\nProject: {quote_request.project.title}\nSupplier: {supplier.name}\nQuoted Amount: ${quote.quoted_amount}\nDelivery Terms: {quote.delivery_terms}\n\nLog in to your dashboard to review and select the best quote:\n{frontend_url}/login\n\nThe AidTrace Team',
+            quote_request.ngo.email
+        )
+
         return JsonResponse({
             'message': 'Quote submitted successfully and recorded on blockchain',
             'quote': {
@@ -278,10 +288,30 @@ def confirm_delivery_to_field_officer(request):
             # Update project status
             selection.quote_request.project.status = 'SUPPLIER_DELIVERED'
             selection.quote_request.project.save()
-            
+
         except Exception as e:
             print(f"Blockchain delivery confirmation failed: {e}")
-        
+
+        # Email 6: Notify NGO and donor that delivery has been confirmed
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        project = selection.quote_request.project
+
+        # Notify NGO
+        send_email(
+            'AidTrace - Supplier Delivery Confirmed',
+            f'Dear {project.ngo.name},\n\nThe supplier has confirmed delivery for your project.\n\nProject: {project.title}\nSupplier: {supplier.name}\nField Officer: {field_officer.name}\nDelivery Notes: {data.get("delivery_notes", "N/A")}\n\nLog in to your dashboard to review the delivery details:\n{frontend_url}/login\n\nThe AidTrace Team',
+            project.ngo.email
+        )
+
+        # Notify donor(s)
+        fundings = Funding.objects.filter(project=project)
+        for funding in fundings:
+            send_email(
+                'AidTrace - Aid Delivery Confirmed for Your Funded Project',
+                f'Dear {funding.donor.name},\n\nThe aid delivery has been confirmed for a project you funded.\n\nProject: {project.title}\nSupplier: {supplier.name}\nField Officer: {field_officer.name}\n\nThe items are now with the field officer and distribution to beneficiaries will begin shortly.\n\nLog in to your dashboard to track the progress:\n{frontend_url}/login\n\nThe AidTrace Team',
+                funding.donor.email
+            )
+
         return JsonResponse({
             'message': 'Delivery confirmed successfully',
             'delivery': {

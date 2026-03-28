@@ -17,10 +17,10 @@ function NGODashboard({ language = 'en', changeLanguage }) {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [allSearchData, setAllSearchData] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    // Only load search data when user actually searches, not on mount
-    // loadSearchData();
+    loadSearchData();
   }, []);
 
   const loadSearchData = async () => {
@@ -82,6 +82,29 @@ function NGODashboard({ language = 'en', changeLanguage }) {
         });
       });
       
+      // Load beneficiaries for all projects
+      try {
+        for (const project of projectsRes.data) {
+          try {
+            const benefResponse = await ngoAPI.getBeneficiaries(project.id);
+            benefResponse.data.forEach(b => {
+              searchData.push({
+                type: 'Beneficiary',
+                title: b.name,
+                description: `Phone: ${b.phone_number}`,
+                location: project.location,
+                category: project.category,
+                status: b.face_verified ? 'Verified' : 'Not Verified',
+                onClick: () => navigate('/ngo/beneficiaries')
+              });
+            });
+          } catch (err) {
+            console.error('Error loading beneficiaries for project:', project.id);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading beneficiaries for search:', err);
+      }
       setAllSearchData(searchData);
     } catch (err) {
       console.error('Error loading search data:', err);
@@ -95,7 +118,8 @@ function NGODashboard({ language = 'en', changeLanguage }) {
 
   return (
     <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0', direction: language === 'ar' ? 'rtl' : 'ltr'}}>
-      <div style={{
+      {sidebarOpen && <div className="sidebar-overlay active" onClick={()=>setSidebarOpen(false)} />}
+      <div className={`dash-sidebar${sidebarOpen?' open':''}`} style={{
         width: '220px',
         background: '#27248C',
         borderRight: 'none',
@@ -237,11 +261,16 @@ function NGODashboard({ language = 'en', changeLanguage }) {
         </div>
       </div>
 
-      <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
+      <div className="dash-content" style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
         <div style={{background: '#ffffff', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
-          <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#27248C', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>NGO {t.dashboard}</h1>
-            <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px'}}>{t.manageProjects}</p>
+          <div style={{display:'flex',alignItems:'center'}}>
+            <button className="dash-hamburger" onClick={()=>setSidebarOpen(!sidebarOpen)} aria-label="Menu">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div className="dash-topbar-title">
+              <h1 style={{margin: 0, fontSize: '22px', color: '#27248C', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>NGO {t.dashboard}</h1>
+              <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px'}}>{t.manageProjects}</p>
+            </div>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
@@ -583,7 +612,7 @@ function CreateProject() {
       
       const response = await ngoAPI.createProject(formDataToSend);
       showSuccess(response.data.message || 'Project created successfully. Waiting for admin approval.');
-      if (response.data.beneficiaries) {
+      if (response.data.beneficiaries && response.data.beneficiaries.created) {
         showSuccess(`${response.data.beneficiaries.created} beneficiaries uploaded successfully`);
       }
       setTimeout(() => navigate('/ngo/projects'), 50);

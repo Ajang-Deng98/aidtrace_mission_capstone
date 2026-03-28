@@ -17,6 +17,20 @@ from .otp_service import otp_service
 from django.core.mail import send_mail
 from django.conf import settings
 
+def send_email(subject, message, recipient_email):
+    """Send email silently - never breaks main workflow"""
+    try:
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [recipient_email],
+            fail_silently=False,
+        )
+        print(f"Email sent successfully to {recipient_email}: {subject}")
+    except Exception as e:
+        print(f"Email send failed to {recipient_email}: {e}")
+
 @csrf_exempt
 @require_http_methods(["POST"])
 def forgot_password(request):
@@ -592,7 +606,15 @@ def fund_project(request):
         project.status = 'FUNDED'
         project.save()
         log_activity(donor.id, 'Funded Project', f'Project: {project.title}, Amount: ${data.get("amount")}')
-        
+
+        # Email 3: Notify NGO their project has been funded
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        send_email(
+            'AidTrace - Your Project Has Been Funded',
+            f'Dear {project.ngo.name},\n\nGreat news! Your project has received funding.\n\nProject: {project.title}\nDonor: {donor.name}\nAmount: ${data.get("amount")}\n\nPlease log in to your dashboard to confirm the funding:\n{frontend_url}/login\n\nThe AidTrace Team',
+            project.ngo.email
+        )
+
         return JsonResponse(FundingSerializer(funding).data)
     except Exception as e:
         import traceback
@@ -1218,6 +1240,31 @@ def send_otp(request):
     
     return JsonResponse({'message': 'OTP sent'})
 
+
+@csrf_exempt
+@require_http_methods(["POST"])
+@require_auth(['FIELD_OFFICER'])
+def bulk_send_otp(request):
+    """Pre-generate and send OTPs to all beneficiaries in a project for offline use."""
+    data = json.loads(request.body)
+    project_id = data.get('project_id')
+
+    beneficiaries = Beneficiary.objects.filter(project_id=project_id, confirmed=False)
+
+    results = []
+    for b in beneficiaries:
+        try:
+            code = otp_service.generate_otp(b.phone_number)
+            results.append({
+                'beneficiary_id': b.id,
+                'phone_number': b.phone_number,
+                'code': code
+            })
+        except Exception as e:
+            print(f"Failed to send OTP to {b.phone_number}: {e}")
+
+    return JsonResponse({'otps': results, 'count': len(results)})
+
 @csrf_exempt
 @require_http_methods(["POST"])
 @require_auth(['FIELD_OFFICER'])
@@ -1337,7 +1384,16 @@ def approve_user(request):
             user.blockchain_tx = tx_hash
     
     user.save()
-    
+
+    # Email 1: Notify user their account has been approved
+    frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+    role_label = user.role.replace('_', ' ').title()
+    send_email(
+        'AidTrace - Account Approved',
+        f'Dear {user.name},\n\nYour AidTrace {role_label} account has been approved by the admin.\n\nYou can now log in at: {frontend_url}/login\n\nWelcome to AidTrace!\n\nThe AidTrace Team',
+        user.email
+    )
+
     return JsonResponse({'message': 'User approved successfully', 'user': UserSerializer(user).data})
 
 @csrf_exempt
@@ -1375,7 +1431,18 @@ def approve_project(request):
     project.is_approved = True
     project.status = 'PENDING_FUNDING'
     project.save()
-    
+
+    # Email 2: Notify desired donors a project is available for funding
+    frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+    if project.desired_donors:
+        donors = User.objects.filter(id__in=project.desired_donors, role='DONOR', is_approved=True)
+        for donor in donors:
+            send_email(
+                'AidTrace - New Project Available for Funding',
+                f'Dear {donor.name},\n\nA new humanitarian project is available for your funding consideration.\n\nProject: {project.title}\nNGO: {project.ngo.name}\nLocation: {project.location}\nBudget: ${project.budget_amount}\nBeneficiaries: {project.target_beneficiaries}\n\nLog in to your dashboard to review and fund this project:\n{frontend_url}/login\n\nThe AidTrace Team',
+                donor.email
+            )
+
     return JsonResponse({'message': 'Project approved successfully', 'project': ProjectSerializer(project).data})
 
 @csrf_exempt

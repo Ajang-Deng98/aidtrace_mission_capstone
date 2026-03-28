@@ -5,6 +5,7 @@ import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, Cart
 import { translations } from '../translations';
 import SearchBar from '../components/SearchBar';
 import LoadingButton from '../components/LoadingButton';
+import { useNotification } from '../components/NotificationProvider';
 
 function AdminDashboard({ language = 'en', changeLanguage }) {
   const navigate = useNavigate();
@@ -98,7 +99,7 @@ function AdminDashboard({ language = 'en', changeLanguage }) {
           placeholder="Search users, projects, reports..."
         />
         
-        <div style={{marginBottom: '20px'}}>
+        <div className="admin-nav-buttons" style={{marginBottom: '20px'}}>
           <Link to="/admin"><button className="btn" style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
@@ -347,6 +348,7 @@ function PendingUsers({ language }) {
   const [approveLoading, setApproveLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const t = translations[language];
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     loadPendingUsers();
@@ -361,10 +363,10 @@ function PendingUsers({ language }) {
     setApproveLoading(true);
     try {
       await adminAPI.approveUser({ user_id: userId });
-      alert('User approved successfully');
+      showSuccess('User approved successfully');
       loadPendingUsers();
     } catch (err) {
-      alert('Failed to approve user');
+      showError('Failed to approve user');
     } finally {
       setApproveLoading(false);
     }
@@ -375,10 +377,10 @@ function PendingUsers({ language }) {
       setRejectLoading(true);
       try {
         await adminAPI.rejectUser({ user_id: userId });
-        alert('User rejected successfully');
+        showSuccess('User rejected successfully');
         loadPendingUsers();
       } catch (err) {
-        alert('Failed to reject user');
+        showError('Failed to reject user');
       } finally {
         setRejectLoading(false);
       }
@@ -433,6 +435,7 @@ function PendingProjects({ language }) {
   const [approveLoading, setApproveLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const t = translations[language];
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     loadPendingProjects();
@@ -447,10 +450,10 @@ function PendingProjects({ language }) {
     setApproveLoading(true);
     try {
       await adminAPI.approveProject({ project_id: projectId });
-      alert('Project approved successfully');
+      showSuccess('Project approved successfully');
       loadPendingProjects();
     } catch (err) {
-      alert('Failed to approve project');
+      showError('Failed to approve project');
     } finally {
       setApproveLoading(false);
     }
@@ -461,10 +464,10 @@ function PendingProjects({ language }) {
       setRejectLoading(true);
       try {
         await adminAPI.rejectProject({ project_id: projectId });
-        alert('Project rejected successfully');
+        showSuccess('Project rejected successfully');
         loadPendingProjects();
       } catch (err) {
-        alert('Failed to reject project');
+        showError('Failed to reject project');
       } finally {
         setRejectLoading(false);
       }
@@ -744,12 +747,13 @@ function ProfileSettings({ language }) {
   });
   const [activities] = useState([]);
   const t = translations[language];
+  const { showSuccess } = useNotification();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedUser = { ...user, ...formData };
     localStorage.setItem('user', JSON.stringify(updatedUser));
-    alert('Profile updated successfully');
+    showSuccess('Profile updated successfully');
   };
 
   const handleNotificationChange = (key) => {

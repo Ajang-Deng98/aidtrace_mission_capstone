@@ -121,6 +121,11 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
   const [activeTab, setActiveTab] = useState('analytics');
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [allSearchData, setAllSearchData] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    loadSearchData();
+  }, []);
 
   const loadSearchData = async () => {
     try {
@@ -170,8 +175,8 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
 
   return (
     <div style={{display: 'flex', minHeight: '100vh', background: '#DFE8F0', direction: language === 'ar' ? 'rtl' : 'ltr'}}>
-      {/* Sidebar */}
-      <div style={{
+      {sidebarOpen && <div className="sidebar-overlay active" onClick={()=>setSidebarOpen(false)} />}
+      <div className={`dash-sidebar${sidebarOpen?' open':''}`} style={{
         width: '220px',
         background: '#1E3A8A',
         borderRight: 'none',
@@ -332,8 +337,7 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
+      <div className="dash-content" style={{marginLeft: language === 'ar' ? '0' : '220px', marginRight: language === 'ar' ? '220px' : '0', flex: 1, display: 'flex', flexDirection: 'column', background: '#DFE8F0'}}>
         {/* Top Bar */}
         <div style={{
           background: '#ffffff',
@@ -343,9 +347,14 @@ function DonorDashboard({ language = 'en', changeLanguage }) {
           alignItems: 'center',
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
         }}>
-          <div>
-            <h1 style={{margin: 0, fontSize: '22px', color: '#1E3A8A', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.donor} {t.dashboard}</h1>
-            <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.fundAndTrack} {t.projects}</p>
+          <div style={{display:'flex',alignItems:'center'}}>
+            <button className="dash-hamburger" onClick={()=>setSidebarOpen(!sidebarOpen)} aria-label="Menu">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div className="dash-topbar-title">
+              <h1 style={{margin: 0, fontSize: '22px', color: '#1E3A8A', fontWeight: '600', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.donor} {t.dashboard}</h1>
+              <p style={{margin: '2px 0 0 0', color: '#8391B2', fontSize: '13px', fontFamily: language === 'ar' ? 'Arial, sans-serif' : 'inherit'}}>{t.fundAndTrack} {t.projects}</p>
+            </div>
           </div>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
 
@@ -587,7 +596,7 @@ function AllProjects({ language = 'en' }) {
       
       const txHash = response.data.blockchain_tx;
       if (txHash) {
-        showSuccess(`${t.projectFundedSuccess} ${t.blockchainTransaction}: ${txHash.substring(0, 20)}...`);
+        showSuccess('Project funded successfully! Transaction recorded on blockchain.');
       } else {
         showSuccess(`${t.projectFundedSuccess} ${t.transactionRecorded}`);
       }

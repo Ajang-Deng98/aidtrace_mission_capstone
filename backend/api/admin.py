@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import *
+from .views import send_email
+import os
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -11,6 +13,20 @@ class UserAdmin(admin.ModelAdmin):
     verbose_name = 'User'
     verbose_name_plural = 'Users'
 
+    def save_model(self, request, obj, form, change):
+        # Detect if is_approved just changed from False to True
+        if change and 'is_approved' in form.changed_data and obj.is_approved:
+            super().save_model(request, obj, form, change)
+            frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+            role_label = obj.role.replace('_', ' ').title()
+            send_email(
+                'AidTrace - Account Approved',
+                f'Dear {obj.name},\n\nYour AidTrace {role_label} account has been approved.\n\nYou can now log in at: {frontend_url}/login\n\nWelcome to AidTrace!\n\nThe AidTrace Team',
+                obj.email
+            )
+        else:
+            super().save_model(request, obj, form, change)
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('title', 'ngo', 'location', 'status', 'budget_amount', 'is_approved', 'created_at')
@@ -20,6 +36,22 @@ class ProjectAdmin(admin.ModelAdmin):
     readonly_fields = ('document1_display', 'document2_display', 'document3_display')
     verbose_name = 'Project'
     verbose_name_plural = 'Projects'
+
+    def save_model(self, request, obj, form, change):
+        if change and 'is_approved' in form.changed_data and obj.is_approved:
+            obj.status = 'PENDING_FUNDING'
+            super().save_model(request, obj, form, change)
+            frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+            if obj.desired_donors:
+                donors = User.objects.filter(id__in=obj.desired_donors, role='DONOR', is_approved=True)
+                for donor in donors:
+                    send_email(
+                        'AidTrace - New Project Available for Funding',
+                        f'Dear {donor.name},\n\nA new humanitarian project is available for your funding consideration.\n\nProject: {obj.title}\nNGO: {obj.ngo.name}\nLocation: {obj.location}\nBudget: ${obj.budget_amount}\n\nLog in to your dashboard to review and fund this project:\n{frontend_url}/login\n\nThe AidTrace Team',
+                        donor.email
+                    )
+        else:
+            super().save_model(request, obj, form, change)
     
     def document1_display(self, obj):
         if obj.document1 and obj.document1_name:

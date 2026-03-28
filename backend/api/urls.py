@@ -85,6 +85,7 @@ urlpatterns = [
     path('field-officer/face-scan/', views.mock_face_scan),
     path('field-officer/verify-face/', views.verify_face_match),
     path('field-officer/send-otp/', views.send_otp),
+    path('field-officer/bulk-send-otp/', views.bulk_send_otp),
     path('field-officer/verify-otp/', views.verify_otp),
     path('field-officer/distributions/', views.get_distributions),
     

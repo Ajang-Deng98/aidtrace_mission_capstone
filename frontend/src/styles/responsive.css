@@ -1,0 +1,440 @@
+/* ============================================================
+   AidTrace — Global Responsive Stylesheet
+   Pure CSS classes — no inline-style attribute selectors.
+   Imported once in index.js, applies to every page.
+   ============================================================ */
+
+/* ── Viewport meta is in index.html — nothing needed here ── */
+
+/* ============================================================
+   1. HOME PAGE — nav, hero, grids, footer
+   ============================================================ */
+
+/* Hamburger button — hidden on desktop */
+.home-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #1a1a1a;
+}
+
+/* Mobile nav overlay */
+.home-mobile-nav {
+  display: none;
+  position: fixed;
+  top: 74px;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 999;
+  padding: 16px 20px;
+  flex-direction: column;
+  gap: 0;
+}
+.home-mobile-nav.open {
+  display: flex;
+}
+.home-mobile-nav a,
+.home-mobile-nav .home-mobile-nav-link {
+  display: block;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+}
+.home-mobile-nav a:last-child,
+.home-mobile-nav .home-mobile-nav-link:last-child {
+  border-bottom: none;
+}
+
+/* Hero grid */
+.home-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* 2-col grids */
+.home-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* 4-col stats */
+.home-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+/* 3-col grids */
+.home-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* 3-col contact */
+.home-grid-3-contact {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* Footer 4-col */
+.home-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+  margin-bottom: 50px;
+}
+
+/* Hero image */
+.home-hero-img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+
+/* Section image */
+.home-section-img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+
+/* About image */
+.home-about-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Button group */
+.home-btn-group {
+  display: flex;
+  gap: 14px;
+}
+
+/* ============================================================
+   2. DASHBOARD LAYOUT — sidebar + content
+   ============================================================ */
+
+/* Overlay when sidebar is open on mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Hamburger inside dashboard top bar */
+.dash-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  color: #1E3A8A;
+  margin-right: 12px;
+}
+.dash-hamburger:hover {
+  background: #DFE8F0;
+}
+
+/* Dashboard sidebar — mobile: slide in from left */
+.dash-sidebar {
+  /* desktop styles are inline; this class adds mobile behaviour */
+}
+
+/* Dashboard content area */
+.dash-content {
+  /* desktop margin-left is inline; this class adds mobile override */
+}
+
+/* Stat grids inside dashboards */
+.dash-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.dash-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.dash-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Scrollable table wrapper */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ============================================================
+   3. AUTH PAGES — login / register nav & form
+   ============================================================ */
+.auth-nav {
+  padding: 12px 40px;
+}
+.auth-form-wrap {
+  max-width: 420px;
+  margin: 80px auto 40px;
+  padding: 0 20px;
+}
+
+/* ============================================================
+   4. ADMIN DASHBOARD — top nav bar + button row
+   ============================================================ */
+.admin-nav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* ============================================================
+   BREAKPOINT: ≤1024px  (tablets landscape)
+   ============================================================ */
+@media (max-width: 1024px) {
+  /* Home grids */
+  .home-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .home-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  .home-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+
+  /* Dashboard stat grids */
+  .dash-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dash-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================================
+   BREAKPOINT: ≤768px  (tablets portrait + large phones)
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* ── Home nav ── */
+  .home-nav-links {
+    display: none !important;
+  }
+  .home-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .home-nav-container {
+    padding: 12px 20px !important;
+  }
+
+  /* ── Home hero ── */
+  .home-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .home-hero-section {
+    padding: 90px 20px 60px !important;
+  }
+  .home-hero-title {
+    font-size: 32px !important;
+    line-height: 1.2 !important;
+  }
+  .home-hero-desc {
+    font-size: 16px !important;
+  }
+  .home-hero-img {
+    height: 240px;
+  }
+  .home-btn-group {
+    flex-direction: column;
+  }
+  .home-btn-group a,
+  .home-btn-group button {
+    width: 100%;
+  }
+
+  /* ── Home sections ── */
+  .home-section {
+    padding: 60px 20px !important;
+  }
+  .home-section-title {
+    font-size: 28px !important;
+    line-height: 1.3 !important;
+  }
+  .home-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .home-grid-3 {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .home-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .home-grid-3-contact {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .home-section-img {
+    height: 220px;
+  }
+  .home-about-img {
+    height: 200px;
+  }
+
+  /* ── Home footer ── */
+  .home-footer {
+    padding: 50px 20px 24px !important;
+  }
+  .home-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 32px;
+  }
+  .home-footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  /* ── Auth pages ── */
+  .auth-nav {
+    padding: 12px 16px;
+  }
+  .auth-form-wrap {
+    margin: 40px auto 32px;
+  }
+
+  /* ── Dashboard sidebar ── */
+  .dash-sidebar {
+    transform: translateX(-100%) !important;
+    transition: transform 0.28s ease !important;
+  }
+  .dash-sidebar.open {
+    transform: translateX(0) !important;
+  }
+  .dash-content {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .dash-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dash-topbar-title h1 {
+    font-size: 16px !important;
+  }
+  .dash-topbar-title p {
+    display: none;
+  }
+
+  /* ── Dashboard grids ── */
+  .dash-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dash-grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .dash-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Admin nav buttons ── */
+  .admin-nav-buttons {
+    gap: 6px;
+  }
+  .admin-nav-buttons .btn {
+    font-size: 12px !important;
+    padding: 8px 12px !important;
+  }
+}
+
+/* ============================================================
+   BREAKPOINT: ≤480px  (small phones)
+   ============================================================ */
+@media (max-width: 480px) {
+
+  /* ── Home ── */
+  .home-hero-section {
+    padding: 80px 16px 48px !important;
+  }
+  .home-section {
+    padding: 40px 16px !important;
+  }
+  .home-hero-title {
+    font-size: 26px !important;
+  }
+  .home-section-title {
+    font-size: 22px !important;
+  }
+  .home-grid-4 {
+    grid-template-columns: 1fr;
+  }
+  .home-footer {
+    padding: 40px 16px 20px !important;
+  }
+  .home-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .home-hero-img,
+  .home-section-img,
+  .home-about-img {
+    height: 180px;
+  }
+
+  /* ── Auth ── */
+  .auth-form-wrap {
+    margin: 24px auto 24px;
+    padding: 0 12px;
+  }
+
+  /* ── Dashboard ── */
+  .dash-grid-4 {
+    grid-template-columns: 1fr;
+  }
+  .dash-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
